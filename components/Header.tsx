@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
 
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
@@ -34,9 +35,9 @@ export default function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
-          <Link href="/toolkits" className="relative text-[15px] font-medium text-gray-700 hover:text-indigo-600 transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-indigo-500 after:transition-all after:duration-200 hover:after:w-full">Toolkits</Link>
-          <Link href="/blog" className="relative text-[15px] font-medium text-gray-700 hover:text-indigo-600 transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-indigo-500 after:transition-all after:duration-200 hover:after:w-full">Blog</Link>
-          <Link href="/pricing" className="relative text-[15px] font-medium text-gray-700 hover:text-indigo-600 transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-indigo-500 after:transition-all after:duration-200 hover:after:w-full">Pricing</Link>
+          <Link href="/toolkits" className={`relative text-[15px] font-medium transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-200 ${pathname.startsWith("/toolkits") ? "text-indigo-600 after:w-full" : "text-gray-700 hover:text-indigo-600 after:w-0 hover:after:w-full"}`}>Toolkits</Link>
+          <Link href="/blog" className={`relative text-[15px] font-medium transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-200 ${pathname.startsWith("/blog") ? "text-indigo-600 after:w-full" : "text-gray-700 hover:text-indigo-600 after:w-0 hover:after:w-full"}`}>Blog</Link>
+          <Link href="/pricing" className={`relative text-[15px] font-medium transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-200 ${pathname === "/pricing" ? "text-indigo-600 after:w-full" : "text-gray-700 hover:text-indigo-600 after:w-0 hover:after:w-full"}`}>Pricing</Link>
         </nav>
 
         <div className="hidden md:flex items-center gap-3">

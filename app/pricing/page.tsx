@@ -57,59 +57,15 @@ export default function PricingPage() {
   return (
     <main className="max-w-5xl mx-auto px-4 py-16">
       {/* Hero */}
-      <div className="text-center mb-14">
-        <h1 className="text-4xl font-bold text-gray-900 mb-3">Simple Pricing</h1>
-        <p className="text-gray-500 text-lg max-w-xl mx-auto">
-          Start for free. Subscribe to the toolkit you need — pay only for what you use.
+      <div className="text-center mb-10">
+        <h1 className="text-4xl font-bold text-gray-900 mb-3">Choose Your AI Toolkit</h1>
+        <p className="text-gray-500 text-base max-w-xl mx-auto">
+          Subscribe to the toolkit you need. Start free, upgrade anytime.
         </p>
       </div>
 
-      {/* Free Plan */}
-      <div className="max-w-3xl mx-auto mb-16">
-        <div className="border border-gray-200 rounded-2xl p-8">
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-1">Free Plan</h2>
-              <p className="text-gray-400 text-sm">No account required. No credit card needed.</p>
-            </div>
-            <div className="text-right">
-              <span className="text-4xl font-bold text-gray-900">$0</span>
-              <span className="text-gray-400 text-sm ml-1">/month</span>
-            </div>
-          </div>
-          <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { label: "Daily generations", value: "3/day" },
-              { label: "Lifetime uses", value: "30 total" },
-              { label: "Tools available", value: "All 50+" },
-              { label: "Credit card", value: "Not required" },
-            ].map(({ label, value }) => (
-              <div key={label} className="bg-gray-50 rounded-xl p-4 text-center">
-                <div className="text-sm font-semibold text-gray-900">{value}</div>
-                <div className="text-xs text-gray-400 mt-1">{label}</div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-6">
-            <Link
-              href="/toolkits"
-              className="inline-block border border-gray-300 text-gray-700 rounded-xl px-6 py-2.5 text-sm font-medium hover:border-gray-500 transition-colors"
-            >
-              Start for Free →
-            </Link>
-          </div>
-        </div>
-      </div>
-
       {/* Toolkit Subscriptions */}
-      <div className="mb-16">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Toolkit Subscriptions</h2>
-          <p className="text-gray-500 text-sm">
-            Subscribe to any toolkit independently. Each subscription gives you unlimited daily access to all tools in that toolkit.
-          </p>
-        </div>
-
+      <div className="mb-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {toolkits.map((kit) => (
             <div
@@ -141,6 +97,46 @@ export default function PricingPage() {
               </ul>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Free Plan — compact horizontal */}
+      <div className="border border-gray-200 rounded-2xl py-4 px-6 mt-6 mb-14">
+        <div className="flex flex-row items-center justify-between gap-4 flex-wrap">
+          {/* Left: title + desc */}
+          <div className="flex-shrink-0">
+            <h2 className="text-base font-semibold text-gray-900">Free Plan</h2>
+            <p className="text-xs text-gray-400">No account or credit card needed</p>
+          </div>
+
+          {/* Middle: 4 metrics */}
+          <div className="hidden md:flex items-center gap-8 flex-1 justify-center">
+            {[
+              { label: "Daily", value: "3/day" },
+              { label: "Lifetime", value: "30 uses" },
+              { label: "Tools", value: "All 50+" },
+              { label: "Card", value: "Not required" },
+            ].map(({ label, value }) => (
+              <div key={label} className="text-center">
+                <div className="text-xs font-semibold text-gray-900">{value}</div>
+                <div className="text-xs text-gray-400">{label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Right: price + CTA */}
+          <div className="flex items-center gap-4 flex-shrink-0">
+            <div>
+              <span className="text-xl font-bold text-gray-900">$0</span>
+              <span className="text-xs text-gray-400 ml-1">/month</span>
+            </div>
+            <Link
+              href="/toolkits"
+              className="text-xs border border-gray-300 text-gray-700 rounded-lg px-4 py-2 hover:border-gray-500 transition-colors whitespace-nowrap"
+            >
+              Start for Free →
+            </Link>
+          </div>
         </div>
       </div>
 
