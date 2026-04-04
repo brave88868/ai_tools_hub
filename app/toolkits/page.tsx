@@ -67,6 +67,8 @@ export default function ToolkitsPage() {
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-6">
+      <p className="text-sm text-gray-500 mb-4">Each toolkit contains 10 AI tools built for a specific workflow.</p>
+
       {/* Bundle Banner */}
       <div className="bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl p-5 mb-6">
         <div className="flex items-center justify-between flex-wrap gap-4">
