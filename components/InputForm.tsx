@@ -48,6 +48,10 @@ export default function InputForm({ fields, onSubmit, loading = false, supportsF
     for (const field of fields) {
       if (field.type !== "file") {
         submitValues[field.name] = values[field.name] ?? "";
+      } else {
+        // Include text extracted from file fields (stored under the target name)
+        const targetName = getTargetFieldName(field.name);
+        submitValues[targetName] = values[targetName] ?? "";
       }
     }
     onSubmit(submitValues);
@@ -97,19 +101,14 @@ export default function InputForm({ fields, onSubmit, loading = false, supportsF
               ))}
             </select>
           ) : field.type === "file" ? (
-            <div>
-              <input
-                type="file"
-                accept=".txt,.pdf"
-                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-500 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 cursor-pointer"
-                onChange={(e) => handleFileChange(field.name, e.target.files?.[0] ?? null)}
-              />
-              {fileHints[field.name] && (
-                <p className={`mt-1.5 text-xs ${fileHints[field.name].startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
-                  {fileHints[field.name]}
-                </p>
-              )}
-            </div>
+            <FileUploadInput
+              label="Click to upload or drag & drop"
+              accept=".pdf,.docx,.txt"
+              onTextExtracted={(text) => {
+                const targetName = getTargetFieldName(field.name);
+                setValues((prev) => ({ ...prev, [targetName]: text.slice(0, 6000) }));
+              }}
+            />
           ) : (
             <input
               type="text"
