@@ -15,6 +15,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
+  console.log("[webhook] received event:", event.type);
+
   const supabase = createAdminClient();
 
   if (event.type === "checkout.session.completed") {
@@ -22,23 +24,51 @@ export async function POST(req: NextRequest) {
     const { user_id, toolkit_slug } = session.metadata ?? {};
     const subscription_id = session.subscription as string;
 
-    if (user_id && toolkit_slug && subscription_id) {
-      const sub = await stripe.subscriptions.retrieve(subscription_id);
+    console.log("[webhook] checkout.session.completed metadata:", { user_id, toolkit_slug, subscription_id });
 
-      await supabase.from("subscriptions").upsert({
+    if (!user_id || !toolkit_slug || !subscription_id) {
+      console.error("[webhook] missing required metadata fields", { user_id, toolkit_slug, subscription_id });
+      // Return 200 — missing metadata is not retryable
+      return NextResponse.json({ received: true });
+    }
+
+    let sub: Stripe.Subscription;
+    try {
+      sub = await stripe.subscriptions.retrieve(subscription_id);
+    } catch (err) {
+      console.error("[webhook] failed to retrieve subscription", subscription_id, err);
+      return NextResponse.json({ error: "Subscription retrieval failed" }, { status: 500 });
+    }
+
+    const { error: upsertError } = await supabase.from("subscriptions").upsert(
+      {
         user_id,
         toolkit_slug,
         stripe_subscription_id: subscription_id,
         stripe_customer_id: session.customer as string,
         status: "active",
         current_period_end: new Date(sub.current_period_end * 1000).toISOString(),
-      }, { onConflict: "user_id,toolkit_slug" });
+      },
+      { onConflict: "user_id,toolkit_slug" }
+    );
 
-      await supabase.from("analytics_events").insert({
-        event_type: "subscription_created",
-        user_id,
-        toolkit_slug,
-      });
+    if (upsertError) {
+      console.error("[webhook] subscriptions upsert failed:", upsertError);
+      // Return 500 so Stripe retries the webhook
+      return NextResponse.json({ error: "DB write failed" }, { status: 500 });
+    }
+
+    console.log("[webhook] subscription written successfully:", { user_id, toolkit_slug });
+
+    const { error: analyticsError } = await supabase.from("analytics_events").insert({
+      event_type: "subscription_created",
+      user_id,
+      toolkit_slug,
+    });
+
+    if (analyticsError) {
+      // Non-critical — log but don't fail the webhook
+      console.warn("[webhook] analytics insert failed:", analyticsError);
     }
   }
 
@@ -46,29 +76,39 @@ export async function POST(req: NextRequest) {
     const sub = event.data.object as Stripe.Subscription;
     const status = event.type === "customer.subscription.deleted" ? "canceled" : sub.status;
 
-    await supabase
+    console.log("[webhook] subscription status update:", { id: sub.id, status });
+
+    const { error } = await supabase
       .from("subscriptions")
       .update({
         status,
         current_period_end: new Date(sub.current_period_end * 1000).toISOString(),
       })
       .eq("stripe_subscription_id", sub.id);
+
+    if (error) {
+      console.error("[webhook] subscription status update failed:", error);
+      return NextResponse.json({ error: "DB update failed" }, { status: 500 });
+    }
   }
 
   if (event.type === "price.updated") {
     const price = event.data.object as Stripe.Price;
     const lookupKey = price.lookup_key ?? "";
-    // lookup_key 格式: "exam_toolkit_monthly" → slug = "exam"
     const slug = lookupKey.split("_toolkit_")[0];
     const newPrice = Math.round((price.unit_amount ?? 0) / 100);
 
     if (slug && newPrice > 0) {
-      await supabase
+      const { error } = await supabase
         .from("toolkits")
         .update({ price_monthly: newPrice })
         .eq("slug", slug);
 
-      console.log(`[webhook] price.updated: ${slug} → $${newPrice}`);
+      if (error) {
+        console.error("[webhook] price update failed:", error);
+      } else {
+        console.log(`[webhook] price.updated: ${slug} → $${newPrice}`);
+      }
     }
   }
 
