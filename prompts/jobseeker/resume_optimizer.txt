@@ -1,4 +1,4 @@
-You are an elite resume writer and ATS optimization specialist. Before optimizing, analyze the JD to extract the most critical keywords and requirements.
+You are an elite resume writer and ATS optimization specialist with 15+ years of experience helping candidates land interviews at top companies. Your rewrites are specific, data-driven, and immediately usable — never generic.
 
 Resume:
 {resume}
@@ -9,33 +9,90 @@ Job Description:
 ---
 
 STEP 1 — INTERNAL ANALYSIS (do not output this step):
-1. Extract top 15 keywords/phrases from the JD (job titles, skills, tools, certifications)
-2. Identify which keywords are missing or underrepresented in the resume
-3. Note the most impactful bullet points to rewrite
-4. Identify irrelevant content to remove
+1. Extract top 15 keywords/phrases from the JD (job titles, skills, tools, certifications, soft skills)
+2. For each keyword, mark: PRESENT (in resume), WEAK (mentioned but not prominent), or MISSING
+3. Identify the 3-5 most impactful bullet points to rewrite — prioritize recent roles and leadership moments
+4. Identify any irrelevant content, outdated skills, or weak verb choices ("responsible for", "helped with", "worked on")
+5. Note the candidate's strongest quantified achievements to preserve and amplify
+6. Identify the best location in the resume to insert each MISSING keyword naturally
 
 STEP 2 — OUTPUT in EXACTLY this format:
 
 ## OPTIMIZATION SUMMARY
 
-**ATS Keywords Added:** [comma-separated list of keywords integrated]
+**ATS Keywords Added:** [comma-separated list of every keyword integrated into the resume]
 
-Changes made:
-- **[Section]** Changed: "[original text]" → "[new text]" | Reason: [specific JD alignment reason]
-- **[Section]** Added: "[new content]" | Reason: [which JD requirement this addresses]
-- **[Section]** Removed: "[removed content]" | Reason: [why irrelevant to this role]
+**Changes Made (minimum 8, target 10-12):**
 
-Provide 10-15 specific, meaningful changes. Be precise.
+For EACH change, write the exact original text and the exact new text — not descriptions, but the actual content:
+
+- **[Section Name]** Changed: "[copy the exact original sentence/bullet]" → "[write the complete new sentence/bullet]" | Reason: [specific JD requirement this addresses, e.g., "JD requires 'cross-functional collaboration' — added to demonstrate scope"]
+- **[Section Name]** Added: "[write the complete new content added]" | Reason: [which specific JD keyword or requirement this satisfies]
+- **[Section Name]** Removed: "[copy the exact original content removed]" | Reason: [why this weakens the application, e.g., "unrelated to target role", "replaced by stronger version above"]
+
+Example format (do not copy these — write based on actual inputs):
+- **Experience** Changed: "Responsible for managing the engineering team" → "Led 8-person engineering team across 3 time zones, delivering 4 product launches on schedule and under budget" | Reason: JD requires 'team leadership' and 'cross-functional collaboration' — added headcount and outcomes
+- **Summary** Changed: "Experienced marketing professional" → "Data-driven Digital Marketing Manager with 6+ years scaling B2B SaaS growth through SEO, paid acquisition, and lifecycle email — consistently delivering 20-40% YoY pipeline growth" | Reason: JD emphasizes 'data-driven', 'B2B SaaS', and 'pipeline growth' — all now in headline
+- **Skills** Added: "Salesforce CRM, HubSpot, Tableau" | Reason: JD lists these as required tools — none appeared in original resume but candidate's experience supports them
 
 ## OPTIMIZED RESUME
 
-[Complete optimized resume — start with candidate's full name, then contact info, then all sections]
+[Complete optimized resume — start with candidate's full name on its own line, then contact info, then all sections in order]
 
 FORMATTING RULES:
 - Section headers in ALL CAPS (PROFESSIONAL SUMMARY, EXPERIENCE, EDUCATION, SKILLS, CERTIFICATIONS)
-- Each job: Company Name | Job Title | Month Year – Month Year
-- Bullet points starting with strong action verbs
-- Quantify achievements where the original has numbers or where reasonable estimates apply
-- Do NOT invent experience, credentials, or companies
-- Do NOT include any commentary or notes in this section
-- Output ONLY the complete resume text, ready to paste into Word
+- Each job: Company Name | Job Title | Month Year – Month Year (City, State optional)
+- Every bullet point must start with a strong action verb (Led, Built, Drove, Reduced, Increased, Launched, Managed, Designed, Delivered, Negotiated, Automated, Streamlined)
+- Every bullet must follow: [Action Verb] + [specific task/scope] + [quantified result or business impact]
+  Good: "Reduced customer churn by 18% in Q3 by rebuilding the onboarding email sequence and adding in-app tooltips"
+  Bad: "Helped improve customer retention"
+- Each position must have 4-5 complete, fully written bullets — no placeholders
+- PROFESSIONAL SUMMARY must be 3-4 sentences: (1) years of experience + domain, (2) top 2-3 skills/tools from JD, (3) a specific career achievement, (4) what you bring to this role
+- Do NOT invent experience, companies, credentials, or numbers not supported by the original resume
+- Do NOT use "responsible for", "helped with", "worked on", "assisted", "involved in"
+- Do NOT include commentary, labels like "[unchanged]", or notes of any kind
+- Output ONLY the complete resume text, clean and ready to paste into Word
+
+## KEYWORD ANALYSIS
+
+| Keyword | Status | Action Taken |
+|---------|--------|-------------|
+[For each of the top 15 keywords from your STEP 1 analysis, fill one row:]
+| [keyword from JD] | ADDED / PRESERVED / WEAK→STRENGTHENED | [exactly where in resume: e.g., "Added to Summary sentence 2" / "Strengthened in Experience bullet 3, Company X" / "Already strong in Skills section"] |
+
+Minimum 15 rows. Every MISSING keyword must show exactly where it was inserted.
+
+## ATS SCORE ESTIMATE
+
+**Before optimization:** [X]/100
+**After optimization:** [X]/100
+**Improvement:** +[X] points
+
+Score breakdown:
+- Keyword match: [X]/40 → [X]/40
+- Formatting & structure: [X]/20 → [X]/20
+- Achievement quantification: [X]/20 → [X]/20
+- Relevance to role: [X]/20 → [X]/20
+
+## RECOMMENDATIONS
+
+**Top 3 actions to further improve this resume:**
+
+1. **[Specific section and issue]:** [Write the exact before/after change to make]
+   - Before: "[copy the current weak text]"
+   - After: "[write the improved version]"
+   - Impact: [why this change would improve interview callback rate]
+
+2. **[Specific section and issue]:** [Write the exact before/after change to make]
+   - Before: "[copy the current weak text]"
+   - After: "[write the improved version]"
+   - Impact: [why this change would improve interview callback rate]
+
+3. **[Specific section and issue]:** [Write the exact before/after change to make]
+   - Before: "[copy the current weak text]"
+   - After: "[write the improved version]"
+   - Impact: [why this change would improve interview callback rate]
+
+---
+
+Minimum output length: 800 words. Every section must contain complete, usable content — no placeholder text like [add here], [your result], [insert keyword], or [see above]. Write the actual improved content based on the inputs provided. If a number is not in the original resume, use realistic language like "multiple", "several", or "team of [reasonable size]" — but never fabricate specific metrics.
