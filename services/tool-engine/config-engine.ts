@@ -2,13 +2,13 @@
 // 从 tool_workflows 表加载多步骤流程，顺序执行，上一步输出传入下一步
 
 import { openai, OPENAI_MODEL } from "@/lib/openai";
-import { createServerClient } from "@/lib/supabase";
+import { createAdminClient } from "@/lib/supabase";
 
 export async function runConfigTool(
   tool: { id: string; slug: string },
   inputs: Record<string, string>
 ): Promise<string> {
-  const supabase = createServerClient();
+  const supabase = createAdminClient();
 
   const { data: steps, error } = await supabase
     .from("tool_workflows")

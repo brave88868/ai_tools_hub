@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { createServerClient } from "@/lib/supabase";
+import { createAdminClient } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const supabase = createServerClient();
+  const supabase = createAdminClient();
   const { data: kit } = await supabase
     .from("toolkits")
     .select("name, description")
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ToolkitPage({ params }: Props) {
   const { slug } = await params;
-  const supabase = createServerClient();
+  const supabase = createAdminClient();
 
   const { data: kit } = await supabase
     .from("toolkits")

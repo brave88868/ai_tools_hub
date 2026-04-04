@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { createServerClient } from "@/lib/supabase";
+import { createAdminClient } from "@/lib/supabase";
 
 export const metadata: Metadata = {
   title: "AI Toolkits — 5 professional AI tool collections",
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ToolkitsPage() {
-  const supabase = createServerClient();
+  const supabase = createAdminClient();
   const { data: toolkits } = await supabase
     .from("toolkits")
     .select("*")

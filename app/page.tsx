@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { createServerClient } from "@/lib/supabase";
+import { createAdminClient } from "@/lib/supabase";
 
 export const metadata: Metadata = {
   title: "AI Tools Hub — 50+ AI tools to boost productivity",
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const supabase = createServerClient();
+  const supabase = createAdminClient();
 
   const { data: popularTools } = await supabase
     .from("tools")

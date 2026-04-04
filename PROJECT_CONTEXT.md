@@ -7,9 +7,9 @@
 
 ## 当前项目状态
 
-**项目阶段**: 🟡 进行中（SPEC-05 完成）  
-**当前里程碑**: Phase 1 — MVP 基础架构  
-**最后更新**: 2026-04-04 — SPEC-05 完成（Pricing 页 + Blog 页 + 权限逻辑修正 + 62个工具 Prompt 文件 + Legal 合规更新）
+**项目阶段**: 🟡 进行中（SPEC-06 完成）  
+**当前里程碑**: Phase 2 — Auth + Stripe Billing  
+**最后更新**: 2026-04-04 — SPEC-06 完成（Supabase Auth + Google OAuth + Stripe Checkout + Webhook + Dashboard）
 
 ---
 
@@ -21,7 +21,7 @@
 |------|------|------|
 | 项目初始化（Next.js + Supabase + Stripe） | ✅ 完成 | Next.js 15 + TS + Tailwind + 完整目录结构 |
 | 数据库 Schema（所有核心表） | ✅ 完成 | database/schema.sql + seed.sql（需在 Supabase 执行）|
-| Supabase Auth（Google + Email） | ⬜ 未开始 | |
+| Supabase Auth（Google + Email） | ✅ 完成 | @supabase/ssr + Google OAuth + 邮箱密码 + /auth/callback + /auth/signout |
 | 三层 Tool Engine | ✅ 完成 | template / config / custom 引擎全部实现 |
 | `/api/tools/run` 主路由 | ✅ 完成 | 权限检查 + 引擎路由 + 日志记录 |
 | Prompt 文件系统（/prompts/） | ✅ 完成 | 62个工具 Prompt 文件，含 Legal 合规 Disclaimer |
@@ -29,8 +29,8 @@
 | Toolkit 页面（/toolkits/[slug]） | ✅ 完成 | 工具列表 + generateMetadata + Legal disclaimer |
 | 工具页面（/tools/[slug]） | ✅ 完成 | InputForm + ResultPanel + UpgradeModal |
 | 用户权限系统（3次免费 + 订阅判断） | ✅ 完成 | localStorage session_id + /api/tools/run 统一判断 |
-| Stripe 订阅（per-toolkit） | ⬜ 未开始 | Checkout + Webhook |
-| 用户 Dashboard | ⬜ 未开始 | |
+| Stripe 订阅（per-toolkit） | ✅ 完成 | Checkout Session + Webhook 自动更新订阅状态 |
+| 用户 Dashboard | ✅ 完成 | 订阅状态 + 使用次数 + 快捷链接 |
 | Admin 后台 | ⬜ 未开始 | |
 
 ### Phase 2 — 5个工具盒内容

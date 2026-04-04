@@ -1,10 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
+import type { User } from "@supabase/supabase-js";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-100">
@@ -20,9 +31,15 @@ export default function Header() {
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
-          <Link href="/login" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
-            Sign In
-          </Link>
+          {user ? (
+            <Link href="/dashboard" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+              Dashboard
+            </Link>
+          ) : (
+            <Link href="/login" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+              Sign In
+            </Link>
+          )}
           <Link href="/toolkits" className="text-sm bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors">
             Get Started
           </Link>
@@ -43,6 +60,11 @@ export default function Header() {
           <Link href="/toolkits" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Toolkits</Link>
           <Link href="/blog" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Blog</Link>
           <Link href="/pricing" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Pricing</Link>
+          {user ? (
+            <Link href="/dashboard" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Dashboard</Link>
+          ) : (
+            <Link href="/login" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Sign In</Link>
+          )}
           <Link href="/toolkits" className="bg-black text-white text-center px-4 py-2 rounded-lg" onClick={() => setMenuOpen(false)}>Get Started</Link>
         </div>
       )}

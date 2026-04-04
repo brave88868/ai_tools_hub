@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { createServerClient } from "@/lib/supabase";
+import { createAdminClient } from "@/lib/supabase";
 
 export const metadata: Metadata = {
   title: "Blog | AI Tools Hub",
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const supabase = createServerClient();
+  const supabase = createAdminClient();
 
   const { data: articles } = await supabase
     .from("seo_pages")
