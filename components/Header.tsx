@@ -20,6 +20,12 @@ export default function Header() {
     return () => subscription.unsubscribe();
   }, [router]);
 
+  async function handleSignOut() {
+    await supabase.auth.signOut();
+    router.push("/");
+    router.refresh();
+  }
+
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-100">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
@@ -39,9 +45,9 @@ export default function Header() {
               <Link href="/dashboard" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
                 Dashboard
               </Link>
-              <Link href="/auth/signout" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+              <button onClick={handleSignOut} className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
                 Sign Out
-              </Link>
+              </button>
             </>
           ) : (
             <>
@@ -73,7 +79,7 @@ export default function Header() {
           {user ? (
             <>
               <Link href="/dashboard" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Dashboard</Link>
-              <Link href="/auth/signout" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Sign Out</Link>
+              <button onClick={() => { setMenuOpen(false); handleSignOut(); }} className="text-left text-gray-600 hover:text-gray-900">Sign Out</button>
             </>
           ) : (
             <>
