@@ -55,10 +55,10 @@ export default function PricingPage() {
   }
 
   return (
-    <main className="max-w-5xl mx-auto px-4 py-16">
+    <main className="max-w-5xl mx-auto px-4 py-8">
       {/* Hero */}
-      <div className="text-center mb-10">
-        <h1 className="text-4xl font-bold text-gray-900 mb-3">Choose Your AI Toolkit</h1>
+      <div className="text-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 mb-3">Choose Your AI Toolkit</h1>
         <p className="text-gray-500 text-base max-w-xl mx-auto">
           Subscribe to the toolkit you need. Start free, upgrade anytime.
         </p>
