@@ -29,18 +29,6 @@ const DOC_TOOL_CONFIG: Record<string, {
     label2: "📄 Optimized LinkedIn Profile",
     downloadName: "optimized-linkedin-profile",
   },
-  "nda-analyzer": {
-    splitMarker: "## ANNOTATED NDA",
-    label1: "📋 NDA Analysis",
-    label2: "📄 Analysis Report",
-    downloadName: "nda-analysis-report",
-  },
-  "contract-risk-analyzer": {
-    splitMarker: "## ANNOTATED CONTRACT",
-    label1: "📋 Contract Analysis",
-    label2: "📄 Analysis Report",
-    downloadName: "contract-analysis-report",
-  },
 };
 
 function getSessionId(): string {
