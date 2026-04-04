@@ -55,5 +55,22 @@ export async function POST(req: NextRequest) {
       .eq("stripe_subscription_id", sub.id);
   }
 
+  if (event.type === "price.updated") {
+    const price = event.data.object as Stripe.Price;
+    const lookupKey = price.lookup_key ?? "";
+    // lookup_key 格式: "exam_toolkit_monthly" → slug = "exam"
+    const slug = lookupKey.split("_toolkit_")[0];
+    const newPrice = Math.round((price.unit_amount ?? 0) / 100);
+
+    if (slug && newPrice > 0) {
+      await supabase
+        .from("toolkits")
+        .update({ price_monthly: newPrice })
+        .eq("slug", slug);
+
+      console.log(`[webhook] price.updated: ${slug} → $${newPrice}`);
+    }
+  }
+
   return NextResponse.json({ received: true });
 }
