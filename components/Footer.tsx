@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-gray-100 bg-white mt-20">
-      <div className="max-w-6xl mx-auto px-4 py-12">
+    <footer className="border-t border-gray-100 bg-white mt-6">
+      <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
           <div>
             <h3 className="text-sm font-semibold text-gray-900 mb-3">AI Tools Hub</h3>

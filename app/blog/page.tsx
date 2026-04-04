@@ -21,7 +21,7 @@ export default async function BlogPage() {
   const hasArticles = articles && articles.length > 0;
 
   return (
-    <main className="max-w-4xl mx-auto px-4 py-6">
+    <main className="max-w-4xl mx-auto px-4 pt-3 pb-6">
       <div className="mb-1">
         <h1 className="text-xl font-bold text-gray-900 mb-1">Blog</h1>
         <p className="text-gray-500">AI tool guides, tips, and tutorials.</p>
