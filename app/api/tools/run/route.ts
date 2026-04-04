@@ -60,7 +60,8 @@ export async function POST(req: NextRequest) {
             .from("usage_logs")
             .select("*", { count: "exact", head: true })
             .eq("user_id", userId)
-            .eq("usage_date", today);
+            .gte("created_at", `${today}T00:00:00.000Z`)
+            .lt("created_at", `${today}T23:59:59.999Z`);
 
           if ((todayCount ?? 0) >= 100) {
             return NextResponse.json(
@@ -78,7 +79,8 @@ export async function POST(req: NextRequest) {
             .from("usage_logs")
             .select("*", { count: "exact", head: true })
             .eq("user_id", userId)
-            .eq("usage_date", today);
+            .gte("created_at", `${today}T00:00:00.000Z`)
+            .lt("created_at", `${today}T23:59:59.999Z`);
 
           if ((todayCount ?? 0) >= 3) {
             return NextResponse.json(
@@ -123,7 +125,8 @@ export async function POST(req: NextRequest) {
         .from("usage_logs")
         .select("*", { count: "exact", head: true })
         .eq("session_id", session_id)
-        .eq("usage_date", today);
+        .gte("created_at", `${today}T00:00:00.000Z`)
+        .lt("created_at", `${today}T23:59:59.999Z`);
 
       if ((todayCount ?? 0) >= 3) {
         return NextResponse.json(
@@ -199,7 +202,6 @@ export async function POST(req: NextRequest) {
       tool_slug,
       toolkit_slug: toolkitSlug,
       session_id: session_id ?? null,
-      usage_date: today,
     });
 
     await supabase.from("analytics_events").insert({
