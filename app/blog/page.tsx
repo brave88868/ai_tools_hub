@@ -21,9 +21,9 @@ export default async function BlogPage() {
   const hasArticles = articles && articles.length > 0;
 
   return (
-    <main className="max-w-4xl mx-auto px-4 py-16">
-      <div className="mb-12">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Blog</h1>
+    <main className="max-w-4xl mx-auto px-4 py-6">
+      <div className="mb-1">
+        <h1 className="text-xl font-bold text-gray-900 mb-1">Blog</h1>
         <p className="text-gray-500">AI tool guides, tips, and tutorials.</p>
       </div>
 
@@ -56,13 +56,13 @@ export default async function BlogPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-20 border border-dashed border-gray-200 rounded-2xl">
-          <div className="text-4xl mb-4">🚀</div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-3">Coming Soon</h2>
-          <p className="text-gray-400 text-sm max-w-md mx-auto leading-relaxed mb-6">
+        <div className="text-center py-8 border border-dashed border-gray-200 rounded-2xl">
+          <div className="text-4xl mb-3">🚀</div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">Coming Soon</h2>
+          <p className="text-gray-400 text-sm max-w-md mx-auto leading-relaxed mb-3">
             AI tool guides and tutorials are being generated automatically. This section will include articles on:
           </p>
-          <ul className="text-sm text-gray-400 space-y-1 mb-8">
+          <ul className="text-sm text-gray-400 space-y-1">
             <li>Resume optimization tips</li>
             <li>Content creation with AI</li>
             <li>Marketing automation guides</li>
@@ -70,7 +70,7 @@ export default async function BlogPage() {
           </ul>
           <Link
             href="/toolkits"
-            className="inline-block bg-black text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors"
+            className="mt-4 inline-block bg-black text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors"
           >
             Explore AI Tools →
           </Link>
