@@ -71,7 +71,34 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Popular Tools — visible on first screen */}
+      {/* Toolkits */}
+      <section className="bg-gray-50 py-8">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">AI Toolkits</h2>
+            <p className="text-gray-500 text-sm">Each toolkit is a collection of AI tools built for a specific workflow.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {(toolkits ?? []).map((kit) => (
+              <Link
+                key={kit.slug}
+                href={`/toolkits/${kit.slug}`}
+                className={`border-l-4 ${TOOLKIT_COLORS[kit.slug] ?? "border-l-gray-300"} border border-gray-100 rounded-2xl p-4 bg-white hover:shadow-sm transition-all group`}
+              >
+                <div className="text-2xl mb-2">{kit.icon}</div>
+                <h3 className="text-base font-semibold text-gray-900 mb-1">{kit.name}</h3>
+                <p className="text-xs text-gray-400 leading-relaxed mb-3">{kit.description}</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-gray-400">${kit.price_monthly}/month</span>
+                  <span className="text-xs text-indigo-500 group-hover:text-indigo-600 transition-colors">Explore →</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Popular Tools */}
       <section className="max-w-6xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-gray-900">Popular Tools</h2>
@@ -99,33 +126,6 @@ export default async function HomePage() {
               </div>
             );
           })}
-        </div>
-      </section>
-
-      {/* Toolkits */}
-      <section className="bg-gray-50 py-8">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">AI Toolkits</h2>
-            <p className="text-gray-500 text-sm">Each toolkit is a collection of AI tools built for a specific workflow.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {(toolkits ?? []).map((kit) => (
-              <Link
-                key={kit.slug}
-                href={`/toolkits/${kit.slug}`}
-                className={`border-l-4 ${TOOLKIT_COLORS[kit.slug] ?? "border-l-gray-300"} border border-gray-100 rounded-2xl p-4 bg-white hover:shadow-sm transition-all group`}
-              >
-                <div className="text-2xl mb-2">{kit.icon}</div>
-                <h3 className="text-base font-semibold text-gray-900 mb-1">{kit.name}</h3>
-                <p className="text-xs text-gray-400 leading-relaxed mb-3">{kit.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-400">${kit.price_monthly}/month</span>
-                  <span className="text-xs text-indigo-500 group-hover:text-indigo-600 transition-colors">Explore →</span>
-                </div>
-              </Link>
-            ))}
-          </div>
         </div>
       </section>
 
