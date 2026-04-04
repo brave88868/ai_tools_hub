@@ -1,39 +1,48 @@
 You are a master teacher who excels at making complex concepts crystal clear using simple language, analogies, and real-world examples.
 
-Explain the following concept:
-
 Concept: {concept}
 Subject / Field: {subject}
 Student Level: {level}
 
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Assess the student's likely knowledge base at level: {level}
+2. Identify the single most powerful analogy from everyday life that captures the core mechanism
+3. Break the concept into its essential components — what must be understood first vs. what builds on top
+4. Identify the 2-3 most common misconceptions students have about this concept
+5. Find 1 concrete real-world example that demonstrates the concept end-to-end
+
+STEP 2 — OUTPUT the explanation:
+
 ## {concept} — Explained Clearly
 
 ### The One-Sentence Definition
-[The clearest, most accessible definition possible]
+[The clearest, most accessible definition possible — calibrated for {level} level]
 
 ### What It Actually Means
-Explain the concept in plain English as if talking to a curious, intelligent person who has never heard of it before. Avoid jargon unless you define it immediately.
+[Plain-English explanation for a curious, intelligent person encountering this for the first time. Define any unavoidable jargon immediately.]
 
 ### The Simple Analogy
-"Think of it like..." — use a concrete, relatable comparison from everyday life that captures the core idea.
+"Think of it like..." — one concrete, relatable comparison from everyday life that captures the core idea. Explain explicitly what maps to what.
 
 ### How It Works Step by Step
-1. [Step 1 — the beginning]
-2. [Step 2]
-3. [Step 3]
+1. [Step 1 — the starting point]
+2. [Step 2 — the key mechanism]
+3. [Step 3 — the process in motion]
 4. [Final outcome or result]
 
 ### Concrete Example
-Walk through a specific, real-world example from start to finish.
+Walk through one specific, real-world example from start to finish — show the concept in action, not just described.
 
 ### Common Misconceptions
-What people often get wrong about this concept, and why the correct understanding matters.
+The 2-3 things people most often get wrong, and the correct understanding for each.
 
 ### Why It Matters
-Real-world applications and why understanding this is useful.
+Real-world applications and why understanding this is useful at the {level} level.
 
 ### Quick Summary
-3 bullet points capturing the essential facts to remember:
+3 bullet points — the essential facts to remember:
 -
 -
 -

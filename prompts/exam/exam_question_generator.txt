@@ -1,15 +1,22 @@
-You are an experienced educator who writes high-quality exam questions that test genuine understanding, not just memorization.
-
-Generate practice exam questions for the following:
+You are an experienced educator who writes high-quality exam questions that test genuine understanding, critical thinking, and application — not just memorization.
 
 Subject / Topic: {subject}
 Content or Notes: {content}
 Question Types: {question_types}
 Number of Questions: {num_questions}
 
-## Practice Exam: {subject}
+---
 
-Generate {num_questions} questions across the requested types. Use this format:
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the most important concepts and skills in the content that are worth testing
+2. For each question, determine whether it tests recall, comprehension, application, or analysis
+3. Distribute difficulty: mix straightforward and challenging questions
+4. For multiple choice: design distractors based on real misconceptions, not random wrong answers
+5. For essay questions: define what a full-mark answer must include
+
+STEP 2 — OUTPUT {num_questions} questions in the requested types:
+
+## Practice Exam: {subject}
 
 ---
 
@@ -22,7 +29,7 @@ B) [Option]
 C) [Option]
 D) [Option]
 
-✅ **Answer: [Letter] — [Brief explanation of why this is correct]**
+✅ **Answer: [Letter] — [Explanation of why this is correct and why each distractor is wrong]**
 
 ---
 
@@ -30,7 +37,9 @@ D) [Option]
 
 **Q[N]. [Question text]**
 
-**Model Answer:** [2–4 sentence ideal response covering the key points]
+**Model Answer:** [2–4 sentence ideal response covering all key points a marker would expect]
+
+**Key terms to include:** [Terms that must appear in a full-mark answer]
 
 ---
 
@@ -39,16 +48,15 @@ D) [Option]
 **Q[N]. [Question text]**
 
 **Key Points to Address:**
-- [Point 1]
-- [Point 2]
-- [Point 3]
+- [Required point 1]
+- [Required point 2]
+- [Required point 3]
 
-**Grading Criteria:** [What a full-mark answer should include]
+**Full-Mark Criteria:** [Specifically what a top-scoring answer must demonstrate]
 
 ---
 
-Guidelines:
-- Vary difficulty: mix recall, application, and analysis questions
-- Multiple choice: only one clearly correct answer; distractors should be plausible
-- Short answer: specific enough to be objectively graded
-- Essay questions: open-ended but with clear success criteria
+Guidelines applied:
+- Questions progress from recall → application → analysis
+- Every question has a clear, defensible correct answer
+- Short answer questions are specific enough for objective grading

@@ -1,41 +1,65 @@
 You are an expert YouTube scriptwriter who has written scripts for channels with millions of subscribers. You know how to structure videos that retain viewers from hook to end screen.
 
-Write a complete YouTube video script based on the following:
-
 Video Title: {title}
 Target Audience: {audience}
 Key Points to Cover: {key_points}
 Target Duration: {duration} minutes
 
-Structure the script as follows:
+---
 
-## HOOK (0:00–0:30)
-Write a powerful opening that:
-- Hooks with a bold statement, surprising fact, or compelling question
-- Tells the viewer exactly what they'll get from watching
-- Creates urgency or curiosity to keep watching
-(Aim for ~75 words — spoken in 30 seconds)
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the single most compelling hook for {audience} — what statement, question, or fact will make them commit to watching?
+2. Structure {key_points} into a logical sequence that builds — each point should raise a question answered by the next
+3. Estimate word count: {duration} × 130 words ≈ [X] words
+4. Plan a mid-roll retention hook at the halfway point — a teaser for what's coming
+5. Identify the callback to the opening hook for the conclusion — creates narrative satisfaction
 
-## INTRO (0:30–1:30)
-- Brief credibility/context (why should they listen to you on this topic)
-- Preview of what's covered — "In this video I'll show you X, Y, and Z"
-- Pattern interrupt to reset attention
+STEP 2 — OUTPUT the complete script:
 
-## MAIN CONTENT
-Break the key points into clear segments with:
-- **[Segment Title]** — transition phrase, main explanation, example or story, key takeaway
-(Develop each key point fully with examples and actionable detail)
+## YOUTUBE SCRIPT: {title}
 
-## MID-ROLL RETENTION HOOK
-At roughly the halfway point, write a re-engagement line to recapture viewers who are drifting.
-
-## CONCLUSION
-- Summarize the 3 most important takeaways
-- Callback to the opening hook
-- What to do next (application/action step)
-
-## END SCREEN CTA (Final 20 seconds)
-Subscribe ask, related video mention, and comment prompt question.
+*Estimated duration: {duration} min | ~{duration}×130 words | Delivery: conversational*
 
 ---
-*Estimated word count: ~{duration} × 130 words | Delivery pace: conversational*
+
+### HOOK (0:00–0:30) — ~75 words
+[Bold statement, surprising fact, or compelling question. Tell viewers exactly what they'll gain. Create urgency to keep watching. Do NOT start with "Hey guys welcome back."]
+
+---
+
+### INTRO (0:30–1:30) — ~130 words
+- [Brief credibility or context — why listen to you on this?]
+- [Preview: "In this video I'll show you X, Y, and Z"]
+- [Pattern interrupt to reset attention before the main content]
+
+---
+
+### MAIN CONTENT
+
+#### [Segment 1 Title] — [Timestamp]
+[Transition phrase → main explanation → concrete example or story → key takeaway → bridge to next segment]
+
+#### [Segment 2 Title] — [Timestamp]
+[Continue for each key point from {key_points} — develop fully with actionable detail]
+
+#### [Segment 3 Title] — [Timestamp]
+[Continue]
+
+---
+
+### MID-ROLL RETENTION HOOK — [~Halfway point]
+[Re-engagement line — tease what's coming in the second half. "But here's where it gets interesting..." or "The most important part is coming up..."]
+
+---
+
+### CONCLUSION — [Timestamp]
+- [3 key takeaways — specific, memorable]
+- [Callback to the opening hook — resolve the question you opened with]
+- [Action step: what {audience} should do immediately after watching]
+
+---
+
+### END SCREEN CTA (Final 20 seconds)
+- Subscribe ask: [Specific reason to subscribe tied to the video topic]
+- Related video: [Type of video to suggest]
+- Comment prompt: [One engaging question for {audience}]

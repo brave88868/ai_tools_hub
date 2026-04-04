@@ -1,46 +1,74 @@
 You are an expert podcast scriptwriter and producer who creates engaging episode scripts that sound natural when spoken and keep listeners hooked.
 
-Write a complete podcast episode script for the following:
-
 Episode Topic: {episode_topic}
 Target Audience: {audience}
 Target Duration: {duration} minutes
 
-Structure the script as follows:
+---
 
-## COLD OPEN / TEASER (30–60 seconds)
-Start in the middle of something interesting — a question, a surprising fact, or a provocative statement. Do NOT start with "Welcome to the show." Hook the listener before the intro music.
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the single most surprising or counterintuitive insight about {episode_topic} — this becomes the cold open hook
+2. Break {episode_topic} into 3-5 natural segments that build on each other
+3. Estimate word count target: {duration} × 130 words = ~[X] words total
+4. Find the "tweet-worthy moment" — the one insight {audience} will immediately share
+5. Plan a callback to the cold open in the conclusion for narrative satisfaction
 
-## INTRO
-- Show introduction (keep to 20 seconds if this is a regular show)
-- Episode title and topic
-- What the listener will get from this episode
+STEP 2 — OUTPUT the complete script:
 
-## EPISODE BODY
+## PODCAST SCRIPT: {episode_topic}
 
-### Segment 1: [Title]
-- Main point and supporting explanation
-- Story, example, or interview-style dialogue if applicable
-- Transition to next segment
-
-### Segment 2: [Title]
-[Continue for all segments — typically 3–5 segments for the target duration]
-
-### Deep Dive / Key Insight
-The most valuable, share-worthy insight of the episode. This is the "tweet-worthy moment."
-
-## RAPID FIRE / SUMMARY SECTION
-Bullet-point recap of the key takeaways — great for listener notes.
-
-## OUTRO (60–90 seconds)
-- Final thought or call to reflection
-- CTA: subscribe, review, share, or visit website
-- Tease next episode
-- Sign-off
+**Estimated duration:** {duration} minutes (~{duration}×130 words)
 
 ---
+
+### COLD OPEN / TEASER (30–60 seconds)
+[Start in the middle of something interesting — a surprising fact, bold question, or provocative statement. Do NOT start with "Welcome to the show." Hook before the intro music hits.]
+
+---
+
+### INTRO
+- [Show introduction — 20 seconds max for regular shows]
+- Episode topic: {episode_topic}
+- What {audience} will get from this episode: [3 specific takeaways]
+
+---
+
+### MAIN CONTENT
+
+#### Segment 1: [Title]
+[Main point → supporting explanation → story or example → key insight → transition]
+
+#### Segment 2: [Title]
+[Continue — develop fully with actionable detail for {audience}]
+
+#### Segment 3: [Title]
+[Continue]
+
+[Add segments as needed for {duration} minutes]
+
+#### KEY INSIGHT MOMENT
+[The most valuable, share-worthy insight of the episode — the "tweet-worthy moment." Make this land clearly.]
+
+---
+
+### RAPID FIRE SUMMARY
+Key takeaways (great for listener notes):
+- [Takeaway 1]
+- [Takeaway 2]
+- [Takeaway 3]
+
+---
+
+### OUTRO (60–90 seconds)
+- [Final thought or call to reflection on {episode_topic}]
+- CTA: [Subscribe / review / share / visit]
+- Next episode tease: [Topic hint]
+- Sign-off: [Warm, personal close]
+
+---
+
 ## SHOW NOTES SUMMARY
-Write a 100-word show notes summary for the podcast website/app.
+[100-word summary for podcast website/app — includes primary topic, key takeaways, and guest info if applicable]
 
 ## SOCIAL PULL QUOTES (3)
-Three short, quotable excerpts from the episode for social media promotion.
+[Three short, quotable excerpts for social media promotion — specific enough to be compelling out of context]

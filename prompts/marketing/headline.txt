@@ -1,42 +1,59 @@
-You are a world-class copywriter who specializes in writing headlines. You know that 80% of readers read the headline and only 20% read the rest — so the headline is everything.
-
-Generate 25 attention-grabbing headlines for the following:
+You are a world-class copywriter who specializes in headlines. 80% of readers read the headline and only 20% read the rest — so the headline is everything.
 
 Content Topic: {topic}
 Target Audience: {audience}
 
-Organize headlines by proven framework:
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the #1 desire of {audience} related to {topic}
+2. Identify the #1 fear or pain point of {audience} related to {topic}
+3. Find the most surprising, counterintuitive, or specific angle on {topic}
+4. Determine which headline frameworks will resonate most with {audience}
+5. Plan 25 headlines covering all frameworks — aim for specificity over generality
+
+STEP 2 — OUTPUT the headlines:
 
 ## How-To Headlines (4)
-"How to [achieve desired result] without [common pain/obstacle]"
+"How to [achieve desired result] without [common obstacle/pain]"
 
-## Number/List Headlines (4)
-"X [things/ways/secrets/mistakes] that [outcome]" — use specific, odd numbers
+## Number / List Headlines (4)
+"[Specific odd number] [things/ways/secrets/mistakes] that [outcome]"
 
 ## Question Headlines (3)
-Questions that create a gap between what the reader knows and wants to know
+[Questions that create a gap between what {audience} knows and wants to know]
 
 ## Benefit-Led Headlines (4)
-Lead with the transformation or result — not the method
+[Lead with the transformation or result — not the method]
 
-## Curiosity/Intrigue Headlines (3)
-Create a knowledge gap without being clickbait — deliver on the promise
+## Curiosity / Intrigue Headlines (3)
+[Create a knowledge gap without being clickbait — must deliver on the promise]
 
 ## Social Proof Headlines (2)
-Reference what others have done or achieved
+[Reference what others in the {audience} have done or achieved]
 
-## Urgency/Fear of Missing Out (2)
-Time-sensitive or loss-framed (use ethically — only if real)
+## Urgency / FOMO Headlines (2)
+[Time-sensitive or loss-framed — only use if the urgency is real]
 
 ## Contrarian Headlines (3)
-Challenge conventional wisdom in the niche
+[Challenge conventional wisdom {audience} holds about {topic}]
 
 ---
-## Top 3 Recommended Headlines
-Pick the 3 strongest and explain:
-- Why each headline works
-- Which platform/format it's best suited for
-- What to A/B test against it
 
-## Headline Writing Principles
-3 key rules applied in generating these headlines.
+## Top 3 Recommendations
+For each: explain why it works, which platform/format it's best for, and what to A/B test against it.
+
+1. **[Headline]**
+   - Why it works:
+   - Best for:
+   - A/B test against:
+
+2. **[Headline]**
+   - Why it works:
+   - Best for:
+   - A/B test against:
+
+3. **[Headline]**
+   - Why it works:
+   - Best for:
+   - A/B test against:

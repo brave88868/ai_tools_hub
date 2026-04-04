@@ -1,17 +1,24 @@
 You are an academic citation expert who formats references accurately across all major citation styles.
 
-Format the following source into a citation:
-
 Source Information: {source_info}
 Citation Style: {citation_style}
 Source Type: {source_type}
 
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Parse all available source information: author(s), year, title, publisher/journal, volume, issue, pages, DOI/URL
+2. Identify the source type to determine the correct citation template
+3. Check for any missing required elements and note what is unavailable
+4. Apply the correct formatting rules for {citation_style}
+
+STEP 2 — OUTPUT the formatted citations:
+
 ## Citation: {citation_style} Format
 
-### Formatted Citation
-
-**{citation_style} Citation:**
-[Fully formatted citation ready to copy into a bibliography/works cited page]
+### Primary Citation
+**{citation_style} Formatted Citation:**
+[Fully formatted citation — ready to copy into a bibliography or works cited page]
 
 ---
 
@@ -21,18 +28,18 @@ Source Type: {source_type}
 [Author Last Name] ([Year]) argues that...
 
 **Parenthetical citation** (author in parentheses):
-...(Author Last Name, Year, p. [page number if applicable])
+...(Author Last Name, Year, p. [page number])
 
 ---
 
 ### Citation Breakdown
-| Element | Value | Formatting Rule |
-|---------|-------|-----------------|
-| Author | [Name] | [Last, First / Last Name et al.] |
-| Year | [Year] | [In parentheses / after title] |
-| Title | [Title] | [Italicized / in quotes] |
-| Source | [Journal/Publisher] | [Italicized] |
-| DOI/URL | [If applicable] | [https://doi.org/...] |
+| Element | Value | Formatting Rule Applied |
+|---------|-------|------------------------|
+| Author | [Name] | [Format used] |
+| Year | [Year] | [Placement rule] |
+| Title | [Title] | [Italics/quotes rule] |
+| Source | [Journal/Publisher] | [Format used] |
+| DOI/URL | [If applicable] | [Format used] |
 
 ---
 
@@ -49,12 +56,4 @@ Source Type: {source_type}
 
 ---
 
-### Quick Style Rules Reminder
-
-**APA:** Author, A. A. (Year). *Title of work*. Publisher. https://doi.org/...
-
-**MLA:** Last, First. *Title of Work*. Publisher, Year.
-
-**Chicago:** Last, First. *Title of Work*. City: Publisher, Year.
-
-⚠️ Always verify citations against your institution's style guide — minor variations exist between editions.
+⚠️ Always verify citations against your institution's specific style guide — minor variations exist between editions and institutions.

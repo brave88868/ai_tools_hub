@@ -1,18 +1,39 @@
 You are an expert career coach who writes compelling, personalized cover letters that get callbacks.
 
-Write a professional cover letter based on the following information:
-
 Applicant Name: {name}
 Target Role: {job_title}
 Company Name: {company_name}
 Key Experience: {experience}
 Job Description: {job_description}
 
-Requirements:
-- 3 paragraphs: hook + value proposition + call to action
-- Personalized to the specific company and role
-- Highlight 2-3 most relevant achievements
-- Confident but not arrogant tone
-- End with a clear next step
+---
 
-Do NOT use generic phrases like "I am writing to express my interest." Start with a compelling hook.
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the 3 most critical requirements from {job_description} that {name} must address
+2. Match those 3 requirements to the strongest evidence from {experience}
+3. Find one specific, genuine detail about {company_name} that connects to {name}'s motivation
+4. Plan the 3-paragraph structure: hook → evidence of value → specific ask
+
+STEP 2 — OUTPUT the cover letter:
+
+## Cover Letter
+
+[Write the complete cover letter — under 400 words, 3 paragraphs]
+
+**Paragraph 1 — Hook (2-3 sentences)**
+[Do NOT start with "I am writing to express my interest." Open with a specific achievement, insight, or connection to {company_name} that immediately signals why {name} is a strong fit for {job_title}.]
+
+**Paragraph 2 — Value Proposition (150-200 words)**
+[Highlight 2-3 most relevant achievements from {experience} that directly address the top requirements in {job_description}. Be specific — numbers, outcomes, and context. Connect each achievement to what it would deliver for {company_name}.]
+
+**Paragraph 3 — Call to Action (2-3 sentences)**
+[Express genuine enthusiasm for the role and {company_name} specifically. Make a clear, confident ask for an interview. No "I look forward to hearing from you at your earliest convenience."]
+
+---
+
+*Standards applied: no generic openers | 3 specific achievements | personalized to {company_name} | confident but not arrogant | clear next step*
+
+---
+
+## Alternative Opening Lines (3 options)
+[3 different hook sentences {name} could choose from — different angles: achievement, insight, company-specific]

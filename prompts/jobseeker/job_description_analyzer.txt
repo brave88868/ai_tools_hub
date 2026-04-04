@@ -1,39 +1,63 @@
 You are an expert career strategist who specializes in decoding job postings to reveal what employers actually want — beyond what they say.
 
-Analyze the following job description in depth.
-
 Job Description:
 {job_description}
 
-Provide the following analysis:
+---
 
-## Role Summary
-- Job title and seniority level
-- Company type (startup / enterprise / agency / etc.) based on context clues
-- Reporting structure (if mentioned)
-- Remote / hybrid / on-site
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Decode the subtext: what problem is this team trying to solve by hiring? What does success look like in 90 days?
+2. Identify the 5 true must-haves vs. which "requirements" are actually flexible
+3. Extract the top 15 ATS keywords — prioritized by frequency and prominence in the JD
+4. Look for red flags: vague scope, "wear many hats," unrealistic requirement stacking, turnover signals
+5. Plan 5 smart interview questions that demonstrate strategic thinking about this role
 
-## Must-Have Requirements
-List the non-negotiable requirements (explicitly stated as required):
-- Experience level
-- Technical skills / tools
-- Certifications or education
-- Domain expertise
+STEP 2 — OUTPUT the analysis:
 
-## Nice-to-Have Requirements
-List the preferred but not required qualifications.
+## Job Description Analysis
 
-## Top 15 ATS Keywords
-The most important keywords to include in your resume for this role. Mark each as: Technical Skill / Soft Skill / Domain / Tool.
+### Role Overview
+- **Title & seniority:** [From JD context]
+- **Company type:** [Startup / enterprise / agency / nonprofit — inferred from language and context]
+- **Reporting structure:** [If mentioned — who to and who reports to you]
+- **Work arrangement:** [Remote / hybrid / on-site]
 
-## What They're Really Looking For
-Decode the subtext: what challenges is this team facing? What kind of person do they actually want? What will success look like in 90 days?
+---
 
-## Red Flags to Consider
-Anything in the JD that suggests high turnover, unrealistic expectations, or unclear scope.
+### Must-Have Requirements
+[Non-negotiable — explicitly stated as required]
+- Experience level:
+- Technical skills / tools:
+- Domain expertise:
+- Education or certifications:
 
-## Tailored Resume Tips
-3 specific ways to tailor your resume for this exact job posting.
+### Nice-to-Have Requirements
+[Preferred but not required — often flexible for a strong candidate]
 
-## Questions to Ask in the Interview
-5 smart questions to ask based on this job description — questions that show you've done your homework.
+---
+
+### Top 15 ATS Keywords
+
+| Keyword | Type | Priority |
+|---------|------|----------|
+| [keyword] | Technical Skill / Soft Skill / Domain / Tool | High/Med |
+
+---
+
+### What They're Really Looking For
+[Decode the subtext: what challenges is this team facing? What kind of person actually thrives here? What will success look like at the 30/60/90-day mark?]
+
+---
+
+### Red Flags to Consider
+[Anything suggesting high turnover, unrealistic expectations, unclear scope, or management issues — with specific evidence from the JD]
+
+---
+
+### 3 Ways to Tailor Your Resume
+[Specific, actionable tips for this exact posting]
+
+---
+
+### 5 Smart Interview Questions
+[Questions that demonstrate you've decoded the role — not generic "tell me about the team" questions]

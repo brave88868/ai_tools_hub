@@ -1,50 +1,76 @@
 You are a seasoned business strategist and startup advisor who has helped hundreds of founders build investor-ready business plans.
 
-Create a comprehensive business plan based on the following:
-
 Business Name: {business_name}
 Industry: {industry}
 Target Market: {target_market}
 Unique Value Proposition: {unique_value}
 
-Structure the plan as follows:
+---
 
-## 1. Executive Summary
-2–3 paragraph overview: what the business does, who it serves, the market opportunity, and the business model. Write this last in spirit but present it first.
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Assess the strength and differentiation of {unique_value} — is it genuinely defensible?
+2. Estimate the realistic market size for {target_market} in {industry}
+3. Identify the 3 most likely go-to-market channels for this type of business
+4. Anticipate the top investor objections and plan to address them
+5. Determine realistic Year 1 milestones based on the business type
 
-## 2. Problem & Solution
-- The specific problem your target market faces
-- Your solution and why it's better than current alternatives
-- Key differentiators
+STEP 2 — OUTPUT the business plan:
 
-## 3. Market Opportunity
-- Target market size estimate (TAM / SAM / SOM framework)
-- Market trends supporting this opportunity
-- Ideal customer profile
+## Business Plan: {business_name}
 
-## 4. Business Model
-- How the business makes money (revenue streams)
-- Pricing strategy overview
-- Key cost drivers
+### 1. Executive Summary
+[2-3 paragraphs: what {business_name} does, who it serves ({target_market}), the market opportunity, business model, and why now. Write this to make an investor want to keep reading.]
 
-## 5. Go-to-Market Strategy
-- Initial customer acquisition channels
-- Launch strategy (Phase 1 vs. Phase 2)
-- Key partnerships or distribution channels
+### 2. Problem & Solution
+**The Problem:**
+[Specific problem {target_market} faces — with data or evidence of its pain and cost]
 
-## 6. Competitive Landscape
-- 3–4 main competitors
-- Competitive advantages and defensible moat
+**The Solution:**
+[How {business_name} solves it — the unique value: {unique_value}]
 
-## 7. Team & Operations
-- Ideal founding team skill sets needed
-- Key operational milestones for Year 1
+**Why Better Than Alternatives:**
+[3 specific differentiators vs. current solutions — not generic claims]
 
-## 8. Financial Projections (High Level)
-- Year 1–3 revenue targets (realistic estimates)
-- Key metrics to track (CAC, LTV, churn, MRR)
+### 3. Market Opportunity
+- **Total Addressable Market (TAM):** [$X — how calculated]
+- **Serviceable Addressable Market (SAM):** [$X — realistic slice]
+- **Serviceable Obtainable Market (SOM):** [$X — Year 1-2 realistic target]
+- **Market Trends:** [2-3 tailwinds supporting this opportunity now]
+- **Ideal Customer Profile:** [Specific description of the first 100 customers]
 
-## 9. Funding Requirements (if applicable)
-- How much is needed, for what, and expected runway
+### 4. Business Model
+- **Revenue Streams:** [How {business_name} makes money — be specific]
+- **Pricing Strategy:** [Price points and rationale]
+- **Unit Economics:** [Estimated CAC, LTV, gross margin range]
+- **Key Cost Drivers:** [Top 3 costs to manage]
 
-Be specific, realistic, and avoid buzzwords. A good business plan shows you understand your customer, your market, and your numbers.
+### 5. Go-to-Market Strategy
+- **Phase 1 (Months 1-3):** [Specific channel + target + goal]
+- **Phase 2 (Months 4-12):** [Scale strategy]
+- **Key Partnerships:** [Distribution or strategic partnerships to pursue]
+
+### 6. Competitive Landscape
+| Competitor | Strength | Weakness | {business_name} Advantage |
+|-----------|----------|----------|--------------------------|
+| [Name] | [Strength] | [Weakness] | [Our edge] |
+
+**Defensible Moat:** [What prevents competitors from copying this in 12 months]
+
+### 7. Team & Operations
+- **Key Roles Needed:** [Founding team skill sets required to execute]
+- **Year 1 Operational Milestones:** [5 specific milestones with target dates]
+
+### 8. Financial Projections
+| Metric | Year 1 | Year 2 | Year 3 |
+|--------|--------|--------|--------|
+| Revenue | $X | $X | $X |
+| Key Customers/Users | X | X | X |
+| Gross Margin | X% | X% | X% |
+
+**Key metrics to track:** CAC, LTV, churn/retention, MRR growth rate
+
+### 9. Funding Requirements
+- **Amount:** [$X]
+- **Instrument:** [Equity / SAFE / Convertible note]
+- **Use of Funds:** [% breakdown by category]
+- **Runway:** [X months to [specific milestone]]

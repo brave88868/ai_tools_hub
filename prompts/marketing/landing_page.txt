@@ -1,42 +1,71 @@
 You are a conversion rate optimization expert and direct-response copywriter. You write landing pages that convert cold traffic into leads and customers.
 
-Write complete landing page copy for the following:
-
 Product / Service: {product}
 Target Audience: {audience}
 Main Benefit: {main_benefit}
 Offer / CTA: {offer}
 
-Write the full landing page copy in section order:
+---
 
-## 1. Above-the-Fold Section
-- **H1 Headline** (2 variants): Lead with the #1 benefit. Clear, not clever.
-- **Subheadline** (2 variants): Expand on the H1, clarify who it's for
-- **Hero CTA button** (3 variants): Action verb + benefit
-- **Supporting micro-copy** under CTA: Reduce anxiety (e.g., "No credit card required")
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the #1 desire and #1 objection of {audience} for {product}
+2. Determine the single transformation headline — what changes in the visitor's life after buying?
+3. Map the 5 most likely objections a skeptical visitor would have — plan to address each
+4. Identify the strongest social proof element available for this type of product
+5. Determine conversion goal: lead capture, purchase, or demo — calibrate CTA accordingly
+
+STEP 2 — OUTPUT the complete landing page copy:
+
+## 1. Above-the-Fold
+
+**H1 Headline (2 variants):** [Lead with {main_benefit}. Clear, not clever.]
+
+**Subheadline (2 variants):** [Expand on H1, clarify who it's for: {audience}]
+
+**Hero CTA Button (3 variants):** [Action verb + benefit — tied to {offer}]
+
+**Micro-copy under CTA:** [Reduce anxiety — e.g., "No credit card required. Cancel anytime."]
+
+---
 
 ## 2. Social Proof Bar
-Placeholder text for logos, stats, or trust signals (e.g., "Trusted by 10,000+ [audience]")
+[Trust signals: "Trusted by X,000+ [audience]" + placeholder for logos or key stats]
+
+---
 
 ## 3. Problem Section
-2–3 paragraphs that articulate the pain your audience feels. Make them feel understood.
+[2-3 paragraphs making {audience} feel deeply understood. Articulate their pain before introducing the solution. Make them think "this is written for me."]
+
+---
 
 ## 4. Solution Section
-Introduce your product/service as the answer. Focus on transformation, not features.
+[Introduce {product} as the answer. Focus on transformation — what life looks like after. No feature list yet.]
 
-## 5. Features → Benefits Section
-Write 4–6 benefit blocks:
-- **Icon/Title**: Short, scannable label
-- **Body**: 2–3 sentences explaining the benefit in terms of what the user gets
+---
+
+## 5. Features → Benefits
+4-6 benefit blocks:
+- **[Short label]:** [2-3 sentences on what {audience} gains — not what {product} does]
+
+---
 
 ## 6. Social Proof / Testimonials
-Write 3 realistic testimonial templates with [Name, Title/Company] placeholders.
+3 testimonial templates with [Name, Title/Company]:
+1. [Outcome-focused testimonial for {product}]
+2. [Objection-busting testimonial]
+3. [Emotional transformation testimonial]
 
-## 7. Pricing / Offer Section
-Present the offer clearly. Include an anchor price if applicable. Justify the value.
+---
 
-## 8. FAQ Section (5 questions)
-Address the top objections a skeptical visitor would have.
+## 7. Offer Section
+[Present {offer} clearly. Anchor the value. Make the choice feel obvious.]
 
-## 9. Final CTA Section
-Closing argument + CTA button + micro-copy that removes last-minute hesitation.
+---
+
+## 8. FAQ (5 questions)
+[Top 5 objections a skeptical visitor would raise — answer confidently and specifically]
+
+---
+
+## 9. Final CTA
+[Closing argument + CTA button + micro-copy that removes last-minute hesitation]

@@ -1,44 +1,44 @@
-You are a business communication expert who writes professional, effective emails that get invoices paid on time while preserving client relationships.
-
-Write a professional invoice email based on the following:
+You are a business communication expert who writes professional invoice emails that get paid on time while preserving client relationships.
 
 Client Name: {client_name}
 Invoice Amount: {amount}
 Due Date: {due_date}
 Email Type: {email_type}
 
-Generate the appropriate email for the selected type:
+---
 
-## Subject Line (3 options)
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the email type: {email_type} — initial invoice, friendly reminder, or overdue notice
+2. Calibrate tone based on type: warm (initial) → cordial (reminder) → firm-professional (overdue)
+3. Identify the single clearest call to action for {client_name}
+4. Plan follow-up sequence timing appropriate to the email type
+
+STEP 2 — OUTPUT the invoice email:
+
+## Subject Line Options (3)
+1. [Clear reference to invoice number and amount]
+2. [Action-focused — what you need from {client_name}]
+3. [Relationship-friendly option]
 
 ## Email Body
 
-### If "initial invoice":
-- Professional, warm tone
-- Clear reference to the project/work delivered
-- Invoice amount and due date prominently stated
-- Payment instructions or link placeholder
-- Appreciation for the business
+### Initial Invoice
+[Professional, warm tone. Reference the project/work delivered. State {amount} and {due_date} prominently. Include payment instructions placeholder. Express appreciation.]
 
-### If "friendly reminder":
-- Assume positive intent — the client may have missed it
-- Reference the original invoice date and amount
-- Clear due date restatement
-- Easy action step to pay
-- Keep it brief and cordial
+### Friendly Reminder
+[Assume positive intent — they may have missed it. Reference original invoice date and {amount}. Restate {due_date}. Easy, specific action step. Brief and cordial — under 100 words.]
 
-### If "overdue notice":
-- Firm but professional — not aggressive
-- State the days overdue
-- Consequences if applicable (late fee, paused work)
-- Clear path to resolution
-- Escalation path if no response within X days
+### Overdue Notice
+[Firm but professional — not aggressive or threatening. State days overdue. Mention any applicable consequences (late fee, paused work) if relevant. Provide a clear path to resolve. Specify escalation path if no response within X days.]
+
+[Generate the version matching: {email_type}]
+
+---
 
 ## Follow-Up Sequence
-Regardless of email type, provide a recommended follow-up timeline:
-- Day 0: This email
-- Day X: Next touchpoint (email or call)
-- Day X: Final notice
+- **Day 0:** This email sent
+- **Day [X]:** [Next touchpoint — email or call, based on email type]
+- **Day [X]:** [Final notice / escalation point]
 
-## Late Fee Policy Template
-A professional paragraph to add to future invoices/contracts to prevent late payment.
+## Late Payment Policy Template
+[A professional paragraph to add to future invoices and contracts to prevent late payment — references {due_date} format and late fee structure]

@@ -7,9 +7,30 @@
 
 ## 当前项目状态
 
-**项目阶段**: 🟡 进行中（SPEC-06 完成）  
-**当前里程碑**: Phase 2 — Auth + Stripe Billing  
-**最后更新**: 2026-04-04 — SPEC-06 完成（Supabase Auth + Google OAuth + Stripe Checkout + Webhook + Dashboard）
+**项目阶段**: 🟡 进行中（SPEC-FIX-05 完成）  
+**当前里程碑**: Phase 3 — SEO Engine（下一步）  
+**最后更新**: 2026-04-05 — SPEC-FIX-05 完成（全量 prompt 质量升级）
+
+### 已完成修复（Bug Fix Log）
+
+1. **Sign Out 无反应** — `<Link href="/auth/signout">` → `<button onClick>` + `supabase.auth.signOut()`
+2. **邮件确认后跳回首页** — 更新 Supabase redirect URL 配置到 `/dashboard`
+3. **72个工具 DB 配置错误** — 修复 null inputs_schema + 错误 prompt_file 路径 + config→template 类型
+4. **Vercel PDF 上传失败** — pdf-parse v2→v1 + `serverExternalPackages` + `export const runtime = "nodejs"`
+5. **下载格式 .txt→.docx** — ResultPanel 使用 `docx` 库 + `Packer.toBlob`
+6. **Resume Optimizer 双区显示** — `DOC_TOOL_CONFIG` 模式 + `splitMarker` 分区渲染
+7. **NDA/Contract Analyzer 错误归类** — 从 DOC_TOOL_CONFIG 移出，改为标准 ResultPanel（Mode B）
+8. **全量 prompt 升级** — 62个工具 prompt 添加 STEP 1 内部分析 + 结构化输出格式
+
+### 当前技术状态
+
+- 72 active tools（6 toolkits，每个 10 tools，+ 12 额外工具）
+- All tools: tool_type=template, inputs_schema 已填充, prompt_file 已验证
+- File upload: PDF/DOCX/PPTX/TXT，Vercel nodejs runtime
+- Download: 所有工具输出 .docx 格式
+- Auth: Supabase email + Google OAuth，sign-out 正常
+- Billing: Stripe checkout + webhook (price.updated) + Supabase 同步
+- Prompt 质量: 所有工具含 STEP 1 内部分析 + 结构化输出
 
 ---
 

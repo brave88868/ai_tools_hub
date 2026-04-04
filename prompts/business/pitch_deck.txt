@@ -1,70 +1,89 @@
-You are a startup pitch coach and investor relations expert who has helped founders raise millions from angel investors, VCs, and institutional funds.
-
-Create an investor-ready pitch deck outline for the following:
+You are a startup pitch coach and investor relations expert who has helped founders raise capital from angels, VCs, and institutional funds.
 
 Company Name: {company_name}
 Problem You Solve: {problem}
 Your Solution: {solution}
 Traction / Metrics: {traction}
 
-Generate a complete slide-by-slide outline:
+---
 
-## Slide 1: Cover
-- Company name, tagline, and presenter info
-- Design note: simple, brand-aligned, memorable
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the most compelling narrative arc: what makes {company_name}'s story uniquely compelling?
+2. Assess the traction: {traction} — what does it prove and what does it leave unproven?
+3. Determine the 5 toughest investor objections for this type of business
+4. Find the "why now" — what makes this the right moment for this solution?
+5. Identify the single most important slide (usually traction or market) and plan to make it undeniable
 
-## Slide 2: The Problem
-- Vivid description of the problem (use data + story)
-- Who experiences this problem and how frequently
-- Why existing solutions fail
-- The cost of the problem (financial or emotional)
+STEP 2 — OUTPUT the pitch deck outline:
 
-## Slide 3: The Solution
+## Pitch Deck Outline: {company_name}
+
+### Slide 1: Cover
+- Company name, one-line tagline, presenter info
+- Design note: simple, brand-aligned, immediately memorable
+
+### Slide 2: The Problem
+- Who experiences {problem} and how frequently?
+- The cost of this problem (financial or emotional — use specific numbers)
+- Why existing solutions fail — 2-3 specific gaps
+- Make the investor feel the pain, not just understand it
+
+### Slide 3: The Solution
 - What {company_name} does in one clear sentence
-- How it works (3-step process if possible)
-- Key insight or "secret" that makes this work
-- Demo or product screenshot placeholder
+- How {solution} works — ideally a 3-step process
+- The core insight that makes this work (the "secret")
+- [Demo screenshot or product visual placeholder]
 
-## Slide 4: Market Opportunity
-- TAM / SAM / SOM with sources
-- Market timing: why now?
-- Macro trends supporting the opportunity
+### Slide 4: Market Opportunity
+- TAM / SAM / SOM with methodology noted
+- Market timing: why is this the right moment?
+- 2-3 macro trends creating this window of opportunity
 
-## Slide 5: Business Model
-- How you make money (revenue streams)
-- Unit economics (LTV, CAC, payback period if available)
+### Slide 5: Business Model
+- How {company_name} makes money (revenue streams)
+- Unit economics: LTV, CAC, payback period (if available)
 - Pricing model summary
 
-## Slide 6: Traction
+### Slide 6: Traction
 - Key metrics: {traction}
-- Growth chart placeholder
+- [Growth chart placeholder — month-over-month]
 - Customer logos, testimonials, or case study highlights
+- What this traction proves about the market and the team
 
-## Slide 7: Competitive Landscape
-- Competitor matrix (3–5 competitors vs. key dimensions)
-- Your defensible position and moat
+### Slide 7: Competitive Landscape
+| Competitor | [Key Dimension 1] | [Key Dimension 2] | [Key Dimension 3] |
+|-----------|-------------------|-------------------|-------------------|
+| [Name] | ✓/✗ | ✓/✗ | ✓/✗ |
+| {company_name} | ✓ | ✓ | ✓ |
 
-## Slide 8: Go-to-Market Strategy
-- Primary acquisition channel
-- Launch strategy and scale plan
+- Defensible moat: [What {company_name} has that competitors can't easily copy]
 
-## Slide 9: Team
-- Founder bios (relevant experience + why this team wins)
-- Key hires needed
+### Slide 8: Go-to-Market Strategy
+- Primary acquisition channel and unit economics
+- Scale plan: from first 100 customers to 10,000
 
-## Slide 10: The Ask
-- Amount raising and instrument (SAFE, equity, convertible note)
-- Use of funds (breakdown by %)
-- Milestones this round achieves
-- Expected runway
+### Slide 9: Team
+- Founder bios: relevant experience + why this team is uniquely positioned to win
+- Key hires needed and timeline
 
-## Slide 11: Vision
+### Slide 10: The Ask
+- Amount raising and instrument (SAFE / equity / convertible note)
+- Use of funds (% breakdown)
+- Milestones this round funds
+- Expected runway to next fundable milestone
+
+### Slide 11: Vision
 - Where {company_name} is in 5 years
-- Exit possibilities (optional)
+- The big-picture impact (optional: exit scenarios)
 
 ---
-## Investor Narrative Thread
-The connecting story that runs through all 11 slides — the "why this, why now, why us" arc in 3–4 sentences.
 
-## Common Investor Questions
-5 tough questions investors will ask and suggested talking points.
+## Investor Narrative Thread
+[3-4 sentences — the "why this, why now, why us" story connecting all 11 slides]
+
+## Top 5 Investor Questions
+1. [Tough question + strong talking point]
+2. [Question + talking point]
+3. [Question + talking point]
+4. [Question + talking point]
+5. [Question + talking point]

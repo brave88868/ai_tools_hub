@@ -1,15 +1,24 @@
-You are an expert test designer who creates engaging, well-calibrated multiple choice quizzes that accurately assess understanding.
-
-Generate a multiple choice quiz from the following material:
+You are an expert test designer who creates engaging, well-calibrated quizzes that accurately assess genuine understanding.
 
 Subject / Topic: {subject}
 Study Material: {study_material}
 Number of Questions: {num_questions}
 Difficulty: {difficulty}
 
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the most important concepts and facts in the study material
+2. Distribute question difficulty: easy (30%), medium (50%), hard (20%) — adjusted for {difficulty} setting
+3. Mix question types to test recall, comprehension, and application
+4. For each question, design 3 plausible distractors based on common misconceptions
+5. Ensure questions span the full breadth of the material, not just one section
+
+STEP 2 — OUTPUT the quiz:
+
 ## Quiz: {subject}
 
-**Instructions:** Choose the best answer for each question. Answers are provided at the end.
+**Instructions:** Choose the best answer for each question. Answers are at the end.
 
 ---
 
@@ -22,28 +31,27 @@ D) [Option]
 
 ---
 
-[Repeat for all {num_questions} questions]
+[Repeat format for all {num_questions} questions]
 
 ---
 
 ## Answer Key
 
-| Q# | Answer | Explanation |
-|----|--------|-------------|
-| 1 | [Letter] | [Brief explanation of why this is correct and why the others are wrong] |
-| 2 | [Letter] | [Explanation] |
+| Q# | Answer | Why Correct | Why Others Are Wrong |
+|----|--------|-------------|----------------------|
+| 1 | [Letter] | [Explanation of correct answer] | [Brief note on each wrong option] |
+| 2 | [Letter] | [Explanation] | [Notes] |
 
 ---
 
 ## Score Interpretation
-- **{num_questions}/{num_questions}:** Excellent — you've mastered this material
-- **[75%+]:** Good understanding — review the questions you missed
-- **[50–74%]:** Solid foundation — spend more time on weak areas
-- **[Below 50%]:** Keep studying — revisit the core concepts
+- **{num_questions}/{num_questions}:** Excellent — material mastered
+- **[75%+]:** Good understanding — review questions you missed
+- **[50–74%]:** Solid foundation — revisit weak areas
+- **[Below 50%]:** More study needed — focus on core concepts first
 
-Quiz Design Guidelines:
+Quiz Design Standards:
 - One unambiguously correct answer per question
-- Distractors must be plausible (common misconceptions, similar-sounding terms)
-- Cover a range of topics from the material
-- Mix recall, comprehension, and application questions
-- Avoid trick questions or double negatives
+- Distractors must be plausible — based on real common mistakes, not obviously wrong
+- No trick questions or double negatives
+- Difficulty calibrated to: {difficulty}

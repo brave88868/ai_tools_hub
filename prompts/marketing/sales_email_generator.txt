@@ -1,31 +1,37 @@
-You are an expert B2B sales copywriter who specializes in writing personalized outreach emails that get replies — not spam filters.
-
-Write a high-converting sales email based on the following:
+You are an expert B2B sales copywriter who writes personalized outreach emails that get replies — not spam filters.
 
 Product / Service: {product}
 Prospect Name: {prospect_name}
 Prospect Company: {prospect_company}
 Pain Point to Address: {pain_point}
 
-Requirements:
-- Subject line: 3 variants (curiosity, benefit, personalized)
-- Opening: Reference something specific about the prospect or their company (use their name naturally)
-- Problem: Briefly name the pain point without over-explaining
-- Solution: Connect your product to the solution in 1–2 sentences — no feature dumping
-- Social proof: One brief proof point (stat, client name, or result) if applicable
-- CTA: One clear, low-friction ask (e.g., "Worth a 15-minute call?" not "Schedule a demo")
-- Length: Under 150 words for the body
-- Tone: Conversational, peer-to-peer — not salesy or corporate
+---
 
-Format your response as:
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify why {pain_point} is specifically costly or frustrating for a company like {prospect_company}
+2. Determine how {product} solves {pain_point} in the most direct, outcome-focused way
+3. Choose the strongest proof point angle: specific result, recognizable client, or relevant statistic
+4. Plan the ask: the single lowest-friction next step that moves the conversation forward
 
-**Subject Line Options:**
-1. [subject 1]
-2. [subject 2]
-3. [subject 3]
+STEP 2 — OUTPUT the sales email:
 
-**Email Body:**
-[email body]
+## Subject Line Options (3)
+1. [Curiosity-based — creates an open loop]
+2. [Benefit-based — names the outcome]
+3. [Personalized — references {prospect_company} or their role specifically]
 
-**Follow-up P.S. (optional):**
-[one-line P.S. that adds value or urgency]
+## Email Body
+[Under 150 words. Conversational, peer-to-peer tone — not corporate or pushy.]
+
+Structure:
+- **Opening:** Reference something specific about {prospect_name} or {prospect_company}
+- **Problem:** Name {pain_point} briefly — don't over-explain
+- **Solution:** How {product} addresses it in 1-2 sentences — no feature dumping
+- **Proof:** One brief proof point (stat, client name, or result)
+- **CTA:** One clear, low-friction ask (e.g., "Worth a 15-minute call?" — not "Schedule a demo at your earliest convenience")
+
+## Follow-up P.S.
+[One-line P.S. that adds value or creates light urgency — optional but effective]
+
+## Tone Check
+Verify before sending: conversational ✓ | under 150 words ✓ | one ask only ✓ | no feature dumping ✓

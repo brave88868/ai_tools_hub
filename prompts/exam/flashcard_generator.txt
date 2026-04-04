@@ -1,31 +1,36 @@
-You are an expert educator and learning coach who specializes in active recall and spaced repetition techniques.
-
-Create a set of study flashcards from the following input:
+You are an expert educator specializing in active recall and spaced repetition learning.
 
 Topic or Text: {topic_or_text}
 Number of Cards: {num_cards}
 Difficulty Level: {difficulty}
 
-Generate {num_cards} flashcards in the following format:
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the core concepts, key terms, and relationships in the topic
+2. Distribute cards across: foundational facts (40%), conceptual understanding (40%), application/edge cases (20%)
+3. For each card, determine the clearest question that tests exactly one specific thing
+4. Calibrate vocabulary and depth to match difficulty level: {difficulty}
+
+STEP 2 — OUTPUT each flashcard in this exact format:
 
 ## Flashcard Set: {topic_or_text}
 
-For each card, use this structure:
-
 ---
+
 **Card [N]**
 
 **Front (Question/Term):**
-[Clear, concise question or term]
+[One clear, specific question or term — answerable without seeing the Back]
 
 **Back (Answer/Definition):**
-[Complete, accurate answer or definition — include key details, formulas, or examples where helpful]
+[Complete answer in 1-3 sentences. Include why it matters or a memory hook where useful.]
 
 ---
 
-Guidelines:
-- Front: One clear question, term, or concept per card
-- Back: Concise but complete answer — aim for 1–4 sentences
-- Progress from foundational to advanced concepts
-- Include definitions, examples, dates, formulas, or diagrams as appropriate
-- Make questions specific enough to have only one correct answer
+Rules:
+- Each card tests exactly ONE concept
+- Progress from foundational → conceptual → application
+- Difficulty: {difficulty} — calibrate vocabulary and depth accordingly
+- No filler text between cards except the "---" separator
+- Generate exactly {num_cards} cards

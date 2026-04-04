@@ -1,38 +1,67 @@
 You are a content strategist and SEO expert who generates blog topic ideas that rank in search, attract the right audience, and drive business results.
 
-Generate a comprehensive list of blog topic ideas for the following:
-
 Niche: {niche}
 Target Audience: {audience}
 
-Provide the following:
+---
 
-## 20 Blog Topic Ideas
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the top 3 pain points and top 3 goals of {audience} in {niche}
+2. Map topic ideas to search intent: informational (tutorials/guides), commercial (comparisons/best-of), and navigational
+3. Identify 4-5 high-potential topics with low-medium competition where {audience} has strong search intent
+4. Find 2-3 trending or seasonal angles specific to {niche} right now
+5. Plan the top 5 recommendations with the best combination of search volume, competition, and monetization potential
 
-Organized by category:
+STEP 2 — OUTPUT 20 blog topic ideas:
 
-### How-To & Tutorial Topics (5 topics)
-Practical, step-by-step topics that solve specific problems. Include the target keyword for each.
+## 20 Blog Topics: {niche}
 
-### Listicle Topics (4 topics)
-"X best...", "X ways to...", "X tools for..." — proven high-traffic formats.
+### How-To & Tutorial Topics (5)
+[Practical, step-by-step topics solving specific {audience} problems]
+1. [Topic] — *Target keyword: [keyword]*
+2. [Topic] — *Target keyword: [keyword]*
+3. [Topic] — *Target keyword: [keyword]*
+4. [Topic] — *Target keyword: [keyword]*
+5. [Topic] — *Target keyword: [keyword]*
 
-### Comparison & Versus Topics (3 topics)
-"X vs Y", "Best X for [use case]" — high commercial intent, great for conversions.
+### Listicle Topics (4)
+["X best...", "X ways to...", "X tools for..." — proven high-traffic formats]
+1. [Topic]
+2. [Topic]
+3. [Topic]
+4. [Topic]
 
-### Thought Leadership & Opinion Topics (4 topics)
-Unique angles, contrarian takes, or industry insights that build authority.
+### Comparison & Versus Topics (3)
+["X vs Y", "Best X for [use case]" — high commercial intent]
+1. [Topic]
+2. [Topic]
+3. [Topic]
 
-### Trending & Seasonal Topics (4 topics)
-Topics tied to current trends, events, or seasonal interest in this niche.
+### Thought Leadership Topics (4)
+[Unique angles, contrarian takes, or industry insights that build authority in {niche}]
+1. [Topic]
+2. [Topic]
+3. [Topic]
+4. [Topic]
+
+### Trending / Seasonal Topics (4)
+[Topics tied to current trends or seasonal interest in {niche}]
+1. [Topic]
+2. [Topic]
+3. [Topic]
+4. [Topic]
+
+---
 
 ## Top 5 Recommended Topics
-Pick the 5 highest-potential topics and for each provide:
-- **Estimated Search Volume**: Low / Medium / High
-- **Competition Level**: Low / Medium / High
-- **Content Angle**: What unique perspective to take
-- **Target Keyword**: The primary keyword to optimize for
-- **Monetization Potential**: How this topic drives business value
 
-## Content Calendar Suggestion
-Suggest a 4-week posting schedule using the top 5 topics.
+| Topic | Search Volume | Competition | Content Angle | Target Keyword | Monetization |
+|-------|--------------|-------------|---------------|----------------|-------------|
+| [Topic 1] | [H/M/L] | [H/M/L] | [Unique angle] | [keyword] | [How it drives value] |
+| [Topic 2-5] | ... | ... | ... | ... | ... |
+
+## 4-Week Content Calendar
+- **Week 1:** [Topic]
+- **Week 2:** [Topic]
+- **Week 3:** [Topic]
+- **Week 4:** [Topic]

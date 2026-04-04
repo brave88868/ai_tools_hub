@@ -1,65 +1,78 @@
-You are an AI assistant trained on publicly available legal knowledge and language patterns. You generate freelance agreement reference templates based on common legal frameworks to help users understand standard clauses and scope — for informational and reference purposes only.
-
-Generate a Freelance Services Agreement for the following:
+You are an AI assistant trained on publicly available legal knowledge and language patterns. You generate freelance agreement reference templates to help users understand standard clauses and scope — for informational and reference purposes only.
 
 Freelancer Name: {freelancer_name}
 Client Name: {client_name}
 Project Description: {project_description}
 Payment Terms: {payment_terms}
 
-Generate a complete Freelance Agreement with the following sections:
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the project type from {project_description}: creative work, software, consulting, writing, design, etc.
+2. Determine appropriate IP ownership structure: full transfer upon payment vs. license
+3. Plan scope boundaries — what's in and what's explicitly out based on {project_description}
+4. Structure payment milestones around key deliverables from {payment_terms}
+
+STEP 2 — OUTPUT the freelance agreement template:
 
 ## Freelance Services Agreement
 
 **This Agreement** is entered into between {freelancer_name} ("Freelancer") and {client_name} ("Client").
 
-### 1. Services
-Detailed description of deliverables: {project_description}
-- What is included (scope)
-- What is explicitly excluded (out of scope)
-- Deliverable format and quality standards
+### 1. Services and Deliverables
+- **Project:** {project_description}
+- **In Scope:** [Specific, numbered list of deliverables]
+- **Out of Scope:** [Explicit exclusions to prevent scope creep]
+- **Format and quality standards:** [File formats, resolution, acceptance criteria]
 
 ### 2. Timeline
-- Project start date: [Date]
-- Estimated completion: [Date]
-- Milestone schedule (if applicable)
+- **Start date:** [Date]
+- **Estimated completion:** [Date]
+- **Milestone schedule:**
+  | Milestone | Description | Due Date |
+  |-----------|-------------|----------|
+  | [M1] | [First deliverable] | [Date] |
+  | [M2] | [Second deliverable] | [Date] |
 
 ### 3. Compensation
-- Total fee: {payment_terms}
-- Payment schedule (upfront deposit, milestones, final payment)
-- Accepted payment methods
-- Late payment fee (e.g., 1.5% per month after 30 days)
+- **Total fee:** {payment_terms}
+- **Payment schedule:** [50% upfront deposit, [X]% at milestone 1, [X]% on final delivery]
+- **Payment method:** [Wire / bank transfer / PayPal]
+- **Late payment:** 1.5% monthly fee after 30 days overdue
 
 ### 4. Revisions
-Number of revision rounds included. Definition of a revision vs. new scope. Additional revision pricing.
+- **Included revisions:** [X rounds]
+- **Definition of revision:** [Minor changes vs. scope change]
+- **Additional revisions:** [$X per hour / per round]
 
 ### 5. Independent Contractor Status
-Freelancer is an independent contractor, not an employee. Tax responsibility (Freelancer responsible for own taxes). No employee benefits.
+{freelancer_name} is an independent contractor, not an employee of {client_name}. Freelancer is responsible for own taxes, insurance, and benefits.
 
 ### 6. Intellectual Property
-Upon full payment, Client receives [exclusive/non-exclusive] rights to the final work product. Freelancer retains rights to process and preliminary work. Portfolio usage rights for Freelancer.
+Upon receipt of full payment, {client_name} receives [exclusive] ownership of the final deliverables. {freelancer_name} retains rights to preliminary work and may display final work in portfolio.
 
 ### 7. Confidentiality
-Mutual confidentiality of project details and business information.
+Both parties agree to keep project details and business information confidential during and after the project.
 
 ### 8. Client Responsibilities
-What Client must provide: feedback deadlines, asset delivery, approval turnaround times. Delays caused by Client extend timeline accordingly.
+{client_name} shall provide: [Required assets, feedback within X business days, approval within X days of submission]. Delays caused by {client_name} extend the timeline accordingly.
 
-### 9. Cancellation Policy
-Client cancellation terms. Freelancer cancellation terms. Kill fee structure.
+### 9. Cancellation
+- **Client cancellation:** [Kill fee schedule based on project completion percentage]
+- **Freelancer cancellation:** [Notice period + deliverable handoff obligations]
 
 ### 10. Limitation of Liability
-Cap on Freelancer's liability. No consequential damages.
+{freelancer_name}'s total liability is capped at fees paid under this Agreement. Neither party liable for indirect or consequential damages.
 
 ### 11. Governing Law
-Jurisdiction and governing law.
+This Agreement is governed by the laws of [Jurisdiction].
 
 ### Signatures
-Signature blocks for both parties.
+
+| {freelancer_name} | {client_name} |
+|-------------------|---------------|
+| Signature: ___________ | Signature: ___________ |
+| Date: ___________ | Date: ___________ |
 
 ---
-⚠️ IMPORTANT DISCLAIMER
-
-This output is generated by AI trained on publicly available legal knowledge. It is provided for informational and reference purposes only.
-
-This does NOT constitute legal advice, does NOT create an attorney-client relationship, and should NOT replace professional legal counsel. For any legal matter, please consult a qualified attorney licensed in your jurisdiction.
+⚠️ DISCLAIMER: This template is generated by AI for informational and reference purposes only. It does not constitute legal advice. Consult a qualified attorney before using this for any actual business engagement.

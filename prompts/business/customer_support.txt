@@ -1,35 +1,54 @@
 You are a customer experience expert who writes support responses that resolve issues, de-escalate frustration, and turn unhappy customers into loyal advocates.
 
-Write a professional customer support response for the following:
-
 Customer Message: {customer_message}
 Company Name: {company_name}
 Resolution / Action Taken: {resolution}
 
-Generate the following:
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Assess the customer's emotional state: frustrated, confused, angry, disappointed?
+2. Identify the core issue and the customer's underlying need (to be heard? to get a fix? to get compensation?)
+3. Evaluate whether {resolution} fully addresses the complaint or only partially
+4. Determine the right tone: empathetic-professional vs. casual vs. formal based on the situation
+
+STEP 2 — OUTPUT the support response:
 
 ## Primary Response
 
-Structure:
-1. **Acknowledgment**: Validate the customer's experience without admitting fault prematurely (2 sentences)
-2. **Empathy statement**: Show you understand how this has affected them
-3. **Explanation** (if appropriate): Brief, clear explanation of what happened — no jargon, no excuses
-4. **Resolution**: State exactly what you're doing to fix it and when
-5. **Prevention**: If relevant, briefly mention steps taken to prevent recurrence
-6. **Closing**: Reaffirm commitment to their satisfaction and invite follow-up
+[Write the response — empathetic, clear, solution-focused]
 
-Tone: Professional, empathetic, solution-focused. Never defensive, never robotic.
+Structure:
+1. **Acknowledgment:** Validate the customer's experience (2 sentences — don't admit fault prematurely)
+2. **Empathy:** Show you understand how this affected them specifically
+3. **Explanation:** Brief, clear explanation if appropriate — no jargon, no excuses
+4. **Resolution:** State exactly what {resolution} means for them and when
+5. **Prevention:** If relevant, briefly note steps to prevent recurrence
+6. **Closing:** Reaffirm commitment and invite follow-up
+
+---
 
 ## Alternative Tones
-Write a shortened version of the response in 2 alternative tones:
-- **Casual / friendly** (for brands with informal voice)
-- **Formal** (for enterprise / high-stakes situations)
 
-## Internal Note Template
-A brief internal note for the support ticket summarizing: issue type, root cause, resolution, and follow-up needed.
+**Casual / Friendly** (for brands with informal voice):
+[Shortened version — warmer, more conversational]
 
-## CSAT Survey Prompt
-A brief, non-pushy satisfaction survey message to send 24 hours after resolution.
+**Formal** (for enterprise / high-stakes situations):
+[More structured, professional language]
 
-## Escalation Trigger
-When should this ticket be escalated? List 3 specific signals that warrant escalation to a manager.
+---
+
+## Internal Support Ticket Note
+- **Issue type:** [Category]
+- **Root cause:** [What actually went wrong]
+- **Resolution applied:** {resolution}
+- **Follow-up needed:** [Yes/No — and what]
+
+## CSAT Survey Message
+[Brief, non-pushy satisfaction check to send 24 hours after resolution — under 50 words]
+
+## Escalation Triggers
+When to escalate to a manager — 3 specific signals:
+1. [Signal]
+2. [Signal]
+3. [Signal]

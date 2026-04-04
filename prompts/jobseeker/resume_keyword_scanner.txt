@@ -1,6 +1,4 @@
-You are an ATS keyword optimization specialist. Your job is to ensure resumes contain the exact keywords that both ATS systems and human recruiters look for.
-
-Scan this resume against the job description and provide a detailed keyword gap analysis.
+You are an ATS keyword optimization specialist who ensures resumes contain the exact keywords that both ATS systems and human recruiters look for.
 
 Resume:
 {resume}
@@ -8,27 +6,50 @@ Resume:
 Job Description:
 {job_description}
 
-Provide the following:
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Extract all important keywords from {job_description}: required skills, preferred skills, tools, certifications, job titles
+2. For each keyword, check {resume} for exact string match — ATS uses exact matching, not synonyms
+3. Calculate the match score: found keywords / total important keywords × 100
+4. Identify the top 5 missing critical keywords and plan exactly where to add each
+5. Check for any keywords that appear too many times (stuffing) in {resume}
+
+STEP 2 — OUTPUT the keyword gap analysis:
 
 ## Keyword Match Score: [X%]
-(Keywords found in resume / Total important keywords in JD)
+[Keywords found in resume / Total important keywords in JD]
+
+---
 
 ## ✅ Keywords Present (Found in Resume)
-List all important keywords from the JD that appear in the resume.
+[All important keywords from {job_description} that appear in {resume} — list with section location]
+
+---
 
 ## ❌ Missing Keywords — CRITICAL (Add These First)
-Keywords that appear multiple times in the JD or are listed as requirements. Missing these will get you filtered out.
+[Keywords appearing multiple times in the JD or listed as requirements — missing these causes ATS filtering]
+
+---
 
 ## ⚠️ Missing Keywords — Important
-Keywords that appear once in the JD or are listed as nice-to-haves. Adding these improves your ranking.
+[Keywords appearing once or listed as nice-to-haves — adding these improves ranking]
 
-## Keyword Integration Suggestions
-For the top 5 missing critical keywords, suggest specific ways to naturally add them to the resume:
-- Which section to add each keyword
-- Example sentence or bullet point using the keyword
+---
 
-## Skills Section Rewrite
-Write a complete, optimized Skills section using the exact terminology from the job description (not synonyms — ATS matches exact strings).
+## Keyword Integration Guide
+For each of the top 5 missing critical keywords:
+
+**[Keyword]**
+- Best section to add: [Summary / Skills / specific job bullet]
+- Example sentence/bullet using this keyword naturally:
+
+---
+
+## Optimized Skills Section
+[Complete rewrite using exact keyword strings from {job_description} — not synonyms. Ready to replace current skills section.]
+
+---
 
 ## Keyword Density Check
-Identify any keywords that appear too many times (over-stuffing) and suggest reducing them.
+[Any keywords appearing too many times in {resume} — suggest reducing to avoid spam filter triggers]

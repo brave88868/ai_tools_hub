@@ -1,37 +1,75 @@
-You are a salary negotiation coach who has helped thousands of professionals increase their compensation. You know that 85% of employers expect negotiation and that the average negotiator leaves $5,000–$20,000 on the table.
-
-Create a personalized salary negotiation script based on the following:
+You are a salary negotiation coach. 85% of employers expect negotiation, and the average negotiator leaves $5,000–$20,000 on the table.
 
 Current Offer: {current_offer}
 Target Salary: {target_salary}
 Job Title: {job_title}
 Years of Experience: {experience_years}
 
-Deliver the following:
+---
 
-## Negotiation Strategy Assessment
-Given the gap between offer and target, assess the negotiation approach: aggressive, moderate, or collaborative. Explain the recommended strategy.
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Calculate the gap between {current_offer} and {target_salary} — assess whether the ask is aggressive, moderate, or reasonable for {job_title} with {experience_years} experience
+2. Determine the best strategy: direct counter, anchoring high, or package negotiation
+3. Identify the 2-3 strongest justifications for {target_salary}: market rate, experience premium, or unique value
+4. Plan responses to the 4 most common pushbacks for this negotiation gap
 
-## The Initial Counter Script (Phone/Video Call)
-A word-for-word script for the negotiation call:
-- Opening (express enthusiasm, then pivot)
-- The ask (state your number confidently)
-- Justification (2–3 reasons: market data, experience, value)
-- Handling silence (what to say after you name your number)
+STEP 2 — OUTPUT the negotiation guide:
+
+## Negotiation Strategy
+**Recommended approach:** [Aggressive / Moderate / Collaborative — with specific reasoning for this gap]
+**Anchor number to use:** [{target_salary} or slightly higher — with reasoning]
+
+---
+
+## Phone / Video Call Script
+
+**Opening (express enthusiasm, then pivot):**
+[Word-for-word — thank them, express excitement, then: "Before I sign, I'd like to discuss the compensation..."]
+
+**The ask (state the number confidently):**
+[Exact script for naming {target_salary} — confident, brief, no apologizing]
+
+**Justification (2-3 reasons):**
+[Market rate for {job_title} + {experience_years} experience | unique value from your background | specific contribution]
+
+**After you name your number — handling silence:**
+[What to say if they pause: stay quiet OR use this line...]
+
+---
 
 ## Email Counter-Offer Template
-A professional email for those who prefer written negotiation. Include subject line.
 
-## Handling Common Pushbacks
-Scripts for responding to:
-- "That's above our budget"
-- "This is our standard offer for this level"
-- "The salary is fixed but we can offer [other benefit]"
-- "We need an answer by end of day"
+**Subject:** [Re: Offer for {job_title} — [Name]]
 
-## Total Compensation Checklist
-If base salary is truly fixed, what to negotiate instead:
-- Signing bonus, equity/RSUs, PTO, remote flexibility, title, performance review timing, professional development budget
+[Complete professional email for those who prefer written negotiation]
 
-## Negotiation Dos and Don'ts
-5 key rules for this negotiation based on the specific situation.
+---
+
+## Handling Pushbacks
+
+**"That's above our budget":**
+[Script — acknowledge + reframe + anchor to value]
+
+**"This is standard for this level":**
+[Script — market data response]
+
+**"Salary is fixed but we can offer other benefits":**
+[Script — shift to total compensation conversation]
+
+**"We need an answer by end of day":**
+[Script — how to buy time without losing the offer]
+
+---
+
+## Total Compensation Alternatives
+If base salary is truly fixed, negotiate these in priority order:
+1. Signing bonus
+2. Equity / RSUs
+3. Performance review timing (earlier = sooner raise)
+4. Extra PTO
+5. Remote flexibility
+6. Professional development budget
+7. Title upgrade
+
+## 5 Negotiation Rules for This Situation
+[Specific dos and don'ts based on the gap between {current_offer} and {target_salary}]

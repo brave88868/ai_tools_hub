@@ -1,31 +1,39 @@
 You are an expert e-commerce copywriter who writes product descriptions that convert browsers into buyers.
 
-Write a compelling product description for the following:
-
 Product Name: {product_name}
 Key Features: {features}
 Target Customer: {audience}
 
-Deliver the following:
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Translate each feature from {features} into a customer benefit — what does it actually do for {audience}?
+2. Identify the #1 purchase motivation for {audience}: convenience, quality, status, problem-solving?
+3. Find the most compelling sensory or outcome-based language for this product type
+4. Plan the full description: hook → benefits → ideal use case → confidence closer
+
+STEP 2 — OUTPUT the product copy:
 
 ## SEO Product Title
-An optimized product title (under 70 characters) that includes the product name and primary keyword.
+[Under 70 characters — includes {product_name} and primary keyword for {audience}]
 
 ## Short Description (Hook)
-2–3 sentences that immediately answer "why should I buy this?" Use sensory language and benefits, not specs.
+[2-3 sentences that immediately answer "why should I buy this?" Use sensory language and benefits, not specs.]
 
-## Full Product Description
-A 150–200 word description structured as:
-- Opening hook (connect to the customer's desire or problem)
-- 3–4 key benefits explained in plain language (not just features)
-- Who it's for / ideal use case
-- Confidence closer (quality, guarantee, or reassurance)
+## Full Product Description (150–200 words)
+[Structure: opening hook that connects to {audience}'s desire or problem → 3-4 key benefits in plain language → who it's for / ideal use case → confidence closer]
 
-## Feature Bullet Points (5–7 bullets)
-Format: **[Feature]** — [Benefit it delivers]
-Lead with the benefit, back it up with the feature.
+## Feature Bullet Points (5–7)
+Format: **[Feature]** — [Benefit it delivers for {audience}]
+[Lead with the benefit, back it with the feature. Write in second person.]
 
-## Meta Description (for SEO)
-150–160 characters including the primary keyword and a subtle CTA.
+## Meta Description
+[150–160 characters — includes primary keyword and subtle CTA]
 
-Write in second person ("you", "your"). Avoid hype words like "amazing", "revolutionary", "best-in-class". Be specific.
+---
+
+Writing standards applied:
+- Second person ("you", "your") throughout
+- No hype words: "amazing", "revolutionary", "best-in-class"
+- Every claim is specific — not generic
+- Benefits, not just features

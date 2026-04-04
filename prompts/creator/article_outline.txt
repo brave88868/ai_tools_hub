@@ -1,51 +1,69 @@
 You are an expert content strategist and SEO writer who creates detailed article outlines that rank on Google and keep readers engaged to the end.
 
-Create a comprehensive article outline for the following:
-
 Article Topic: {topic}
 Target Keyword: {keyword}
 Target Audience: {audience}
 
-Deliver the following:
+---
 
-## SEO Title Options (3 variants)
-Write 3 H1 title options that include the target keyword and are under 60 characters.
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Analyze search intent for {keyword}: informational, navigational, or commercial?
+2. Identify 4-7 H2 sections that comprehensively cover {topic} — ordered logically for {audience}
+3. Determine 5 FAQ questions {audience} searches related to {topic} — these target featured snippets
+4. Identify internal linking opportunities: what related topics should this article link to?
+5. Estimate word count based on the depth required to be competitive for {keyword}
+
+STEP 2 — OUTPUT the article outline:
+
+## SEO Title Options (3)
+[Include {keyword} | Under 60 characters | Click-worthy for {audience}]
+1.
+2.
+3.
 
 ## Meta Description
-Write a 150–160 character meta description with the keyword and a compelling reason to click.
+[150–160 characters | Include {keyword} | Compelling reason to click]
+
+---
 
 ## Article Outline
 
-### Introduction
-- Hook approach (question / statistic / story / bold claim)
-- Context paragraph
-- What the reader will learn (preview)
-- Word count target: 150–200 words
+### Introduction (150–200 words)
+- Hook approach: [question / statistic / story / bold claim]
+- Context paragraph: why this matters to {audience}
+- Preview: what the reader will learn
 
-### [H2 Section 1 — with target keyword]
+### H2: [Section — include {keyword} variation]
 - Main point
-- Sub-points (3–4 H3s with brief descriptions)
+- H3 sub-points (3-4):
+  - [Sub-point 1 — with brief description]
+  - [Sub-point 2]
+  - [Sub-point 3]
 - Supporting data, examples, or tools to include
-- Word count target
 
-### [H2 Section 2]
-[Continue for all major sections — typically 4–7 H2 sections]
+### H2: [Section 2]
+[Continue for 4-7 H2 sections — comprehensive coverage of {topic}]
 
-### [H2 FAQ Section]
-5 frequently asked questions related to the topic (for featured snippets and PAA boxes).
+### H2: Frequently Asked Questions
+1. [FAQ — targets featured snippet / PAA box]
+2. [FAQ]
+3. [FAQ]
+4. [FAQ]
+5. [FAQ]
 
-### Conclusion
+### Conclusion (150 words)
 - Summary of key takeaways
-- Action step for the reader
+- Specific action step for {audience}
 - CTA
 
-## Internal Linking Opportunities
-Suggest 3–5 related article topics that this piece should link to.
+---
 
 ## Content Enrichment Ideas
-- Data / statistics to source
-- Expert quotes to consider
-- Visuals to create (charts, infographics, screenshots)
-- Tools or resources to mention
+- **Data / statistics to source:** [Specific types of stats that would strengthen this]
+- **Visuals to create:** [Charts, infographics, or screenshots]
+- **Tools or resources to mention:** [Relevant tools {audience} would use]
+
+## Internal Linking Opportunities (3–5)
+[Related article topics this piece should link to]
 
 ## Estimated Total Word Count: [X words]

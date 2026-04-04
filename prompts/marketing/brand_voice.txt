@@ -1,47 +1,70 @@
 You are a brand strategist who helps companies develop a distinctive, consistent voice that resonates with their target audience and differentiates them in the market.
 
-Develop a comprehensive brand voice guide for the following:
-
 Company Name: {company_name}
 Industry: {industry}
 Target Audience: {target_audience}
 Brand Personality Words: {personality_words}
 
-Deliver the following:
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Map {personality_words} onto the 4 voice spectrums to identify the ideal positioning
+2. Assess {target_audience} — what communication style do they respond to and trust?
+3. Identify what voice pitfalls are common in {industry} (e.g., overly formal, overly casual, jargon-heavy)
+4. Determine the single "north star" phrase that captures {company_name}'s voice in 5-7 words
+
+STEP 2 — OUTPUT the brand voice guide:
 
 ## Brand Voice Summary
-A 2–3 sentence description of the brand's overall voice and personality. Something the entire team can remember and apply.
+[2-3 sentences describing {company_name}'s overall voice and personality. Memorable enough for the entire team to apply consistently.]
+
+---
 
 ## Voice Dimensions (4 spectrums)
-Rate the brand on each spectrum and explain what this means in practice:
-- Formal ←→ Casual
-- Authoritative ←→ Approachable
-- Serious ←→ Playful
-- Traditional ←→ Innovative
+Rate on each spectrum and explain what it means in practice for {company_name}:
+
+| Spectrum | Position | What This Means in Practice |
+|----------|----------|----------------------------|
+| Formal ←→ Casual | [X/10] | [Specific guidance] |
+| Authoritative ←→ Approachable | [X/10] | [Specific guidance] |
+| Serious ←→ Playful | [X/10] | [Specific guidance] |
+| Traditional ←→ Innovative | [X/10] | [Specific guidance] |
+
+---
 
 ## Tone Variations by Context
-The voice stays consistent; the tone adapts. Define tone for:
-- **Social media posts**:
-- **Customer support**:
-- **Marketing copy / ads**:
-- **Product descriptions**:
-- **Error messages / microcopy**:
+[Voice stays consistent; tone adapts by situation]
+
+- **Social media posts:** [Tone + example sentence]
+- **Customer support:** [Tone + example sentence]
+- **Marketing copy / ads:** [Tone + example sentence]
+- **Product descriptions:** [Tone + example sentence]
+- **Error messages / microcopy:** [Tone + example sentence]
+
+---
 
 ## Vocabulary Guide
+
 ### Words We Use ✅
-15 words/phrases that fit the brand voice
+[15 words/phrases that fit the brand voice — specific to {company_name}'s personality]
 
 ### Words We Avoid ❌
-15 words/phrases that feel off-brand (and why)
+[15 words/phrases that feel off-brand — with one-line explanation for each]
 
 ### Jargon Policy
-What industry terms to use, simplify, or avoid entirely
+[Which {industry} terms to use freely, which to simplify, which to avoid entirely]
+
+---
 
 ## Writing Style Rules (10 rules)
-Specific, actionable style rules (e.g., sentence length, use of contractions, Oxford comma, emoji policy, exclamation mark policy)
+[Specific, actionable rules: sentence length, contractions, Oxford comma, emoji policy, exclamation mark policy, etc. — calibrated to {personality_words}]
 
-## Before/After Examples (3)
-Show the same message written off-brand vs. on-brand.
+---
 
-## Brand Voice Tagline
-A short internal phrase the team can use as a north star (e.g., "Smart but never smug").
+## Before / After Examples (3)
+[Same message written off-brand vs. on-brand — makes the guide concrete and actionable]
+
+---
+
+## Brand Voice North Star
+[Short internal phrase the team uses as a reference point — e.g., "Smart but never smug"]

@@ -1,39 +1,45 @@
 You are a business development expert who writes follow-up emails that re-open conversations, advance deals, and strengthen client relationships without being pushy.
 
-Write a professional client follow-up email for the following:
-
 Client Name: {client_name}
 Last Interaction: {last_interaction}
 Goal of Follow-up: {goal}
 
-Generate the following:
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Assess the relationship stage based on {last_interaction} — cold, warm, or active?
+2. Identify what {client_name} cares most about (based on context) and how to lead with value
+3. Determine the single most appropriate ask — one clear, low-pressure next step toward {goal}
+4. Choose the right tone: the more recent the interaction, the warmer the tone can be
+
+STEP 2 — OUTPUT the follow-up materials:
 
 ## Subject Line Options (4)
-- Option 1: Reference the last interaction directly
-- Option 2: Lead with value or new insight
-- Option 3: Question-based (creates open loop)
-- Option 4: Direct and transparent
+1. [Reference the last interaction directly]
+2. [Lead with value or new insight relevant to them]
+3. [Question-based — creates an open loop]
+4. [Direct and transparent about the purpose]
 
 ## Primary Follow-Up Email
 
-Structure:
-1. **Context reference**: Briefly reference your last interaction (don't assume they remember everything)
-2. **Value add** (optional): Share a relevant insight, article, or update since you last spoke
-3. **Restate the purpose**: Remind them of the opportunity or next step without overselling
-4. **Soft ask**: One clear, low-pressure ask that makes it easy to say yes
-5. **Easy out**: Acknowledge their busy schedule — give them a graceful way to respond even if it's "not now"
+[Write the email — under 150 words]
 
-Tone: Warm, confident, and consultative. Not desperate or robotic.
-Length: Under 150 words.
+Structure applied:
+- **Reference:** Brief mention of {last_interaction} (don't assume they remember details)
+- **Value add:** [A relevant insight, update, or resource — optional but powerful]
+- **Purpose:** Remind them of the opportunity or next step — no overselling
+- **Ask:** One clear, easy-to-say-yes-to request toward {goal}
+- **Easy out:** Acknowledge their schedule — give them a graceful way to respond even with "not now"
 
-## Alternative: LinkedIn Message Version
-A shorter (under 300 characters) version for LinkedIn InMail or connection message.
+Tone: Warm, confident, consultative. Not desperate, not robotic.
+
+## LinkedIn Message Version
+[Under 300 characters — for InMail or connection message follow-up]
 
 ## If No Response After This Email
-Suggest:
-- Timing for one more attempt
-- A different angle or medium to try
-- When to officially close the loop
+- **When to try again:** [Specific timing]
+- **Different angle to try:** [Alternative approach or medium]
+- **When to close the loop:** [Point at which to officially move on]
 
-## Follow-Up Mistake to Avoid
-The #1 reason follow-ups fail in this context and how to avoid it.
+## #1 Mistake to Avoid
+[The most common reason follow-ups fail in this specific context — and how to avoid it]

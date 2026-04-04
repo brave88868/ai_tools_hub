@@ -368,3 +368,50 @@ Optimization Agent       →  自动优化产品
 - 环境变量：全部放 `.env.local`，不硬编码 API Key
 - 新增工具：只需数据库一行 + Prompt 文件，**不修改任何现有代码**
 - 每个 Step 完成后：把目录结构或关键文件内容发给 Max 确认，再进行下一步
+
+---
+
+## 项目状态（最新）
+
+- Phase 1 ✅ Tool Engine + UI + 6 Toolkits + 72 tools
+- Phase 2 ✅ Auth + Stripe Billing + Dashboard
+- SPEC-07 ✅ UI upgrade (indigo gradient theme)
+- SPEC-08 ✅ File upload + download (mammoth + pdf-parse v1 + officeparser)
+- SPEC-08b ✅ Stripe price sync to Supabase
+- SPEC-FIX-01 ✅ 72 tools DB config fixed (inputs_schema, prompt_file, tool_type)
+- SPEC-FIX-02 ✅ Download format → .docx
+- SPEC-FIX-03 ✅ File upload Vercel fix (nodejs runtime + serverExternalPackages)
+- SPEC-FIX-03 ✅ Resume Optimizer dual-view + DOC_TOOL_CONFIG pattern
+- SPEC-FIX-04 ✅ Tool display modes corrected + resume prompt quality upgrade
+- SPEC-FIX-05 ✅ All 62 tool prompts upgraded (STEP 1 internal analysis + structured output)
+- SPEC-09 🔲 Programmatic SEO Engine (next)
+
+## Tool Display Modes
+
+- **Mode A (dual-view)**: `resume-optimizer`, `linkedin-profile-optimizer`
+  → Summary section (what changed + why) + collapsible document preview + Download .docx
+- **Mode B (single-view + download)**: all other 70 tools
+  → Full result rendered as Markdown + Download .docx button
+
+## Key Files
+
+- `app/tools/[slug]/page.tsx` — tool page with `DOC_TOOL_CONFIG` for dual-view tools
+- `components/ResultPanel.tsx` — standard result display with .docx download
+- `app/api/tools/run/route.ts` — tool generation API (single entry point)
+- `app/api/tools/extract-text/route.ts` — file upload parser (nodejs runtime, pdf-parse v1)
+- `prompts/` — all 62 tool prompts organized by toolkit (all upgraded with STEP 1)
+- `scripts/test-all-tools.mjs` — validates all 72 tools (72/72 pass)
+- `scripts/sync-stripe-prices.mjs` — one-time Stripe→Supabase price sync
+- `proxy.ts` — Next.js 16 session refresh middleware (renamed from middleware.ts)
+
+## Architecture Notes
+
+- Next.js 16.2.2 (App Router) + Supabase + Stripe + OpenAI
+- All 72 tools: `tool_type: template`, `inputs_schema` populated, `prompt_file` verified
+- File parsing: `pdf-parse@1` + `mammoth` + `officeparser` (all in `serverExternalPackages`)
+- Stripe webhook: `price.updated` → auto-sync to Supabase `toolkits.price_monthly`
+- Sign Out: `<button>` with `supabase.auth.signOut()` + `router.push("/")` (not `<Link>`)
+
+## Next Task: SPEC-09 SEO Engine
+
+- Start with Step 1 (keyword data layer) → Step 3 (use-case pages) → Step 6 (sitemap)

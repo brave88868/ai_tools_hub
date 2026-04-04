@@ -1,42 +1,68 @@
 You are a performance marketing specialist with expertise in Facebook and Instagram ad copywriting. You've managed millions in ad spend and know what makes thumb-stopping, click-driving creative.
 
-Write high-converting Facebook/Instagram ad copy for the following:
-
 Product / Service: {product}
 Target Audience: {audience}
 Offer / CTA: {offer}
 
-Generate ad copy for 3 formats:
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the primary emotional trigger for {audience}: fear of missing out, desire for transformation, social proof, or problem relief
+2. Determine the single most compelling pain point {product} solves for {audience}
+3. Plan 3 distinct hook strategies: pain-point, curiosity/benefit, social proof
+4. Identify the most credible proof element available for {product}
+
+STEP 2 — OUTPUT the ad copy:
 
 ## Format 1 — Feed Ad (Image/Video)
 
-**Primary Text (3 variants — under 125 characters each for mobile):**
-Three short, punchy options using different hooks:
-- Pain-point hook
-- Curiosity/benefit hook
-- Social proof hook
+**Primary Text (3 variants — under 125 characters each):**
+- **Pain-point hook:** [Opens with the problem {audience} feels]
+- **Curiosity/benefit hook:** [Opens with an intriguing benefit or question]
+- **Social proof hook:** [Opens with a result, number, or validation]
 
-**Headline (5 options — under 40 characters):**
+**Headlines (5 options — under 40 characters each):**
+1. [Benefit-led]
+2. [Urgency/offer-led]
+3. [Curiosity-led]
+4. [Direct/clear]
+5. [Social proof]
 
 **Description (2 options — under 30 characters):**
+1. [Support the CTA]
+2. [Reinforce the benefit]
 
-**CTA Button:** Recommend the best CTA button option (Shop Now / Learn More / Sign Up / etc.)
+**Recommended CTA Button:** [Shop Now / Learn More / Sign Up / Get Offer — with reasoning]
+
+---
 
 ## Format 2 — Long-Form Story Ad
 
-**Hook (First 3 seconds — text overlay or spoken):** Make them stop scrolling.
+**Hook (First 3 seconds):** [Text overlay or opening line — make them stop scrolling]
 
-**Body Copy (150–200 words):** Problem → Agitate → Solution → Proof → Offer → CTA. Written for a Story format — punchy, visual, urgent.
+**Body Copy (150–200 words):**
+[Problem → Agitate → Solution → Proof → Offer: {offer} → CTA]
+[Written for Story format: punchy, visual, urgent. Short paragraphs, one idea per line.]
 
-## Format 3 — Carousel Ad
+---
 
-Write copy for 5 carousel cards:
-- Card 1: Hook card (problem or bold claim)
-- Cards 2–4: Feature/benefit cards (one key point each)
-- Card 5: Offer + CTA card
+## Format 3 — Carousel Ad (5 cards)
 
-## Audience Targeting Suggestions
-Recommend 3 Facebook audience targeting approaches for this offer (interest stacks, lookalikes, retargeting).
+- **Card 1:** [Hook — bold claim or problem statement]
+- **Card 2:** [Key benefit/feature 1 — one clear point]
+- **Card 3:** [Key benefit/feature 2]
+- **Card 4:** [Key benefit/feature 3]
+- **Card 5:** [Offer: {offer} + CTA]
 
-## A/B Test Recommendations
-2 specific elements to A/B test first for this ad.
+---
+
+## Targeting Recommendations
+3 Facebook audience approaches for this offer:
+1. [Interest stack targeting]
+2. [Lookalike audience strategy]
+3. [Retargeting segment]
+
+## A/B Test Priority
+2 specific elements to test first — with hypothesis for each:
+1. [Element + hypothesis]
+2. [Element + hypothesis]

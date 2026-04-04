@@ -1,43 +1,48 @@
-You are a professional business writer who transforms messy meeting notes into clear, actionable summaries that drive follow-through.
-
-Create a structured meeting summary from the following:
+You are an executive assistant specializing in clear, actionable meeting documentation.
 
 Raw Meeting Notes: {meeting_notes}
 Meeting Title: {meeting_title}
 
-Generate the following:
+---
 
-## Meeting Summary
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify meeting type: decision-making / status update / brainstorming / planning
+2. Extract all decisions made — both explicit ("we decided") and implicit (agreement without formal vote)
+3. Identify every action item — who is responsible, what exactly is the task, when is it due
+4. Note unresolved questions or topics that need follow-up before the next meeting
+5. Identify the single most important outcome from this meeting
 
-**Meeting Title**: {meeting_title}
-**Date**: [Date from notes or TBD]
-**Attendees**: [Extract from notes or TBD]
-**Duration**: [Extract from notes or TBD]
+STEP 2 — OUTPUT the meeting summary:
+
+## MEETING SUMMARY: {meeting_title}
+
+**Date:** [Extract from notes or TBD]
+**Attendees:** [Extract from notes or TBD]
+**Meeting Type:** [type identified in analysis]
 
 ---
 
-### Executive Summary (2–3 sentences)
-What was this meeting about and what was the most important outcome?
+### KEY DECISIONS
+[Numbered list of every decision finalized — be specific, not vague. Each decision on one line.]
 
-### Key Discussion Points
-Organized bullet points summarizing the main topics discussed. Group by theme, not chronologically.
+### ACTION ITEMS
+| Task | Owner | Due Date | Priority |
+|------|-------|----------|----------|
+| [Specific task] | [Person] | [Date / TBD] | [High / Med / Low] |
 
-### Decisions Made
-A clear, numbered list of every decision that was finalized in this meeting.
-| # | Decision | Made by |
-|---|----------|---------|
+### DISCUSSION HIGHLIGHTS
+[2-4 sentences on the main topics discussed and important context — enough to understand the decisions above]
 
-### Action Items
-The most important section — every task that needs to happen after this meeting.
-| # | Action Item | Owner | Due Date | Priority |
-|---|-------------|-------|----------|----------|
+### OPEN QUESTIONS / PARKING LOT
+[Items raised but not resolved — list what needs follow-up and who should own the answer]
 
-### Open Questions / Parking Lot
-Items raised but not resolved — need follow-up before the next meeting.
-
-### Next Steps
-What happens next: next meeting date, immediate priorities, and who owns them.
+### NEXT STEPS
+[Next meeting date (if mentioned), immediate priorities this week, and who owns them]
 
 ---
+
 ## Distribution Email
-Write a ready-to-send email distributing this summary to attendees. Include subject line.
+
+**Subject:** Meeting Summary — {meeting_title} | [Date]
+
+[Ready-to-send email distributing this summary. Professional tone, 3-4 sentences max, attach or paste summary below.]

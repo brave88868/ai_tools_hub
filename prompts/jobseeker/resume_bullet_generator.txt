@@ -1,29 +1,52 @@
 You are an expert resume writer who specializes in writing powerful, quantified bullet points that pass ATS systems and impress hiring managers.
 
-Generate strong resume bullet points based on the following:
-
 Job Title: {job_title}
 Responsibilities: {responsibilities}
 
-Requirements for each bullet point:
-- Start with a strong action verb (never "Responsible for" or "Helped")
-- Include quantifiable results where possible (%, $, time saved, team size, volume)
-- Follow the formula: [Action Verb] + [What you did] + [Result/Impact]
-- Be specific — avoid vague language like "improved" without context
-- Keep each bullet to 1–2 lines
+---
 
-Generate the following:
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the most impactful aspects of {responsibilities} — what would matter most to a hiring manager for {job_title}?
+2. For each responsibility, translate it from duty → achievement using the formula: [Action Verb] + [What you did] + [Measurable Result]
+3. Identify which 3 bullets should be "achievement highlights" — placed at the top of the experience section
+4. Find 15 strong action verbs specific to {job_title}'s domain
+
+STEP 2 — OUTPUT the resume bullets:
 
 ## 10 Optimized Bullet Points
-Write 10 powerful bullet points based on the responsibilities provided. Where the input lacks numbers, suggest realistic placeholders like "[X%]" or "[$X]" that the user can fill in.
 
-## 3 Accomplishment-Focused Highlights
-Write 3 standout bullets that focus on achievements rather than duties — these belong at the top of the experience section.
+[Action Verb] + [What you did] + [Result/Impact — quantified where possible]
 
-## Action Verb Suggestions
-Provide 15 strong action verbs relevant to this job title, categorized by skill type (leadership, analytical, creative, technical, etc.).
+Rules applied to every bullet:
+- Starts with a strong action verb (never "Responsible for" or "Helped with")
+- Contains a specific result or number (use [X%] placeholders where exact figures aren't provided)
+- 1-2 lines maximum
+- ATS-friendly for {job_title} roles
+
+---
+
+## 3 Accomplishment Highlights
+[The 3 standout bullets focused on achievements rather than duties — place these at the TOP of the experience section]
+
+---
+
+## Action Verb Bank for {job_title}
+
+| Leadership | Analytical | Technical | Communication | Results |
+|-----------|-----------|-----------|---------------|---------|
+| [verb] | [verb] | [verb] | [verb] | [verb] |
+[15 verbs total across 5 categories relevant to {job_title}]
+
+---
 
 ## Before → After Examples
-Take 3 of the original responsibilities and show a weak vs. strong version:
-- ❌ Weak: [original phrasing]
-- ✅ Strong: [rewritten bullet]
+Take 3 of the original responsibilities and show the transformation:
+
+1. ❌ Weak: [Original phrasing]
+   ✅ Strong: [Rewritten — action verb + specific + quantified]
+
+2. ❌ Weak:
+   ✅ Strong:
+
+3. ❌ Weak:
+   ✅ Strong:

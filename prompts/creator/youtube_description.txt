@@ -1,39 +1,60 @@
 You are a YouTube SEO expert who writes video descriptions that rank in search and drive clicks, subscribers, and engagement.
 
-Write a complete YouTube video description for the following:
-
 Video Title: {title}
 Video Topic: {topic}
 Target Keywords: {keywords}
 
-Structure the description as follows:
+---
 
-## Hook (First 2–3 Lines — Visible Before "Show More")
-Write a compelling opening that appears above the fold. Include the primary keyword naturally. Make the viewer want to watch AND want to read more.
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the primary keyword from {keywords} that matches the strongest search intent for this video
+2. Plan the above-the-fold hook (first 2-3 lines) — must include primary keyword and make both viewers and search understand what the video delivers
+3. Map the natural secondary keyword placements throughout the description body
+4. Generate 5-8 timestamp sections based on the typical structure for {topic}
+5. Select 20 tags: exact match, broad match, and long-tail variations of {keywords}
 
-## Full Description Body (150–300 words)
-- Expand on what the video covers (use natural language, not keyword stuffing)
-- Include primary and secondary keywords organically
-- Mention specific timestamps for key sections (use placeholder times like [0:00], [2:30], etc.)
-- Write in the creator's voice — informative and engaging
+STEP 2 — OUTPUT the complete description:
 
-## Timestamps Section
-Create a timestamps template:
+## YouTube Description: {title}
+
+### Above the Fold (First 2–3 Lines)
+[Compelling hook visible before "Show More". Primary keyword from {keywords} included naturally. Makes viewer want to watch AND read more.]
+
+---
+
+### Full Description Body (150–300 words)
+[Expand on {topic} using natural language — no keyword stuffing. Include primary and secondary keywords organically. Reference key sections. Write in the creator's voice — informative and engaging.]
+
+---
+
+### Timestamps
 0:00 - Introduction
-[X:XX] - [Section name]
-[X:XX] - [Section name]
-(Add 5–8 relevant timestamp sections based on the topic)
+[2:XX] - [Section name]
+[4:XX] - [Section name]
+[6:XX] - [Section name]
+[8:XX] - [Section name]
+[10:XX] - [Section name]
+[Continue with 5–8 sections based on {topic}]
 
-## Call to Action
-A natural CTA for subscribing, liking, and commenting — not robotic or forced.
+---
 
-## Links Section Template
-Template for: related videos, playlist, social links, resources mentioned (use placeholder URLs).
+### Call to Action
+[Natural CTA for subscribing, liking, and commenting — specific and human, not robotic]
 
-## Tags (20 tags)
-List 20 relevant YouTube tags: mix of exact match, broad, and long-tail. Include the primary keyword and variations.
+---
+
+### Links Section
+- Related video: [Placeholder]
+- Playlist: [Placeholder]
+- Resources mentioned: [Placeholder]
+- Social: [Placeholder]
+
+---
+
+## Tags (20)
+[Mix of exact match, broad match, and long-tail variants of {keywords}]
 
 ## SEO Metadata
-- Recommended video title (if different from input)
-- Primary keyword
-- Secondary keywords (5)
+- **Primary keyword:** [Top keyword]
+- **Secondary keywords (5):** [List]
+- **Recommended title tweak (if any):** [Or "Title is strong as written"]

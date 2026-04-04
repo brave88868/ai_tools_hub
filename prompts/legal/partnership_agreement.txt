@@ -1,64 +1,86 @@
-You are an AI assistant trained on publicly available legal knowledge and language patterns. You generate business partnership agreement reference templates based on common legal frameworks to help users understand standard clauses and structure — for informational and reference purposes only.
-
-Generate a Business Partnership Agreement for the following:
+You are an AI assistant trained on publicly available legal knowledge and language patterns. You generate business partnership agreement reference templates to help users understand standard clauses and structure — for informational and reference purposes only.
 
 Partner 1: {partner1_name}
 Partner 2: {partner2_name}
 Business Name: {business_name}
 Equity Split: {equity_split}
 
-Generate a complete Partnership Agreement with the following sections:
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the equity split structure: {equity_split} — are both partners equal or is there a majority partner?
+2. Determine the critical decision-making provisions: with unequal splits, majority prevails; with equal splits, deadlock resolution is essential
+3. Plan exit and buyout provisions — this is where most partnerships fail; be specific
+4. Identify what roles and responsibilities naturally follow from the equity structure
+
+STEP 2 — OUTPUT the partnership agreement template:
 
 ## Business Partnership Agreement
 
 **This Partnership Agreement** is entered into between {partner1_name} and {partner2_name} for the operation of {business_name}.
 
 ### 1. Formation
-Business name, type of partnership (general partnership / LLC / etc.), principal place of business, and commencement date.
+- **Business name:** {business_name}
+- **Entity type:** [General Partnership / LLC / Other]
+- **Principal place of business:** [Address]
+- **Commencement date:** [Date]
 
 ### 2. Capital Contributions
-- {partner1_name}: Initial contribution amount and non-cash assets
-- {partner2_name}: Initial contribution amount and non-cash assets
-- Future capital call procedures
+| Partner | Cash Contribution | Non-Cash Assets | Total Value |
+|---------|------------------|-----------------|-------------|
+| {partner1_name} | $[X] | [Description] | $[X] |
+| {partner2_name} | $[X] | [Description] | $[X] |
+
+Future capital calls: [Process for additional contributions if needed]
 
 ### 3. Profit and Loss Allocation
-Distribution of profits and losses: {equity_split}
-Payment schedule for profit distributions. Treatment of losses.
+- **Distribution ratio:** {equity_split}
+- **Payment schedule:** [Quarterly / Annual distributions]
+- **Treatment of losses:** [Allocated per equity split]
+- **Retained earnings policy:** [Minimum cash reserve before distributions]
 
 ### 4. Roles and Responsibilities
-- {partner1_name}: Primary responsibilities, authority, and decision domains
-- {partner2_name}: Primary responsibilities, authority, and decision domains
-- Day-to-day management authority vs. major decision thresholds
+- **{partner1_name}:** [Primary domain and day-to-day authority]
+- **{partner2_name}:** [Primary domain and day-to-day authority]
+- **Shared decisions:** [Major decisions requiring both partners]
 
 ### 5. Decision Making
-Decisions requiring unanimous consent. Decisions requiring majority. Deadlock resolution process.
+- **Routine decisions (either partner):** [Day-to-day operations under $[X]]
+- **Major decisions (both partners required):** [Contracts over $[X], new hires, major purchases, debt]
+- **Deadlock resolution:** [30-day negotiation → mediation → buyout option]
 
 ### 6. Banking and Financial Controls
-Bank account requirements. Signing authority. Bookkeeping standards. Fiscal year.
+- **Bank accounts:** Joint signatures required for [amounts over $X]
+- **Bookkeeping:** [Monthly reporting, annual audit]
+- **Fiscal year:** [January–December or other]
 
 ### 7. Partner Compensation
-Salaries or draws (if applicable). Expense reimbursement policy.
+- **Salary / draws:** [{partner1_name}: $[X]/year | {partner2_name}: $[X]/year]
+- **Expense reimbursement:** [Policy for business expenses]
 
 ### 8. Admission of New Partners
-Process and requirements for adding partners. Existing partner approval requirements.
+New partners require unanimous written consent of existing partners. [Dilution and valuation method.]
 
 ### 9. Transfer of Interest
-Restrictions on transferring partnership interest. Right of first refusal. Buyout valuation method.
+Neither partner may transfer their interest without right of first refusal offered to the other partner at fair market value. [Valuation method: 3rd party appraisal / revenue multiple.]
 
 ### 10. Withdrawal and Dissolution
-Voluntary withdrawal terms. Grounds for involuntary removal. Dissolution process and asset distribution.
+- **Voluntary withdrawal:** [6-month notice + buyout at formula price]
+- **Involuntary removal:** [Grounds: breach, incapacity, criminal conviction]
+- **Dissolution:** [Asset sale proceeds distributed per equity split after debts]
 
-### 11. Non-Compete and Non-Solicitation
-Restrictions during partnership and for [X period] after exit.
+### 11. Non-Compete
+During the partnership and for [X months] after exit, departing partner shall not [compete in same market].
 
 ### 12. Dispute Resolution
-Mediation requirement before litigation. Arbitration clause (optional).
+Disputes shall first be submitted to mediation before litigation. [Arbitration optional.]
 
 ### Signatures
 
+| {partner1_name} | {partner2_name} |
+|-----------------|-----------------|
+| Signature: ___________ | Signature: ___________ |
+| Date: ___________ | Date: ___________ |
+
 ---
-⚠️ IMPORTANT DISCLAIMER
-
-This output is generated by AI trained on publicly available legal knowledge. It is provided for informational and reference purposes only.
-
-This does NOT constitute legal advice, does NOT create an attorney-client relationship, and should NOT replace professional legal counsel. For any legal matter, please consult a qualified attorney licensed in your jurisdiction.
+⚠️ DISCLAIMER: This template is generated by AI for informational purposes only. It does not constitute legal advice. Have any partnership agreement reviewed by a business attorney before signing.

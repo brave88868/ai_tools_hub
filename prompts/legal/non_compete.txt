@@ -1,57 +1,64 @@
-You are an AI assistant trained on publicly available legal knowledge and language patterns. You generate non-compete and non-solicitation reference templates based on common legal frameworks to help users understand standard clauses and structure — for informational and reference purposes only. Note that enforceability varies significantly by jurisdiction.
-
-Generate a Non-Compete Agreement for the following:
+You are an AI assistant trained on publicly available legal knowledge and language patterns. You generate non-compete and non-solicitation reference templates — for informational and reference purposes only. Note: enforceability varies significantly by jurisdiction.
 
 Employer: {employer_name}
 Employee / Contractor: {employee_name}
 Restriction Period: {restriction_period}
 Geographic Area: {geographic_area}
 
-Generate a complete Non-Compete and Non-Solicitation Agreement:
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Assess reasonableness: is {restriction_period} and {geographic_area} likely enforceable in most jurisdictions?
+2. Identify what specific protections {employer_name} needs: client relationships, trade secrets, or key personnel
+3. Note jurisdiction-specific risks: California bans non-competes; several states have recent limitations
+4. Determine appropriate consideration to make the agreement enforceable
+
+STEP 2 — OUTPUT the non-compete agreement template:
 
 ## Non-Compete and Non-Solicitation Agreement
 
 **This Agreement** is entered into between {employer_name} ("Company") and {employee_name} ("Employee/Contractor").
 
 ### Recitals
-Context: Employee will have access to confidential information, trade secrets, and business relationships. Company has legitimate business interests to protect.
+[Context: {employee_name} will have access to confidential information, client relationships, and business strategies of {employer_name}. Company has legitimate business interests to protect.]
 
 ### 1. Definitions
-- "Competitive Business": Definition of what constitutes competition (be specific to the industry/role)
-- "Confidential Information": Trade secrets, client lists, business strategies, proprietary methods
-- "Territory": {geographic_area}
+- **"Competitive Business":** [Specific definition — industry, product type, or direct competitors]
+- **"Confidential Information":** Trade secrets, client lists, business strategies, proprietary methods
+- **"Territory":** {geographic_area}
 
 ### 2. Non-Compete Restriction
-For {restriction_period} after termination, Employee shall not:
-- Work for, own, or consult for a Competitive Business within {geographic_area}
-- Start a business that competes with Company's products/services
+For {restriction_period} following termination, {employee_name} shall not:
+- Work for, own, or consult with a Competitive Business within {geographic_area}
+- Start or participate in a business competing with {employer_name}'s products or services
 
 ### 3. Non-Solicitation of Clients
-For {restriction_period} after termination, Employee shall not solicit or serve Company's current or prospective clients for competitive purposes.
+For {restriction_period} following termination, {employee_name} shall not solicit or serve {employer_name}'s current or prospective clients for competitive purposes.
 
 ### 4. Non-Solicitation of Employees
-For {restriction_period} after termination, Employee shall not recruit, hire, or encourage Company's employees to leave.
+For {restriction_period} following termination, {employee_name} shall not recruit or hire {employer_name}'s employees.
 
 ### 5. Non-Disparagement
-Both parties agree not to make disparaging statements about the other.
+Both parties agree not to make disparaging public statements about the other.
 
 ### 6. Consideration
-What the Employee receives in exchange for signing (employment, continued employment, signing bonus, etc.). Note: Adequate consideration is essential for enforceability.
+[What {employee_name} receives in exchange: employment / continued employment / signing bonus of $[X]. Note: adequate consideration is essential for enforceability.]
 
 ### 7. Reasonableness and Severability
-Parties acknowledge the restrictions are reasonable. Severability clause for unenforceable provisions.
+The parties acknowledge the restrictions are reasonable and necessary. If any provision is unenforceable, the remainder continues in effect.
 
 ### 8. Injunctive Relief
-Company's right to seek injunctive relief for breach (in addition to monetary damages).
+A breach would cause irreparable harm. {employer_name} may seek injunctive relief without bond in addition to monetary damages.
 
 ### 9. Governing Law
-Jurisdiction and state law. Note on state-specific enforceability (e.g., California bans non-competes).
+This Agreement is governed by the laws of [State]. Note: enforceability varies by jurisdiction — California, Minnesota, Oklahoma, and North Dakota significantly restrict or ban non-competes.
 
 ### Signatures
 
+| {employer_name} | {employee_name} |
+|-----------------|-----------------|
+| Signature: ___________ | Signature: ___________ |
+| Date: ___________ | Date: ___________ |
+
 ---
-⚠️ IMPORTANT DISCLAIMER
-
-This output is generated by AI trained on publicly available legal knowledge. It is provided for informational and reference purposes only.
-
-This does NOT constitute legal advice, does NOT create an attorney-client relationship, and should NOT replace professional legal counsel. For any legal matter, please consult a qualified attorney licensed in your jurisdiction.
+⚠️ DISCLAIMER: This template is generated by AI for informational purposes only. Non-compete enforceability is highly jurisdiction-specific. Consult a qualified employment attorney before using this template.

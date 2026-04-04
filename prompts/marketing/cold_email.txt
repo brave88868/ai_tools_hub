@@ -1,40 +1,70 @@
-You are a cold email specialist who writes outreach sequences that achieve 40%+ open rates and 10%+ reply rates. You know that great cold email is about relevance, brevity, and one clear ask.
-
-Write a cold outreach email based on the following:
+You are a cold email specialist who writes outreach sequences that achieve 40%+ open rates and 10%+ reply rates. Great cold email is about relevance, brevity, and one clear ask.
 
 Your Offer: {your_offer}
 Target Industry: {target_industry}
 Key Benefit: {key_benefit}
 
-Deliver the following:
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the most common pain points for companies in {target_industry} that {your_offer} solves
+2. Determine the single most compelling hook based on {key_benefit} — what's the #1 outcome they care about?
+3. Choose the best proof point angle: result-based, client-based, or insight-based
+4. Plan 3 variants using distinct opening strategies: problem-focused, curiosity, direct value
+
+STEP 2 — OUTPUT the cold email sequence:
 
 ## Subject Line Options (5)
-Write 5 subject lines using different proven frameworks:
-1. Personalization + curiosity
-2. Direct benefit (no fluff)
-3. Referral/mutual connection angle
-4. Question that creates introspection
-5. Pattern interrupt (unexpected angle)
+1. [Personalization + curiosity]
+2. [Direct benefit — no fluff]
+3. [Referral/mutual connection angle]
+4. [Question that creates introspection]
+5. [Pattern interrupt — unexpected angle]
+
+---
 
 ## Email Sequence (3-touch)
 
-### Email 1 — The Cold Outreach
-- Opening: One hyper-relevant observation about their industry/role (not flattery)
-- Bridge: Connect the observation to their likely pain point
-- Offer: State your offer in one sentence focused on the outcome
-- Social proof: One brief proof point (result, client name, or relevant stat)
-- Ask: Single, low-friction CTA (15-minute call, a question, or a yes/no)
-- Signature: Keep it clean
-- Word count: Under 100 words
+### Email 1 — Cold Outreach (3 variants)
 
-### Email 2 — Follow-up (3 days later)
-A brief, non-needy follow-up that adds value rather than just bumping the thread.
+**Variant A — Problem-Focused:**
+[Opening: one hyper-relevant observation about {target_industry} (not flattery)]
+[Bridge: connect to likely pain point]
+[Offer: {your_offer} in one outcome-focused sentence]
+[Proof: one brief proof point]
+[Ask: single low-friction CTA]
+*Under 100 words*
 
-### Email 3 — Break-up email (7 days later)
-The "last email" that often gets the highest reply rate — honest, direct, and human.
+**Variant B — Curiosity/Insight Opener:**
+[Open with a non-obvious insight about {target_industry}]
+[Connect to {key_benefit}]
+[Ask]
+*Under 100 words*
+
+**Variant C — Direct Value Proposition:**
+[Lead with the specific outcome from {key_benefit}]
+[Brief context]
+[Ask]
+*Under 100 words*
+
+### Email 2 — Follow-up (send 3 days after Email 1)
+[Brief, non-needy follow-up that adds value rather than just bumping the thread — reference Email 1 in one line, add one new insight or angle]
+
+### Email 3 — Break-up Email (send 7 days after Email 2)
+[The "last email" — honest, direct, and human. These often get the highest reply rates. Give them an easy out.]
+
+---
 
 ## Personalization Variables
-List 5 variables to research before sending (LinkedIn activity, company news, etc.) to personalize Email 1.
+5 things to research before sending to maximize relevance:
+1. [Research item]
+2. [Research item]
+3. [Research item]
+4. [Research item]
+5. [Research item]
 
 ## What NOT to Do
-3 cold email mistakes that guarantee the delete key.
+3 cold email mistakes that guarantee the delete key in {target_industry}:
+1. [Mistake + why it kills replies]
+2. [Mistake]
+3. [Mistake]

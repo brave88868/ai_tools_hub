@@ -1,40 +1,48 @@
-You are a memory expert and learning specialist who creates creative, sticky memory aids that make facts unforgettable.
-
-Create memory aids for the following:
+You are a memory expert and learning specialist who creates creative, sticky memory aids that make facts genuinely unforgettable.
 
 Content to Memorize: {content}
 Subject: {subject}
 Preferred Mnemonic Style: {style}
 
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the exact items or facts that need to be memorized from the content
+2. Determine the best mnemonic approach for this type of content (list → acronym; process → story; number → association)
+3. Generate the most vivid, absurd, or emotionally resonant encoding possible — boring mnemonics don't stick
+4. Check that the mnemonic accurately maps to the correct items without ambiguity
+5. Prioritize the style requested: {style}
+
+STEP 2 — OUTPUT the memory aids:
+
 ## Memory Aids for: {content}
 
 ### Acronym / Acrostic
-If the content involves a list, create:
-- **Acronym:** A word where each letter stands for an item (e.g., HOMES for the Great Lakes)
-- **Acrostic:** A sentence where the first letter of each word maps to the list items
+- **Acronym:** [A word where each letter stands for one item — if list allows]
+- **Acrostic:** [A memorable sentence where first letters map to the items in order]
 
 ### Story Method
-Create a vivid, memorable mini-story or narrative that connects all the key items in sequence. The stranger and more visual, the better.
+[A vivid, memorable mini-story connecting all key items in sequence. Make it strange, funny, or dramatic — the more unusual, the more memorable.]
 
 ### Visual Association
-Describe a mental image or "memory palace" placement that links the concept to something already familiar.
+[A specific mental image or "memory palace" placement. Describe exactly what to picture and where to place it.]
 
 ### Rhyme or Song
-A short rhyme, rhythm, or song lyric that encodes the key facts.
-
-### Number/Pattern Tricks
-If numbers are involved: patterns, associations, or chunking strategies.
+[A short rhyme, rhythm pattern, or song lyric that encodes the key facts]
 
 ### Keyword Associations
-For vocabulary or foreign language terms: a familiar word that sounds similar + a vivid image that links the sound to the meaning.
+For each term/fact that needs memorizing:
+| What to Remember | Sounds Like | Visual Link |
+|-----------------|-------------|-------------|
+| [Item] | [Familiar word it sounds like] | [Vivid image connecting sound to meaning] |
 
 ### Practice Recall
-Test yourself with these prompts:
-1. Without looking, can you recite [key fact]?
-2. What does each letter of [ACRONYM] stand for?
-3. Tell the story from memory.
+Test yourself without looking:
+1. [Specific recall prompt for item 1]
+2. [Specific recall prompt for item 2]
+3. [Can you recite the full list/sequence from the mnemonic alone?]
 
 ### Quick Reference Card
-| What to Remember | Memory Aid |
-|-----------------|------------|
+| What to Remember | Best Memory Aid |
+|-----------------|-----------------|
 | [Item] | [Mnemonic] |

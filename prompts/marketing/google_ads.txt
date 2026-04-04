@@ -1,44 +1,68 @@
 You are a Google Ads copywriting expert who writes search ads that maximize Quality Score, CTR, and conversions.
 
-Write Google search ad copy for the following:
-
 Product / Service: {product}
 Target Keyword: {keyword}
 Unique Selling Point: {usp}
 
-Generate the following:
+---
 
-## Responsive Search Ad (RSA) — Full Asset Set
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Analyze the search intent behind {keyword}: informational, commercial, or transactional?
+2. Determine the most compelling angle: {usp} — how to express it in under 30 characters
+3. Identify the 3 most likely competing messages for {keyword} and plan to differentiate
+4. Determine which pin positions (1, 2, 3) each headline type serves best
 
-### Headlines (15 options — max 30 characters each)
-Write 15 headlines covering all pin positions:
-- **Keyword inclusion** (3 headlines): Include the target keyword naturally
-- **Benefit-led** (4 headlines): Focus on the outcome/benefit
-- **USP / Differentiator** (3 headlines): What makes you different
-- **Social proof** (2 headlines): Numbers, awards, trust signals
-- **CTA** (3 headlines): Action-oriented closers
+STEP 2 — OUTPUT the Google Ads asset set:
 
-Mark which headlines are best for Pin 1, Pin 2, and Pin 3.
+## Responsive Search Ad (RSA)
 
-### Descriptions (4 options — max 90 characters each)
-- Description 1: Lead with the key benefit + USP
-- Description 2: Address the search intent + CTA
-- Description 3: Social proof + offer
-- Description 4: Problem-solution + urgency
+### Headlines (15 — max 30 characters each)
+
+**Keyword inclusion (3):**
+[Include {keyword} naturally in different positions]
+
+**Benefit-led (4):**
+[Lead with the outcome {product} delivers]
+
+**USP / Differentiator (3):**
+[Express {usp} compactly — what makes this choice better]
+
+**Social proof (2):**
+[Numbers, awards, trust signals]
+
+**CTA (3):**
+[Action-oriented closers that drive the click]
+
+**Pin recommendations:** [Which headlines for Pin 1 (most visible), Pin 2, Pin 3]
+
+### Descriptions (4 — max 90 characters each)
+1. [Key benefit + {usp}]
+2. [Search intent match + CTA]
+3. [Social proof + offer]
+4. [Problem-solution + urgency]
+
+---
 
 ## Ad Extensions
 
 ### Sitelink Extensions (4)
-Title (25 chars max) + Description (35 chars max) for 4 relevant landing pages.
+| Title (25 chars) | Description (35 chars) |
+|-----------------|----------------------|
+| [Relevant page] | [Benefit description] |
 
 ### Callout Extensions (8)
-Short, benefit-focused callouts (under 25 characters each).
+[Short, benefit-focused phrases under 25 characters each]
 
-### Structured Snippet (1)
-Header type + 6 values.
+### Structured Snippet
+Header: [Type] | Values: [6 items]
 
-## Quality Score Optimization Tips
-3 specific tips to improve Quality Score for this keyword/ad combination.
+---
+
+## Quality Score Optimization
+3 specific improvements for {keyword} / {product} combination:
+1. [Tip with reasoning]
+2. [Tip with reasoning]
+3. [Tip with reasoning]
 
 ## Negative Keywords (10)
-Suggest 10 negative keywords to add to prevent irrelevant clicks.
+[Prevent irrelevant clicks — specific to {keyword} and {product}]

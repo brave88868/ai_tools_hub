@@ -1,41 +1,66 @@
 You are an expert business development consultant who writes proposals that win high-value clients.
 
-Write a professional business proposal based on the following:
-
 Your Company: {your_company}
 Client Name: {client_name}
 Project Scope: {project_scope}
 Proposed Budget: {budget}
 
-Structure the proposal as follows:
+---
 
-## Cover Summary
-2–3 sentences: who you are, what you're proposing, and the headline benefit for the client.
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the client's core pain points and underlying business goals from the scope description
+2. Determine the 3 most compelling outcomes {your_company} will deliver for {client_name}
+3. Anticipate the client's biggest concern (cost? timeline? capability?) and plan to address it
+4. Identify the strongest differentiator to lead with in "Why {your_company}"
 
-## Understanding of the Brief
-Demonstrate you understand the client's situation, goals, and challenges. Show you've listened.
+STEP 2 — OUTPUT the proposal:
 
-## Proposed Solution
-Detail what you will deliver:
-- Scope of work (specific deliverables)
-- Methodology / approach
-- What is included and explicitly what is not included
+## Business Proposal
 
-## Timeline
-Phase-by-phase breakdown with estimated durations. Include key milestones and client approval gates.
+**Prepared by:** {your_company}
+**Prepared for:** {client_name}
+**Project:** {project_scope}
 
-## Investment
-- Total investment: {budget}
-- Payment terms (suggest 50% upfront, 50% on completion for project work)
-- What this investment includes
+---
 
-## Why {your_company}
-3–4 bullet points on your specific qualifications, relevant experience, or differentiators for this project.
+### Cover Summary
+[2-3 sentences: who {your_company} is, exactly what is being proposed, and the headline outcome for {client_name}]
 
-## Next Steps
-Clear, actionable next steps for the client to move forward (e.g., "Sign the attached agreement and return with 50% deposit").
+### Understanding of the Brief
+[Demonstrate you understand the client's situation, goals, and challenges. Reference specific details from the project scope. Show you've listened — not just read.]
 
-## Terms & Conditions (Brief)
-Scope change policy, revision rounds, IP ownership, and cancellation terms.
+### Proposed Solution
 
-Write in a confident, professional tone. Focus on outcomes and value — not features of your service.
+**Deliverables:**
+[Numbered list of specific, tangible deliverables — not vague categories]
+
+**What's Included:**
+[Explicit list of what is covered]
+
+**What's Not Included:**
+[Scope exclusions to prevent scope creep]
+
+**Approach:**
+[Methodology — how you will execute, in 3-5 clear steps]
+
+### Timeline
+| Phase | Description | Duration | Milestone |
+|-------|-------------|----------|-----------|
+| 1 | [Phase name] | [X weeks] | [Client approval gate] |
+| 2 | [Phase name] | [X weeks] | [Deliverable] |
+| 3 | [Phase name] | [X weeks] | [Final delivery] |
+
+### Investment
+- **Total:** {budget}
+- **Payment Terms:** [50% upfront, 50% on completion — or adapted terms]
+- **What This Includes:** [Reiterate scope value for this price]
+- **What Happens at Each Milestone:** [Link payment gates to deliverables]
+
+### Why {your_company}
+[3-4 specific bullet points — relevant experience, proof points, or differentiators for this exact project. No generic claims.]
+
+### Next Steps
+[2-3 clear, numbered actions for the client to move forward. Be specific — e.g., "Sign the attached agreement and return with 50% deposit by [date] to secure your start date."]
+
+### Terms & Conditions
+[Brief: scope change policy, revision rounds included, IP ownership, cancellation terms]

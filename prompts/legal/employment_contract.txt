@@ -1,6 +1,4 @@
-You are an AI assistant trained on publicly available legal knowledge and language patterns. You generate employment contract reference templates based on common legal frameworks to help users understand standard clauses and structure — for informational and reference purposes only.
-
-Generate an employment contract template for the following:
+You are an AI assistant trained on publicly available legal knowledge and language patterns. You generate employment contract reference templates to help users understand standard clauses and structure — for informational and reference purposes only.
 
 Employer / Company: {employer_name}
 Employee Name: {employee_name}
@@ -8,56 +6,69 @@ Job Title: {job_title}
 Annual Salary: {salary}
 Start Date: {start_date}
 
-Generate a complete Employment Agreement with the following sections:
+---
+
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the appropriate employment structure for {job_title}: full-time employee, at-will, or fixed term
+2. Determine typical benefits and protections relevant to this role level
+3. Plan IP and confidentiality clauses appropriate for {job_title}'s access to company information
+4. Note any role-specific provisions (e.g., non-compete scope for senior vs. junior roles)
+
+STEP 2 — OUTPUT the employment agreement template:
 
 ## Employment Agreement
 
 **This Employment Agreement** is entered into as of {start_date} between {employer_name} ("Employer") and {employee_name} ("Employee").
 
 ### 1. Position and Duties
-Job title, department, reporting structure, and general responsibilities. At-will employment statement (or specify term).
+- **Title:** {job_title}
+- **Employment type:** At-will (either party may terminate with [X days] notice) or [fixed term]
+- **Responsibilities:** [Primary duties and responsibilities for {job_title}]
+- **Reporting to:** [Reporting structure]
 
 ### 2. Compensation
-- Base salary: {salary} per year, paid [bi-weekly/semi-monthly]
-- Payment method and schedule
-- Overtime policy (exempt vs. non-exempt under FLSA)
+- **Base salary:** {salary} per year, paid [bi-weekly / semi-monthly]
+- **Payment method:** [Direct deposit]
+- **FLSA status:** [Exempt / Non-exempt — overtime policy]
+- **Performance reviews:** [Annual / Semi-annual — with salary review]
 
 ### 3. Benefits
-Standard benefits package reference: health insurance, PTO, sick leave, holidays, retirement plan. Specify vesting periods if applicable.
+[Standard benefits package: health insurance, PTO ([X] days), sick leave, holidays, 401(k). Specify vesting periods where applicable.]
 
 ### 4. Work Location and Hours
-Office/remote/hybrid arrangement. Standard working hours. Travel requirements if any.
+[Office / remote / hybrid arrangement. Standard hours. Travel requirements if applicable.]
 
 ### 5. Confidentiality
-Definition of confidential information. Obligations during and after employment. Exceptions (publicly known information, required disclosures).
+- **Confidential information:** [Definition — business strategies, client lists, proprietary methods, trade secrets]
+- **Obligations:** During and after employment, Employee shall not disclose or use confidential information
+- **Exceptions:** Publicly known information, legally required disclosures
 
 ### 6. Intellectual Property / Work for Hire
-All work product created during employment belongs to Employer. Assignment of inventions clause.
+[All work product created during employment belongs to {employer_name}. Assignment of inventions clause.]
 
-### 7. Non-Solicitation (Optional)
-Restriction on soliciting Employer's clients and employees during and for [X months] after employment.
+### 7. Non-Solicitation
+For [X months] after termination, Employee shall not solicit {employer_name}'s clients or employees for competitive purposes.
 
 ### 8. Termination
-- At-will termination rights for both parties
-- Notice requirements
-- Cause for immediate termination
-- Severance terms (if applicable)
+- **At-will rights:** Either party may terminate with [X days] written notice
+- **Cause:** Immediate termination for [specific grounds]
+- **Severance:** [If applicable]
 
 ### 9. Return of Property
-Obligation to return all company property upon termination.
+Upon termination, Employee shall return all company property, devices, and confidential materials.
 
-### 10. Governing Law and Dispute Resolution
-Jurisdiction and governing state law. Dispute resolution process.
+### 10. Governing Law
+This Agreement is governed by the laws of [State/Jurisdiction]. Disputes resolved by [arbitration / courts of jurisdiction].
 
 ### 11. Entire Agreement
-Integration clause. Amendment requirements.
+This Agreement constitutes the entire agreement between the parties. Amendments require written consent of both parties.
 
 ### Signatures
-Signature blocks for both parties with date.
+
+| {employer_name} | {employee_name} |
+|-----------------|-----------------|
+| Signature: ___________ | Signature: ___________ |
+| Date: ___________ | Date: ___________ |
 
 ---
-⚠️ IMPORTANT DISCLAIMER
-
-This output is generated by AI trained on publicly available legal knowledge. It is provided for informational and reference purposes only.
-
-This does NOT constitute legal advice, does NOT create an attorney-client relationship, and should NOT replace professional legal counsel. For any legal matter, please consult a qualified attorney licensed in your jurisdiction.
+⚠️ DISCLAIMER: This template is generated by AI for informational and reference purposes only. It does not constitute legal advice. Have any employment agreement reviewed by a qualified employment attorney before signing.

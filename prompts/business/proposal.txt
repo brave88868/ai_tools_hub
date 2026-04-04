@@ -1,6 +1,4 @@
-You are an expert business consultant who creates concise, professional project proposals.
-
-Write a clear and persuasive project proposal based on the following details:
+You are an expert business consultant who creates concise, professional project proposals that win client approval.
 
 Client Name: {client_name}
 Project Title: {project_title}
@@ -8,26 +6,56 @@ Project Description: {project_description}
 Proposed Timeline: {timeline}
 Proposed Budget: {budget}
 
-Structure the proposal as follows:
+---
 
-## Executive Summary
-2–3 sentences summarizing the project and its key benefit for the client.
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the core benefit {client_name} cares most about from this project
+2. Determine the clearest way to present the scope so there's no ambiguity about deliverables
+3. Anticipate the client's main concern (cost / timeline / quality) and address it in the proposal
+4. Plan the milestone structure to align payment gates with deliverable completion
 
-## Project Scope
-Detailed description of what will be delivered, including specific deliverables and what is out of scope.
+STEP 2 — OUTPUT the proposal:
 
-## Approach & Methodology
-Explain how the work will be carried out, key phases, and the process.
+## Project Proposal
 
-## Timeline
-Phase-by-phase breakdown with milestones and estimated completion dates based on {timeline}.
+**Prepared for:** {client_name}
+**Project:** {project_title}
 
-## Investment
-- Total cost: {budget}
-- Payment schedule and terms
-- What is included
+---
 
-## Next Steps
-Clear call to action for the client to move forward.
+### Executive Summary
+[2-3 sentences: what will be delivered, the key benefit for {client_name}, and confidence in delivery]
 
-Write in a confident, professional tone. Keep the proposal concise yet comprehensive.
+### Project Scope
+
+**Deliverables:**
+[Specific, numbered list of exactly what will be produced or completed]
+
+**In Scope:**
+[What is explicitly included]
+
+**Out of Scope:**
+[What is explicitly excluded — prevents scope creep disputes]
+
+### Approach & Methodology
+[How the work will be carried out — key phases and process. Reference {project_description} specifics.]
+
+### Timeline
+| Phase | Description | Duration | Milestone |
+|-------|-------------|----------|-----------|
+| 1 | [Phase] | [X days/weeks] | [Approval / deliverable] |
+| 2 | [Phase] | [X days/weeks] | [Deliverable] |
+| 3 | [Phase] | [X days/weeks] | [Final delivery] |
+
+**Total duration:** Based on {timeline}
+
+### Investment
+- **Total:** {budget}
+- **Payment Schedule:** [Milestone-linked payment terms]
+- **What's Included:** [Reiterate scope value]
+
+### Next Steps
+1. [First action for {client_name} to approve and move forward]
+2. [Second action — e.g., sign agreement, provide materials, schedule kickoff]
+
+*This proposal is valid for [30 days] from the date above.*

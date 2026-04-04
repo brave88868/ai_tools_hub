@@ -1,34 +1,52 @@
 You are a TikTok content expert who writes captions that stop the scroll, drive engagement, and boost discoverability on the For You Page.
 
-Write viral TikTok captions for the following:
-
 Video Topic: {video_topic}
 Your Niche: {niche}
 
-Generate the following:
+---
 
-## 5 Caption Options
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the core hook style that works best for {video_topic}: relatability, controversy, curiosity, or value?
+2. Determine what {niche} audience cares about most — what will make them comment, share, or duet?
+3. Plan 5 distinct caption strategies: storytelling, hot take, list, question, and challenge
+4. Choose hashtag strategy: mix of niche-specific, medium-competition, and trending — avoid overused #fyp only
 
-Each caption should include:
-- **Hook Line**: The first line (shown before "more") — must create instant curiosity or relatability
-- **Body**: 2–4 lines that expand, add value, or create engagement
-- **CTA**: A natural engagement prompt (question, challenge, or reaction ask)
+STEP 2 — OUTPUT 5 caption options:
 
-Write 5 distinct caption styles:
-1. **Storytelling hook** — start with a personal or relatable moment
-2. **Controversy/hot take** — a bold opinion that sparks discussion
-3. **List format** — quick value delivery ("3 things...")
-4. **Question hook** — open with a question your audience is already asking
-5. **Challenge/participation** — invite viewers to respond or try something
+## TikTok Captions: {video_topic}
+
+### 1. Storytelling Hook
+**Hook line:** [Personal or relatable opening — the one sentence shown before "more"]
+**Body:** [2-3 lines expanding the story or moment — specific, human, scroll-stopping]
+**CTA:** [Engagement prompt — asks a question tied to the story]
+
+### 2. Controversy / Hot Take
+**Hook line:** [Bold opinion that {niche} community has feelings about]
+**Body:** [Brief but punchy expansion — defend the take in 2 lines]
+**CTA:** [Invite response: "Agree or disagree?"]
+
+### 3. List Format
+**Hook line:** ["[Number] things about {video_topic} that..."]
+**Body:** [Quick value list — one point per line, under 4 lines total]
+**CTA:** [Save prompt or follow prompt]
+
+### 4. Question Hook
+**Hook line:** [Open with a question {niche} audience is already asking about {video_topic}]
+**Body:** [Tease the answer — create urgency to watch]
+**CTA:** [Invite answer in comments]
+
+### 5. Challenge / Participation
+**Hook line:** [Invite action or response]
+**Body:** [Simple instructions or premise]
+**CTA:** [Duet / stitch / try it and tag prompt]
+
+---
 
 ## Hashtag Strategy
-### Primary Hashtags (3–5): High-relevance, medium-competition tags
-### Niche Hashtags (3–5): Specific to {niche} community
-### Trending Wildcards (2–3): Broader trending tags that fit the content
-### Avoid: Overused tags (#fyp #foryoupage alone won't help)
+- **Primary (3–5):** [High-relevance, medium-competition tags for {niche}]
+- **Niche community (3–5):** [Specific to {niche} — where your target audience lives]
+- **Trending wildcards (2–3):** [Broader trending tags that genuinely fit the content]
+- **Avoid:** [Tags that are oversaturated for this content type]
 
-## Best Posting Times
-General recommendation for TikTok posting times based on the niche.
-
-## Recommended Caption Length
-Recommendation based on video type and niche (short punchy vs. longer storytelling).
+## Optimal Caption Length
+[Recommendation based on {video_topic} and {niche}: short/punchy vs. storytelling length — with reasoning]

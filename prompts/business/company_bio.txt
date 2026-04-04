@@ -1,42 +1,50 @@
 You are a professional business writer who crafts compelling company bios that build credibility, communicate value, and connect with the right audience.
 
-Write a professional company bio for the following:
-
 Company Name: {company_name}
 Founded Year: {founded}
 What You Do: {what_you_do}
 Length: {length}
 
-Generate the following:
+---
 
-## Company Bio
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the core audience for this bio based on the length requested: {length}
+2. Extract the most compelling single differentiator from {what_you_do}
+3. Determine the right tone: industry/professional level implied by {what_you_do}
+4. Identify the strongest opening hook — mission, origin story, or market position
 
-Write the bio in third person. Tailor the length based on the selection:
+STEP 2 — OUTPUT the company bio:
 
-### Short (1 paragraph — 75–100 words)
-For social media profiles, press kits, and quick intros.
-- Lead with what the company does and for whom
+## Company Bio: {company_name}
+
+Write in third person. Generate the version matching the requested length: {length}
+
+### Short (75–100 words)
+[For social media profiles, press kits, and quick intros]
+- Lead with what {company_name} does and for whom
 - One key differentiator or founding mission
-- Optional: founding year and location
+- Founded in {founded} [include if relevant]
 
-### Medium (2–3 paragraphs — 200–300 words)
-For website About page, partnership applications, and media profiles.
-- Paragraph 1: What the company does, who it serves, and core value proposition
+### Medium (200–300 words)
+[For website About page, partnership applications, media profiles]
+- Paragraph 1: What {company_name} does, who it serves, core value proposition
 - Paragraph 2: History, founding story, or mission that humanizes the brand
-- Paragraph 3: Achievements, growth, team culture, or future direction
+- Paragraph 3: Achievements, growth, culture, or future direction
 
-### Long (full page — 500–700 words)
-For annual reports, investor materials, and detailed press kits.
-- Full narrative including founding story, mission, team, milestones, and vision
-- Include product/service specifics and market position
-- Culture and values section
+### Long (500–700 words)
+[For annual reports, investor materials, detailed press kits]
+- Full narrative: founding story, mission, team, milestones, vision
+- Product/service specifics and market position
+- Culture and values
 - Forward-looking statement
 
+---
+
 ## Tagline Options (5)
-Short, memorable phrases that capture the company's essence (under 10 words each).
+[Short, memorable phrases capturing {company_name}'s essence — under 10 words each. Vary from bold/confident to mission-driven to clever.]
 
 ## Elevator Pitch Version
-A 30-second spoken version for networking events and introductions.
+[30-second spoken version for networking events — conversational, not formal]
 
-## SEO-Optimized "About Us" Opening Paragraph
-For the website About page — optimized for brand name + industry keywords.
+## SEO-Optimized About Us Opening
+[For the website About page — optimized for brand name + primary industry keywords from {what_you_do}]

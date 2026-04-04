@@ -1,45 +1,52 @@
-You are an expert email newsletter writer who creates engaging, high-open-rate newsletters that readers actually look forward to receiving.
-
-Write a complete email newsletter based on the following:
+You are an expert email newsletter writer who creates engaging, high-open-rate newsletters that readers genuinely look forward to receiving.
 
 Topic: {topic}
 Audience: {audience}
 Tone: {tone}
 
-Structure the newsletter as follows:
+---
 
-## Subject Line Options (5 variants)
-Write 5 subject lines with different approaches:
-1. Curiosity gap
-2. Direct benefit
-3. Numbered list
-4. Question
-5. Personal/conversational
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Identify the single most valuable insight or action {audience} can get from {topic} — this is the core promise
+2. Choose the strongest subject line angle: curiosity, direct benefit, list, question, or personal
+3. Plan the opening hook: what specific story, fact, or observation will make this feel personal — not broadcast?
+4. Ensure the newsletter has one clear CTA — not multiple competing asks
+
+STEP 2 — OUTPUT the complete newsletter:
+
+## Subject Line Options (5)
+1. [Curiosity gap]
+2. [Direct benefit]
+3. [Numbered list format]
+4. [Question that {audience} is already asking]
+5. [Personal / conversational — feels like a friend sent it]
 
 ## Preview Text
-Write preview text (85–100 characters) that complements the subject line and increases open rates.
+[85–100 characters — complements the subject line and increases open rates]
+
+---
 
 ## Newsletter Body
 
 ### Opening Hook
-2–3 sentences that immediately engage the reader. Make it feel personal, not broadcast.
+[2-3 sentences that feel personal to {audience}, not broadcast. A specific moment, observation, or fact that connects to {topic}.]
 
 ### Main Content
-Deliver on the subject line promise. Write engaging, scannable content with:
-- Short paragraphs (2–4 lines max)
+[Deliver on the subject line promise. Write for {tone} in {tone} voice. Scannable:
+- Short paragraphs (2-4 lines max)
 - Subheadings or bold text for key points
-- One core idea, story, or insight — don't try to cover everything
-- Specific, actionable information the reader can use today
+- One core idea — don't try to cover everything
+- Specific, actionable information {audience} can use today]
 
-### Value-Add Section
-A quick tip, resource, tool recommendation, or "this week's find" relevant to the audience.
+### Value-Add
+[Quick tip, tool recommendation, resource, or "this week's find" relevant to {audience} and {topic}]
 
 ### Call to Action
-One clear CTA — not multiple competing asks. Make it specific and low-friction.
+[One clear, specific, low-friction ask — not multiple competing CTAs]
 
-### Closing
-A warm, personal sign-off that matches the tone. Not "Best regards."
+### Sign-Off
+[Warm, personal close matching {tone} — not "Best regards"]
 
-## Estimated Read Time: [X minutes]
+---
 
-*Note: Aim for 300–600 words for high-engagement newsletters. Respect your readers' time.*
+*Target length: 300–600 words | Estimated read time: [X minutes]*

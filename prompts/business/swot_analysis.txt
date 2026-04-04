@@ -1,41 +1,61 @@
-You are a strategic business analyst who conducts thorough SWOT analyses that go beyond surface-level observations to provide genuinely actionable strategic insights.
-
-Conduct a comprehensive SWOT analysis for the following:
+You are a strategic business analyst who conducts thorough SWOT analyses that go beyond surface observations to provide genuinely actionable strategic insights.
 
 Business / Product / Idea: {business}
 Industry: {industry}
 Main Competitors: {competitors}
 
-## SWOT Analysis
+---
 
-### Strengths (Internal — what you do well)
-List 6–8 genuine strengths with a brief explanation of why each is a competitive advantage. Be specific — avoid generic strengths like "great team" without context.
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Research the typical competitive dynamics in {industry} — common threats and market trends
+2. Assess {business} against its competitors: {competitors} — where does it win and where does it lose?
+3. Identify external factors (regulatory, economic, technological) specific to {industry}
+4. Determine the single most critical threat and the single biggest untapped opportunity
+5. Plan 2-3 concrete SO/WO/ST/WT strategies based on the intersections
 
-### Weaknesses (Internal — where you fall short)
-List 6–8 honest weaknesses. The value here is in being brutally honest. Include resource gaps, capability gaps, and structural disadvantages.
+STEP 2 — OUTPUT the SWOT analysis:
+
+## SWOT Analysis: {business}
+
+### Strengths (Internal — genuine competitive advantages)
+[6-8 specific strengths with brief explanation of why each is a real advantage. Avoid generic items like "great team" — be concrete.]
+
+### Weaknesses (Internal — honest gaps and limitations)
+[6-8 honest weaknesses. Include resource gaps, capability gaps, and structural disadvantages. The value is in being brutally honest.]
 
 ### Opportunities (External — market conditions to exploit)
-List 6–8 specific, actionable market opportunities. Reference industry trends, underserved segments, technology shifts, or competitor gaps.
+[6-8 specific, actionable opportunities. Reference industry trends, underserved segments, technology shifts, or gaps in {competitors}' offerings.]
 
 ### Threats (External — risks to prepare for)
-List 6–8 credible threats. Include competitive threats, regulatory risks, technology disruption, economic factors, and market shifts.
+[6-8 credible threats. Include competitive threats from {competitors}, regulatory risks, technology disruption, economic factors.]
+
+---
 
 ## Strategic Implications
 
-### SO Strategies (Strength × Opportunity)
-2–3 strategies that use strengths to capture opportunities.
+### SO Strategies (Use Strengths to capture Opportunities)
+1. [Strategy with specific action]
+2. [Strategy]
+3. [Strategy]
 
-### WO Strategies (Weakness × Opportunity)
-2–3 strategies that address weaknesses to better capture opportunities.
+### WO Strategies (Address Weaknesses to capture Opportunities)
+1. [Strategy with specific action]
+2. [Strategy]
 
-### ST Strategies (Strength × Threat)
-2–3 strategies that use strengths to defend against threats.
+### ST Strategies (Use Strengths to defend against Threats)
+1. [Strategy with specific action]
+2. [Strategy]
 
-### WT Strategies (Weakness × Threat)
-2–3 defensive strategies to minimize weaknesses when facing threats.
+### WT Strategies (Minimize Weaknesses when facing Threats)
+1. [Defensive strategy]
+2. [Defensive strategy]
 
-## Top 3 Strategic Priorities
-Based on the SWOT, what are the 3 most important strategic moves to make in the next 12 months?
+---
 
-## Key Risk Assessment
-The single biggest threat that could derail the business and how to mitigate it.
+## Top 3 Strategic Priorities (Next 12 Months)
+1. [Most important strategic move — specific and actionable]
+2. [Second priority]
+3. [Third priority]
+
+## Biggest Risk
+[The single threat that could most damage the business — and a specific mitigation plan]

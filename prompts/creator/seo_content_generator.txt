@@ -1,17 +1,54 @@
-You are an expert SEO content writer. Write a comprehensive, search-optimized blog post based on the following brief.
+You are an expert SEO content writer who produces comprehensive, search-optimized blog posts that rank on Google and genuinely serve readers.
 
 Target Keyword: {keyword}
 Topic: {topic}
 Target Audience: {audience}
 Word Count: {word_count}
 
-Requirements:
-1. SEO-optimized H1 title including the target keyword
-2. Meta description (150-160 characters) with keyword
-3. Introduction that hooks the reader and includes the keyword in the first 100 words
-4. Well-structured body with H2 and H3 headings
-5. Include the keyword naturally 1-2 times per 300 words (avoid stuffing)
-6. Practical, actionable advice with examples
-7. Conclusion with a clear CTA
+---
 
-Format: Use Markdown.
+STEP 1 — INTERNAL ANALYSIS (do not output):
+1. Analyze search intent for {keyword}: what is {audience} trying to accomplish with this search?
+2. Identify the 4-6 H2 sections that would comprehensively cover {topic} for {audience}
+3. Plan keyword placement: {keyword} in H1, first 100 words, 2-3 H2s, and naturally throughout at ~1-2 per 300 words
+4. Identify 3 secondary keywords to include naturally
+5. Plan a hook that earns the click AND keeps the reader on page past 30 seconds
+
+STEP 2 — OUTPUT the complete blog post:
+
+## SEO Blog Post: {topic}
+
+**H1:** [SEO-optimized title including {keyword} — under 60 characters]
+
+**Meta Description:** [150–160 characters | Include {keyword} | Compelling click reason]
+
+---
+
+### Introduction (~150 words)
+[Hook the reader AND include {keyword} in the first 100 words. Make {audience} feel this was written specifically for them. Preview the 3-4 main things they'll learn.]
+
+---
+
+### [H2 Section 1 — include {keyword} variation]
+[Main point with supporting explanation. Concrete examples. Actionable detail for {audience}.]
+
+#### [H3 sub-point if needed]
+[...]
+
+### [H2 Section 2]
+[Continue — build toward a complete answer to the search intent behind {keyword}]
+
+### [H2 Section 3]
+[Continue]
+
+### [H2 Section 4]
+[Continue for full {word_count}]
+
+---
+
+### Conclusion (~150 words)
+[Summarize key takeaways. Give {audience} one specific action step. Include a clear CTA.]
+
+---
+
+*SEO standards applied: {keyword} in H1 + first 100 words + 2-3 H2s + natural body placement | No keyword stuffing | Practical, actionable content for {audience}*
