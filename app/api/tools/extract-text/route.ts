@@ -22,16 +22,17 @@ export async function POST(req: NextRequest) {
       file.name.endsWith(".docx") ||
       file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ) {
-      const mammoth = await import("mammoth");
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const mammoth = require("mammoth");
       const result = await mammoth.extractRawText({ buffer });
       return NextResponse.json({ text: result.value });
     }
 
     // PDF
     if (file.name.endsWith(".pdf") || file.type === "application/pdf") {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const pdfParse = await import("pdf-parse") as any;
-      const data = await (pdfParse.default ?? pdfParse)(buffer);
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const pdfParse = require("pdf-parse");
+      const data = await pdfParse(buffer);
       return NextResponse.json({ text: data.text });
     }
 
