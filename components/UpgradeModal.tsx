@@ -7,20 +7,14 @@ import { supabase } from "@/lib/supabase";
 interface Props {
   onClose: () => void;
   toolkitSlug?: string;
+  isLoggedIn?: boolean;
 }
 
-export default function UpgradeModal({ onClose, toolkitSlug }: Props) {
+export default function UpgradeModal({ onClose, toolkitSlug, isLoggedIn = false }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   async function handleSubscribe() {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      router.push("/login");
-      onClose();
-      return;
-    }
-
     setLoading(true);
     try {
       const res = await fetch("/api/subscription/checkout", {
@@ -41,6 +35,45 @@ export default function UpgradeModal({ onClose, toolkitSlug }: Props) {
     } finally {
       setLoading(false);
     }
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full shadow-2xl">
+          <div className="text-center mb-6">
+            <div className="text-4xl mb-3">🚀</div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+              Create a Free Account
+            </h2>
+            <p className="text-gray-500 text-sm">
+              Get 3 free uses per day — no credit card required
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            <button
+              onClick={() => { router.push("/signup"); onClose(); }}
+              className="block w-full bg-black text-white text-center rounded-xl py-3 text-sm font-medium hover:bg-gray-800 transition-colors"
+            >
+              Sign Up Free →
+            </button>
+            <button
+              onClick={() => { router.push("/login"); onClose(); }}
+              className="block w-full border border-gray-200 text-gray-700 text-center rounded-xl py-3 text-sm font-medium hover:border-gray-400 transition-colors"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={onClose}
+              className="block w-full text-gray-400 text-center rounded-xl py-3 text-sm hover:text-gray-600 transition-colors"
+            >
+              Maybe later
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

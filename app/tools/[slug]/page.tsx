@@ -115,6 +115,7 @@ export default function ToolPage() {
   const [error, setError] = useState("");
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [upgradeToolkit, setUpgradeToolkit] = useState<string | undefined>();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [docExpanded, setDocExpanded] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -147,6 +148,7 @@ export default function ToolPage() {
     try {
       const sessionId = getSessionId();
       const { data: { session } } = await supabase.auth.getSession();
+      setIsLoggedIn(!!session);
 
       const res = await fetch("/api/tools/run", {
         method: "POST",
@@ -209,6 +211,7 @@ export default function ToolPage() {
         <UpgradeModal
           onClose={() => setShowUpgrade(false)}
           toolkitSlug={upgradeToolkit}
+          isLoggedIn={isLoggedIn}
         />
       )}
 
