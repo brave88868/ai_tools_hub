@@ -35,9 +35,14 @@ export default function Header() {
 
         <div className="hidden md:flex items-center gap-3">
           {user ? (
-            <Link href="/dashboard" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
-              Dashboard
-            </Link>
+            <>
+              <Link href="/dashboard" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+                Dashboard
+              </Link>
+              <Link href="/auth/signout" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+                Sign Out
+              </Link>
+            </>
           ) : (
             <>
               <Link href="/login" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
@@ -66,7 +71,10 @@ export default function Header() {
           <Link href="/blog" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Blog</Link>
           <Link href="/pricing" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Pricing</Link>
           {user ? (
-            <Link href="/dashboard" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Dashboard</Link>
+            <>
+              <Link href="/dashboard" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Dashboard</Link>
+              <Link href="/auth/signout" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Sign Out</Link>
+            </>
           ) : (
             <>
               <Link href="/login" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Sign In</Link>
