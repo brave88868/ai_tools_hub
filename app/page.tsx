@@ -72,10 +72,10 @@ export default async function HomePage() {
       </section>
 
       {/* Toolkits */}
-      <section className="bg-gray-50 py-8">
+      <section className="bg-gray-50 py-4">
         <div className="max-w-6xl mx-auto px-4">
           {/* Bundle Banner */}
-          <div className="max-w-3xl mx-auto bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl p-5 mb-6">
+          <div className="bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl py-4 px-5 mb-6">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
                 <div className="text-2xl mb-1">⚡</div>
