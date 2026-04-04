@@ -38,9 +38,9 @@ export default async function HomePage() {
   return (
     <main>
       {/* Hero — compact */}
-      <section className="pt-20 pb-6 px-4">
+      <section className="pt-12 pb-4 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 text-xs font-medium px-3 py-1.5 rounded-full mb-4">
+          <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 text-xs font-medium px-3 py-1.5 rounded-full mb-3">
             <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full"></span>
             50+ AI tools · Free to start
           </div>
@@ -50,7 +50,7 @@ export default async function HomePage() {
               Real Workflows
             </span>
           </h1>
-          <p className="text-gray-500 text-base md:text-lg max-w-xl mx-auto mb-5">
+          <p className="text-gray-500 text-base md:text-lg max-w-xl mx-auto mb-4">
             Professional AI tools for job seekers, creators, marketers, and businesses.
           </p>
           <div className="flex items-center justify-center gap-3 mb-2">
