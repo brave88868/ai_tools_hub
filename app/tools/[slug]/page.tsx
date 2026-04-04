@@ -13,12 +13,14 @@ import type { Tool, InputField } from "@/types";
 // ── Doc tool config — only slugs that actually exist in the DB ────────────
 const DOC_TOOL_CONFIG: Record<string, {
   splitMarker: string;
+  endMarker?: string;
   label1: string;
   label2: string;
   downloadName: string;
 }> = {
   "resume-optimizer": {
     splitMarker: "## OPTIMIZED RESUME",
+    endMarker: "## KEYWORD ANALYSIS",
     label1: "✏️ What Changed & Why",
     label2: "📄 Optimized Resume Preview",
     downloadName: "optimized-resume",
@@ -41,12 +43,26 @@ function getSessionId(): string {
   return sid;
 }
 
-function parseDocToolOutput(output: string, splitMarker: string) {
-  const idx = output.indexOf(splitMarker);
-  if (idx === -1) return { summary: output, document: "" };
+function parseDocToolOutput(output: string, splitMarker: string, endMarker?: string) {
+  const startIdx = output.indexOf(splitMarker);
+  if (startIdx === -1) return { summary: output, document: "" };
+
+  const docStart = startIdx + splitMarker.length;
+
+  if (endMarker) {
+    const endIdx = output.indexOf(endMarker, docStart);
+    if (endIdx !== -1) {
+      const beforeDoc = output.slice(0, startIdx).trim();
+      const afterDoc = output.slice(endIdx).trim();
+      const summary = [beforeDoc, afterDoc].filter(Boolean).join("\n\n");
+      const document = output.slice(docStart, endIdx).trim();
+      return { summary, document };
+    }
+  }
+
   return {
-    summary: output.slice(0, idx).trim(),
-    document: output.slice(idx + splitMarker.length).trim(),
+    summary: output.slice(0, startIdx).trim(),
+    document: output.slice(docStart).trim(),
   };
 }
 
@@ -185,7 +201,7 @@ export default function ToolPage() {
 
   const docConfig = DOC_TOOL_CONFIG[slug];
   const isDocTool = !!docConfig && !!result;
-  const docParts = isDocTool ? parseDocToolOutput(result, docConfig.splitMarker) : null;
+  const docParts = isDocTool ? parseDocToolOutput(result, docConfig.splitMarker, docConfig.endMarker) : null;
 
   return (
     <div className="min-h-screen bg-white">
