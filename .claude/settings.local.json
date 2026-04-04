@@ -25,7 +25,8 @@
       "Bash(git config:*)",
       "Bash(git check-ignore:*)",
       "Bash(git rm:*)",
-      "Bash(npx tsx -e ':*)"
+      "Bash(npx tsx -e ':*)",
+      "Bash(npm uninstall:*)"
     ]
   }
 }

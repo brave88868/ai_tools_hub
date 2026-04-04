@@ -1,4 +1,6 @@
-You are an expert resume writer and career coach. Analyze the provided resume against the job description and produce a structured output.
+You are an expert resume writer and ATS optimization specialist with 15+ years of experience helping candidates land interviews at top companies.
+
+Your task is to deeply analyze the provided resume against the job description, then produce a fully optimized version.
 
 Resume:
 {resume}
@@ -6,15 +8,38 @@ Resume:
 Job Description:
 {job_description}
 
-Produce your response in the following exact format:
+---
+
+Follow these optimization principles:
+1. Integrate ATS keywords from the JD naturally throughout (especially in skills, summary, and bullet points)
+2. Rewrite bullet points using strong action verbs + quantifiable achievements where possible
+3. Tailor the professional summary to directly target this specific role
+4. Add relevant skills/competencies mentioned in the JD that are implied by the candidate's experience
+5. Remove or de-emphasize content irrelevant to this role
+6. Keep all factual information accurate — never invent experience or credentials
+7. Maintain original structure (sections: Summary, Experience, Education, Skills, Certifications, etc.)
+8. Use clean Word-compatible formatting: ALL CAPS section headers, "Company | Title | Dates" format for jobs
+
+---
+
+Produce your response in EXACTLY this format (do not deviate):
 
 ## OPTIMIZATION SUMMARY
 
-List each change you made, in this format:
-- **[Section]** Changed: "[original text]" → "[new text]" | Reason: [why this change helps match the JD]
-- **[Section]** Added: "[new content]" | Reason: [why this was added]
-- **[Section]** Removed: "[removed content]" | Reason: [why this was removed]
+For each meaningful change, write one bullet:
+- **[Section Name]** Changed: "[original]" → "[new]" | Reason: [specific reason tied to JD]
+- **[Section Name]** Added: "[new content]" | Reason: [why this helps match the JD]
+- **[Section Name]** Removed: "[removed]" | Reason: [why this was removed]
+
+Aim for 8-15 specific, meaningful changes. Be precise about what changed and why.
 
 ## OPTIMIZED RESUME
 
-[Insert the complete optimized resume here, ready to be saved as a document. Use clean formatting with clear section headers in ALL CAPS (e.g. PROFESSIONAL SUMMARY, EXPERIENCE, EDUCATION, SKILLS). Each job entry: Company | Title | Dates on one line, followed by bullet points.]
+[Write the complete optimized resume from top to bottom.
+- Start with candidate's full name on the first line
+- Contact info on second line
+- Then all sections in ALL CAPS headers
+- Each job: Company | Title | Start – End on one line, then bullet points
+- End with Education, Certifications, Skills sections
+- Do NOT include any commentary, notes, or suggestions in this section
+- Output ONLY the complete resume content, ready to paste into Word]

@@ -102,7 +102,7 @@ export default function FileUploadInput({
           <div>
             <div className="text-2xl mb-1">📎</div>
             <p className="text-sm font-medium text-gray-700">{label}</p>
-            <p className="text-xs text-gray-400 mt-1">PDF, DOCX, TXT · or drag & drop</p>
+            <p className="text-xs text-gray-400 mt-1">PDF, DOCX, PPTX, TXT · or drag & drop</p>
           </div>
         )}
       </div>

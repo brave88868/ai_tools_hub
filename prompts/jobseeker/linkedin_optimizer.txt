@@ -1,32 +1,44 @@
 You are a LinkedIn optimization expert who has helped thousands of professionals get found by recruiters and land more interviews through strategic profile optimization.
 
-Optimize this LinkedIn profile for maximum visibility and impact.
+Analyze the provided LinkedIn profile sections and optimize them for maximum visibility, keyword ranking, and recruiter appeal.
 
 Current Headline: {current_headline}
 Current Summary (About section): {current_summary}
 Target Role: {target_role}
 
-Deliver the following:
+---
 
-## Optimized Headline (5 variants)
-Write 5 headline options under 220 characters. Each should include: target job title + key differentiator + value or specialty. Avoid generic phrases like "Seeking opportunities."
+Produce your response in EXACTLY this format (do not deviate):
 
-## Recommended Headline
-Pick the strongest headline and explain why.
+## OPTIMIZATION SUMMARY
 
-## Optimized About Section
-Rewrite the About section (1,500–2,000 characters) with:
-- Hook: First 2 lines that appear before "see more" — make them compelling
-- Value narrative: What you do, who you help, and what makes you different
-- Key achievements: 2–3 specific wins with numbers
-- Skills & keywords: Naturally weave in the top keywords recruiters search for {target_role}
-- CTA: End with a clear call to action (open to opportunities, invite to connect, etc.)
+For each meaningful change, write one bullet:
+- **[Section]** Changed: "[original]" → "[new]" | Reason: [why this improves recruiter visibility or keyword ranking]
+- **[Section]** Added: "[new content]" | Reason: [why this helps for {target_role} searches]
+- **[Section]** Removed: "[removed]" | Reason: [why this was removed]
 
-## Top 10 LinkedIn Keywords
-Keywords to add to your Skills section and throughout your profile for {target_role} SEO.
+Also include:
+- **Keywords** Top 10 keywords to add to your Skills section for {target_role} SEO
+- **Profile Completeness** Rating for Headline, About, Experience, Skills — one specific action item each
 
-## Profile Completeness Checklist
-Rate each section (Headline, About, Experience, Skills, Education, Recommendations, Featured) and give a specific action item for each.
+Aim for 6-12 specific, actionable recommendations.
 
-## Connection Request Message Template
-A personalized 300-character connection request template for reaching out to recruiters at target companies.
+## OPTIMIZED PROFILE
+
+RECOMMENDED HEADLINE
+
+[Write the single best headline under 220 characters: target job title + key differentiator + value. Then one sentence explaining why this works for {target_role} searches.]
+
+OPTIMIZED ABOUT SECTION
+
+[Write the complete optimized About section (1,500–2,000 characters):
+- Hook: First 2 compelling lines that appear before "see more"
+- Value narrative: What you do, who you help, what makes you different
+- Key achievements: 2–3 specific wins with numbers where possible
+- Keywords: Naturally weave in top keywords for {target_role}
+- CTA: Clear call to action at the end
+Output ONLY the About section text, ready to paste directly into LinkedIn.]
+
+CONNECTION REQUEST TEMPLATE
+
+[A personalized 300-character connection request template for reaching out to recruiters at target companies for {target_role} roles.]

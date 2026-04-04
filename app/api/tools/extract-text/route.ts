@@ -19,9 +19,8 @@ export async function POST(request: NextRequest) {
     let text = "";
 
     if (fileName.endsWith(".pdf")) {
-      // Use internal path to avoid Vercel build-time test file loading issue
       // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const pdfParse = require("pdf-parse/lib/pdf-parse");
+      const pdfParse = require("pdf-parse");
       const data = await pdfParse(buffer);
       text = data.text;
     } else if (fileName.endsWith(".docx")) {
@@ -31,9 +30,13 @@ export async function POST(request: NextRequest) {
       text = result.value;
     } else if (fileName.endsWith(".txt")) {
       text = buffer.toString("utf-8");
+    } else if (fileName.endsWith(".pptx") || fileName.endsWith(".ppt")) {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const officeParser = require("officeparser");
+      text = await officeParser.parseOfficeAsync(buffer, { outputErrorToConsole: true });
     } else {
       return NextResponse.json(
-        { error: "Unsupported file type. Please upload PDF, DOCX, or TXT." },
+        { error: "Unsupported file type. Please upload PDF, DOCX, PPTX, or TXT." },
         { status: 400 }
       );
     }

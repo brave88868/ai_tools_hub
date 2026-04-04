@@ -10,6 +10,39 @@ import ReactMarkdown from "react-markdown";
 import { Document, Paragraph, TextRun, Packer, HeadingLevel } from "docx";
 import type { Tool, InputField } from "@/types";
 
+// ── Doc tool config — only slugs that actually exist in the DB ────────────
+const DOC_TOOL_CONFIG: Record<string, {
+  splitMarker: string;
+  label1: string;
+  label2: string;
+  downloadName: string;
+}> = {
+  "resume-optimizer": {
+    splitMarker: "## OPTIMIZED RESUME",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Resume Preview",
+    downloadName: "optimized-resume",
+  },
+  "linkedin-profile-optimizer": {
+    splitMarker: "## OPTIMIZED PROFILE",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized LinkedIn Profile",
+    downloadName: "optimized-linkedin-profile",
+  },
+  "nda-analyzer": {
+    splitMarker: "## ANNOTATED NDA",
+    label1: "📋 NDA Analysis",
+    label2: "📄 Analysis Report",
+    downloadName: "nda-analysis-report",
+  },
+  "contract-risk-analyzer": {
+    splitMarker: "## ANNOTATED CONTRACT",
+    label1: "📋 Contract Analysis",
+    label2: "📄 Analysis Report",
+    downloadName: "contract-analysis-report",
+  },
+};
+
 function getSessionId(): string {
   if (typeof window === "undefined") return "";
   let sid = localStorage.getItem("session_id");
@@ -20,12 +53,12 @@ function getSessionId(): string {
   return sid;
 }
 
-function parseResumeOptimizerOutput(output: string) {
-  const summaryMatch = output.match(/## OPTIMIZATION SUMMARY\n([\s\S]*?)## OPTIMIZED RESUME/);
-  const resumeMatch = output.match(/## OPTIMIZED RESUME\n([\s\S]*)$/);
+function parseDocToolOutput(output: string, splitMarker: string) {
+  const idx = output.indexOf(splitMarker);
+  if (idx === -1) return { summary: output, document: "" };
   return {
-    summary: summaryMatch?.[1]?.trim() ?? "",
-    optimizedResume: resumeMatch?.[1]?.trim() ?? output,
+    summary: output.slice(0, idx).trim(),
+    document: output.slice(idx + splitMarker.length).trim(),
   };
 }
 
@@ -79,7 +112,7 @@ export default function ToolPage() {
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [upgradeToolkit, setUpgradeToolkit] = useState<string | undefined>();
   const [pageLoading, setPageLoading] = useState(true);
-  const [resumeExpanded, setResumeExpanded] = useState(false);
+  const [docExpanded, setDocExpanded] = useState(false);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -105,7 +138,7 @@ export default function ToolPage() {
     setLoading(true);
     setResult("");
     setError("");
-    setResumeExpanded(false);
+    setDocExpanded(false);
 
     try {
       const sessionId = getSessionId();
@@ -158,9 +191,9 @@ export default function ToolPage() {
 
   const inputFields: InputField[] = Array.isArray(tool.inputs_schema) ? tool.inputs_schema : [];
 
-  // ── Resume Optimizer dual-view ─────────────────────────────────────────
-  const isResumeOptimizer = slug === "resume-optimizer";
-  const resumeParts = isResumeOptimizer && result ? parseResumeOptimizerOutput(result) : null;
+  const docConfig = DOC_TOOL_CONFIG[slug];
+  const isDocTool = !!docConfig && !!result;
+  const docParts = isDocTool ? parseDocToolOutput(result, docConfig.splitMarker) : null;
 
   return (
     <div className="min-h-screen bg-white">
@@ -217,29 +250,31 @@ export default function ToolPage() {
           </div>
         )}
 
-        {/* Resume Optimizer — dual view */}
-        {isResumeOptimizer && resumeParts && (
+        {/* Doc tools — dual view (summary + collapsible document) */}
+        {isDocTool && docParts && docConfig && (
           <div className="mt-6 border border-gray-100 rounded-2xl overflow-hidden">
-            {/* Optimization Summary */}
+            {/* Section 1: Analysis / summary */}
             <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
-              <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">✏️ What Changed & Why</span>
+              <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+                {docConfig.label1}
+              </span>
             </div>
             <div className="p-4 prose prose-sm max-w-none text-gray-700">
-              <ReactMarkdown>{resumeParts.summary || "*No summary available.*"}</ReactMarkdown>
+              <ReactMarkdown>{docParts.summary || "*No summary available.*"}</ReactMarkdown>
             </div>
 
-            {/* Collapsible full resume */}
+            {/* Section 2: Document preview (collapsible) */}
             <div className="border-t border-gray-100">
               <button
-                onClick={() => setResumeExpanded((v) => !v)}
+                onClick={() => setDocExpanded((v) => !v)}
                 className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors text-xs font-semibold text-gray-600 uppercase tracking-wide"
               >
-                <span>📄 Optimized Resume Preview</span>
-                <span>{resumeExpanded ? "▲ Collapse" : "▼ Expand"}</span>
+                <span>{docConfig.label2}</span>
+                <span>{docExpanded ? "▲ Collapse" : "▼ Expand"}</span>
               </button>
-              {resumeExpanded && (
+              {docExpanded && (
                 <div className="p-4 prose prose-sm max-w-none text-gray-700 border-t border-gray-100">
-                  <ReactMarkdown>{resumeParts.optimizedResume}</ReactMarkdown>
+                  <ReactMarkdown>{docParts.document || "*No document content.*"}</ReactMarkdown>
                 </div>
               )}
             </div>
@@ -248,26 +283,26 @@ export default function ToolPage() {
             <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-t border-gray-100">
               <button
                 onClick={() => {
-                  navigator.clipboard.writeText(resumeParts.optimizedResume);
+                  navigator.clipboard.writeText(docParts.document || result);
                   setCopied(true);
                   setTimeout(() => setCopied(false), 2000);
                 }}
                 className="flex-1 text-xs text-gray-600 border border-gray-200 rounded-lg py-2 hover:border-gray-400 transition-colors"
               >
-                {copied ? "✓ Copied" : "Copy Resume Text"}
+                {copied ? "✓ Copied" : "Copy Document Text"}
               </button>
               <button
-                onClick={() => downloadDocx(resumeParts.optimizedResume, "optimized-resume")}
+                onClick={() => downloadDocx(docParts.document || result, docConfig.downloadName)}
                 className="flex-1 text-xs bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-lg py-2 hover:opacity-90 transition-opacity"
               >
-                ↓ Download Optimized CV.docx
+                ↓ Download .docx
               </button>
             </div>
           </div>
         )}
 
         {/* All other tools — standard ResultPanel */}
-        {!isResumeOptimizer && result && (
+        {!isDocTool && result && (
           <ResultPanel
             result={result}
             format={outputFormat}
