@@ -212,7 +212,7 @@ export default function ToolPage() {
         />
       )}
 
-      <div className="max-w-3xl mx-auto px-4 py-12">
+      <div className="max-w-3xl mx-auto px-4 py-6 md:py-12">
         {/* Tool Header */}
         <div className="border-b border-gray-100 pb-6 mb-6">
           <div className="flex items-center gap-2 text-xs text-gray-400 mb-3">

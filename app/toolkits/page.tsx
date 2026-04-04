@@ -77,7 +77,7 @@ export default function ToolkitsPage() {
             <h3 className="text-white font-bold text-lg mb-0.5">All Toolkits Bundle</h3>
             <p className="text-white/70 text-sm">Get unlimited access to all 6 toolkits — best value</p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
             <span className="text-white font-bold text-2xl">$39<span className="text-base font-normal text-white/70">/mo</span></span>
             <button
               onClick={() => handleSubscribe("bundle")}

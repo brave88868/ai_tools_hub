@@ -109,7 +109,7 @@ export default function PricingPage() {
         </div>
 
         {/* Middle: 4 metrics */}
-        <div className="flex items-center gap-4 text-xs text-gray-500">
+        <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500">
           <span><strong className="text-gray-800">3/day</strong> generations</span>
           <span><strong className="text-gray-800">30</strong> lifetime uses</span>
           <span><strong className="text-gray-800">50+</strong> tools</span>
@@ -126,7 +126,8 @@ export default function PricingPage() {
       <div className="max-w-2xl mx-auto mb-16">
         <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Free vs Subscribed</h2>
         <div className="border border-gray-200 rounded-2xl overflow-hidden">
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[400px]">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200">
                 <th className="text-left px-6 py-4 text-gray-600 font-medium">Feature</th>
@@ -152,6 +153,7 @@ export default function PricingPage() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 

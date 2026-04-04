@@ -50,7 +50,7 @@ export default async function HomePage() {
           <p className="text-gray-500 text-base md:text-lg max-w-xl mx-auto mb-3">
             Professional AI tools for job seekers, creators, marketers, and businesses.
           </p>
-          <div className="flex items-center justify-center gap-3 mb-2">
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-2">
             <Link
               href="/toolkits"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-violet-500 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:opacity-90 transition-opacity shadow-lg shadow-indigo-200"
