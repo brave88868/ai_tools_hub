@@ -1,12 +1,9 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { createAdminClient } from "@/lib/supabase";
+"use client";
 
-export const metadata: Metadata = {
-  title: "AI Toolkits — 6 professional AI tool collections",
-  description:
-    "Browse all AI toolkits for job seekers, content creators, marketers, businesses, legal needs, and students.",
-};
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 const TOOLKIT_COLORS: Record<string, string> = {
   jobseeker: "border-l-blue-400",
@@ -17,16 +14,56 @@ const TOOLKIT_COLORS: Record<string, string> = {
   exam: "border-l-yellow-400",
 };
 
-export default async function ToolkitsPage() {
-  const supabase = createAdminClient();
-  const { data: toolkits } = await supabase
-    .from("toolkits")
-    .select("*")
-    .eq("is_active", true)
-    .order("sort_order");
+interface Toolkit {
+  slug: string;
+  name: string;
+  description: string;
+  price_monthly: number;
+  icon: string;
+}
 
-  const bundle = (toolkits ?? []).find((k) => k.slug === "bundle");
-  const regular = (toolkits ?? []).filter((k) => k.slug !== "bundle");
+export default function ToolkitsPage() {
+  const router = useRouter();
+  const [toolkits, setToolkits] = useState<Toolkit[]>([]);
+  const [subscribingSlug, setSubscribingSlug] = useState<string | null>(null);
+
+  useEffect(() => {
+    supabase
+      .from("toolkits")
+      .select("slug, name, description, price_monthly, icon")
+      .eq("is_active", true)
+      .order("sort_order")
+      .then(({ data }) => setToolkits(data ?? []));
+  }, []);
+
+  async function handleSubscribe(toolkitSlug: string) {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      router.push("/login");
+      return;
+    }
+
+    setSubscribingSlug(toolkitSlug);
+    try {
+      const res = await fetch("/api/subscription/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ toolkit_slug: toolkitSlug }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("[checkout]", data.error);
+      }
+    } catch (err) {
+      console.error("[checkout]", err);
+    } finally {
+      setSubscribingSlug(null);
+    }
+  }
+
+  const regular = toolkits.filter((k) => k.slug !== "bundle");
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-6">
@@ -35,31 +72,26 @@ export default async function ToolkitsPage() {
         <p className="text-gray-500">Each toolkit contains 10 AI tools built for a specific workflow.</p>
       </div>
 
-      {/* Bundle — full-width highlight */}
-      {bundle && (
-        <div className="mb-6">
-          <div className="bg-gradient-to-r from-indigo-500 to-violet-500 rounded-2xl p-6 text-white">
-            <div className="flex items-center justify-between flex-wrap gap-4">
-              <div>
-                <div className="text-2xl mb-2">⚡</div>
-                <h3 className="text-lg font-bold mb-1">All Toolkits Bundle</h3>
-                <p className="text-indigo-100 text-sm">Get unlimited access to all 6 toolkits — best value</p>
-              </div>
-              <div className="text-right">
-                <div className="text-3xl font-bold mb-1">
-                  $39<span className="text-lg font-normal text-indigo-200">/mo</span>
-                </div>
-                <Link
-                  href="/pricing"
-                  className="inline-block bg-white text-indigo-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-50 transition-colors"
-                >
-                  Get Bundle →
-                </Link>
-              </div>
-            </div>
+      {/* Bundle Banner */}
+      <div className="bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl p-5 mb-6">
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <div className="text-2xl mb-1">⚡</div>
+            <h3 className="text-white font-bold text-lg mb-0.5">All Toolkits Bundle</h3>
+            <p className="text-white/70 text-sm">Get unlimited access to all 6 toolkits — best value</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="text-white font-bold text-2xl">$39<span className="text-base font-normal text-white/70">/mo</span></span>
+            <button
+              onClick={() => handleSubscribe("bundle")}
+              disabled={subscribingSlug === "bundle"}
+              className="bg-white text-indigo-600 font-medium text-sm px-5 py-2 rounded-xl hover:bg-indigo-50 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {subscribingSlug === "bundle" ? "Loading…" : "Get Bundle →"}
+            </button>
           </div>
         </div>
-      )}
+      </div>
 
       {/* Regular toolkits */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

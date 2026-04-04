@@ -78,6 +78,26 @@ export default async function HomePage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-2">AI Toolkits</h2>
             <p className="text-gray-500 text-sm">Each toolkit is a collection of AI tools built for a specific workflow.</p>
           </div>
+          {/* Bundle Banner */}
+          <div className="bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl p-5 mb-6">
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <div>
+                <div className="text-2xl mb-1">⚡</div>
+                <h3 className="text-white font-bold text-lg mb-0.5">All Toolkits Bundle</h3>
+                <p className="text-white/70 text-sm">Get unlimited access to all 6 toolkits — best value</p>
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="text-white font-bold text-2xl">$39<span className="text-base font-normal text-white/70">/mo</span></span>
+                <Link
+                  href="/pricing"
+                  className="bg-white text-indigo-600 font-medium text-sm px-5 py-2 rounded-xl hover:bg-indigo-50 transition-colors"
+                >
+                  Get Bundle →
+                </Link>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {(toolkits ?? []).map((kit) => (
               <Link
