@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   },
   description:
     "Free AI tools for resume optimization, content creation, marketing copy, business analysis, and legal documents.",
+  verification: {
+    google: "ajg5WUsl3Y2Wud0Y81FGuVqt_cv022967bfCQblVZuQ",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
