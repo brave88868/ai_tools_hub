@@ -6,7 +6,18 @@ export async function POST(req: NextRequest) {
   try {
     const { toolkit_slug } = await req.json();
 
-    if (!toolkit_slug || !TOOLKIT_PRICE_IDS[toolkit_slug]) {
+    const priceId = TOOLKIT_PRICE_IDS[toolkit_slug];
+    if (!toolkit_slug || !priceId) {
+      // Log to Vercel function logs so missing env vars are visible
+      console.error("[checkout] Invalid toolkit — received slug:", toolkit_slug, "| priceId resolved:", priceId, "| env var check:", {
+        STRIPE_JOBSEEKER_PRICE_ID: !!process.env.STRIPE_JOBSEEKER_PRICE_ID,
+        STRIPE_CREATOR_PRICE_ID:   !!process.env.STRIPE_CREATOR_PRICE_ID,
+        STRIPE_MARKETING_PRICE_ID: !!process.env.STRIPE_MARKETING_PRICE_ID,
+        STRIPE_BUSINESS_PRICE_ID:  !!process.env.STRIPE_BUSINESS_PRICE_ID,
+        STRIPE_LEGAL_PRICE_ID:     !!process.env.STRIPE_LEGAL_PRICE_ID,
+        STRIPE_EXAM_PRICE_ID:      !!process.env.STRIPE_EXAM_PRICE_ID,
+        STRIPE_BUNDLE_PRICE_ID:    !!process.env.STRIPE_BUNDLE_PRICE_ID,
+      });
       return NextResponse.json({ error: "Invalid toolkit" }, { status: 400 });
     }
 
@@ -22,7 +33,7 @@ export async function POST(req: NextRequest) {
       payment_method_types: ["card"],
       line_items: [
         {
-          price: TOOLKIT_PRICE_IDS[toolkit_slug],
+          price: priceId,
           quantity: 1,
         },
       ],

@@ -15,6 +15,19 @@ function getDateRange() {
 }
 
 export async function POST(req: NextRequest) {
+  // ── Cloudflare 源站保护 ──────────────────────────────────────────
+  // 生产环境只接受经过 Cloudflare 转发的请求（携带 cf-ray header）
+  // 直接裸打 Vercel 源站的请求（机器人绕过 Cloudflare）返回 403
+  if (process.env.NODE_ENV === 'production') {
+    const cfRay = req.headers.get('cf-ray')
+    if (!cfRay) {
+      return NextResponse.json(
+        { error: 'Forbidden' },
+        { status: 403 }
+      )
+    }
+  }
+  // ────────────────────────────────────────────────────────────────
   try {
     const body = await req.json();
     const { tool_slug, inputs } = body;

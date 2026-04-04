@@ -25,6 +25,8 @@
 10. **移动端响应式（SPEC-11-B）** — pricing表格overflow-x-auto、工具页py-6 md:py-12、Hero按钮flex-wrap、Free Plan指标flex-wrap、UpgradeModal p-6 sm:p-8、Bundle横幅换行布局
 11. **UpgradeModal 分流（SPEC-11）** — 未登录显示注册引导（Sign Up Free），已登录显示订阅流程；匿名限制改为1次/天
 12. **Cover Letter Generator 升级（SPEC-12）** — CV上传（PDF/DOCX/TXT）+ 六字段输入 + 五段STAR结构prompt + ATS优化
+13. **Cloudflare 源站保护（SPEC-SEC-01）** — 生产环境 `/api/tools/run` 无 `cf-ray` header → 403，阻止机器人绕过 Cloudflare 直打 Vercel 源站
+14. **Checkout Invalid toolkit 修复（SPEC-FIX-06）** — `TOOLKIT_PRICE_IDS` 类型改为 `string | undefined`（移除 `!` 断言）；失败时打印完整诊断日志（received slug + 每个 env var 是否已设置）到 Vercel 函数日志
 
 ### 当前技术状态
 
