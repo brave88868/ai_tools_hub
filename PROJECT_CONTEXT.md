@@ -7,9 +7,9 @@
 
 ## 当前项目状态
 
-**项目阶段**: 🟡 进行中（SPEC-FIX-05 完成）  
-**当前里程碑**: Phase 3 — SEO Engine（下一步）  
-**最后更新**: 2026-04-05 — SPEC-FIX-05 完成（全量 prompt 质量升级）
+**项目阶段**: 🟡 进行中（SPEC-12 完成）  
+**当前里程碑**: Stripe Live 切换（SPEC-11-C，手动）→ SPEC-09 SEO Engine  
+**最后更新**: 2026-04-05 — SPEC-11 + SPEC-12 完成
 
 ### 已完成修复（Bug Fix Log）
 
@@ -21,16 +21,22 @@
 6. **Resume Optimizer 双区显示** — `DOC_TOOL_CONFIG` 模式 + `splitMarker` 分区渲染
 7. **NDA/Contract Analyzer 错误归类** — 从 DOC_TOOL_CONFIG 移出，改为标准 ResultPanel（Mode B）
 8. **全量 prompt 升级** — 62个工具 prompt 添加 STEP 1 内部分析 + 结构化输出格式
+9. **匿名用户限制绕过（SPEC-11-A）** — token无效时正确fallback到匿名分支；IP+UA SHA256 fingerprint替代localStorage session_id；日期上界改为次日00:00:00.000Z
+10. **移动端响应式（SPEC-11-B）** — pricing表格overflow-x-auto、工具页py-6 md:py-12、Hero按钮flex-wrap、Free Plan指标flex-wrap、UpgradeModal p-6 sm:p-8、Bundle横幅换行布局
+11. **UpgradeModal 分流（SPEC-11）** — 未登录显示注册引导（Sign Up Free），已登录显示订阅流程；匿名限制改为1次/天
+12. **Cover Letter Generator 升级（SPEC-12）** — CV上传（PDF/DOCX/TXT）+ 六字段输入 + 五段STAR结构prompt + ATS优化
 
 ### 当前技术状态
 
 - 72 active tools（6 toolkits，每个 10 tools，+ 12 额外工具）
 - All tools: tool_type=template, inputs_schema 已填充, prompt_file 已验证
-- File upload: PDF/DOCX/PPTX/TXT，Vercel nodejs runtime
+- File upload: PDF/DOCX/PPTX/TXT，Vercel nodejs runtime（FileUploadInput → /api/tools/extract-text）
 - Download: 所有工具输出 .docx 格式
 - Auth: Supabase email + Google OAuth，sign-out 正常
-- Billing: Stripe checkout + webhook (price.updated) + Supabase 同步
+- Billing: Stripe checkout + webhook (price.updated) + Supabase 同步（**仍在 Test 模式**）
 - Prompt 质量: 所有工具含 STEP 1 内部分析 + 结构化输出
+- Rate limiting: 匿名1次/天（IP+UA fingerprint）/ 登录免费3次/天+30次终身 / 付费100次/天
+- Cover Letter: 6字段（cv_text_file/job_description/name/hiring_manager/company/job_title），Supabase inputs_schema已更新
 
 ---
 
@@ -49,7 +55,7 @@
 | 首页 UI | ✅ 完成 | Hero + Popular Tools + Toolkits + How It Works + Pricing CTA |
 | Toolkit 页面（/toolkits/[slug]） | ✅ 完成 | 工具列表 + generateMetadata + Legal disclaimer |
 | 工具页面（/tools/[slug]） | ✅ 完成 | InputForm + ResultPanel + UpgradeModal |
-| 用户权限系统（3次免费 + 订阅判断） | ✅ 完成 | localStorage session_id + /api/tools/run 统一判断 |
+| 用户权限系统（1次免费匿名 + 3次/天登录 + 订阅） | ✅ 完成 | IP+UA SHA256 fingerprint + /api/tools/run 统一判断；UpgradeModal 分流 |
 | Stripe 订阅（per-toolkit） | ✅ 完成 | Checkout Session + Webhook 自动更新订阅状态 |
 | 用户 Dashboard | ✅ 完成 | 订阅状态 + 使用次数 + 快捷链接 |
 | Admin 后台 | ⬜ 未开始 | |
@@ -68,6 +74,7 @@
 
 | 模块 | 状态 | 说明 |
 |------|------|------|
+| Stripe Live 切换（SPEC-11-C） | 🔲 待手动操作 | Stripe Dashboard + Vercel 环境变量更新 |
 | Programmatic SEO Engine | ⬜ 未开始 | 关键词 → 页面自动生成 |
 | SEO 关键词数据库（1000+条） | ⬜ 未开始 | |
 | Blog 页面（/blog/[slug]） | 🟡 进行中 | /blog 列表页完成，/blog/[slug] 详情页待实现 |
@@ -367,7 +374,9 @@ NEXT_PUBLIC_APP_URL=https://aitoolshub.com
 
 ```
 POST /api/tools/run
-  body: { tool_slug, inputs, session_id? }
+  body: { tool_slug, inputs }
+  headers: Authorization: Bearer <token>（可选，未登录时不传）
+  → 服务端解析 Bearer token → user=null 走匿名分支（IP+UA fingerprint）
   → 检查权限 → 路由到对应 Engine → 返回结果
 
 POST /api/subscription/checkout
@@ -406,9 +415,12 @@ Day 7  Admin 后台 + 部署 Vercel + 测试
 - Legal Toolkit 所有工具**必须**在结果页底部显示 Disclaimer：
   > "This tool provides general informational analysis only. It does not constitute legal advice. Please consult a qualified attorney for legal matters."
 - Stripe Webhook 必须用 `stripe.webhooks.constructEvent` 验签
-- 未登录用户免费次数用 `localStorage` 计数（客户端），同时后端用 session_id 做二次校验
+- 未登录用户限制：服务端 SHA256(IP:UA) fingerprint，存 `usage_logs.session_id`，1次/天
+- 已登录未付费：3次/天 + 30次终身，通过 `user_id` 查 `usage_logs`
+- Bearer token 无效时必须走匿名分支（不可跳过限制）
 - SEO 页面必须有 `generateMetadata()` 导出静态 metadata
 - 批量 SEO 内容生成使用便宜模型（GPT-4o-mini 或 Claude Haiku）降低成本
+- `InputForm` 中 `type:"file"` 字段通过 `FileUploadInput` → `/api/tools/extract-text` 提取文本；字段名 `xyz_file` 提取后以 `xyz` 传入 prompt
 
 ---
 

@@ -141,12 +141,19 @@ E:\Projects\AI_Tools_Hub\
 ## 用户权限系统（必须严格实现）
 
 ```
-未登录用户   →  localStorage 计数，免费使用 3 次，不需注册
-超过 3 次    →  弹出 Upgrade Modal（不跳转离开页面）
-付费用户     →  对应 Toolkit 无限使用
+未登录用户   →  服务端 IP+UA SHA256 fingerprint 计数，免费使用 1 次
+             →  超过后弹 UpgradeModal（isLoggedIn=false）显示注册引导
+             →  message: "Sign up for free to get 3 uses per day"
+已登录未付费 →  3次/天 + 30次终身上限，超过弹 UpgradeModal（isLoggedIn=true）
+付费用户     →  对应 Toolkit 100次/天
 登录方式     →  Google OAuth 或 邮箱+密码
 计费方式     →  Stripe 月订阅（按 Toolkit 单独订阅）
 权限检查     →  统一在 /api/tools/run 入口执行，不在页面层分散
+
+关键实现细节：
+- Bearer token 存在但 getUser() 返回 null → 归入匿名分支（不跳过限制）
+- 日期范围：gte today T00:00:00.000Z / lt tomorrow T00:00:00.000Z
+- session_id 字段存储 fingerprint = SHA256(ip:ua)，64位十六进制
 ```
 
 ---
@@ -384,24 +391,29 @@ Optimization Agent       →  自动优化产品
 - SPEC-FIX-03 ✅ Resume Optimizer dual-view + DOC_TOOL_CONFIG pattern
 - SPEC-FIX-04 ✅ Tool display modes corrected + resume prompt quality upgrade
 - SPEC-FIX-05 ✅ All 62 tool prompts upgraded (STEP 1 internal analysis + structured output)
-- SPEC-09 🔲 Programmatic SEO Engine (next)
+- SPEC-11 ✅ Rate limit fix + mobile responsive + UpgradeModal signup flow
+- SPEC-12 ✅ Cover Letter Generator — CV upload + 5-paragraph STAR prompt
+- SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
+- SPEC-09 🔲 Programmatic SEO Engine
 
 ## Tool Display Modes
 
 - **Mode A (dual-view)**: `resume-optimizer`, `linkedin-profile-optimizer`
   → Summary section (what changed + why) + collapsible document preview + Download .docx
-- **Mode B (single-view + download)**: all other 70 tools
+- **Mode B (single-view + download)**: all other tools
   → Full result rendered as Markdown + Download .docx button
 
 ## Key Files
 
-- `app/tools/[slug]/page.tsx` — tool page with `DOC_TOOL_CONFIG` for dual-view tools
+- `app/tools/[slug]/page.tsx` — tool page with `DOC_TOOL_CONFIG` for dual-view tools, `isLoggedIn` state
 - `components/ResultPanel.tsx` — standard result display with .docx download
-- `app/api/tools/run/route.ts` — tool generation API (single entry point)
-- `app/api/tools/extract-text/route.ts` — file upload parser (nodejs runtime, pdf-parse v1)
-- `prompts/` — all 62 tool prompts organized by toolkit (all upgraded with STEP 1)
+- `components/UpgradeModal.tsx` — signup flow (isLoggedIn=false) or subscribe flow (isLoggedIn=true)
+- `components/InputForm.tsx` — file fields use `FileUploadInput`; extracted text passed as `{field}_text`
+- `app/api/tools/run/route.ts` — single entry point; IP+UA fingerprint; correct auth fallback
+- `app/api/tools/extract-text/route.ts` — file upload parser (pdf-parse v1 + mammoth + officeparser)
+- `prompts/jobseeker/cover_letter.txt` — 5-paragraph STAR cover letter prompt
+- `prompts/` — all tool prompts organized by toolkit (all upgraded with STEP 1)
 - `scripts/test-all-tools.mjs` — validates all 72 tools (72/72 pass)
-- `scripts/sync-stripe-prices.mjs` — one-time Stripe→Supabase price sync
 - `proxy.ts` — Next.js 16 session refresh middleware (renamed from middleware.ts)
 
 ## Architecture Notes
@@ -411,7 +423,18 @@ Optimization Agent       →  自动优化产品
 - File parsing: `pdf-parse@1` + `mammoth` + `officeparser` (all in `serverExternalPackages`)
 - Stripe webhook: `price.updated` → auto-sync to Supabase `toolkits.price_monthly`
 - Sign Out: `<button>` with `supabase.auth.signOut()` + `router.push("/")` (not `<Link>`)
+- Rate limiting: anonymous = 1/day via SHA256(IP:UA); logged-in free = 3/day+30 lifetime; paid = 100/day
+- `InputForm` file fields: `name: "xyz_file", type: "file"` → extracts text → submits as `xyz`
 
-## Next Task: SPEC-09 SEO Engine
+## SPEC-11-C — Stripe Live 切换（待手动操作）
 
-- Start with Step 1 (keyword data layer) → Step 3 (use-case pages) → Step 6 (sitemap)
+1. Stripe Dashboard → Live 模式 → 创建 7 个产品（见 SPEC-11 文档）
+2. Developers → Webhooks → Add endpoint: `https://aitoolsstation.com/api/subscription/webhook`
+3. 复制 Live Secret Key + Webhook Secret
+4. Vercel → Settings → Environment Variables → 更新所有 STRIPE_* 变量
+5. Redeploy → 用真实银行卡验证
+
+## Next Tasks
+
+1. SPEC-11-C: Stripe Live 切换（手动）
+2. SPEC-09: Programmatic SEO Engine（keyword data layer → use-case pages → sitemap）
