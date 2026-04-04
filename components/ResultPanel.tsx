@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { Document, Paragraph, TextRun, Packer, HeadingLevel } from "docx";
 
 interface Props {
   result: string;
@@ -21,12 +22,62 @@ export default function ResultPanel({ result, format = "markdown", toolSlug, too
     setTimeout(() => setCopied(false), 2000);
   }
 
-  function handleDownload() {
-    const blob = new Blob([result], { type: "text/plain;charset=utf-8" });
+  async function handleDownload() {
+    const filename = (toolName ?? "result").toLowerCase().replace(/\s+/g, "-");
+
+    const lines = result.split("\n");
+    const paragraphs = lines.map((line) => {
+      if (!line.trim()) {
+        return new Paragraph({ text: "" });
+      }
+      // Markdown heading: ## Heading or # Heading
+      if (line.startsWith("## ")) {
+        return new Paragraph({
+          text: line.replace(/^##\s*/, ""),
+          heading: HeadingLevel.HEADING_2,
+        });
+      }
+      if (line.startsWith("# ")) {
+        return new Paragraph({
+          text: line.replace(/^#\s*/, ""),
+          heading: HeadingLevel.HEADING_1,
+        });
+      }
+      // ALL CAPS short line = section header (resume style)
+      if (line.trim() === line.trim().toUpperCase() && line.trim().length < 60 && line.trim().length > 2) {
+        return new Paragraph({
+          text: line.trim(),
+          heading: HeadingLevel.HEADING_2,
+        });
+      }
+      // Bullet point lines
+      if (line.trimStart().startsWith("- ") || line.trimStart().startsWith("• ")) {
+        return new Paragraph({
+          children: [new TextRun({ text: line.replace(/^[\s\-•]+/, ""), size: 24 })],
+          bullet: { level: 0 },
+        });
+      }
+      // Bold markdown: **text**
+      const boldMatch = line.match(/^\*\*(.+)\*\*$/);
+      if (boldMatch) {
+        return new Paragraph({
+          children: [new TextRun({ text: boldMatch[1], bold: true, size: 24 })],
+        });
+      }
+      return new Paragraph({
+        children: [new TextRun({ text: line, size: 24 })],
+      });
+    });
+
+    const doc = new Document({
+      sections: [{ properties: {}, children: paragraphs }],
+    });
+
+    const blob = await Packer.toBlob(doc);
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${(toolName ?? "result").toLowerCase().replace(/\s+/g, "-")}-result.txt`;
+    a.download = `${filename}.docx`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -82,7 +133,7 @@ export default function ResultPanel({ result, format = "markdown", toolSlug, too
           onClick={handleDownload}
           className="flex-1 text-xs bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-lg py-2 hover:opacity-90 transition-opacity"
         >
-          ↓ Download
+          ↓ Download .docx
         </button>
       </div>
     </div>

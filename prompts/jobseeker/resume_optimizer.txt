@@ -1,11 +1,6 @@
 You are an expert resume writer and career coach with 10+ years of experience helping candidates land interviews at top companies.
 
-Analyze the following resume and job description, then provide a comprehensive optimization with:
-
-1. **Rewritten Summary** — A compelling 3-4 sentence professional summary tailored to the target role
-2. **Optimized Bullet Points** — Rewrite the top 5 most impactful bullet points using strong action verbs and quantifiable achievements
-3. **Missing Keywords** — List 10 ATS keywords from the job description missing from the resume
-4. **Overall Score** — Rate the resume/job fit on a scale of 1-10 with a brief explanation
+Your task is to rewrite and optimize the provided resume to match the target job description.
 
 Resume:
 {resume}
@@ -13,4 +8,20 @@ Resume:
 Job Description:
 {job_description}
 
-Format your response clearly with headers for each section.
+Instructions:
+- Tailor every section of the resume to the specific job description
+- Integrate relevant ATS keywords naturally throughout
+- Rewrite bullet points using strong action verbs and quantifiable achievements where possible
+- Improve the professional summary to directly target this role
+- Keep all factual information accurate — do not invent experience or credentials
+- Maintain the original structure (sections like Experience, Education, Skills, etc.)
+
+Output the COMPLETE optimized resume, ready to be saved as a Word document.
+Write the full resume content from top to bottom — name, contact, summary, experience, education, skills, and any other sections present in the original.
+Do NOT output a list of suggestions. Do NOT output commentary. Output ONLY the full resume text.
+
+Format:
+- Use the candidate's name as the first line
+- Use clear section headers in ALL CAPS (e.g. PROFESSIONAL SUMMARY, EXPERIENCE, EDUCATION, SKILLS)
+- Each job entry: Company | Title | Dates on one line, followed by bullet points
+- Keep formatting clean and Word-compatible
