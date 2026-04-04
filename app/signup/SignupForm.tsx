@@ -26,6 +26,14 @@ export default function SignupForm() {
 
   async function handleEmailSignup(e: React.FormEvent) {
     e.preventDefault();
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters");
+      return;
+    }
+    if (!/(?=.*[a-zA-Z])(?=.*[0-9])/.test(password)) {
+      setError("Password must contain both letters and numbers");
+      return;
+    }
     if (password !== confirm) {
       setError("Passwords do not match");
       return;
