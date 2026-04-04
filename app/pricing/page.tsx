@@ -1,21 +1,58 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { createAdminClient } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
-export const metadata: Metadata = {
-  title: "Pricing | AI Tools Hub",
-  description:
-    "Simple pricing for AI Tools Hub. Start free or subscribe to any AI toolkit. Each toolkit is billed separately.",
-};
+interface Toolkit {
+  slug: string;
+  name: string;
+  description: string;
+  price_monthly: number;
+  icon: string;
+}
 
-export default async function PricingPage() {
-  const supabase = createAdminClient();
+export default function PricingPage() {
+  const router = useRouter();
+  const [toolkits, setToolkits] = useState<Toolkit[]>([]);
+  const [subscribingSlug, setSubscribingSlug] = useState<string | null>(null);
 
-  const { data: toolkits } = await supabase
-    .from("toolkits")
-    .select("slug, name, description, price_monthly, icon, id")
-    .eq("is_active", true)
-    .order("sort_order");
+  useEffect(() => {
+    supabase
+      .from("toolkits")
+      .select("slug, name, description, price_monthly, icon")
+      .eq("is_active", true)
+      .order("sort_order")
+      .then(({ data }) => setToolkits(data ?? []));
+  }, []);
+
+  async function handleSubscribe(toolkitSlug: string) {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      router.push("/login");
+      return;
+    }
+
+    setSubscribingSlug(toolkitSlug);
+    try {
+      const res = await fetch("/api/subscription/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ toolkit_slug: toolkitSlug }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("[checkout]", data.error);
+      }
+    } catch (err) {
+      console.error("[checkout]", err);
+    } finally {
+      setSubscribingSlug(null);
+    }
+  }
 
   return (
     <main className="max-w-5xl mx-auto px-4 py-16">
@@ -74,7 +111,7 @@ export default async function PricingPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {(toolkits ?? []).map((kit) => (
+          {toolkits.map((kit) => (
             <div
               key={kit.slug}
               className="border border-gray-200 rounded-2xl p-6 hover:border-gray-400 hover:shadow-sm transition-all"
@@ -88,12 +125,13 @@ export default async function PricingPage() {
                   <span className="text-2xl font-bold text-gray-900">${kit.price_monthly}</span>
                   <span className="text-xs text-gray-400 ml-1">/month</span>
                 </div>
-                <Link
-                  href="/login"
-                  className="text-xs bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+                <button
+                  onClick={() => handleSubscribe(kit.slug)}
+                  disabled={subscribingSlug === kit.slug}
+                  className="text-xs bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Subscribe
-                </Link>
+                  {subscribingSlug === kit.slug ? "Loading…" : "Subscribe"}
+                </button>
               </div>
 
               <ul className="mt-4 space-y-1.5 text-xs text-gray-500">
