@@ -40,10 +40,7 @@ export default async function HomePage() {
       {/* Hero — compact */}
       <section className="pt-8 pb-3 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 text-xs font-medium px-3 py-1.5 rounded-full mb-2">
-            <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full"></span>
-            50+ AI tools · Free to start
-          </div>
+
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-2">
             AI Tools for{" "}
             <span className="bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent">

@@ -30,9 +30,12 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-100">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link href="/" className="text-base font-bold text-gray-900 tracking-tight">
-          AI Tools Hub
-        </Link>
+        <div className="flex flex-col">
+          <Link href="/" className="text-base font-bold text-gray-900 tracking-tight">
+            AI Tools Hub
+          </Link>
+          <p className="text-xs text-gray-400 mt-0.5">50+ AI tools · Free to start</p>
+        </div>
 
         <nav className="hidden md:flex items-center gap-8">
           <Link href="/toolkits" className={`relative text-[15px] font-medium transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-200 ${pathname.startsWith("/toolkits") ? "text-indigo-600 after:w-full" : "text-gray-700 hover:text-indigo-600 after:w-0 hover:after:w-full"}`}>Toolkits</Link>
