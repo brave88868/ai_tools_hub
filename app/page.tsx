@@ -74,12 +74,8 @@ export default async function HomePage() {
       {/* Toolkits */}
       <section className="bg-gray-50 py-8">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">AI Toolkits</h2>
-            <p className="text-gray-500 text-sm">Each toolkit is a collection of AI tools built for a specific workflow.</p>
-          </div>
           {/* Bundle Banner */}
-          <div className="bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl p-5 mb-6">
+          <div className="max-w-3xl mx-auto bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl p-5 mb-6">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
                 <div className="text-2xl mb-1">⚡</div>
