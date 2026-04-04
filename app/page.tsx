@@ -109,7 +109,7 @@ export default async function HomePage() {
                 <h3 className="text-base font-semibold text-gray-900 mb-1">{kit.name}</h3>
                 <p className="text-xs text-gray-400 leading-relaxed mb-3">{kit.description}</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-400">${kit.price_monthly}/month</span>
+                  <span className="text-xs font-medium text-gray-700">${kit.price_monthly}/month</span>
                   <span className="text-xs text-indigo-500 group-hover:text-indigo-600 transition-colors">Explore →</span>
                 </div>
               </Link>

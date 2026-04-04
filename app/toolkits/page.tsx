@@ -106,7 +106,7 @@ export default function ToolkitsPage() {
             <p className="text-xs text-gray-400 leading-relaxed mb-5">{kit.description}</p>
             <div className="flex items-center justify-between">
               <span className="text-sm font-semibold text-gray-900">
-                ${kit.price_monthly}<span className="text-xs font-normal text-gray-400">/month</span>
+                ${kit.price_monthly}<span className="text-xs font-medium text-gray-700">/month</span>
               </span>
               <span className="text-xs text-indigo-500 group-hover:text-indigo-600 transition-colors">
                 Explore →
