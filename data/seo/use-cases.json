@@ -1,0 +1,417 @@
+[
+  {
+    "slug": "ai-resume-builder",
+    "title": "AI Resume Builder: Create a Job-Winning Resume in Minutes",
+    "h1": "Build a Job-Winning Resume with AI",
+    "metaDescription": "Use AI tools to build an ATS-optimized resume in minutes. Free AI resume builder with keyword matching and one-click download.",
+    "intro": "Writing a resume that passes ATS filters and impresses hiring managers is hard. AI resume tools analyze job descriptions, surface missing keywords, and rewrite your bullets into quantified achievements — in minutes, not hours.",
+    "recommendedTools": [
+      "resume-optimizer",
+      "ats-resume-checker",
+      "resume-keyword-scanner",
+      "resume-bullet-generator"
+    ],
+    "steps": [
+      "Paste your current resume text into the AI Resume Optimizer",
+      "Add the job description you are applying for",
+      "Review the AI's keyword gap analysis and suggested changes",
+      "Download the optimized resume as a .docx file",
+      "Run the ATS Resume Checker to confirm your score before submitting"
+    ],
+    "faqs": [
+      {
+        "q": "Is an AI-built resume detectable by employers?",
+        "r": "AI tools help you optimize and rewrite your existing experience — they do not fabricate content. The resume still reflects your real background, just better structured and keyword-optimized."
+      },
+      {
+        "q": "Will an AI resume pass ATS systems?",
+        "r": "Yes. Our ATS Resume Checker specifically scans for the keywords, formatting issues, and section names that ATS platforms like Taleo, Workday, and Greenhouse use to rank candidates."
+      },
+      {
+        "q": "Do I need a subscription to use the AI resume tools?",
+        "r": "You can try all resume tools for free with 3 uses per day. A Jobseeker Toolkit subscription ($9/month) gives unlimited access to all 10 resume and career tools."
+      },
+      {
+        "q": "How long does it take to optimize a resume with AI?",
+        "r": "Most users have an optimized resume ready in under 5 minutes. The AI analyzes the job description and your resume simultaneously and outputs a complete rewrite instantly."
+      },
+      {
+        "q": "Can I optimize my resume for multiple different jobs?",
+        "r": "Yes. You can run the resume optimizer as many times as you need with different job descriptions. Each optimization is tailored to the specific role you are applying for."
+      }
+    ]
+  },
+  {
+    "slug": "ai-cover-letter-generator",
+    "title": "AI Cover Letter Generator: Write a Personalized Cover Letter in 60 Seconds",
+    "h1": "Generate a Personalized Cover Letter with AI",
+    "metaDescription": "AI cover letter generator that writes tailored, compelling cover letters in 60 seconds. No generic templates — personalized to each job description.",
+    "intro": "A generic cover letter gets ignored. AI cover letter tools read the job description and your experience together, then write a focused 3-paragraph letter that highlights the most relevant achievements and avoids the clichés that recruiters skim past.",
+    "recommendedTools": [
+      "cover-letter-generator",
+      "job-description-analyzer",
+      "resume-optimizer"
+    ],
+    "steps": [
+      "Enter your name, target role, company name, and key experience",
+      "Paste the full job description into the tool",
+      "The AI identifies the 3 most critical requirements and matches them to your background",
+      "Review the generated cover letter — it opens with a hook, not 'I am writing to apply'",
+      "Copy or download the letter and customize the company-specific detail"
+    ],
+    "faqs": [
+      {
+        "q": "How does AI make a cover letter that doesn't sound generic?",
+        "r": "The AI reads both your experience and the specific job description, then structures the letter around the 3 most critical requirements of that role — making each letter uniquely relevant."
+      },
+      {
+        "q": "Should I edit the AI-generated cover letter?",
+        "r": "Yes. Add one or two specific details about the company that show genuine interest. The AI gives you a strong structure and personalized achievements; your authentic voice makes it stand out further."
+      },
+      {
+        "q": "How long should an AI-generated cover letter be?",
+        "r": "Our tool targets 3 paragraphs and under 400 words — the optimal length for most hiring managers who spend 30–60 seconds on cover letters."
+      },
+      {
+        "q": "Can I use this for multiple job applications?",
+        "r": "Absolutely. Run a new generation for each job — each output is tailored to that specific job description and company."
+      },
+      {
+        "q": "Does the cover letter generator include a greeting and sign-off?",
+        "r": "Yes. The tool generates a complete letter with a professional greeting, 3-paragraph body, and sign-off. Replace placeholders with the hiring manager's name when available."
+      }
+    ]
+  },
+  {
+    "slug": "write-blog-post-with-ai",
+    "title": "Write a Blog Post with AI: From Topic to Published in 30 Minutes",
+    "h1": "Write SEO-Optimized Blog Posts Faster with AI",
+    "metaDescription": "Learn how to write a complete, SEO-optimized blog post with AI tools in under 30 minutes. From keyword research to final draft.",
+    "intro": "AI writing tools have changed how content creators produce blog posts. Instead of staring at a blank page, you start with an AI-generated outline, expand each section with guided prompts, and end with a keyword-optimized draft ready to publish — all in a single work session.",
+    "recommendedTools": [
+      "seo-content-generator",
+      "blog-topic-generator",
+      "article-outline-generator"
+    ],
+    "steps": [
+      "Use the Blog Topic Generator to find high-traffic, low-competition topics in your niche",
+      "Run the Article Outline Generator to create a structured H2/H3 outline with FAQ sections",
+      "Use the SEO Content Generator to write the full post with your target keyword and word count",
+      "Review the draft and add personal insights, examples, or data points",
+      "Publish and submit to Google Search Console for indexing"
+    ],
+    "faqs": [
+      {
+        "q": "Is AI-generated blog content good for SEO?",
+        "r": "Yes, when done correctly. AI content that is factually accurate, well-structured with proper headers, and genuinely helpful to readers performs well in search. Add your own expertise and examples to make it stand out."
+      },
+      {
+        "q": "How long should an AI blog post be?",
+        "r": "For most competitive topics, 1,500–2,500 words with clear H2 sections, a FAQ block, and internal links performs best. Our SEO Content Generator lets you specify an exact word count target."
+      },
+      {
+        "q": "Will the AI blog post be duplicate content?",
+        "r": "No. The AI generates unique content based on your specific keyword and topic prompt. Each generation is distinct. Run a plagiarism checker if you want additional confidence."
+      },
+      {
+        "q": "How do I find the right keywords to target?",
+        "r": "Use the Blog Topic Generator — it surfaces ideas by niche and audience with estimated search volume and competition level. Target keywords with clear informational intent and medium competition."
+      },
+      {
+        "q": "Can I use AI to write multiple blog posts at once?",
+        "r": "Yes. With a Creator Toolkit subscription, you have unlimited access to all content tools. Many users batch 5–10 posts per session using the AI outline and content generator workflow."
+      }
+    ]
+  },
+  {
+    "slug": "ai-social-media-content",
+    "title": "AI Social Media Content Generator: Create Captions, Ads & Posts Fast",
+    "h1": "Generate Social Media Content with AI in Seconds",
+    "metaDescription": "AI social media content generator for Instagram, TikTok, and Facebook. Create captions, ad copy, and post ideas that drive engagement — free to start.",
+    "intro": "Posting consistently across Instagram, TikTok, and Facebook demands more content than most creators can produce manually. AI social media tools generate platform-specific captions, ad copy, and content variations in seconds — so you spend your time engaging with your audience, not staring at a blank caption field.",
+    "recommendedTools": [
+      "instagram-caption-gen",
+      "tiktok-caption-generator",
+      "facebook-ad-copy",
+      "marketing-copy-generator"
+    ],
+    "steps": [
+      "Choose the platform you are creating content for: Instagram, TikTok, or Facebook",
+      "Enter the post topic and your brand tone (professional, casual, playful, etc.)",
+      "Get 4–5 caption variations — micro, story, value, and conversation-starter formats",
+      "Select the best caption and review the hashtag recommendations",
+      "Schedule or post directly from your preferred social media tool"
+    ],
+    "faqs": [
+      {
+        "q": "Does AI social media content get lower engagement than human-written posts?",
+        "r": "Not if you personalize it. AI gives you a strong structure and proven hook formats. Add your brand's specific voice and one authentic detail — personal story, current event, or community reference — to maintain genuine engagement."
+      },
+      {
+        "q": "Can I use the same AI caption for Instagram and TikTok?",
+        "r": "Different tools for each platform are recommended. Instagram captions allow 2,200 characters and benefit from storytelling. TikTok captions are short and hook-focused. Our tools are calibrated for each platform separately."
+      },
+      {
+        "q": "How many caption options does the AI generate?",
+        "r": "The Instagram Caption Generator produces 4 distinct options: micro (under 50 words), story (100–150 words), value/tips (150–250 words), and conversation starter. TikTok generates 5 distinct styles."
+      },
+      {
+        "q": "Does the AI include hashtag recommendations?",
+        "r": "Yes. Both the Instagram and TikTok caption tools include two hashtag sets: a reach-focused set (mix of large, medium, and niche tags) and an engagement-focused set of tighter niche hashtags."
+      },
+      {
+        "q": "Can I use AI for Facebook ad copy as well?",
+        "r": "Yes. The Facebook Ad Copy Generator produces Primary Text, Headlines, Description, and full Story Ad and Carousel Ad copy — all in one generation."
+      }
+    ]
+  },
+  {
+    "slug": "ai-email-writing",
+    "title": "AI Email Writing: Write Better Emails Faster with AI Assistance",
+    "h1": "Write Professional Emails Faster with AI",
+    "metaDescription": "AI email writing tools for cold outreach, sales emails, and follow-ups. Write emails that get replies — not ignored. Free AI email generator.",
+    "intro": "Most cold emails get deleted in 3 seconds. AI email writing tools analyze your prospect's role and pain points, then generate short, relevant, high-reply-rate emails with proven frameworks — problem-focused, curiosity-based, or direct value proposition variants — all under 150 words.",
+    "recommendedTools": [
+      "cold-email-generator",
+      "sales-email-generator",
+      "client-followup-email"
+    ],
+    "steps": [
+      "Enter your offer, target industry, and the key benefit you deliver",
+      "The AI generates a 3-touch email sequence: cold outreach, follow-up, and break-up email",
+      "Choose between 3 opening variants: problem-focused, curiosity/insight, or direct value",
+      "Personalize with 1–2 specific details about the recipient or their company",
+      "Track open and reply rates to identify which variant performs best for your audience"
+    ],
+    "faqs": [
+      {
+        "q": "What makes an AI cold email actually get replies?",
+        "r": "Relevance and brevity. The best cold emails are under 100 words, open with an industry-specific observation (not flattery), name one pain point, offer one outcome, and ask for one low-friction action — like a 15-minute call."
+      },
+      {
+        "q": "How many email variants does the AI generate?",
+        "r": "The Cold Email Generator produces 3 opening variants (problem-focused, curiosity, direct value) plus a 3-touch follow-up sequence. The Sales Email Generator produces 3 subject line options and one optimized body under 150 words."
+      },
+      {
+        "q": "Can I use AI email tools for LinkedIn outreach too?",
+        "r": "Yes. The Client Follow-up Email Generator includes a LinkedIn message version under 300 characters — appropriate for InMail and connection request follow-ups."
+      },
+      {
+        "q": "Is it ethical to use AI to write sales emails?",
+        "r": "Yes. You are still sending emails about your real offer to real prospects. AI helps you write more clearly and concisely — it does not automate spam or fabricate claims."
+      },
+      {
+        "q": "What is the best follow-up timing for cold email sequences?",
+        "r": "The AI-generated sequence uses Email 1 (day 0), Email 2 — a value-add follow-up (day 3), and Email 3 — a break-up email (day 10). This spacing maximizes reply rate without overwhelming the prospect."
+      }
+    ]
+  },
+  {
+    "slug": "ai-interview-preparation",
+    "title": "AI Interview Preparation: Practice Behavioral Questions with AI Coaching",
+    "h1": "Prepare for Interviews with AI Coaching",
+    "metaDescription": "AI interview preparation tools that generate STAR-format answers, behavioral question banks, and mock interview scripts tailored to your target role.",
+    "intro": "Behavioral interview questions catch most candidates off guard. AI interview preparation tools map your experience to the STAR framework, generate pre-built answer templates for your target role and company, and coach you on the specific competencies that interviewers at companies like yours actually assess.",
+    "recommendedTools": [
+      "behavioral-interview-coach",
+      "interview-answer-generator",
+      "job-description-analyzer"
+    ],
+    "steps": [
+      "Enter your target role, target company, and a summary of your background",
+      "Receive the top 10 most likely behavioral questions for that role and company type",
+      "Review 5 pre-built STAR story templates mapped to your experience",
+      "Use the Interview Answer Generator to craft a full STAR answer for any specific question",
+      "Practice the 'Tell Me About Yourself' script tailored to the target role"
+    ],
+    "faqs": [
+      {
+        "q": "What is the STAR method and why does AI use it for interview answers?",
+        "r": "STAR stands for Situation, Task, Action, Result. It is the most widely used framework by behavioral interviewers at top companies because it forces structured, evidence-based answers. AI coaches you to hit all four components with the right balance."
+      },
+      {
+        "q": "Can AI help me prepare for technical interviews too?",
+        "r": "Our tools focus on behavioral and competency-based questions, cover letters, and salary negotiation. For technical interview prep, use the tools alongside a coding practice platform."
+      },
+      {
+        "q": "How specific are the AI-generated behavioral questions?",
+        "r": "Questions are calibrated to your target job title and company type. A senior product manager role at a tech startup gets different questions than a junior analyst at a consulting firm."
+      },
+      {
+        "q": "What makes a strong vs. weak behavioral interview answer?",
+        "r": "Strong answers are specific (real situation, real numbers), action-focused ('I' not 'we'), and end with a measurable result plus a brief lesson or connection to the target role. Vague answers without outcomes score poorly."
+      },
+      {
+        "q": "How many STAR stories do I need to prepare?",
+        "r": "5–7 versatile stories that each answer 3–5 different questions is the ideal range. The Behavioral Interview Coach generates these stories mapped to your background so you are not starting from scratch."
+      }
+    ]
+  },
+  {
+    "slug": "ai-youtube-content-creation",
+    "title": "AI YouTube Content Creation: Titles, Scripts & Descriptions That Get Views",
+    "h1": "Create High-Performing YouTube Content with AI",
+    "metaDescription": "AI tools for YouTube content creators: generate high-CTR titles, full video scripts, and SEO descriptions. Build your channel faster with AI.",
+    "intro": "Growing a YouTube channel requires consistent output of well-structured videos. AI YouTube tools help you generate 10 high-CTR title options in seconds, build a complete script to your target runtime, and write an SEO description with timestamps and tags — cutting content production time by hours per video.",
+    "recommendedTools": [
+      "youtube-title-generator",
+      "youtube-script-generator",
+      "youtube-description-gen"
+    ],
+    "steps": [
+      "Enter your video topic, target audience, and main keyword into the YouTube Title Generator",
+      "Choose the best title from 10 options grouped by strategy: curiosity gap, how-to, listicle, and story",
+      "Use the YouTube Script Generator with your title and target duration to produce a full A-roll script",
+      "Generate the YouTube description with timestamps, tags, and SEO metadata in one click",
+      "Review CTR hooks and mid-roll retention lines before recording"
+    ],
+    "faqs": [
+      {
+        "q": "How does AI help YouTube titles get more clicks?",
+        "r": "The AI generates titles across 4 proven strategies — curiosity gap, how-to, listicle, and story format — and includes your main keyword in at least 5 of the 10 options. Each title includes a note on why it works and which platform context it suits best."
+      },
+      {
+        "q": "Can AI write a full YouTube script?",
+        "r": "Yes. The YouTube Script Generator produces a complete script at your target duration (estimated at 130 words per minute), including hook (0:00–0:30), intro, segmented main content, mid-roll retention hook, conclusion, and end screen CTA."
+      },
+      {
+        "q": "Does AI-generated YouTube content affect channel monetization?",
+        "r": "YouTube's policies prohibit automated mass-uploaded content with no human oversight. Using AI to assist your scripting and titles — while adding your own on-camera delivery and personal insights — is fully within YouTube's guidelines."
+      },
+      {
+        "q": "How do I optimize a YouTube description for search?",
+        "r": "Include your primary keyword in the first 2–3 lines (above the fold), add 5–8 timestamps, use secondary keywords naturally in the body, and include 20 tags mixing exact match, broad, and long-tail variants. The YouTube Description Generator does all of this automatically."
+      },
+      {
+        "q": "How many titles should I test per video?",
+        "r": "Start with the top 3 from the AI's recommendations. Many creators A/B test 2 titles using YouTube's built-in experiment feature. The generator notes which title is best for CTR vs. SEO to help you choose."
+      }
+    ]
+  },
+  {
+    "slug": "ai-business-proposal-generator",
+    "title": "AI Business Proposal Generator: Win More Clients with Professional Proposals",
+    "h1": "Write Winning Business Proposals with AI",
+    "metaDescription": "AI business proposal generator that creates professional, client-specific proposals in minutes. Cover summary, scope, timeline, and investment — done automatically.",
+    "intro": "A weak proposal loses clients before you even get on a call. AI business proposal tools analyze the client brief and your company's strengths, then structure a professional proposal with an executive summary, scoped deliverables, milestone timeline, and investment terms — ready to send in minutes.",
+    "recommendedTools": [
+      "business-proposal-gen",
+      "pitch-deck-outline",
+      "client-followup-email"
+    ],
+    "steps": [
+      "Enter your company name, client name, project scope, and proposed budget",
+      "The AI identifies the client's core pain points and your strongest differentiators",
+      "Review the generated proposal: cover summary, scope, timeline table, investment terms, and next steps",
+      "Customize the 'Why Us' section with specific proof points and relevant past work",
+      "Send via email with a follow-up sequence generated by the Client Follow-up Email tool"
+    ],
+    "faqs": [
+      {
+        "q": "How long should a business proposal be?",
+        "r": "For most service businesses, 2–4 pages is ideal. The AI generator creates a structured proposal with 7 sections: cover summary, brief understanding, solution, timeline, investment, why us, and next steps — comprehensive without overwhelming."
+      },
+      {
+        "q": "Can I use AI proposals for different industries?",
+        "r": "Yes. The proposal generator adapts to any project scope. You can use it for consulting, design, software development, marketing, legal services, or any professional service engagement."
+      },
+      {
+        "q": "Should I include pricing in the AI-generated proposal?",
+        "r": "Always include a clear investment figure. The AI structures the pricing section with the total, payment schedule (typically 50% upfront, 50% on completion), and what is explicitly included — which reduces scope disputes later."
+      },
+      {
+        "q": "How do I follow up after sending a proposal?",
+        "r": "Use the Client Follow-up Email Generator. It produces 4 subject line options and a primary follow-up email under 150 words, including a LinkedIn message version and a recommended follow-up timeline."
+      },
+      {
+        "q": "Can the AI write a pitch deck as well as a proposal?",
+        "r": "Yes. The Pitch Deck Outline Generator creates a slide-by-slide outline for investor pitches, covering problem, solution, market, traction, team, and the ask — plus the 5 toughest investor questions to prepare for."
+      }
+    ]
+  },
+  {
+    "slug": "ai-nda-contract-review",
+    "title": "AI NDA & Contract Review: Understand Legal Documents Before You Sign",
+    "h1": "Review NDAs and Contracts with AI Before Signing",
+    "metaDescription": "AI NDA and contract review tools that explain risk clauses, flag missing protections, and generate questions for your attorney — in plain English.",
+    "intro": "Most people sign NDAs and contracts without fully understanding the risk clauses buried inside. AI legal analysis tools translate legalese into plain English, flag high and medium risk items, identify missing standard protections, and give you a specific list of questions to ask your attorney — so you sign with full knowledge, not blind trust.",
+    "recommendedTools": [
+      "nda-analyzer",
+      "contract-risk-analyzer",
+      "legal-doc-summarizer",
+      "contract-clause-explainer"
+    ],
+    "steps": [
+      "Paste the full NDA or contract text into the analyzer",
+      "Receive a plain-English summary of what you are agreeing to",
+      "Review the risk assessment: red (high risk), yellow (medium risk), and green (standard) items",
+      "Check the 'Missing Standard Protections' section for absent clauses",
+      "Use the generated attorney questions list as your prep for any legal consultation"
+    ],
+    "faqs": [
+      {
+        "q": "Is AI contract review accurate enough to rely on?",
+        "r": "AI contract review is excellent for identifying risk areas and translating legalese — but it is not a substitute for a licensed attorney. Use it to prepare informed questions for your lawyer and to understand what you are signing before that consultation."
+      },
+      {
+        "q": "What types of contracts can the AI review?",
+        "r": "The Contract Risk Analyzer handles employment contracts, service agreements, vendor contracts, licensing agreements, and most standard business documents. The NDA Analyzer is specifically optimized for unilateral and mutual NDAs."
+      },
+      {
+        "q": "What does 'high risk' mean in an AI contract review?",
+        "r": "High risk flags clauses that are unusually broad, one-sided, or potentially harmful — such as unlimited liability clauses, overly broad IP assignment, or non-compete provisions that could restrict your future work significantly."
+      },
+      {
+        "q": "Can AI explain a specific clause I don't understand?",
+        "r": "Yes. The Contract Clause Explainer takes any single clause and provides a plain-English translation, practical implications, whether it is standard or unusual, and negotiation points you could reasonably request."
+      },
+      {
+        "q": "Does the AI analyze non-disclosure duration and geographic scope?",
+        "r": "Yes. The NDA Analyzer specifically evaluates the confidentiality duration, the definition of confidential information (too broad vs. appropriate), and your key obligations — all factors that frequently catch signers by surprise."
+      }
+    ]
+  },
+  {
+    "slug": "ai-study-tools-for-students",
+    "title": "Best AI Study Tools for Students: Flashcards, Quizzes & Study Guides",
+    "h1": "Study Smarter with AI Tools Built for Students",
+    "metaDescription": "Best AI study tools for students: generate flashcards, quizzes, study guides, and essay outlines in seconds. Free AI tools to study more efficiently.",
+    "intro": "AI study tools transform how students prepare for exams. Instead of manually creating flashcards or outlining essays for hours, students can generate a complete set of spaced-repetition flashcards, a multiple-choice quiz, and a study guide from any notes or text — in under 5 minutes.",
+    "recommendedTools": [
+      "flashcard-generator",
+      "quiz-generator",
+      "study-guide-creator",
+      "essay-outline-generator",
+      "concept-explainer"
+    ],
+    "steps": [
+      "Paste your class notes, textbook excerpt, or study topic into the Flashcard Generator",
+      "Specify the number of cards and difficulty level — foundational, intermediate, or advanced",
+      "Run the Quiz Generator on the same material to create a graded practice test with an answer key",
+      "Use the Study Guide Creator to synthesize all key concepts, definitions, and likely exam questions",
+      "For essays, use the Essay Outline Generator to build a thesis-driven outline with evidence structure"
+    ],
+    "faqs": [
+      {
+        "q": "Are AI flashcards as effective as manually created ones?",
+        "r": "Research on active recall shows that the quality of the question matters more than who wrote it. AI flashcards are calibrated to test one specific concept per card, progress from foundational to advanced, and include memory hooks — making them highly effective for spaced repetition."
+      },
+      {
+        "q": "Can AI help me study for any subject?",
+        "r": "Yes. The tools work with any text input — STEM notes, history readings, language vocabulary, law case summaries, or medical study materials. The AI adapts the depth and vocabulary to the difficulty level you specify."
+      },
+      {
+        "q": "How many flashcards should I create per study session?",
+        "r": "20–40 cards covering one chapter or topic unit is a common effective range. The Flashcard Generator lets you specify exactly how many cards to produce."
+      },
+      {
+        "q": "Can the AI explain a concept I do not understand?",
+        "r": "Yes. The Concept Explainer takes any topic, field, and your knowledge level, then delivers a plain-English explanation with a simple analogy, step-by-step breakdown, concrete example, and the 2–3 most common misconceptions."
+      },
+      {
+        "q": "Is using AI study tools considered cheating?",
+        "r": "Using AI to create study materials from your own notes is not cheating — it is a study aid, like using Anki or a tutor. The tools help you understand and retain material. Always follow your institution's specific AI usage policies for assignments and exams."
+      }
+    ]
+  }
+]
