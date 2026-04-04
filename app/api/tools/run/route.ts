@@ -138,12 +138,12 @@ export async function POST(req: NextRequest) {
         .gte("created_at", `${today}T00:00:00.000Z`)
         .lt("created_at", `${tomorrow}T00:00:00.000Z`);
 
-      if ((todayCount ?? 0) >= 3) {
+      if ((todayCount ?? 0) >= 1) {
         return NextResponse.json(
           {
             success: false,
             error: "free_limit_reached",
-            message: "You have used your 3 free uses today. Sign up for more.",
+            message: "Sign up for free to get 3 uses per day",
             upgrade_required: true,
           },
           { status: 403 }
