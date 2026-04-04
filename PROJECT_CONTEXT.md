@@ -27,6 +27,7 @@
 12. **Cover Letter Generator 升级（SPEC-12）** — CV上传（PDF/DOCX/TXT）+ 六字段输入 + 五段STAR结构prompt + ATS优化
 13. **Cloudflare 源站保护（SPEC-SEC-01）** — 生产环境 `/api/tools/run` 无 `cf-ray` header → 403，阻止机器人绕过 Cloudflare 直打 Vercel 源站
 14. **Checkout Invalid toolkit 修复（SPEC-FIX-06）** — `TOOLKIT_PRICE_IDS` 类型改为 `string | undefined`（移除 `!` 断言）；失败时打印完整诊断日志（received slug + 每个 env var 是否已设置）到 Vercel 函数日志
+15. **Dashboard 订阅显示修复 + 退订（SPEC-FIX-07）** — 新增 `SubscriptionList` 客户端组件（Cancel 按钮 + window.confirm 确认）；Dashboard 查询新增 `stripe_subscription_id`，status 扩展为 `['active','canceling']`，Plan 字段显示实际 toolkit 名；新建 `POST /api/subscription/cancel`（cancel_at_period_end=true）；新建 `/terms` 和 `/privacy` 占位页面
 
 ### 当前技术状态
 

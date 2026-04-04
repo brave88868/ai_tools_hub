@@ -395,6 +395,7 @@ Optimization Agent       →  自动优化产品
 - SPEC-12 ✅ Cover Letter Generator — CV upload + 5-paragraph STAR prompt
 - SPEC-SEC-01 ✅ Cloudflare cf-ray 源站保护（生产环境无 cf-ray → 403）
 - SPEC-FIX-06 ✅ Checkout "Invalid toolkit" 修复（env var 诊断日志 + TOOLKIT_PRICE_IDS 类型修正）
+- SPEC-FIX-07 ✅ Dashboard 订阅显示修复 + 退订功能 + Terms/Privacy 页面
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
