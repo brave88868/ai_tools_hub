@@ -3,9 +3,18 @@ import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase";
 
 export const metadata: Metadata = {
-  title: "AI Toolkits — 5 professional AI tool collections",
+  title: "AI Toolkits — 6 professional AI tool collections",
   description:
-    "Browse all AI toolkits for job seekers, content creators, marketers, businesses, and legal needs.",
+    "Browse all AI toolkits for job seekers, content creators, marketers, businesses, legal needs, and students.",
+};
+
+const TOOLKIT_COLORS: Record<string, string> = {
+  jobseeker: "border-l-blue-400",
+  creator: "border-l-purple-400",
+  marketing: "border-l-orange-400",
+  business: "border-l-green-400",
+  legal: "border-l-red-400",
+  exam: "border-l-yellow-400",
 };
 
 export default async function ToolkitsPage() {
@@ -16,18 +25,49 @@ export default async function ToolkitsPage() {
     .eq("is_active", true)
     .order("sort_order");
 
+  const bundle = (toolkits ?? []).find((k) => k.slug === "bundle");
+  const regular = (toolkits ?? []).filter((k) => k.slug !== "bundle");
+
   return (
     <main className="max-w-6xl mx-auto px-4 py-12">
       <div className="mb-10">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Toolkits</h1>
         <p className="text-gray-500">Each toolkit contains 10 AI tools built for a specific workflow.</p>
       </div>
+
+      {/* Bundle — full-width highlight */}
+      {bundle && (
+        <div className="mb-6">
+          <div className="bg-gradient-to-r from-indigo-500 to-violet-500 rounded-2xl p-6 text-white">
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <div>
+                <div className="text-2xl mb-2">⚡</div>
+                <h3 className="text-lg font-bold mb-1">All Toolkits Bundle</h3>
+                <p className="text-indigo-100 text-sm">Get unlimited access to all 6 toolkits — best value</p>
+              </div>
+              <div className="text-right">
+                <div className="text-3xl font-bold mb-1">
+                  $39<span className="text-lg font-normal text-indigo-200">/mo</span>
+                </div>
+                <Link
+                  href="/pricing"
+                  className="inline-block bg-white text-indigo-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-50 transition-colors"
+                >
+                  Get Bundle →
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Regular toolkits */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {(toolkits ?? []).map((kit) => (
+        {regular.map((kit) => (
           <Link
             key={kit.slug}
             href={`/toolkits/${kit.slug}`}
-            className="border border-gray-200 rounded-2xl p-6 hover:border-gray-400 hover:shadow-sm transition-all group"
+            className={`border-l-4 ${TOOLKIT_COLORS[kit.slug] ?? "border-l-gray-300"} border border-gray-100 rounded-2xl p-6 bg-white hover:shadow-sm transition-all group`}
           >
             <div className="text-3xl mb-3">{kit.icon}</div>
             <h2 className="text-base font-semibold text-gray-900 mb-1">{kit.name}</h2>
@@ -36,7 +76,7 @@ export default async function ToolkitsPage() {
               <span className="text-sm font-semibold text-gray-900">
                 ${kit.price_monthly}<span className="text-xs font-normal text-gray-400">/month</span>
               </span>
-              <span className="text-xs bg-black text-white px-3 py-1.5 rounded-lg group-hover:bg-gray-800 transition-colors">
+              <span className="text-xs text-indigo-500 group-hover:text-indigo-600 transition-colors">
                 Explore →
               </span>
             </div>

@@ -116,32 +116,32 @@ export default function ToolPage() {
       )}
 
       <div className="max-w-3xl mx-auto px-4 py-12">
-        {/* Breadcrumb */}
-        <div className="text-sm text-gray-400 mb-6">
-          <a href="/toolkits" className="hover:text-gray-600">Toolkits</a>
-          <span className="mx-2">›</span>
-          <a
-            href={`/toolkits/${tool.toolkits?.slug}`}
-            className="hover:text-gray-600 capitalize"
-          >
-            {tool.toolkits?.name}
-          </a>
-          <span className="mx-2">›</span>
-          <span className="text-gray-600">{tool.name}</span>
-        </div>
-
         {/* Tool Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{tool.name}</h1>
+        <div className="border-b border-gray-100 pb-6 mb-6">
+          <div className="flex items-center gap-2 text-xs text-gray-400 mb-3">
+            <a href="/toolkits" className="hover:text-gray-600">Toolkits</a>
+            <span>›</span>
+            <a href={`/toolkits/${tool.toolkits?.slug}`} className="hover:text-gray-600 capitalize">
+              {tool.toolkits?.name}
+            </a>
+            <span>›</span>
+            <span className="text-gray-600">{tool.name}</span>
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">{tool.name}</h1>
           {tool.description && (
-            <p className="text-gray-500 text-base">{tool.description}</p>
+            <p className="text-gray-500 text-sm">{tool.description}</p>
           )}
         </div>
 
         {/* Input Form */}
         <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
           {inputFields.length > 0 ? (
-            <InputForm fields={inputFields} onSubmit={handleSubmit} loading={loading} />
+            <InputForm
+              fields={inputFields}
+              onSubmit={handleSubmit}
+              loading={loading}
+              supportsFileUpload={tool.supports_file_upload ?? false}
+            />
           ) : (
             <p className="text-gray-400 text-sm">This tool has no input fields configured.</p>
           )}
@@ -162,7 +162,14 @@ export default function ToolPage() {
         )}
 
         {/* Result */}
-        {result && <ResultPanel result={result} format={outputFormat} />}
+        {result && (
+          <ResultPanel
+            result={result}
+            format={outputFormat}
+            toolSlug={slug}
+            toolName={tool.name}
+          />
+        )}
 
         {/* Legal disclaimer */}
         {tool.toolkits?.slug === "legal" && (

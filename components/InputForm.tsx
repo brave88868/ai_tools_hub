@@ -2,14 +2,16 @@
 
 import { useState } from "react";
 import type { InputField } from "@/types";
+import FileUploadInput from "@/components/tools/FileUploadInput";
 
 interface Props {
   fields: InputField[];
   onSubmit: (inputs: Record<string, string>) => void;
   loading?: boolean;
+  supportsFileUpload?: boolean;
 }
 
-export default function InputForm({ fields, onSubmit, loading = false }: Props) {
+export default function InputForm({ fields, onSubmit, loading = false, supportsFileUpload = false }: Props) {
   const [values, setValues] = useState<Record<string, string>>({});
   const [fileHints, setFileHints] = useState<Record<string, string>>({});
 
@@ -17,41 +19,31 @@ export default function InputForm({ fields, onSubmit, loading = false }: Props) 
     setValues((prev) => ({ ...prev, [name]: value }));
   }
 
-  // file 字段：找同名对应的 textarea（去掉 _file 后缀，或直接找 "resume" 对应 "resume_file"）
   function getTargetFieldName(fileFieldName: string): string {
-    // e.g. "resume_file" → "resume"
     return fileFieldName.replace(/_file$/, "");
   }
 
   function handleFileChange(fileFieldName: string, file: File | null) {
     if (!file) return;
-
     const targetName = getTargetFieldName(fileFieldName);
-
     if (file.type === "application/pdf") {
       setFileHints((prev) => ({
         ...prev,
-        [fileFieldName]: "PDF detected — please paste your resume text manually in the field above.",
+        [fileFieldName]: "PDF detected — please paste your text manually in the field above.",
       }));
       return;
     }
-
-    // .txt or other text files
     const reader = new FileReader();
     reader.onload = (e) => {
       const text = (e.target?.result as string) ?? "";
       setValues((prev) => ({ ...prev, [targetName]: text }));
-      setFileHints((prev) => ({
-        ...prev,
-        [fileFieldName]: `✓ File loaded: ${file.name}`,
-      }));
+      setFileHints((prev) => ({ ...prev, [fileFieldName]: `✓ File loaded: ${file.name}` }));
     };
     reader.readAsText(file);
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Exclude file-type fields from submission — they only populate other fields
     const submitValues: Record<string, string> = {};
     for (const field of fields) {
       if (field.type !== "file") {
@@ -61,13 +53,24 @@ export default function InputForm({ fields, onSubmit, loading = false }: Props) 
     onSubmit(submitValues);
   }
 
+  // First text/textarea field name (for file upload injection)
+  const firstTextField = fields.find((f) => f.type === "textarea" || f.type === "text");
+
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      {fields.map((field) => (
+      {fields.map((field, fieldIndex) => (
         <div key={field.name}>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          {/* File upload above first text field */}
+          {supportsFileUpload && fieldIndex === 0 && firstTextField && field.name === firstTextField.name && (
+            <FileUploadInput
+              label="Upload your document (PDF, DOCX, TXT)"
+              onTextExtracted={(text) => setValues((prev) => ({ ...prev, [field.name]: text }))}
+            />
+          )}
+
+          <label className="block text-xs font-semibold text-gray-700 mb-1.5 uppercase tracking-wide">
             {field.label}
-            {field.required && <span className="text-red-500 ml-1">*</span>}
+            {field.required && <span className="text-red-400 ml-1">*</span>}
           </label>
 
           {field.type === "textarea" ? (
@@ -76,7 +79,7 @@ export default function InputForm({ fields, onSubmit, loading = false }: Props) 
               placeholder={field.placeholder ?? ""}
               required={field.required}
               rows={5}
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-black resize-vertical"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent resize-none transition-all"
               value={values[field.name] ?? ""}
               onChange={(e) => handleChange(field.name, e.target.value)}
             />
@@ -84,7 +87,7 @@ export default function InputForm({ fields, onSubmit, loading = false }: Props) 
             <select
               name={field.name}
               required={field.required}
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
               value={values[field.name] ?? ""}
               onChange={(e) => handleChange(field.name, e.target.value)}
             >
@@ -113,7 +116,7 @@ export default function InputForm({ fields, onSubmit, loading = false }: Props) 
               name={field.name}
               placeholder={field.placeholder ?? ""}
               required={field.required}
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent transition-all"
               value={values[field.name] ?? ""}
               onChange={(e) => handleChange(field.name, e.target.value)}
             />
@@ -124,18 +127,15 @@ export default function InputForm({ fields, onSubmit, loading = false }: Props) 
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-black text-white rounded-xl py-3 text-sm font-medium hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-xl py-3 text-sm font-semibold hover:opacity-90 disabled:opacity-50 transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-2"
       >
         {loading ? (
-          <span className="flex items-center justify-center gap-2">
-            <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-            </svg>
+          <>
+            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
             Generating...
-          </span>
+          </>
         ) : (
-          "Generate ✨"
+          <>Generate ✦</>
         )}
       </button>
     </form>

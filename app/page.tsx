@@ -8,6 +8,16 @@ export const metadata: Metadata = {
     "Free AI tools for resume optimization, content creation, marketing copy, business analysis, and legal documents.",
 };
 
+const TOOLKIT_COLORS: Record<string, string> = {
+  jobseeker: "border-l-blue-400",
+  creator: "border-l-purple-400",
+  marketing: "border-l-orange-400",
+  business: "border-l-green-400",
+  legal: "border-l-red-400",
+  exam: "border-l-yellow-400",
+  bundle: "border-l-indigo-400",
+};
+
 export default async function HomePage() {
   const supabase = createAdminClient();
 
@@ -22,63 +32,80 @@ export default async function HomePage() {
     .from("toolkits")
     .select("*")
     .eq("is_active", true)
+    .neq("slug", "bundle")
     .order("sort_order");
 
   return (
     <main>
-      {/* Hero */}
-      <section className="max-w-6xl mx-auto px-4 pt-20 pb-20 text-center">
-        <div className="inline-block bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full mb-6">
-          50+ AI tools · Free to start
+      {/* Hero — compact */}
+      <section className="pt-24 pb-8 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 text-xs font-medium px-3 py-1.5 rounded-full mb-4">
+            <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full"></span>
+            50+ AI tools · Free to start
+          </div>
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight mb-3">
+            AI Tools for{" "}
+            <span className="bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent">
+              Real Workflows
+            </span>
+          </h1>
+          <p className="text-gray-500 text-base md:text-lg max-w-xl mx-auto mb-5">
+            Professional AI tools for job seekers, creators, marketers, and businesses.
+          </p>
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <Link
+              href="/toolkits"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-violet-500 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:opacity-90 transition-opacity shadow-lg shadow-indigo-200"
+            >
+              Start Using Tools →
+            </Link>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center gap-2 border border-gray-200 text-gray-600 px-5 py-2.5 rounded-xl text-sm font-medium hover:border-gray-400 transition-colors"
+            >
+              See Pricing
+            </Link>
+          </div>
+          <p className="text-xs text-gray-400">Free · 3 uses/day · No credit card required</p>
         </div>
-        <h1 className="text-5xl font-bold text-gray-900 mb-5 leading-tight">
-          AI Tools for Real<br />Workflows
-        </h1>
-        <p className="text-xl text-gray-500 mb-8 max-w-xl mx-auto">
-          AI tools for job seekers, content creators, marketers, and small businesses.
-        </p>
-        <div className="flex items-center justify-center gap-4 flex-wrap">
-          <Link
-            href="/toolkits"
-            className="bg-black text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors"
-          >
-            Start Using Tools →
-          </Link>
-          <Link
-            href="/pricing"
-            className="border border-gray-200 text-gray-600 px-6 py-3 rounded-xl text-sm font-medium hover:border-gray-400 transition-colors"
-          >
-            See Pricing
-          </Link>
-        </div>
-        <p className="text-xs text-gray-400 mt-4">Free · 3 uses/day · No credit card required</p>
       </section>
 
-      {/* Popular Tools */}
-      <section className="max-w-6xl mx-auto px-4 py-16">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-bold text-gray-900">Popular Tools</h2>
-          <Link href="/toolkits" className="text-sm text-gray-400 hover:text-gray-600">View all →</Link>
+      {/* Popular Tools — visible on first screen */}
+      <section className="max-w-6xl mx-auto px-4 py-8">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold text-gray-900">Popular Tools</h2>
+          <Link href="/toolkits" className="text-sm text-indigo-500 hover:text-indigo-600">View all →</Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {(popularTools ?? []).map((tool) => (
-            <Link
-              key={tool.slug}
-              href={`/tools/${tool.slug}`}
-              className="border border-gray-200 rounded-xl p-5 hover:border-gray-400 hover:shadow-sm transition-all group"
-            >
-              <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-black">{tool.name}</h3>
-              <p className="text-xs text-gray-400 leading-relaxed line-clamp-2">{tool.description}</p>
-              <div className="mt-3 text-xs text-gray-400 group-hover:text-gray-600 transition-colors">Try tool →</div>
-            </Link>
-          ))}
+          {(popularTools ?? []).map((tool) => {
+            const toolkitSlug = (Array.isArray(tool.toolkits) ? tool.toolkits[0]?.slug : (tool.toolkits as { slug: string } | null)?.slug) ?? "";
+            return (
+              <div
+                key={tool.slug}
+                className="border border-gray-100 rounded-2xl p-5 hover:border-indigo-200 hover:shadow-md hover:shadow-indigo-50 transition-all group"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div className="w-8 h-8 bg-gradient-to-br from-indigo-100 to-violet-100 rounded-lg flex items-center justify-center text-sm">
+                    {toolkitSlug === "jobseeker" ? "💼" : toolkitSlug === "creator" ? "🎬" : toolkitSlug === "marketing" ? "📣" : toolkitSlug === "business" ? "📊" : toolkitSlug === "legal" ? "⚖️" : "🎓"}
+                  </div>
+                  <span className="text-xs text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full">Free</span>
+                </div>
+                <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors">{tool.name}</h3>
+                <p className="text-xs text-gray-400 leading-relaxed mb-3 line-clamp-2">{tool.description}</p>
+                <Link href={`/tools/${tool.slug}`} className="text-xs text-indigo-500 font-medium hover:text-indigo-600">
+                  Try tool →
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </section>
 
       {/* Toolkits */}
-      <section className="bg-gray-50 py-16">
+      <section className="bg-gray-50 py-12">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-10">
+          <div className="text-center mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">AI Toolkits</h2>
             <p className="text-gray-500 text-sm">Each toolkit is a collection of AI tools built for a specific workflow.</p>
           </div>
@@ -87,14 +114,14 @@ export default async function HomePage() {
               <Link
                 key={kit.slug}
                 href={`/toolkits/${kit.slug}`}
-                className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-gray-400 hover:shadow-sm transition-all group"
+                className={`border-l-4 ${TOOLKIT_COLORS[kit.slug] ?? "border-l-gray-300"} border border-gray-100 rounded-2xl p-5 bg-white hover:shadow-sm transition-all group`}
               >
-                <div className="text-3xl mb-3">{kit.icon}</div>
+                <div className="text-2xl mb-2">{kit.icon}</div>
                 <h3 className="text-base font-semibold text-gray-900 mb-1">{kit.name}</h3>
                 <p className="text-xs text-gray-400 leading-relaxed mb-4">{kit.description}</p>
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-400">${kit.price_monthly}/month</span>
-                  <span className="text-xs text-gray-500 group-hover:text-gray-900 transition-colors">Explore →</span>
+                  <span className="text-xs text-indigo-500 group-hover:text-indigo-600 transition-colors">Explore →</span>
                 </div>
               </Link>
             ))}
@@ -103,18 +130,18 @@ export default async function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="max-w-6xl mx-auto px-4 py-16">
+      <section className="max-w-6xl mx-auto px-4 py-14">
         <div className="text-center mb-10">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">How It Works</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
-            { step: "01", title: "Choose a tool", desc: "Browse 50+ AI tools across 5 professional toolkits." },
+            { step: "01", title: "Choose a tool", desc: "Browse 50+ AI tools across 6 professional toolkits." },
             { step: "02", title: "Input your content", desc: "Paste your resume, topic, contract, or any content." },
             { step: "03", title: "Get AI output", desc: "Receive optimized, ready-to-use content in seconds." },
           ].map((item) => (
             <div key={item.step} className="text-center">
-              <div className="text-3xl font-bold text-gray-100 mb-3">{item.step}</div>
+              <div className="text-4xl font-bold text-gray-100 mb-3">{item.step}</div>
               <h3 className="text-base font-semibold text-gray-900 mb-2">{item.title}</h3>
               <p className="text-sm text-gray-400 leading-relaxed">{item.desc}</p>
             </div>
@@ -123,7 +150,7 @@ export default async function HomePage() {
       </section>
 
       {/* Pricing CTA */}
-      <section className="bg-black text-white py-16">
+      <section className="bg-black text-white py-14">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-3">Simple, transparent pricing</h2>
           <p className="text-gray-400 mb-10">Start free. Upgrade when you need more.</p>
@@ -141,10 +168,10 @@ export default async function HomePage() {
             <div className="border border-gray-500 rounded-2xl p-6 bg-gray-900">
               <div className="text-lg font-semibold mb-1">Pro</div>
               <div className="text-3xl font-bold mb-4">
-                $9<span className="text-sm font-normal text-gray-400">/month per toolkit</span>
+                from $9<span className="text-sm font-normal text-gray-400">/month per toolkit</span>
               </div>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li>✓ 100 generations/day</li>
+                <li>✓ Unlimited daily generations</li>
                 <li>✓ Unlimited toolkit access</li>
                 <li>✓ Priority AI processing</li>
                 <li>✓ Cancel anytime</li>

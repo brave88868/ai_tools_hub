@@ -42,6 +42,8 @@ export interface Tool {
   sort_order: number;
   created_at: string;
   // Supabase join — present when selected with toolkits(slug, name)
+  supports_file_upload?: boolean;
+  // Supabase join — present when selected with toolkits(slug, name)
   toolkits?: { slug: string; name: string } | null;
 }
 
