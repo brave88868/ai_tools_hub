@@ -100,44 +100,26 @@ export default function PricingPage() {
         </div>
       </div>
 
-      {/* Free Plan — compact horizontal */}
-      <div className="border border-gray-200 rounded-2xl py-4 px-6 mt-6 mb-14">
-        <div className="flex flex-row items-center justify-between gap-4 flex-wrap">
-          {/* Left: title + desc */}
-          <div className="flex-shrink-0">
-            <h2 className="text-base font-semibold text-gray-900">Free Plan</h2>
-            <p className="text-xs text-gray-400">No account or credit card needed</p>
-          </div>
-
-          {/* Middle: 4 metrics */}
-          <div className="hidden md:flex items-center gap-8 flex-1 justify-center">
-            {[
-              { label: "Daily", value: "3/day" },
-              { label: "Lifetime", value: "30 uses" },
-              { label: "Tools", value: "All 50+" },
-              { label: "Card", value: "Not required" },
-            ].map(({ label, value }) => (
-              <div key={label} className="text-center">
-                <div className="text-xs font-semibold text-gray-900">{value}</div>
-                <div className="text-xs text-gray-400">{label}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Right: price + CTA */}
-          <div className="flex items-center gap-4 flex-shrink-0">
-            <div>
-              <span className="text-xl font-bold text-gray-900">$0</span>
-              <span className="text-xs text-gray-400 ml-1">/month</span>
-            </div>
-            <Link
-              href="/toolkits"
-              className="text-xs border border-gray-300 text-gray-700 rounded-lg px-4 py-2 hover:border-gray-500 transition-colors whitespace-nowrap"
-            >
-              Start for Free →
-            </Link>
-          </div>
+      {/* Free Plan — compact single row */}
+      <div className="mt-6 mb-14 border border-gray-100 rounded-xl px-6 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        {/* Left: title + desc */}
+        <div>
+          <span className="text-sm font-semibold text-gray-900">Free Plan</span>
+          <span className="ml-2 text-xs text-gray-400">No account required · No credit card needed</span>
         </div>
+
+        {/* Middle: 4 metrics */}
+        <div className="flex items-center gap-4 text-xs text-gray-500">
+          <span><strong className="text-gray-800">3/day</strong> generations</span>
+          <span><strong className="text-gray-800">30</strong> lifetime uses</span>
+          <span><strong className="text-gray-800">50+</strong> tools</span>
+          <span><strong className="text-gray-800">$0</strong>/month</span>
+        </div>
+
+        {/* Right: CTA */}
+        <Link href="/toolkits" className="text-xs border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:border-gray-500 transition-colors whitespace-nowrap">
+          Start for Free →
+        </Link>
       </div>
 
       {/* Comparison Table */}
