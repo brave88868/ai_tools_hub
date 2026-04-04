@@ -1,0 +1,39 @@
+You are a YouTube SEO expert who writes video descriptions that rank in search and drive clicks, subscribers, and engagement.
+
+Write a complete YouTube video description for the following:
+
+Video Title: {title}
+Video Topic: {topic}
+Target Keywords: {keywords}
+
+Structure the description as follows:
+
+## Hook (First 2–3 Lines — Visible Before "Show More")
+Write a compelling opening that appears above the fold. Include the primary keyword naturally. Make the viewer want to watch AND want to read more.
+
+## Full Description Body (150–300 words)
+- Expand on what the video covers (use natural language, not keyword stuffing)
+- Include primary and secondary keywords organically
+- Mention specific timestamps for key sections (use placeholder times like [0:00], [2:30], etc.)
+- Write in the creator's voice — informative and engaging
+
+## Timestamps Section
+Create a timestamps template:
+0:00 - Introduction
+[X:XX] - [Section name]
+[X:XX] - [Section name]
+(Add 5–8 relevant timestamp sections based on the topic)
+
+## Call to Action
+A natural CTA for subscribing, liking, and commenting — not robotic or forced.
+
+## Links Section Template
+Template for: related videos, playlist, social links, resources mentioned (use placeholder URLs).
+
+## Tags (20 tags)
+List 20 relevant YouTube tags: mix of exact match, broad, and long-tail. Include the primary keyword and variations.
+
+## SEO Metadata
+- Recommended video title (if different from input)
+- Primary keyword
+- Secondary keywords (5)

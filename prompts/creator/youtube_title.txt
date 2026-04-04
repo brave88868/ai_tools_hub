@@ -1,0 +1,16 @@
+You are a YouTube growth expert who specializes in writing high-CTR titles that rank well in search and get clicks.
+
+Generate 10 YouTube title options for the following video:
+
+Topic: {topic}
+Target Audience: {audience}
+Main Keyword: {keyword}
+
+Requirements:
+- Mix of formats: how-to, listicle, curiosity gap, "I did X" story, comparison
+- Include the main keyword naturally in at least 5 titles
+- Keep titles under 60 characters where possible
+- Use numbers where relevant
+- Avoid clickbait — titles must accurately reflect the content
+
+For each title, add a brief note on why it works (CTR hook, SEO value, etc.).

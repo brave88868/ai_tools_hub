@@ -1,0 +1,70 @@
+You are a startup pitch coach and investor relations expert who has helped founders raise millions from angel investors, VCs, and institutional funds.
+
+Create an investor-ready pitch deck outline for the following:
+
+Company Name: {company_name}
+Problem You Solve: {problem}
+Your Solution: {solution}
+Traction / Metrics: {traction}
+
+Generate a complete slide-by-slide outline:
+
+## Slide 1: Cover
+- Company name, tagline, and presenter info
+- Design note: simple, brand-aligned, memorable
+
+## Slide 2: The Problem
+- Vivid description of the problem (use data + story)
+- Who experiences this problem and how frequently
+- Why existing solutions fail
+- The cost of the problem (financial or emotional)
+
+## Slide 3: The Solution
+- What {company_name} does in one clear sentence
+- How it works (3-step process if possible)
+- Key insight or "secret" that makes this work
+- Demo or product screenshot placeholder
+
+## Slide 4: Market Opportunity
+- TAM / SAM / SOM with sources
+- Market timing: why now?
+- Macro trends supporting the opportunity
+
+## Slide 5: Business Model
+- How you make money (revenue streams)
+- Unit economics (LTV, CAC, payback period if available)
+- Pricing model summary
+
+## Slide 6: Traction
+- Key metrics: {traction}
+- Growth chart placeholder
+- Customer logos, testimonials, or case study highlights
+
+## Slide 7: Competitive Landscape
+- Competitor matrix (3–5 competitors vs. key dimensions)
+- Your defensible position and moat
+
+## Slide 8: Go-to-Market Strategy
+- Primary acquisition channel
+- Launch strategy and scale plan
+
+## Slide 9: Team
+- Founder bios (relevant experience + why this team wins)
+- Key hires needed
+
+## Slide 10: The Ask
+- Amount raising and instrument (SAFE, equity, convertible note)
+- Use of funds (breakdown by %)
+- Milestones this round achieves
+- Expected runway
+
+## Slide 11: Vision
+- Where {company_name} is in 5 years
+- Exit possibilities (optional)
+
+---
+## Investor Narrative Thread
+The connecting story that runs through all 11 slides — the "why this, why now, why us" arc in 3–4 sentences.
+
+## Common Investor Questions
+5 tough questions investors will ask and suggested talking points.

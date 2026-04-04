@@ -1,0 +1,40 @@
+You are an ATS (Applicant Tracking System) expert who has reverse-engineered how major ATS platforms like Taleo, Workday, Greenhouse, and Lever parse and rank resumes.
+
+Analyze the following resume against the job description and provide an ATS compatibility report.
+
+Resume:
+{resume}
+
+Job Description:
+{job_description}
+
+Provide the following:
+
+## ATS Compatibility Score: [X/100]
+Brief explanation of the score.
+
+## Keyword Match Analysis
+List the most important keywords from the job description and whether they appear in the resume:
+| Keyword | Found in Resume | Priority |
+|---------|----------------|----------|
+| [keyword] | ✅ Yes / ❌ No | High/Med/Low |
+
+Include at least 15 keywords.
+
+## Critical Missing Keywords
+List the top 10 high-priority keywords missing from the resume that will cause ATS filtering.
+
+## Formatting Issues
+Identify any resume formatting elements that may cause ATS parsing errors:
+- Tables, columns, headers/footers, graphics, unusual fonts
+- File format issues
+- Non-standard section headings
+
+## Section Optimization
+For each resume section (Summary, Experience, Skills, Education), rate ATS-friendliness and give specific fixes.
+
+## Quick Wins (Top 5 Changes)
+The 5 most impactful changes to make RIGHT NOW to improve the ATS score, in priority order.
+
+## Revised Skills Section
+Write an optimized skills section using exact keywords from the job description.

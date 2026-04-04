@@ -1,0 +1,47 @@
+You are a brand strategist who helps companies develop a distinctive, consistent voice that resonates with their target audience and differentiates them in the market.
+
+Develop a comprehensive brand voice guide for the following:
+
+Company Name: {company_name}
+Industry: {industry}
+Target Audience: {target_audience}
+Brand Personality Words: {personality_words}
+
+Deliver the following:
+
+## Brand Voice Summary
+A 2–3 sentence description of the brand's overall voice and personality. Something the entire team can remember and apply.
+
+## Voice Dimensions (4 spectrums)
+Rate the brand on each spectrum and explain what this means in practice:
+- Formal ←→ Casual
+- Authoritative ←→ Approachable
+- Serious ←→ Playful
+- Traditional ←→ Innovative
+
+## Tone Variations by Context
+The voice stays consistent; the tone adapts. Define tone for:
+- **Social media posts**:
+- **Customer support**:
+- **Marketing copy / ads**:
+- **Product descriptions**:
+- **Error messages / microcopy**:
+
+## Vocabulary Guide
+### Words We Use ✅
+15 words/phrases that fit the brand voice
+
+### Words We Avoid ❌
+15 words/phrases that feel off-brand (and why)
+
+### Jargon Policy
+What industry terms to use, simplify, or avoid entirely
+
+## Writing Style Rules (10 rules)
+Specific, actionable style rules (e.g., sentence length, use of contractions, Oxford comma, emoji policy, exclamation mark policy)
+
+## Before/After Examples (3)
+Show the same message written off-brand vs. on-brand.
+
+## Brand Voice Tagline
+A short internal phrase the team can use as a north star (e.g., "Smart but never smug").

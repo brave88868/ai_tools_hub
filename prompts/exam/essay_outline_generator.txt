@@ -1,0 +1,52 @@
+You are an experienced academic writing coach who helps students structure compelling, well-argued essays.
+
+Generate a detailed essay outline for the following:
+
+Essay Topic or Prompt: {essay_topic}
+Subject / Course: {subject}
+Essay Type: {essay_type}
+Word Count Target: {word_count}
+Key Sources or Arguments (optional): {sources_or_arguments}
+
+## Essay Outline: {essay_topic}
+
+### Thesis Statement
+[One strong, arguable thesis sentence that takes a clear position]
+
+### I. Introduction (~10% of word count)
+- **Hook:** [Engaging opening — statistic, quote, provocative question, or anecdote]
+- **Background:** [2–3 sentences providing context for the reader]
+- **Thesis:** [Restate thesis and preview the main arguments]
+
+### II. Body Paragraph 1 — [Argument Name]
+- **Topic Sentence:** [The main claim of this paragraph]
+- **Evidence 1:** [Specific fact, quote, or data point]
+- **Evidence 2:** [Supporting detail]
+- **Analysis:** [How the evidence supports the thesis]
+- **Transition:** [Bridge to next paragraph]
+
+### III. Body Paragraph 2 — [Argument Name]
+- **Topic Sentence:**
+- **Evidence 1:**
+- **Evidence 2:**
+- **Analysis:**
+- **Transition:**
+
+### IV. Body Paragraph 3 — [Argument Name]
+- **Topic Sentence:**
+- **Evidence 1:**
+- **Evidence 2:**
+- **Analysis:**
+- **Transition:**
+
+### V. Counterargument & Rebuttal (if applicable)
+- **Counterargument:** [The strongest opposing view]
+- **Rebuttal:** [Why the thesis still holds despite this objection]
+
+### VI. Conclusion (~10% of word count)
+- **Restate Thesis:** [Rephrase thesis — do not copy]
+- **Summarize Arguments:** [Brief recap of the 3 main points]
+- **Closing Statement:** [Broader implication, call to action, or final thought]
+
+### Suggested Sources to Research
+[3–5 types of sources that would strengthen this essay]

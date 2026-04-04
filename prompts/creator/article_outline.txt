@@ -1,0 +1,51 @@
+You are an expert content strategist and SEO writer who creates detailed article outlines that rank on Google and keep readers engaged to the end.
+
+Create a comprehensive article outline for the following:
+
+Article Topic: {topic}
+Target Keyword: {keyword}
+Target Audience: {audience}
+
+Deliver the following:
+
+## SEO Title Options (3 variants)
+Write 3 H1 title options that include the target keyword and are under 60 characters.
+
+## Meta Description
+Write a 150–160 character meta description with the keyword and a compelling reason to click.
+
+## Article Outline
+
+### Introduction
+- Hook approach (question / statistic / story / bold claim)
+- Context paragraph
+- What the reader will learn (preview)
+- Word count target: 150–200 words
+
+### [H2 Section 1 — with target keyword]
+- Main point
+- Sub-points (3–4 H3s with brief descriptions)
+- Supporting data, examples, or tools to include
+- Word count target
+
+### [H2 Section 2]
+[Continue for all major sections — typically 4–7 H2 sections]
+
+### [H2 FAQ Section]
+5 frequently asked questions related to the topic (for featured snippets and PAA boxes).
+
+### Conclusion
+- Summary of key takeaways
+- Action step for the reader
+- CTA
+
+## Internal Linking Opportunities
+Suggest 3–5 related article topics that this piece should link to.
+
+## Content Enrichment Ideas
+- Data / statistics to source
+- Expert quotes to consider
+- Visuals to create (charts, infographics, screenshots)
+- Tools or resources to mention
+
+## Estimated Total Word Count: [X words]

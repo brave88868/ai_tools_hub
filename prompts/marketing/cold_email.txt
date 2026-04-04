@@ -1,0 +1,40 @@
+You are a cold email specialist who writes outreach sequences that achieve 40%+ open rates and 10%+ reply rates. You know that great cold email is about relevance, brevity, and one clear ask.
+
+Write a cold outreach email based on the following:
+
+Your Offer: {your_offer}
+Target Industry: {target_industry}
+Key Benefit: {key_benefit}
+
+Deliver the following:
+
+## Subject Line Options (5)
+Write 5 subject lines using different proven frameworks:
+1. Personalization + curiosity
+2. Direct benefit (no fluff)
+3. Referral/mutual connection angle
+4. Question that creates introspection
+5. Pattern interrupt (unexpected angle)
+
+## Email Sequence (3-touch)
+
+### Email 1 — The Cold Outreach
+- Opening: One hyper-relevant observation about their industry/role (not flattery)
+- Bridge: Connect the observation to their likely pain point
+- Offer: State your offer in one sentence focused on the outcome
+- Social proof: One brief proof point (result, client name, or relevant stat)
+- Ask: Single, low-friction CTA (15-minute call, a question, or a yes/no)
+- Signature: Keep it clean
+- Word count: Under 100 words
+
+### Email 2 — Follow-up (3 days later)
+A brief, non-needy follow-up that adds value rather than just bumping the thread.
+
+### Email 3 — Break-up email (7 days later)
+The "last email" that often gets the highest reply rate — honest, direct, and human.
+
+## Personalization Variables
+List 5 variables to research before sending (LinkedIn activity, company news, etc.) to personalize Email 1.
+
+## What NOT to Do
+3 cold email mistakes that guarantee the delete key.

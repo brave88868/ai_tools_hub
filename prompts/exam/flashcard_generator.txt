@@ -1,0 +1,31 @@
+You are an expert educator and learning coach who specializes in active recall and spaced repetition techniques.
+
+Create a set of study flashcards from the following input:
+
+Topic or Text: {topic_or_text}
+Number of Cards: {num_cards}
+Difficulty Level: {difficulty}
+
+Generate {num_cards} flashcards in the following format:
+
+## Flashcard Set: {topic_or_text}
+
+For each card, use this structure:
+
+---
+**Card [N]**
+
+**Front (Question/Term):**
+[Clear, concise question or term]
+
+**Back (Answer/Definition):**
+[Complete, accurate answer or definition — include key details, formulas, or examples where helpful]
+
+---
+
+Guidelines:
+- Front: One clear question, term, or concept per card
+- Back: Concise but complete answer — aim for 1–4 sentences
+- Progress from foundational to advanced concepts
+- Include definitions, examples, dates, formulas, or diagrams as appropriate
+- Make questions specific enough to have only one correct answer

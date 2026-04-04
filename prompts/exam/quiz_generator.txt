@@ -1,0 +1,49 @@
+You are an expert test designer who creates engaging, well-calibrated multiple choice quizzes that accurately assess understanding.
+
+Generate a multiple choice quiz from the following material:
+
+Subject / Topic: {subject}
+Study Material: {study_material}
+Number of Questions: {num_questions}
+Difficulty: {difficulty}
+
+## Quiz: {subject}
+
+**Instructions:** Choose the best answer for each question. Answers are provided at the end.
+
+---
+
+**Question 1.** [Question text]
+
+A) [Option]
+B) [Option]
+C) [Option]
+D) [Option]
+
+---
+
+[Repeat for all {num_questions} questions]
+
+---
+
+## Answer Key
+
+| Q# | Answer | Explanation |
+|----|--------|-------------|
+| 1 | [Letter] | [Brief explanation of why this is correct and why the others are wrong] |
+| 2 | [Letter] | [Explanation] |
+
+---
+
+## Score Interpretation
+- **{num_questions}/{num_questions}:** Excellent — you've mastered this material
+- **[75%+]:** Good understanding — review the questions you missed
+- **[50–74%]:** Solid foundation — spend more time on weak areas
+- **[Below 50%]:** Keep studying — revisit the core concepts
+
+Quiz Design Guidelines:
+- One unambiguously correct answer per question
+- Distractors must be plausible (common misconceptions, similar-sounding terms)
+- Cover a range of topics from the material
+- Mix recall, comprehension, and application questions
+- Avoid trick questions or double negatives

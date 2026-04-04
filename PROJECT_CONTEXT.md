@@ -1,0 +1,404 @@
+# PROJECT_CONTEXT.md — 项目进度与上下文
+
+> **每次 Claude Code 会话开始时读取本文件。**
+> 每完成一个模块后更新对应状态。
+
+---
+
+## 当前项目状态
+
+**项目阶段**: 🟡 进行中（SPEC-05 完成）  
+**当前里程碑**: Phase 1 — MVP 基础架构  
+**最后更新**: 2026-04-04 — SPEC-05 完成（Pricing 页 + Blog 页 + 权限逻辑修正 + 62个工具 Prompt 文件 + Legal 合规更新）
+
+---
+
+## 模块完成状态
+
+### Phase 1 — MVP 基础架构
+
+| 模块 | 状态 | 说明 |
+|------|------|------|
+| 项目初始化（Next.js + Supabase + Stripe） | ✅ 完成 | Next.js 15 + TS + Tailwind + 完整目录结构 |
+| 数据库 Schema（所有核心表） | ✅ 完成 | database/schema.sql + seed.sql（需在 Supabase 执行）|
+| Supabase Auth（Google + Email） | ⬜ 未开始 | |
+| 三层 Tool Engine | ✅ 完成 | template / config / custom 引擎全部实现 |
+| `/api/tools/run` 主路由 | ✅ 完成 | 权限检查 + 引擎路由 + 日志记录 |
+| Prompt 文件系统（/prompts/） | ✅ 完成 | 62个工具 Prompt 文件，含 Legal 合规 Disclaimer |
+| 首页 UI | ✅ 完成 | Hero + Popular Tools + Toolkits + How It Works + Pricing CTA |
+| Toolkit 页面（/toolkits/[slug]） | ✅ 完成 | 工具列表 + generateMetadata + Legal disclaimer |
+| 工具页面（/tools/[slug]） | ✅ 完成 | InputForm + ResultPanel + UpgradeModal |
+| 用户权限系统（3次免费 + 订阅判断） | ✅ 完成 | localStorage session_id + /api/tools/run 统一判断 |
+| Stripe 订阅（per-toolkit） | ⬜ 未开始 | Checkout + Webhook |
+| 用户 Dashboard | ⬜ 未开始 | |
+| Admin 后台 | ⬜ 未开始 | |
+
+### Phase 2 — 5个工具盒内容
+
+| Toolkit | 工具数 | 状态 |
+|---------|--------|------|
+| Jobseeker Toolkit | 10 tools | ✅ 完成 | Prompt 文件 + DB 数据已就绪 |
+| Creator Toolkit | 10 tools | ✅ 完成 | Prompt 文件 + DB 数据已就绪 |
+| Marketing Toolkit | 10 tools | ✅ 完成 | Prompt 文件 + DB 数据已就绪 |
+| Business Toolkit | 10 tools | ✅ 完成 | Prompt 文件 + DB 数据已就绪 |
+| Legal Toolkit | 10 tools | ✅ 完成 | Prompt 文件（合规版）+ DB 数据已就绪 |
+
+### Phase 3 — 增长系统
+
+| 模块 | 状态 | 说明 |
+|------|------|------|
+| Programmatic SEO Engine | ⬜ 未开始 | 关键词 → 页面自动生成 |
+| SEO 关键词数据库（1000+条） | ⬜ 未开始 | |
+| Blog 页面（/blog/[slug]） | 🟡 进行中 | /blog 列表页完成，/blog/[slug] 详情页待实现 |
+| Referral System（推荐系统） | ⬜ 未开始 | |
+| Feedback 模块 | ⬜ 未开始 | |
+| Feature Voting Board | ⬜ 未开始 | |
+| Analytics Dashboard | ⬜ 未开始 | |
+
+### Phase 4 — 自动化运营
+
+| 模块 | 状态 | 说明 |
+|------|------|------|
+| Tool Discovery Agent | ⬜ 未开始 | |
+| SEO Growth Agent | ⬜ 未开始 | |
+| Content Publishing Agent | ⬜ 未开始 | |
+| Analytics Agent | ⬜ 未开始 | |
+
+---
+
+## 数据库 Schema（参考）
+
+### 已确认的 Supabase 表结构
+
+```sql
+-- 用户表
+CREATE TABLE users (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email TEXT UNIQUE,
+  plan TEXT DEFAULT 'free',       -- free | pro
+  usage_count INTEGER DEFAULT 0,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 订阅表（每个 Toolkit 独立订阅）
+CREATE TABLE subscriptions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id),
+  toolkit_slug TEXT NOT NULL,
+  stripe_subscription_id TEXT,
+  stripe_customer_id TEXT,
+  status TEXT DEFAULT 'active',   -- active | canceled | past_due
+  current_period_end TIMESTAMP,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 工具盒表
+CREATE TABLE toolkits (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  slug TEXT UNIQUE NOT NULL,       -- jobseeker | creator | marketing | business | legal
+  name TEXT NOT NULL,
+  description TEXT,
+  price_monthly DECIMAL(10,2),
+  stripe_price_id TEXT,
+  icon TEXT,
+  is_active BOOLEAN DEFAULT true,
+  sort_order INTEGER DEFAULT 0,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 工具表（数据驱动，新增工具只需插入行）
+CREATE TABLE tools (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  toolkit_id UUID REFERENCES toolkits(id),
+  slug TEXT UNIQUE NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  tool_type TEXT DEFAULT 'template',  -- template | config | custom
+  prompt_file TEXT,                    -- prompts/jobseeker/resume_optimizer.txt
+  inputs_schema JSONB,                 -- [{name, label, type, placeholder, required}]
+  output_format TEXT DEFAULT 'text',  -- text | markdown | json
+  is_active BOOLEAN DEFAULT true,
+  sort_order INTEGER DEFAULT 0,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Layer 2 工作流配置
+CREATE TABLE tool_workflows (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  tool_id UUID REFERENCES tools(id),
+  step_order INTEGER,
+  step_name TEXT,
+  prompt_template TEXT,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 使用记录
+CREATE TABLE usage_logs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id),  -- NULL = 未登录用户
+  tool_slug TEXT,
+  toolkit_slug TEXT,
+  session_id TEXT,                     -- 未登录用户的会话标识
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- SEO 关键词
+CREATE TABLE seo_keywords (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  keyword TEXT NOT NULL,
+  category TEXT,                       -- jobseeker | creator | marketing | business | legal
+  tool TEXT,
+  intent TEXT,                         -- informational | transactional | commercial
+  status TEXT DEFAULT 'pending',       -- pending | published
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- SEO 页面
+CREATE TABLE seo_pages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  slug TEXT UNIQUE NOT NULL,
+  title TEXT,
+  meta_description TEXT,
+  content TEXT,
+  keyword_id UUID REFERENCES seo_keywords(id),
+  published_at TIMESTAMP,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 所有分析事件
+CREATE TABLE analytics_events (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  event_type TEXT NOT NULL,            -- signup | tool_use | subscription_created | page_view | referral_signup | feedback_submitted
+  user_id UUID,
+  tool_slug TEXT,
+  toolkit_slug TEXT,
+  metadata JSONB,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 用户反馈
+CREATE TABLE feedback (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  tool_slug TEXT,
+  feedback_type TEXT,                  -- bug | feature_request | improvement | general
+  rating INTEGER,                      -- 1-5
+  message TEXT,
+  email TEXT,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Feature Voting
+CREATE TABLE features (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title TEXT NOT NULL,
+  description TEXT,
+  toolkit TEXT,
+  votes INTEGER DEFAULT 0,
+  status TEXT DEFAULT 'open',          -- open | planned | in_progress | released
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE feature_votes (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  feature_id UUID REFERENCES features(id),
+  user_id UUID REFERENCES users(id),
+  created_at TIMESTAMP DEFAULT NOW(),
+  UNIQUE(feature_id, user_id)
+);
+
+-- 推荐系统
+CREATE TABLE referrals (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  referrer_id UUID REFERENCES users(id),
+  referred_user_id UUID REFERENCES users(id),
+  status TEXT DEFAULT 'pending',       -- pending | completed | rewarded
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE referral_rewards (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id),
+  reward_type TEXT,                    -- free_month | discount
+  reward_value TEXT,
+  applied BOOLEAN DEFAULT false,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+---
+
+## 工具盒初始数据（5个 Toolkit + 50个工具）
+
+### Jobseeker Toolkit（$9/month）
+```
+1  resume-optimizer          Resume Optimizer               template
+2  ats-resume-checker        ATS Resume Checker             template
+3  resume-bullet-generator   Resume Bullet Generator        template
+4  cover-letter-generator    Cover Letter Generator         template
+5  interview-answer-generator Interview Answer Generator   template
+6  behavioral-interview-coach Behavioral Interview Coach   config
+7  linkedin-profile-optimizer LinkedIn Profile Optimizer   template
+8  job-description-analyzer  Job Description Analyzer      template
+9  resume-keyword-scanner    Resume Keyword Scanner         template
+10 salary-negotiation-script Salary Negotiation Script     template
+```
+
+### Creator Toolkit（$9/month）
+```
+11 youtube-title-generator   YouTube Title Generator        template
+12 youtube-description-gen   YouTube Description Generator  template
+13 youtube-script-generator  YouTube Script Generator       config
+14 blog-topic-generator      Blog Topic Generator           template
+15 seo-content-generator     SEO Content Generator          config
+16 article-outline-generator Article Outline Generator      template
+17 newsletter-writer         AI Newsletter Writer           template
+18 podcast-script-generator  Podcast Script Generator       config
+19 tiktok-caption-generator  TikTok Caption Generator       template
+20 instagram-caption-gen     Instagram Caption Generator    template
+```
+
+### Marketing Toolkit（$9/month）
+```
+21 marketing-copy-generator  Marketing Copy Generator       template
+22 sales-email-generator     Sales Email Generator          template
+23 cold-email-generator      Cold Email Generator           template
+24 facebook-ad-copy          Facebook Ad Copy Generator     template
+25 google-ads-copy           Google Ads Copy Generator      template
+26 product-description-gen   Product Description Generator  template
+27 landing-page-copy         Landing Page Copy Generator    config
+28 brand-voice-generator     Brand Voice Generator          template
+29 headline-generator        Headline Generator             template
+30 value-proposition-gen     Value Proposition Generator    template
+```
+
+### Business Toolkit（$12/month）
+```
+31 business-proposal-gen     Business Proposal Generator    config
+32 invoice-email-generator   Invoice Email Generator        template
+33 customer-support-reply    Customer Support Reply Gen     template
+34 meeting-summary-gen       Meeting Summary Generator      template
+35 business-plan-generator   Business Plan Generator        config
+36 swot-analysis-generator   SWOT Analysis Generator        config
+37 company-bio-generator     Company Bio Generator          template
+38 pitch-deck-outline        Pitch Deck Outline Generator   config
+39 client-followup-email     Client Follow-up Email Gen     template
+40 faq-generator             FAQ Generator                  template
+```
+
+### Legal Toolkit（$19/month）⚠️ 必须带合规 Disclaimer
+```
+41 nda-analyzer              NDA Analyzer                   config
+42 contract-risk-analyzer    Contract Risk Analyzer         config
+43 terms-of-service-gen      Terms of Service Generator     config
+44 privacy-policy-gen        Privacy Policy Generator       config
+45 legal-doc-summarizer      Legal Document Summarizer      template
+46 employment-contract-gen   Employment Contract Generator  config
+47 freelance-agreement-gen   Freelance Agreement Generator  config
+48 partnership-agreement-gen Partnership Agreement Gen      config
+49 non-compete-agreement-gen Non-Compete Agreement Gen      config
+50 contract-clause-explainer Contract Clause Explainer      template
+```
+
+---
+
+## 定价配置
+
+```typescript
+// Stripe Price IDs（需在 .env.local 配置）
+STRIPE_JOBSEEKER_PRICE_ID=price_xxx    // $9/month
+STRIPE_CREATOR_PRICE_ID=price_xxx      // $9/month
+STRIPE_MARKETING_PRICE_ID=price_xxx    // $9/month
+STRIPE_BUSINESS_PRICE_ID=price_xxx     // $12/month
+STRIPE_LEGAL_PRICE_ID=price_xxx        // $19/month
+```
+
+---
+
+## 环境变量清单（.env.local）
+
+```bash
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+
+# Stripe
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+STRIPE_JOBSEEKER_PRICE_ID=
+STRIPE_CREATOR_PRICE_ID=
+STRIPE_MARKETING_PRICE_ID=
+STRIPE_BUSINESS_PRICE_ID=
+STRIPE_LEGAL_PRICE_ID=
+
+# AI
+OPENAI_API_KEY=
+ANTHROPIC_API_KEY=
+
+# App
+NEXT_PUBLIC_APP_URL=https://aitoolshub.com
+```
+
+---
+
+## API 路由规范
+
+```
+POST /api/tools/run
+  body: { tool_slug, inputs, session_id? }
+  → 检查权限 → 路由到对应 Engine → 返回结果
+
+POST /api/subscription/checkout
+  body: { toolkit_slug, user_id }
+  → 创建 Stripe Checkout Session → 返回 url
+
+POST /api/subscription/webhook
+  → 处理 Stripe 事件 → 更新 subscriptions 表
+
+POST /api/feedback/submit
+  body: { tool_slug, feedback_type, rating, message, email? }
+
+POST /api/features/vote
+  body: { feature_id }
+  → 需要登录
+```
+
+---
+
+## 开发优先级（MVP 7天）
+
+```
+Day 1  项目初始化 + 数据库 Schema + 环境变量
+Day 2  三层 Tool Engine + /api/tools/run
+Day 3  首页 + Toolkit 页 + 工具页 UI
+Day 4  Auth（Google + Email）+ 3次免费逻辑
+Day 5  Stripe 订阅系统（5个 Toolkit）
+Day 6  Prompt 文件（50个工具）+ 数据库初始数据
+Day 7  Admin 后台 + 部署 Vercel + 测试
+```
+
+---
+
+## 已知问题与注意事项
+
+- Legal Toolkit 所有工具**必须**在结果页底部显示 Disclaimer：
+  > "This tool provides general informational analysis only. It does not constitute legal advice. Please consult a qualified attorney for legal matters."
+- Stripe Webhook 必须用 `stripe.webhooks.constructEvent` 验签
+- 未登录用户免费次数用 `localStorage` 计数（客户端），同时后端用 session_id 做二次校验
+- SEO 页面必须有 `generateMetadata()` 导出静态 metadata
+- 批量 SEO 内容生成使用便宜模型（GPT-4o-mini 或 Claude Haiku）降低成本
+
+---
+
+## 上线后第一批推广平台
+
+1. Futurepedia（AI工具目录）
+2. Product Hunt
+3. Indie Hackers
+4. Reddit: r/Entrepreneur, r/startups, r/SideProject, r/AItools
+5. X (Twitter)
+
+---
+
+*本文件由 Claude 维护，每次会话结束后更新模块完成状态*

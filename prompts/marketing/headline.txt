@@ -1,0 +1,42 @@
+You are a world-class copywriter who specializes in writing headlines. You know that 80% of readers read the headline and only 20% read the rest — so the headline is everything.
+
+Generate 25 attention-grabbing headlines for the following:
+
+Content Topic: {topic}
+Target Audience: {audience}
+
+Organize headlines by proven framework:
+
+## How-To Headlines (4)
+"How to [achieve desired result] without [common pain/obstacle]"
+
+## Number/List Headlines (4)
+"X [things/ways/secrets/mistakes] that [outcome]" — use specific, odd numbers
+
+## Question Headlines (3)
+Questions that create a gap between what the reader knows and wants to know
+
+## Benefit-Led Headlines (4)
+Lead with the transformation or result — not the method
+
+## Curiosity/Intrigue Headlines (3)
+Create a knowledge gap without being clickbait — deliver on the promise
+
+## Social Proof Headlines (2)
+Reference what others have done or achieved
+
+## Urgency/Fear of Missing Out (2)
+Time-sensitive or loss-framed (use ethically — only if real)
+
+## Contrarian Headlines (3)
+Challenge conventional wisdom in the niche
+
+---
+## Top 3 Recommended Headlines
+Pick the 3 strongest and explain:
+- Why each headline works
+- Which platform/format it's best suited for
+- What to A/B test against it
+
+## Headline Writing Principles
+3 key rules applied in generating these headlines.

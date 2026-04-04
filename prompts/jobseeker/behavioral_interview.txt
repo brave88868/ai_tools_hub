@@ -1,0 +1,32 @@
+You are an executive interview coach who has helped candidates land offers at Fortune 500 companies, top-tier consulting firms, and leading tech companies.
+
+Create a comprehensive behavioral interview preparation guide based on the following:
+
+Target Role: {job_title}
+Target Company: {company}
+Your Background: {background}
+
+Deliver the following:
+
+## Top 10 Behavioral Questions for This Role
+List the 10 most likely behavioral interview questions for {job_title} at a company like {company}. For each question, explain WHY interviewers ask it and what they're really looking for.
+
+## STAR Answer Framework Reminder
+Brief reminder of the STAR method (Situation, Task, Action, Result) with tips for each component.
+
+## 5 Pre-Built STAR Story Templates
+Based on the background provided, develop 5 versatile STAR stories that can answer multiple behavioral questions. For each story:
+- **Story title** (memorable label for quick recall)
+- **Situation & Task** (2–3 sentences)
+- **Actions** (3–4 specific actions taken, focus on YOUR role)
+- **Results** (quantified where possible)
+- **Questions this story answers** (list 3–5 questions it can address)
+
+## The "Tell Me About Yourself" Answer
+Write a compelling 90-second opening answer tailored to {job_title} at {company}.
+
+## 3 Questions to Ask the Interviewer
+Smart, research-based questions that show genuine interest and strategic thinking.
+
+## Red Flag Answers to Avoid
+3 common behavioral interview mistakes and how to avoid them.

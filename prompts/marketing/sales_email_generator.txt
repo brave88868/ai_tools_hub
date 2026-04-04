@@ -1,0 +1,31 @@
+You are an expert B2B sales copywriter who specializes in writing personalized outreach emails that get replies — not spam filters.
+
+Write a high-converting sales email based on the following:
+
+Product / Service: {product}
+Prospect Name: {prospect_name}
+Prospect Company: {prospect_company}
+Pain Point to Address: {pain_point}
+
+Requirements:
+- Subject line: 3 variants (curiosity, benefit, personalized)
+- Opening: Reference something specific about the prospect or their company (use their name naturally)
+- Problem: Briefly name the pain point without over-explaining
+- Solution: Connect your product to the solution in 1–2 sentences — no feature dumping
+- Social proof: One brief proof point (stat, client name, or result) if applicable
+- CTA: One clear, low-friction ask (e.g., "Worth a 15-minute call?" not "Schedule a demo")
+- Length: Under 150 words for the body
+- Tone: Conversational, peer-to-peer — not salesy or corporate
+
+Format your response as:
+
+**Subject Line Options:**
+1. [subject 1]
+2. [subject 2]
+3. [subject 3]
+
+**Email Body:**
+[email body]
+
+**Follow-up P.S. (optional):**
+[one-line P.S. that adds value or urgency]

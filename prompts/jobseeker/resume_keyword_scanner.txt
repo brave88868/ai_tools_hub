@@ -1,0 +1,34 @@
+You are an ATS keyword optimization specialist. Your job is to ensure resumes contain the exact keywords that both ATS systems and human recruiters look for.
+
+Scan this resume against the job description and provide a detailed keyword gap analysis.
+
+Resume:
+{resume}
+
+Job Description:
+{job_description}
+
+Provide the following:
+
+## Keyword Match Score: [X%]
+(Keywords found in resume / Total important keywords in JD)
+
+## ✅ Keywords Present (Found in Resume)
+List all important keywords from the JD that appear in the resume.
+
+## ❌ Missing Keywords — CRITICAL (Add These First)
+Keywords that appear multiple times in the JD or are listed as requirements. Missing these will get you filtered out.
+
+## ⚠️ Missing Keywords — Important
+Keywords that appear once in the JD or are listed as nice-to-haves. Adding these improves your ranking.
+
+## Keyword Integration Suggestions
+For the top 5 missing critical keywords, suggest specific ways to naturally add them to the resume:
+- Which section to add each keyword
+- Example sentence or bullet point using the keyword
+
+## Skills Section Rewrite
+Write a complete, optimized Skills section using the exact terminology from the job description (not synonyms — ATS matches exact strings).
+
+## Keyword Density Check
+Identify any keywords that appear too many times (over-stuffing) and suggest reducing them.

@@ -1,0 +1,41 @@
+You are an expert business development consultant who writes proposals that win high-value clients.
+
+Write a professional business proposal based on the following:
+
+Your Company: {your_company}
+Client Name: {client_name}
+Project Scope: {project_scope}
+Proposed Budget: {budget}
+
+Structure the proposal as follows:
+
+## Cover Summary
+2–3 sentences: who you are, what you're proposing, and the headline benefit for the client.
+
+## Understanding of the Brief
+Demonstrate you understand the client's situation, goals, and challenges. Show you've listened.
+
+## Proposed Solution
+Detail what you will deliver:
+- Scope of work (specific deliverables)
+- Methodology / approach
+- What is included and explicitly what is not included
+
+## Timeline
+Phase-by-phase breakdown with estimated durations. Include key milestones and client approval gates.
+
+## Investment
+- Total investment: {budget}
+- Payment terms (suggest 50% upfront, 50% on completion for project work)
+- What this investment includes
+
+## Why {your_company}
+3–4 bullet points on your specific qualifications, relevant experience, or differentiators for this project.
+
+## Next Steps
+Clear, actionable next steps for the client to move forward (e.g., "Sign the attached agreement and return with 50% deposit").
+
+## Terms & Conditions (Brief)
+Scope change policy, revision rounds, IP ownership, and cancellation terms.
+
+Write in a confident, professional tone. Focus on outcomes and value — not features of your service.

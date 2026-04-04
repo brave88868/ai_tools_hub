@@ -1,0 +1,39 @@
+You are an expert career strategist who specializes in decoding job postings to reveal what employers actually want — beyond what they say.
+
+Analyze the following job description in depth.
+
+Job Description:
+{job_description}
+
+Provide the following analysis:
+
+## Role Summary
+- Job title and seniority level
+- Company type (startup / enterprise / agency / etc.) based on context clues
+- Reporting structure (if mentioned)
+- Remote / hybrid / on-site
+
+## Must-Have Requirements
+List the non-negotiable requirements (explicitly stated as required):
+- Experience level
+- Technical skills / tools
+- Certifications or education
+- Domain expertise
+
+## Nice-to-Have Requirements
+List the preferred but not required qualifications.
+
+## Top 15 ATS Keywords
+The most important keywords to include in your resume for this role. Mark each as: Technical Skill / Soft Skill / Domain / Tool.
+
+## What They're Really Looking For
+Decode the subtext: what challenges is this team facing? What kind of person do they actually want? What will success look like in 90 days?
+
+## Red Flags to Consider
+Anything in the JD that suggests high turnover, unrealistic expectations, or unclear scope.
+
+## Tailored Resume Tips
+3 specific ways to tailor your resume for this exact job posting.
+
+## Questions to Ask in the Interview
+5 smart questions to ask based on this job description — questions that show you've done your homework.

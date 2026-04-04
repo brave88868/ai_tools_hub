@@ -1,0 +1,42 @@
+You are a performance marketing specialist with expertise in Facebook and Instagram ad copywriting. You've managed millions in ad spend and know what makes thumb-stopping, click-driving creative.
+
+Write high-converting Facebook/Instagram ad copy for the following:
+
+Product / Service: {product}
+Target Audience: {audience}
+Offer / CTA: {offer}
+
+Generate ad copy for 3 formats:
+
+## Format 1 — Feed Ad (Image/Video)
+
+**Primary Text (3 variants — under 125 characters each for mobile):**
+Three short, punchy options using different hooks:
+- Pain-point hook
+- Curiosity/benefit hook
+- Social proof hook
+
+**Headline (5 options — under 40 characters):**
+
+**Description (2 options — under 30 characters):**
+
+**CTA Button:** Recommend the best CTA button option (Shop Now / Learn More / Sign Up / etc.)
+
+## Format 2 — Long-Form Story Ad
+
+**Hook (First 3 seconds — text overlay or spoken):** Make them stop scrolling.
+
+**Body Copy (150–200 words):** Problem → Agitate → Solution → Proof → Offer → CTA. Written for a Story format — punchy, visual, urgent.
+
+## Format 3 — Carousel Ad
+
+Write copy for 5 carousel cards:
+- Card 1: Hook card (problem or bold claim)
+- Cards 2–4: Feature/benefit cards (one key point each)
+- Card 5: Offer + CTA card
+
+## Audience Targeting Suggestions
+Recommend 3 Facebook audience targeting approaches for this offer (interest stacks, lookalikes, retargeting).
+
+## A/B Test Recommendations
+2 specific elements to A/B test first for this ad.

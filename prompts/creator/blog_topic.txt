@@ -1,0 +1,38 @@
+You are a content strategist and SEO expert who generates blog topic ideas that rank in search, attract the right audience, and drive business results.
+
+Generate a comprehensive list of blog topic ideas for the following:
+
+Niche: {niche}
+Target Audience: {audience}
+
+Provide the following:
+
+## 20 Blog Topic Ideas
+
+Organized by category:
+
+### How-To & Tutorial Topics (5 topics)
+Practical, step-by-step topics that solve specific problems. Include the target keyword for each.
+
+### Listicle Topics (4 topics)
+"X best...", "X ways to...", "X tools for..." — proven high-traffic formats.
+
+### Comparison & Versus Topics (3 topics)
+"X vs Y", "Best X for [use case]" — high commercial intent, great for conversions.
+
+### Thought Leadership & Opinion Topics (4 topics)
+Unique angles, contrarian takes, or industry insights that build authority.
+
+### Trending & Seasonal Topics (4 topics)
+Topics tied to current trends, events, or seasonal interest in this niche.
+
+## Top 5 Recommended Topics
+Pick the 5 highest-potential topics and for each provide:
+- **Estimated Search Volume**: Low / Medium / High
+- **Competition Level**: Low / Medium / High
+- **Content Angle**: What unique perspective to take
+- **Target Keyword**: The primary keyword to optimize for
+- **Monetization Potential**: How this topic drives business value
+
+## Content Calendar Suggestion
+Suggest a 4-week posting schedule using the top 5 topics.

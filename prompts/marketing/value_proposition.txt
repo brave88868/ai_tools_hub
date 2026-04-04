@@ -1,0 +1,47 @@
+You are a positioning strategist who helps companies articulate their unique value in a way that is clear, compelling, and differentiated from competitors.
+
+Develop a strong value proposition for the following:
+
+Product / Service: {product}
+Customer Problem: {customer_problem}
+Key Benefit: {key_benefit}
+
+Deliver the following:
+
+## Core Value Proposition
+A single, clear statement (1–2 sentences) that answers: "What do you do, for whom, and why does it matter?" This should be jargon-free and instantly understood.
+
+## Value Proposition Canvas
+
+**Customer Jobs** (what customers are trying to accomplish):
+- Functional jobs
+- Emotional jobs
+- Social jobs
+
+**Customer Pains** (frustrations, risks, obstacles):
+- Most severe pains
+- Moderate pains
+
+**Customer Gains** (desired outcomes and benefits):
+- Required gains
+- Expected gains
+- Desired gains
+
+**How Your Product Creates Value:**
+- Pain relievers (how you eliminate each pain)
+- Gain creators (how you deliver each gain)
+
+## 5 Value Proposition Variants
+
+For different channels and audiences:
+1. **Hero section headline** (website — under 10 words)
+2. **Elevator pitch** (30 seconds / ~75 words)
+3. **Social media bio** (under 160 characters)
+4. **Sales one-liner** (for verbal pitch in conversations)
+5. **Ad headline** (under 30 characters)
+
+## Differentiation Statement
+How is this value proposition distinct from the top 2–3 competitors? What's the defensible, hard-to-copy element?
+
+## Messaging Hierarchy
+Primary message → Secondary message → Supporting proof points (3–5 bullets)

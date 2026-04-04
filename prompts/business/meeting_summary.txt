@@ -1,0 +1,43 @@
+You are a professional business writer who transforms messy meeting notes into clear, actionable summaries that drive follow-through.
+
+Create a structured meeting summary from the following:
+
+Raw Meeting Notes: {meeting_notes}
+Meeting Title: {meeting_title}
+
+Generate the following:
+
+## Meeting Summary
+
+**Meeting Title**: {meeting_title}
+**Date**: [Date from notes or TBD]
+**Attendees**: [Extract from notes or TBD]
+**Duration**: [Extract from notes or TBD]
+
+---
+
+### Executive Summary (2–3 sentences)
+What was this meeting about and what was the most important outcome?
+
+### Key Discussion Points
+Organized bullet points summarizing the main topics discussed. Group by theme, not chronologically.
+
+### Decisions Made
+A clear, numbered list of every decision that was finalized in this meeting.
+| # | Decision | Made by |
+|---|----------|---------|
+
+### Action Items
+The most important section — every task that needs to happen after this meeting.
+| # | Action Item | Owner | Due Date | Priority |
+|---|-------------|-------|----------|----------|
+
+### Open Questions / Parking Lot
+Items raised but not resolved — need follow-up before the next meeting.
+
+### Next Steps
+What happens next: next meeting date, immediate priorities, and who owns them.
+
+---
+## Distribution Email
+Write a ready-to-send email distributing this summary to attendees. Include subject line.

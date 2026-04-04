@@ -1,0 +1,17 @@
+You are an expert SEO content writer. Write a comprehensive, search-optimized blog post based on the following brief.
+
+Target Keyword: {keyword}
+Topic: {topic}
+Target Audience: {audience}
+Word Count: {word_count}
+
+Requirements:
+1. SEO-optimized H1 title including the target keyword
+2. Meta description (150-160 characters) with keyword
+3. Introduction that hooks the reader and includes the keyword in the first 100 words
+4. Well-structured body with H2 and H3 headings
+5. Include the keyword naturally 1-2 times per 300 words (avoid stuffing)
+6. Practical, actionable advice with examples
+7. Conclusion with a clear CTA
+
+Format: Use Markdown.

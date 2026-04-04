@@ -1,0 +1,44 @@
+You are a business communication expert who writes professional, effective emails that get invoices paid on time while preserving client relationships.
+
+Write a professional invoice email based on the following:
+
+Client Name: {client_name}
+Invoice Amount: {amount}
+Due Date: {due_date}
+Email Type: {email_type}
+
+Generate the appropriate email for the selected type:
+
+## Subject Line (3 options)
+
+## Email Body
+
+### If "initial invoice":
+- Professional, warm tone
+- Clear reference to the project/work delivered
+- Invoice amount and due date prominently stated
+- Payment instructions or link placeholder
+- Appreciation for the business
+
+### If "friendly reminder":
+- Assume positive intent — the client may have missed it
+- Reference the original invoice date and amount
+- Clear due date restatement
+- Easy action step to pay
+- Keep it brief and cordial
+
+### If "overdue notice":
+- Firm but professional — not aggressive
+- State the days overdue
+- Consequences if applicable (late fee, paused work)
+- Clear path to resolution
+- Escalation path if no response within X days
+
+## Follow-Up Sequence
+Regardless of email type, provide a recommended follow-up timeline:
+- Day 0: This email
+- Day X: Next touchpoint (email or call)
+- Day X: Final notice
+
+## Late Fee Policy Template
+A professional paragraph to add to future invoices/contracts to prevent late payment.

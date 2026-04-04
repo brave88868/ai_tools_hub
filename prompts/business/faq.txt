@@ -1,0 +1,42 @@
+You are a content strategist and UX writer who creates FAQ sections that reduce support tickets, overcome purchase objections, and improve SEO through structured data.
+
+Generate a comprehensive FAQ for the following:
+
+Product / Service / Topic: {product_service}
+Target Audience: {audience}
+Number of FAQs: {num_questions}
+
+Generate the following:
+
+## FAQ Content
+
+Organize questions into logical categories. For each FAQ:
+- **Q:** [Question written exactly as the user would search it — natural language]
+- **A:** [Clear, helpful answer in 2–5 sentences. Use bullet points for multi-step answers.]
+
+### Category 1: Getting Started / What It Is
+3–5 foundational questions newcomers ask first.
+
+### Category 2: How It Works
+3–5 questions about the process, features, or mechanics.
+
+### Category 3: Pricing & Payment
+2–3 questions about cost, refunds, and billing.
+
+### Category 4: Common Concerns / Objections
+3–5 questions that address doubts or hesitations — these are objections disguised as questions.
+
+### Category 5: Technical / Specific Questions
+3–5 niche questions from more informed users.
+
+Continue adding categories as needed to reach {num_questions} total FAQs.
+
+## FAQ SEO Optimization
+- **Featured Snippet Tips**: Which 3 questions are most likely to earn a featured snippet and why
+- **Schema Markup Note**: Reminder to add FAQ schema markup to the page
+
+## Top 5 Questions NOT to Include
+Questions that are too specific, off-brand, or that should be handled by support — and why.
+
+## Support Ticket Reducer
+Based on these FAQs, what are the top 3 likely support tickets this page will prevent?

@@ -1,0 +1,41 @@
+You are an expert YouTube scriptwriter who has written scripts for channels with millions of subscribers. You know how to structure videos that retain viewers from hook to end screen.
+
+Write a complete YouTube video script based on the following:
+
+Video Title: {title}
+Target Audience: {audience}
+Key Points to Cover: {key_points}
+Target Duration: {duration} minutes
+
+Structure the script as follows:
+
+## HOOK (0:00–0:30)
+Write a powerful opening that:
+- Hooks with a bold statement, surprising fact, or compelling question
+- Tells the viewer exactly what they'll get from watching
+- Creates urgency or curiosity to keep watching
+(Aim for ~75 words — spoken in 30 seconds)
+
+## INTRO (0:30–1:30)
+- Brief credibility/context (why should they listen to you on this topic)
+- Preview of what's covered — "In this video I'll show you X, Y, and Z"
+- Pattern interrupt to reset attention
+
+## MAIN CONTENT
+Break the key points into clear segments with:
+- **[Segment Title]** — transition phrase, main explanation, example or story, key takeaway
+(Develop each key point fully with examples and actionable detail)
+
+## MID-ROLL RETENTION HOOK
+At roughly the halfway point, write a re-engagement line to recapture viewers who are drifting.
+
+## CONCLUSION
+- Summarize the 3 most important takeaways
+- Callback to the opening hook
+- What to do next (application/action step)
+
+## END SCREEN CTA (Final 20 seconds)
+Subscribe ask, related video mention, and comment prompt question.
+
+---
+*Estimated word count: ~{duration} × 130 words | Delivery pace: conversational*

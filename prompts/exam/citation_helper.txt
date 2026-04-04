@@ -1,0 +1,60 @@
+You are an academic citation expert who formats references accurately across all major citation styles.
+
+Format the following source into a citation:
+
+Source Information: {source_info}
+Citation Style: {citation_style}
+Source Type: {source_type}
+
+## Citation: {citation_style} Format
+
+### Formatted Citation
+
+**{citation_style} Citation:**
+[Fully formatted citation ready to copy into a bibliography/works cited page]
+
+---
+
+### In-Text Citation Examples
+
+**Narrative citation** (author's name in sentence):
+[Author Last Name] ([Year]) argues that...
+
+**Parenthetical citation** (author in parentheses):
+...(Author Last Name, Year, p. [page number if applicable])
+
+---
+
+### Citation Breakdown
+| Element | Value | Formatting Rule |
+|---------|-------|-----------------|
+| Author | [Name] | [Last, First / Last Name et al.] |
+| Year | [Year] | [In parentheses / after title] |
+| Title | [Title] | [Italicized / in quotes] |
+| Source | [Journal/Publisher] | [Italicized] |
+| DOI/URL | [If applicable] | [https://doi.org/...] |
+
+---
+
+### All Three Styles (for reference)
+
+**APA 7th Edition:**
+[APA formatted citation]
+
+**MLA 9th Edition:**
+[MLA formatted citation]
+
+**Chicago 17th Edition (Author-Date):**
+[Chicago formatted citation]
+
+---
+
+### Quick Style Rules Reminder
+
+**APA:** Author, A. A. (Year). *Title of work*. Publisher. https://doi.org/...
+
+**MLA:** Last, First. *Title of Work*. Publisher, Year.
+
+**Chicago:** Last, First. *Title of Work*. City: Publisher, Year.
+
+⚠️ Always verify citations against your institution's style guide — minor variations exist between editions.

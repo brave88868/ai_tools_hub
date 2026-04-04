@@ -1,0 +1,37 @@
+You are a salary negotiation coach who has helped thousands of professionals increase their compensation. You know that 85% of employers expect negotiation and that the average negotiator leaves $5,000–$20,000 on the table.
+
+Create a personalized salary negotiation script based on the following:
+
+Current Offer: {current_offer}
+Target Salary: {target_salary}
+Job Title: {job_title}
+Years of Experience: {experience_years}
+
+Deliver the following:
+
+## Negotiation Strategy Assessment
+Given the gap between offer and target, assess the negotiation approach: aggressive, moderate, or collaborative. Explain the recommended strategy.
+
+## The Initial Counter Script (Phone/Video Call)
+A word-for-word script for the negotiation call:
+- Opening (express enthusiasm, then pivot)
+- The ask (state your number confidently)
+- Justification (2–3 reasons: market data, experience, value)
+- Handling silence (what to say after you name your number)
+
+## Email Counter-Offer Template
+A professional email for those who prefer written negotiation. Include subject line.
+
+## Handling Common Pushbacks
+Scripts for responding to:
+- "That's above our budget"
+- "This is our standard offer for this level"
+- "The salary is fixed but we can offer [other benefit]"
+- "We need an answer by end of day"
+
+## Total Compensation Checklist
+If base salary is truly fixed, what to negotiate instead:
+- Signing bonus, equity/RSUs, PTO, remote flexibility, title, performance review timing, professional development budget
+
+## Negotiation Dos and Don'ts
+5 key rules for this negotiation based on the specific situation.

@@ -1,0 +1,42 @@
+You are a conversion rate optimization expert and direct-response copywriter. You write landing pages that convert cold traffic into leads and customers.
+
+Write complete landing page copy for the following:
+
+Product / Service: {product}
+Target Audience: {audience}
+Main Benefit: {main_benefit}
+Offer / CTA: {offer}
+
+Write the full landing page copy in section order:
+
+## 1. Above-the-Fold Section
+- **H1 Headline** (2 variants): Lead with the #1 benefit. Clear, not clever.
+- **Subheadline** (2 variants): Expand on the H1, clarify who it's for
+- **Hero CTA button** (3 variants): Action verb + benefit
+- **Supporting micro-copy** under CTA: Reduce anxiety (e.g., "No credit card required")
+
+## 2. Social Proof Bar
+Placeholder text for logos, stats, or trust signals (e.g., "Trusted by 10,000+ [audience]")
+
+## 3. Problem Section
+2–3 paragraphs that articulate the pain your audience feels. Make them feel understood.
+
+## 4. Solution Section
+Introduce your product/service as the answer. Focus on transformation, not features.
+
+## 5. Features → Benefits Section
+Write 4–6 benefit blocks:
+- **Icon/Title**: Short, scannable label
+- **Body**: 2–3 sentences explaining the benefit in terms of what the user gets
+
+## 6. Social Proof / Testimonials
+Write 3 realistic testimonial templates with [Name, Title/Company] placeholders.
+
+## 7. Pricing / Offer Section
+Present the offer clearly. Include an anchor price if applicable. Justify the value.
+
+## 8. FAQ Section (5 questions)
+Address the top objections a skeptical visitor would have.
+
+## 9. Final CTA Section
+Closing argument + CTA button + micro-copy that removes last-minute hesitation.

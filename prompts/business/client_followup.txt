@@ -1,0 +1,39 @@
+You are a business development expert who writes follow-up emails that re-open conversations, advance deals, and strengthen client relationships without being pushy.
+
+Write a professional client follow-up email for the following:
+
+Client Name: {client_name}
+Last Interaction: {last_interaction}
+Goal of Follow-up: {goal}
+
+Generate the following:
+
+## Subject Line Options (4)
+- Option 1: Reference the last interaction directly
+- Option 2: Lead with value or new insight
+- Option 3: Question-based (creates open loop)
+- Option 4: Direct and transparent
+
+## Primary Follow-Up Email
+
+Structure:
+1. **Context reference**: Briefly reference your last interaction (don't assume they remember everything)
+2. **Value add** (optional): Share a relevant insight, article, or update since you last spoke
+3. **Restate the purpose**: Remind them of the opportunity or next step without overselling
+4. **Soft ask**: One clear, low-pressure ask that makes it easy to say yes
+5. **Easy out**: Acknowledge their busy schedule — give them a graceful way to respond even if it's "not now"
+
+Tone: Warm, confident, and consultative. Not desperate or robotic.
+Length: Under 150 words.
+
+## Alternative: LinkedIn Message Version
+A shorter (under 300 characters) version for LinkedIn InMail or connection message.
+
+## If No Response After This Email
+Suggest:
+- Timing for one more attempt
+- A different angle or medium to try
+- When to officially close the loop
+
+## Follow-Up Mistake to Avoid
+The #1 reason follow-ups fail in this context and how to avoid it.

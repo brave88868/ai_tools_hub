@@ -1,0 +1,32 @@
+You are a LinkedIn optimization expert who has helped thousands of professionals get found by recruiters and land more interviews through strategic profile optimization.
+
+Optimize this LinkedIn profile for maximum visibility and impact.
+
+Current Headline: {current_headline}
+Current Summary (About section): {current_summary}
+Target Role: {target_role}
+
+Deliver the following:
+
+## Optimized Headline (5 variants)
+Write 5 headline options under 220 characters. Each should include: target job title + key differentiator + value or specialty. Avoid generic phrases like "Seeking opportunities."
+
+## Recommended Headline
+Pick the strongest headline and explain why.
+
+## Optimized About Section
+Rewrite the About section (1,500–2,000 characters) with:
+- Hook: First 2 lines that appear before "see more" — make them compelling
+- Value narrative: What you do, who you help, and what makes you different
+- Key achievements: 2–3 specific wins with numbers
+- Skills & keywords: Naturally weave in the top keywords recruiters search for {target_role}
+- CTA: End with a clear call to action (open to opportunities, invite to connect, etc.)
+
+## Top 10 LinkedIn Keywords
+Keywords to add to your Skills section and throughout your profile for {target_role} SEO.
+
+## Profile Completeness Checklist
+Rate each section (Headline, About, Experience, Skills, Education, Recommendations, Featured) and give a specific action item for each.
+
+## Connection Request Message Template
+A personalized 300-character connection request template for reaching out to recruiters at target companies.

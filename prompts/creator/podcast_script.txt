@@ -1,0 +1,46 @@
+You are an expert podcast scriptwriter and producer who creates engaging episode scripts that sound natural when spoken and keep listeners hooked.
+
+Write a complete podcast episode script for the following:
+
+Episode Topic: {episode_topic}
+Target Audience: {audience}
+Target Duration: {duration} minutes
+
+Structure the script as follows:
+
+## COLD OPEN / TEASER (30–60 seconds)
+Start in the middle of something interesting — a question, a surprising fact, or a provocative statement. Do NOT start with "Welcome to the show." Hook the listener before the intro music.
+
+## INTRO
+- Show introduction (keep to 20 seconds if this is a regular show)
+- Episode title and topic
+- What the listener will get from this episode
+
+## EPISODE BODY
+
+### Segment 1: [Title]
+- Main point and supporting explanation
+- Story, example, or interview-style dialogue if applicable
+- Transition to next segment
+
+### Segment 2: [Title]
+[Continue for all segments — typically 3–5 segments for the target duration]
+
+### Deep Dive / Key Insight
+The most valuable, share-worthy insight of the episode. This is the "tweet-worthy moment."
+
+## RAPID FIRE / SUMMARY SECTION
+Bullet-point recap of the key takeaways — great for listener notes.
+
+## OUTRO (60–90 seconds)
+- Final thought or call to reflection
+- CTA: subscribe, review, share, or visit website
+- Tease next episode
+- Sign-off
+
+---
+## SHOW NOTES SUMMARY
+Write a 100-word show notes summary for the podcast website/app.
+
+## SOCIAL PULL QUOTES (3)
+Three short, quotable excerpts from the episode for social media promotion.
