@@ -38,7 +38,7 @@ export default async function HomePage() {
   return (
     <main>
       {/* Hero — compact */}
-      <section className="pt-24 pb-8 px-4">
+      <section className="pt-20 pb-6 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 text-xs font-medium px-3 py-1.5 rounded-full mb-4">
             <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full"></span>
@@ -72,7 +72,7 @@ export default async function HomePage() {
       </section>
 
       {/* Popular Tools — visible on first screen */}
-      <section className="max-w-6xl mx-auto px-4 py-8">
+      <section className="max-w-6xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-gray-900">Popular Tools</h2>
           <Link href="/toolkits" className="text-sm text-indigo-500 hover:text-indigo-600">View all →</Link>
@@ -83,16 +83,16 @@ export default async function HomePage() {
             return (
               <div
                 key={tool.slug}
-                className="border border-gray-100 rounded-2xl p-5 hover:border-indigo-200 hover:shadow-md hover:shadow-indigo-50 transition-all group"
+                className="border border-gray-100 rounded-2xl p-4 hover:border-indigo-200 hover:shadow-md hover:shadow-indigo-50 transition-all group"
               >
-                <div className="flex items-start justify-between mb-3">
+                <div className="flex items-start justify-between mb-2">
                   <div className="w-8 h-8 bg-gradient-to-br from-indigo-100 to-violet-100 rounded-lg flex items-center justify-center text-sm">
                     {toolkitSlug === "jobseeker" ? "💼" : toolkitSlug === "creator" ? "🎬" : toolkitSlug === "marketing" ? "📣" : toolkitSlug === "business" ? "📊" : toolkitSlug === "legal" ? "⚖️" : "🎓"}
                   </div>
                   <span className="text-xs text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full">Free</span>
                 </div>
                 <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors">{tool.name}</h3>
-                <p className="text-xs text-gray-400 leading-relaxed mb-3 line-clamp-2">{tool.description}</p>
+                <p className="text-xs text-gray-400 leading-relaxed mb-2 line-clamp-2">{tool.description}</p>
                 <Link href={`/tools/${tool.slug}`} className="text-xs text-indigo-500 font-medium hover:text-indigo-600">
                   Try tool →
                 </Link>
@@ -103,22 +103,22 @@ export default async function HomePage() {
       </section>
 
       {/* Toolkits */}
-      <section className="bg-gray-50 py-12">
+      <section className="bg-gray-50 py-8">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-8">
+          <div className="text-center mb-6">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">AI Toolkits</h2>
             <p className="text-gray-500 text-sm">Each toolkit is a collection of AI tools built for a specific workflow.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {(toolkits ?? []).map((kit) => (
               <Link
                 key={kit.slug}
                 href={`/toolkits/${kit.slug}`}
-                className={`border-l-4 ${TOOLKIT_COLORS[kit.slug] ?? "border-l-gray-300"} border border-gray-100 rounded-2xl p-5 bg-white hover:shadow-sm transition-all group`}
+                className={`border-l-4 ${TOOLKIT_COLORS[kit.slug] ?? "border-l-gray-300"} border border-gray-100 rounded-2xl p-4 bg-white hover:shadow-sm transition-all group`}
               >
                 <div className="text-2xl mb-2">{kit.icon}</div>
                 <h3 className="text-base font-semibold text-gray-900 mb-1">{kit.name}</h3>
-                <p className="text-xs text-gray-400 leading-relaxed mb-4">{kit.description}</p>
+                <p className="text-xs text-gray-400 leading-relaxed mb-3">{kit.description}</p>
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-400">${kit.price_monthly}/month</span>
                   <span className="text-xs text-indigo-500 group-hover:text-indigo-600 transition-colors">Explore →</span>
@@ -130,19 +130,19 @@ export default async function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="max-w-6xl mx-auto px-4 py-14">
-        <div className="text-center mb-10">
+      <section className="max-w-6xl mx-auto px-4 py-10">
+        <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">How It Works</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             { step: "01", title: "Choose a tool", desc: "Browse 50+ AI tools across 6 professional toolkits." },
             { step: "02", title: "Input your content", desc: "Paste your resume, topic, contract, or any content." },
             { step: "03", title: "Get AI output", desc: "Receive optimized, ready-to-use content in seconds." },
           ].map((item) => (
             <div key={item.step} className="text-center">
-              <div className="text-4xl font-bold text-gray-100 mb-3">{item.step}</div>
-              <h3 className="text-base font-semibold text-gray-900 mb-2">{item.title}</h3>
+              <div className="text-4xl font-bold text-gray-100 mb-2">{item.step}</div>
+              <h3 className="text-base font-semibold text-gray-900 mb-1">{item.title}</h3>
               <p className="text-sm text-gray-400 leading-relaxed">{item.desc}</p>
             </div>
           ))}
@@ -150,10 +150,10 @@ export default async function HomePage() {
       </section>
 
       {/* Pricing CTA */}
-      <section className="bg-black text-white py-14">
+      <section className="bg-black text-white py-10">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-3">Simple, transparent pricing</h2>
-          <p className="text-gray-400 mb-10">Start free. Upgrade when you need more.</p>
+          <p className="text-gray-400 mb-6">Start free. Upgrade when you need more.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-left">
             <div className="border border-gray-700 rounded-2xl p-6">
               <div className="text-lg font-semibold mb-1">Free</div>
@@ -180,7 +180,7 @@ export default async function HomePage() {
           </div>
           <Link
             href="/pricing"
-            className="inline-block mt-8 bg-white text-black px-8 py-3 rounded-xl text-sm font-medium hover:bg-gray-100 transition-colors"
+            className="inline-block mt-5 bg-white text-black px-8 py-3 rounded-xl text-sm font-medium hover:bg-gray-100 transition-colors"
           >
             View full pricing →
           </Link>

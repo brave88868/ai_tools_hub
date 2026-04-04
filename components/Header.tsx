@@ -33,25 +33,25 @@ export default function Header() {
           AI Tools Hub
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6 text-sm text-gray-500">
-          <Link href="/toolkits" className="hover:text-gray-900 transition-colors">Toolkits</Link>
-          <Link href="/blog" className="hover:text-gray-900 transition-colors">Blog</Link>
-          <Link href="/pricing" className="hover:text-gray-900 transition-colors">Pricing</Link>
+        <nav className="hidden md:flex items-center gap-8">
+          <Link href="/toolkits" className="relative text-[15px] font-medium text-gray-700 hover:text-indigo-600 transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-indigo-500 after:transition-all after:duration-200 hover:after:w-full">Toolkits</Link>
+          <Link href="/blog" className="relative text-[15px] font-medium text-gray-700 hover:text-indigo-600 transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-indigo-500 after:transition-all after:duration-200 hover:after:w-full">Blog</Link>
+          <Link href="/pricing" className="relative text-[15px] font-medium text-gray-700 hover:text-indigo-600 transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-indigo-500 after:transition-all after:duration-200 hover:after:w-full">Pricing</Link>
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
           {user ? (
             <>
-              <Link href="/dashboard" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+              <Link href="/dashboard" className="text-[15px] font-medium text-gray-700 hover:text-indigo-600 transition-colors">
                 Dashboard
               </Link>
-              <button onClick={handleSignOut} className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+              <button onClick={handleSignOut} className="text-[15px] font-medium text-gray-700 hover:text-indigo-600 transition-colors">
                 Sign Out
               </button>
             </>
           ) : (
             <>
-              <Link href="/login" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+              <Link href="/login" className="text-[15px] font-medium text-gray-700 hover:text-indigo-600 transition-colors">
                 Sign In
               </Link>
               <Link href="/signup" className="text-sm bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors">
