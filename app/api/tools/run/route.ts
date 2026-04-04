@@ -1,17 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createHash } from "crypto";
 import { createAdminClient } from "@/lib/supabase";
 import { runTemplateTool } from "@/services/tool-engine/template-engine";
 import { runConfigTool } from "@/services/tool-engine/config-engine";
 import { runCustomTool } from "@/services/tool-engine/custom-engine";
 
-function todayUTC(): string {
-  return new Date().toISOString().slice(0, 10);
+function getDateRange() {
+  const now = new Date();
+  const today = now.toISOString().split("T")[0];
+  const next = new Date(now);
+  next.setUTCDate(next.getUTCDate() + 1);
+  const tomorrow = next.toISOString().split("T")[0];
+  return { today, tomorrow };
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { tool_slug, inputs, session_id } = body;
+    const { tool_slug, inputs } = body;
 
     if (!tool_slug || !inputs) {
       return NextResponse.json(
@@ -21,112 +27,116 @@ export async function POST(req: NextRequest) {
     }
 
     const supabase = createAdminClient();
-    const today = todayUTC();
+    const { today, tomorrow } = getDateRange();
 
-    // ── 权限检查 ──────────────────────────────────────────────
+    // ── Auth resolution ───────────────────────────────────────────
+    // If token exists but is invalid/expired, getUser returns user=null.
+    // In that case we fall through to the anonymous path — no bypass.
     const authHeader = req.headers.get("authorization");
+    const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+    const { data: { user } } = token
+      ? await supabase.auth.getUser(token)
+      : { data: { user: null } };
+
     let userId: string | null = null;
+    let sessionId: string | null = null;
 
-    if (authHeader?.startsWith("Bearer ")) {
-      const token = authHeader.replace("Bearer ", "");
-      const { data: { user } } = await supabase.auth.getUser(token);
+    if (user) {
+      // ── Authenticated user ──────────────────────────────────────
+      userId = user.id;
 
-      if (user) {
-        userId = user.id;
+      const { data: toolCheck } = await supabase
+        .from("tools")
+        .select("toolkits(slug)")
+        .eq("slug", tool_slug)
+        .single();
 
-        // 获取该工具所属 toolkit slug（用于 bundle 订阅检查）
-        const { data: toolCheck } = await supabase
-          .from("tools")
-          .select("toolkits(slug)")
-          .eq("slug", tool_slug)
-          .single();
+      const earlyToolkitSlug =
+        (toolCheck?.toolkits as unknown as { slug: string } | null)?.slug ?? "";
 
-        const earlyToolkitSlug =
-          (toolCheck?.toolkits as unknown as { slug: string } | null)?.slug ?? "";
+      const { data: sub } = await supabase
+        .from("subscriptions")
+        .select("id")
+        .eq("user_id", userId)
+        .eq("status", "active")
+        .or(`toolkit_slug.eq.bundle,toolkit_slug.eq.${earlyToolkitSlug}`)
+        .limit(1)
+        .maybeSingle();
 
-        // 付费判断：有 bundle 订阅 或 有对应 toolkit 的订阅
-        const { data: sub } = await supabase
-          .from("subscriptions")
-          .select("id")
+      if (sub) {
+        // Paid user: 100/day
+        const { count: todayCount } = await supabase
+          .from("usage_logs")
+          .select("*", { count: "exact", head: true })
           .eq("user_id", userId)
-          .eq("status", "active")
-          .or(`toolkit_slug.eq.bundle,toolkit_slug.eq.${earlyToolkitSlug}`)
-          .limit(1)
-          .maybeSingle();
+          .gte("created_at", `${today}T00:00:00.000Z`)
+          .lt("created_at", `${tomorrow}T00:00:00.000Z`);
 
-        if (sub) {
-          // 付费用户：每日最多 100 次
-          const { count: todayCount } = await supabase
-            .from("usage_logs")
-            .select("*", { count: "exact", head: true })
-            .eq("user_id", userId)
-            .gte("created_at", `${today}T00:00:00.000Z`)
-            .lt("created_at", `${today}T23:59:59.999Z`);
+        if ((todayCount ?? 0) >= 100) {
+          return NextResponse.json(
+            {
+              success: false,
+              error: "daily_limit_reached",
+              message: "You have reached your daily limit of 100 uses. Resets at midnight UTC.",
+            },
+            { status: 429 }
+          );
+        }
+      } else {
+        // Logged in, not subscribed: 3/day + 30 lifetime
+        const { count: todayCount } = await supabase
+          .from("usage_logs")
+          .select("*", { count: "exact", head: true })
+          .eq("user_id", userId)
+          .gte("created_at", `${today}T00:00:00.000Z`)
+          .lt("created_at", `${tomorrow}T00:00:00.000Z`);
 
-          if ((todayCount ?? 0) >= 100) {
-            return NextResponse.json(
-              {
-                success: false,
-                error: "daily_limit_reached",
-                message: "You have reached your daily limit of 100 uses. Resets at midnight UTC.",
-              },
-              { status: 429 }
-            );
-          }
-        } else {
-          // 已登录但未付费：今日 3 次 + 总计 30 次上限
-          const { count: todayCount } = await supabase
-            .from("usage_logs")
-            .select("*", { count: "exact", head: true })
-            .eq("user_id", userId)
-            .gte("created_at", `${today}T00:00:00.000Z`)
-            .lt("created_at", `${today}T23:59:59.999Z`);
+        if ((todayCount ?? 0) >= 3) {
+          return NextResponse.json(
+            {
+              success: false,
+              error: "free_limit_reached",
+              message: "You have used your 3 free uses today. Upgrade to continue.",
+              upgrade_required: true,
+            },
+            { status: 403 }
+          );
+        }
 
-          if ((todayCount ?? 0) >= 3) {
-            return NextResponse.json(
-              {
-                success: false,
-                error: "free_limit_reached",
-                message: "You have used your 3 free uses today. Upgrade to continue.",
-                upgrade_required: true,
-              },
-              { status: 403 }
-            );
-          }
+        const { count: totalCount } = await supabase
+          .from("usage_logs")
+          .select("*", { count: "exact", head: true })
+          .eq("user_id", userId);
 
-          const { count: totalCount } = await supabase
-            .from("usage_logs")
-            .select("*", { count: "exact", head: true })
-            .eq("user_id", userId);
-
-          if ((totalCount ?? 0) >= 30) {
-            return NextResponse.json(
-              {
-                success: false,
-                error: "lifetime_limit_reached",
-                message: "You have used all 30 lifetime free uses. Please subscribe to continue.",
-                upgrade_required: true,
-              },
-              { status: 403 }
-            );
-          }
+        if ((totalCount ?? 0) >= 30) {
+          return NextResponse.json(
+            {
+              success: false,
+              error: "lifetime_limit_reached",
+              message: "You have used all 30 lifetime free uses. Please subscribe to continue.",
+              upgrade_required: true,
+            },
+            { status: 403 }
+          );
         }
       }
     } else {
-      // 未登录用户：session_id 追踪
-      if (!session_id) {
-        return NextResponse.json(
-          { success: false, error: "session_id is required for unauthenticated requests" },
-          { status: 400 }
-        );
-      }
+      // ── Anonymous (no token, or invalid/expired token) ──────────
+      // Use IP + User-Agent fingerprint — not bypassable via incognito/browser switch
+      const ip =
+        req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+        req.headers.get("x-real-ip") ||
+        "unknown";
+      const ua = req.headers.get("user-agent") || "unknown";
+      const fingerprint = createHash("sha256").update(`${ip}:${ua}`).digest("hex");
+      sessionId = fingerprint;
 
       const { count: todayCount } = await supabase
         .from("usage_logs")
         .select("*", { count: "exact", head: true })
-        .eq("session_id", session_id)
+        .eq("session_id", fingerprint)
         .gte("created_at", `${today}T00:00:00.000Z`)
-        .lt("created_at", `${today}T23:59:59.999Z`);
+        .lt("created_at", `${tomorrow}T00:00:00.000Z`);
 
       if ((todayCount ?? 0) >= 3) {
         return NextResponse.json(
@@ -143,7 +153,7 @@ export async function POST(req: NextRequest) {
       const { count: totalCount } = await supabase
         .from("usage_logs")
         .select("*", { count: "exact", head: true })
-        .eq("session_id", session_id);
+        .eq("session_id", fingerprint);
 
       if ((totalCount ?? 0) >= 30) {
         return NextResponse.json(
@@ -158,7 +168,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // ── 加载工具配置 ──────────────────────────────────────────
+    // ── Load tool config ──────────────────────────────────────────
     const { data: tool, error: toolError } = await supabase
       .from("tools")
       .select("*, toolkits(slug)")
@@ -173,7 +183,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── 路由到对应引擎 ────────────────────────────────────────
+    // ── Route to engine ───────────────────────────────────────────
     let output: string;
 
     if (tool.tool_type === "template") {
@@ -189,19 +199,19 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Legal Toolkit 合规 Disclaimer
+    // Legal Toolkit disclaimer
     const toolkitSlug = (tool.toolkits as unknown as { slug: string } | null)?.slug;
     if (toolkitSlug === "legal") {
       output +=
         "\n\n---\n⚠️ **Disclaimer**: This tool provides general informational analysis only. It does not constitute legal advice. Please consult a qualified attorney for legal matters.";
     }
 
-    // ── 记录使用日志 ──────────────────────────────────────────
+    // ── Log usage ─────────────────────────────────────────────────
     await supabase.from("usage_logs").insert({
       user_id: userId,
       tool_slug,
       toolkit_slug: toolkitSlug,
-      session_id: session_id ?? null,
+      session_id: sessionId,
     });
 
     await supabase.from("analytics_events").insert({
