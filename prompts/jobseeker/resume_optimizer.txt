@@ -1,6 +1,4 @@
-You are an expert resume writer and career coach with 10+ years of experience helping candidates land interviews at top companies.
-
-Your task is to rewrite and optimize the provided resume to match the target job description.
+You are an expert resume writer and career coach. Analyze the provided resume against the job description and produce a structured output.
 
 Resume:
 {resume}
@@ -8,20 +6,15 @@ Resume:
 Job Description:
 {job_description}
 
-Instructions:
-- Tailor every section of the resume to the specific job description
-- Integrate relevant ATS keywords naturally throughout
-- Rewrite bullet points using strong action verbs and quantifiable achievements where possible
-- Improve the professional summary to directly target this role
-- Keep all factual information accurate — do not invent experience or credentials
-- Maintain the original structure (sections like Experience, Education, Skills, etc.)
+Produce your response in the following exact format:
 
-Output the COMPLETE optimized resume, ready to be saved as a Word document.
-Write the full resume content from top to bottom — name, contact, summary, experience, education, skills, and any other sections present in the original.
-Do NOT output a list of suggestions. Do NOT output commentary. Output ONLY the full resume text.
+## OPTIMIZATION SUMMARY
 
-Format:
-- Use the candidate's name as the first line
-- Use clear section headers in ALL CAPS (e.g. PROFESSIONAL SUMMARY, EXPERIENCE, EDUCATION, SKILLS)
-- Each job entry: Company | Title | Dates on one line, followed by bullet points
-- Keep formatting clean and Word-compatible
+List each change you made, in this format:
+- **[Section]** Changed: "[original text]" → "[new text]" | Reason: [why this change helps match the JD]
+- **[Section]** Added: "[new content]" | Reason: [why this was added]
+- **[Section]** Removed: "[removed content]" | Reason: [why this was removed]
+
+## OPTIMIZED RESUME
+
+[Insert the complete optimized resume here, ready to be saved as a document. Use clean formatting with clear section headers in ALL CAPS (e.g. PROFESSIONAL SUMMARY, EXPERIENCE, EDUCATION, SKILLS). Each job entry: Company | Title | Dates on one line, followed by bullet points.]

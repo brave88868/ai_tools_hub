@@ -6,6 +6,8 @@ import { supabase } from "@/lib/supabase";
 import InputForm from "@/components/InputForm";
 import ResultPanel from "@/components/ResultPanel";
 import UpgradeModal from "@/components/UpgradeModal";
+import ReactMarkdown from "react-markdown";
+import { Document, Paragraph, TextRun, Packer, HeadingLevel } from "docx";
 import type { Tool, InputField } from "@/types";
 
 function getSessionId(): string {
@@ -16,6 +18,53 @@ function getSessionId(): string {
     localStorage.setItem("session_id", sid);
   }
   return sid;
+}
+
+function parseResumeOptimizerOutput(output: string) {
+  const summaryMatch = output.match(/## OPTIMIZATION SUMMARY\n([\s\S]*?)## OPTIMIZED RESUME/);
+  const resumeMatch = output.match(/## OPTIMIZED RESUME\n([\s\S]*)$/);
+  return {
+    summary: summaryMatch?.[1]?.trim() ?? "",
+    optimizedResume: resumeMatch?.[1]?.trim() ?? output,
+  };
+}
+
+async function downloadDocx(content: string, filename: string) {
+  const lines = content.split("\n");
+  const paragraphs = lines.map((line) => {
+    if (!line.trim()) return new Paragraph({ text: "" });
+    if (line.startsWith("## ")) {
+      return new Paragraph({ text: line.replace(/^##\s*/, ""), heading: HeadingLevel.HEADING_2 });
+    }
+    if (line.startsWith("# ")) {
+      return new Paragraph({ text: line.replace(/^#\s*/, ""), heading: HeadingLevel.HEADING_1 });
+    }
+    if (line.trim() === line.trim().toUpperCase() && line.trim().length > 2 && line.trim().length < 60) {
+      return new Paragraph({ text: line.trim(), heading: HeadingLevel.HEADING_2 });
+    }
+    if (line.trimStart().startsWith("- ") || line.trimStart().startsWith("• ")) {
+      return new Paragraph({
+        children: [new TextRun({ text: line.replace(/^[\s\-•]+/, ""), size: 24 })],
+        bullet: { level: 0 },
+      });
+    }
+    const boldMatch = line.match(/^\*\*(.+)\*\*$/);
+    if (boldMatch) {
+      return new Paragraph({ children: [new TextRun({ text: boldMatch[1], bold: true, size: 24 })] });
+    }
+    return new Paragraph({ children: [new TextRun({ text: line, size: 24 })] });
+  });
+
+  const doc = new Document({ sections: [{ properties: {}, children: paragraphs }] });
+  const blob = await Packer.toBlob(doc);
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${filename}.docx`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 export default function ToolPage() {
@@ -30,6 +79,8 @@ export default function ToolPage() {
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [upgradeToolkit, setUpgradeToolkit] = useState<string | undefined>();
   const [pageLoading, setPageLoading] = useState(true);
+  const [resumeExpanded, setResumeExpanded] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     async function loadTool() {
@@ -54,6 +105,7 @@ export default function ToolPage() {
     setLoading(true);
     setResult("");
     setError("");
+    setResumeExpanded(false);
 
     try {
       const sessionId = getSessionId();
@@ -105,6 +157,10 @@ export default function ToolPage() {
   }
 
   const inputFields: InputField[] = Array.isArray(tool.inputs_schema) ? tool.inputs_schema : [];
+
+  // ── Resume Optimizer dual-view ─────────────────────────────────────────
+  const isResumeOptimizer = slug === "resume-optimizer";
+  const resumeParts = isResumeOptimizer && result ? parseResumeOptimizerOutput(result) : null;
 
   return (
     <div className="min-h-screen bg-white">
@@ -161,8 +217,57 @@ export default function ToolPage() {
           </div>
         )}
 
-        {/* Result */}
-        {result && (
+        {/* Resume Optimizer — dual view */}
+        {isResumeOptimizer && resumeParts && (
+          <div className="mt-6 border border-gray-100 rounded-2xl overflow-hidden">
+            {/* Optimization Summary */}
+            <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
+              <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">✏️ What Changed & Why</span>
+            </div>
+            <div className="p-4 prose prose-sm max-w-none text-gray-700">
+              <ReactMarkdown>{resumeParts.summary || "*No summary available.*"}</ReactMarkdown>
+            </div>
+
+            {/* Collapsible full resume */}
+            <div className="border-t border-gray-100">
+              <button
+                onClick={() => setResumeExpanded((v) => !v)}
+                className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors text-xs font-semibold text-gray-600 uppercase tracking-wide"
+              >
+                <span>📄 Optimized Resume Preview</span>
+                <span>{resumeExpanded ? "▲ Collapse" : "▼ Expand"}</span>
+              </button>
+              {resumeExpanded && (
+                <div className="p-4 prose prose-sm max-w-none text-gray-700 border-t border-gray-100">
+                  <ReactMarkdown>{resumeParts.optimizedResume}</ReactMarkdown>
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-t border-gray-100">
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(resumeParts.optimizedResume);
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 2000);
+                }}
+                className="flex-1 text-xs text-gray-600 border border-gray-200 rounded-lg py-2 hover:border-gray-400 transition-colors"
+              >
+                {copied ? "✓ Copied" : "Copy Resume Text"}
+              </button>
+              <button
+                onClick={() => downloadDocx(resumeParts.optimizedResume, "optimized-resume")}
+                className="flex-1 text-xs bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-lg py-2 hover:opacity-90 transition-opacity"
+              >
+                ↓ Download Optimized CV.docx
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* All other tools — standard ResultPanel */}
+        {!isResumeOptimizer && result && (
           <ResultPanel
             result={result}
             format={outputFormat}

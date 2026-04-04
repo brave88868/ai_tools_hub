@@ -1,47 +1,56 @@
-import { NextRequest, NextResponse } from "next/server";
-
 export const runtime = "nodejs";
 export const maxDuration = 30;
 
-export async function POST(req: NextRequest) {
+import { NextRequest, NextResponse } from "next/server";
+
+export async function POST(request: NextRequest) {
   try {
-    const formData = await req.formData();
-    const file = formData.get("file") as File;
+    const formData = await request.formData();
+    const file = formData.get("file") as File | null;
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    const fileName = file.name.toLowerCase();
 
-    // TXT
-    if (file.type === "text/plain" || file.name.endsWith(".txt")) {
-      return NextResponse.json({ text: buffer.toString("utf-8") });
-    }
+    let text = "";
 
-    // DOCX
-    if (
-      file.name.endsWith(".docx") ||
-      file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    ) {
+    if (fileName.endsWith(".pdf")) {
+      // Use internal path to avoid Vercel build-time test file loading issue
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const pdfParse = require("pdf-parse/lib/pdf-parse");
+      const data = await pdfParse(buffer);
+      text = data.text;
+    } else if (fileName.endsWith(".docx")) {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       const mammoth = require("mammoth");
       const result = await mammoth.extractRawText({ buffer });
-      return NextResponse.json({ text: result.value });
+      text = result.value;
+    } else if (fileName.endsWith(".txt")) {
+      text = buffer.toString("utf-8");
+    } else {
+      return NextResponse.json(
+        { error: "Unsupported file type. Please upload PDF, DOCX, or TXT." },
+        { status: 400 }
+      );
     }
 
-    // PDF
-    if (file.name.endsWith(".pdf") || file.type === "application/pdf") {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const pdfParse = require("pdf-parse");
-      const data = await pdfParse(buffer);
-      return NextResponse.json({ text: data.text });
+    if (!text || text.trim().length === 0) {
+      return NextResponse.json(
+        { error: "Could not extract text from file. Please try pasting the text instead." },
+        { status: 400 }
+      );
     }
 
-    return NextResponse.json({ error: "Unsupported file type" }, { status: 400 });
+    return NextResponse.json({ text: text.trim() });
   } catch (err) {
     console.error("[extract-text]", err);
-    return NextResponse.json({ error: "Failed to extract text" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to read file. Please try pasting the text instead." },
+      { status: 500 }
+    );
   }
 }
