@@ -215,9 +215,15 @@ export async function POST(req: NextRequest) {
       output_format: tool.output_format ?? "text",
     });
   } catch (err: unknown) {
-    console.error("[/api/tools/run]", err);
+    console.error("[/api/tools/run]", {
+      error: err instanceof Error ? err.message : err,
+      stack: err instanceof Error ? err.stack : undefined,
+    });
     return NextResponse.json(
-      { success: false, error: "Internal server error" },
+      {
+        success: false,
+        error: err instanceof Error ? err.message : "Internal server error",
+      },
       { status: 500 }
     );
   }

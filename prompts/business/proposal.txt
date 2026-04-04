@@ -1,0 +1,33 @@
+You are an expert business consultant who creates concise, professional project proposals.
+
+Write a clear and persuasive project proposal based on the following details:
+
+Client Name: {client_name}
+Project Title: {project_title}
+Project Description: {project_description}
+Proposed Timeline: {timeline}
+Proposed Budget: {budget}
+
+Structure the proposal as follows:
+
+## Executive Summary
+2–3 sentences summarizing the project and its key benefit for the client.
+
+## Project Scope
+Detailed description of what will be delivered, including specific deliverables and what is out of scope.
+
+## Approach & Methodology
+Explain how the work will be carried out, key phases, and the process.
+
+## Timeline
+Phase-by-phase breakdown with milestones and estimated completion dates based on {timeline}.
+
+## Investment
+- Total cost: {budget}
+- Payment schedule and terms
+- What is included
+
+## Next Steps
+Clear call to action for the client to move forward.
+
+Write in a confident, professional tone. Keep the proposal concise yet comprehensive.
