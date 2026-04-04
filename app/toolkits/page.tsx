@@ -29,9 +29,9 @@ export default async function ToolkitsPage() {
   const regular = (toolkits ?? []).filter((k) => k.slug !== "bundle");
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-12">
-      <div className="mb-10">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Toolkits</h1>
+    <main className="max-w-6xl mx-auto px-4 py-6">
+      <div className="mb-5">
+        <h1 className="text-xl font-bold text-gray-900 mb-1">AI Toolkits</h1>
         <p className="text-gray-500">Each toolkit contains 10 AI tools built for a specific workflow.</p>
       </div>
 
