@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { createServerClient } from "@/lib/supabase-server";
-import { createAdminClient } from "@/lib/supabase";
 import { redirect } from "next/navigation";
 import SubscriptionList from "@/components/SubscriptionList";
 import ReferralBlock from "@/components/ReferralBlock";
@@ -47,18 +46,7 @@ export default async function DashboardPage({
 
   const activeCount = subs.filter((s) => s.status === "active").length;
 
-  // Referral 数据
-  const admin = createAdminClient();
-  const [{ count: referralCount }, { count: rewardCount }] = await Promise.all([
-    admin
-      .from("referrals")
-      .select("*", { count: "exact", head: true })
-      .eq("referrer_id", user.id),
-    admin
-      .from("referral_rewards")
-      .select("*", { count: "exact", head: true })
-      .eq("user_id", user.id),
-  ]);
+  // (Referral stats are fetched client-side by ReferralBlock via /api/referral/stats)
 
   // Plan 标签：显示实际 toolkit 名称
   let planLabel = "Free";
@@ -116,11 +104,7 @@ export default async function DashboardPage({
       {/* Referral */}
       <div className="mb-8">
         <h2 className="text-base font-semibold text-gray-900 mb-4">Invite Friends</h2>
-        <ReferralBlock
-          userId={user.id}
-          referralCount={referralCount ?? 0}
-          rewardCount={rewardCount ?? 0}
-        />
+        <ReferralBlock userId={user.id} />
       </div>
 
       {/* 快捷链接 */}

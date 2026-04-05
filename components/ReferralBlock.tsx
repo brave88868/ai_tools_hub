@@ -1,16 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 interface Props {
   userId: string;
-  referralCount: number;
-  rewardCount: number;
 }
 
-export default function ReferralBlock({ userId, referralCount, rewardCount }: Props) {
+interface ReferralStats {
+  invited_count: number;
+  paid_count: number;
+  rewards_count: number;
+}
+
+export default function ReferralBlock({ userId }: Props) {
   const referralLink = `https://aitoolsstation.com/?ref=${userId.slice(0, 8)}`;
   const [copied, setCopied] = useState(false);
+  const [stats, setStats] = useState<ReferralStats>({
+    invited_count: 0,
+    paid_count: 0,
+    rewards_count: 0,
+  });
+
+  useEffect(() => {
+    async function loadStats() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+      const res = await fetch("/api/referral/stats", {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setStats(data);
+      }
+    }
+    loadStats();
+  }, []);
 
   function handleCopy() {
     navigator.clipboard.writeText(referralLink);
@@ -40,12 +65,20 @@ export default function ReferralBlock({ userId, referralCount, rewardCount }: Pr
       </div>
 
       {/* Stats */}
-      <div className="flex gap-6 text-xs text-gray-500">
+      <div className="flex flex-wrap gap-4 text-xs text-gray-500">
         <span>
-          <strong className="text-gray-900">{referralCount}</strong> referral{referralCount !== 1 ? "s" : ""}
+          Invited:{" "}
+          <strong className="text-gray-900">{stats.invited_count}</strong>{" "}
+          {stats.invited_count === 1 ? "user" : "users"}
         </span>
         <span>
-          <strong className="text-gray-900">{rewardCount}</strong> month{rewardCount !== 1 ? "s" : ""} free earned
+          Paid:{" "}
+          <strong className="text-gray-900">{stats.paid_count}</strong>
+        </span>
+        <span>
+          Rewards:{" "}
+          <strong className="text-gray-900">{stats.rewards_count}</strong>{" "}
+          {stats.rewards_count === 1 ? "month" : "months"} free
         </span>
       </div>
     </div>
