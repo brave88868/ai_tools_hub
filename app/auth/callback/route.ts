@@ -9,6 +9,19 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get("code");
   const next = searchParams.get("next") ?? "/dashboard";
 
+  // Supabase may redirect here with an error directly (e.g. expired link)
+  // before we even attempt exchangeCodeForSession.
+  const supabaseError = searchParams.get("error");
+  const errorDescription = searchParams.get("error_description") ?? "";
+  if (supabaseError) {
+    const isExpired =
+      errorDescription.toLowerCase().includes("expired") ||
+      errorDescription.toLowerCase().includes("invalid") ||
+      supabaseError === "access_denied";
+    const errorParam = isExpired ? "confirmation_expired" : "confirmation_failed";
+    return NextResponse.redirect(`${origin}/login?error=${errorParam}`);
+  }
+
   console.log("[callback] code exists:", !!code);
 
   if (code) {
@@ -37,6 +50,13 @@ export async function GET(request: NextRequest) {
 
     console.log("[callback] session error:", error?.message);
     console.log("[callback] user:", data?.user?.email);
+
+    if (error) {
+      const msg = error.message.toLowerCase();
+      const isExpired = msg.includes("expired") || msg.includes("invalid") || msg.includes("otp");
+      const errorParam = isExpired ? "confirmation_expired" : "confirmation_failed";
+      return NextResponse.redirect(`${origin}/login?error=${errorParam}`);
+    }
 
     if (!error && data.user) {
       const user = data.user;
