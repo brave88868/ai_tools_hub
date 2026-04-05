@@ -25,17 +25,22 @@ async function resolveUser(req: NextRequest) {
 // ── GET /api/subscription/checkout?toolkit_slug=xxx ───────────────────────────
 // Used by <a href> links — simplest possible approach, no JS required
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
+  const reqUrl = new URL(req.url);
+  const { searchParams } = reqUrl;
   const toolkit_slug = searchParams.get("toolkit_slug") ?? "";
   const priceId = TOOLKIT_PRICE_IDS[toolkit_slug];
 
+  // Use the canonical app URL (with www) so Stripe redirects back to the same
+  // domain that set the session cookie — prevents cross-domain cookie loss.
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? reqUrl.origin;
+
   if (!toolkit_slug || !priceId) {
-    return NextResponse.redirect(new URL("/pricing", req.url));
+    return NextResponse.redirect(`${baseUrl}/pricing`);
   }
 
   const user = await resolveUser(req);
   if (!user) {
-    return NextResponse.redirect(new URL("/login?next=/pricing", req.url));
+    return NextResponse.redirect(`${baseUrl}/login?next=/pricing`);
   }
 
   try {
@@ -43,21 +48,22 @@ export async function GET(req: NextRequest) {
       mode: "subscription",
       payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?subscribed=${toolkit_slug}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing`,
+      success_url: `${baseUrl}/dashboard?subscribed=${toolkit_slug}`,
+      cancel_url: `${baseUrl}/pricing`,
       customer_email: user.email,
       metadata: { user_id: user.id, toolkit_slug },
     });
     return NextResponse.redirect(session.url!);
   } catch (err) {
     console.error("[checkout GET]", err);
-    return NextResponse.redirect(new URL("/pricing", req.url));
+    return NextResponse.redirect(`${baseUrl}/pricing`);
   }
 }
 
 // ── POST /api/subscription/checkout ──────────────────────────────────────────
 // Kept for backwards compatibility (SubscriptionList cancel flow etc.)
 export async function POST(req: NextRequest) {
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? new URL(req.url).origin;
   const contentType = req.headers.get("content-type") ?? "";
   const isForm = contentType.includes("application/x-www-form-urlencoded") ||
                  contentType.includes("multipart/form-data");
@@ -74,13 +80,13 @@ export async function POST(req: NextRequest) {
 
     const priceId = toolkit_slug ? TOOLKIT_PRICE_IDS[toolkit_slug] : undefined;
     if (!toolkit_slug || !priceId) {
-      if (isForm) return NextResponse.redirect(new URL("/pricing", req.url), 303);
+      if (isForm) return NextResponse.redirect(`${baseUrl}/pricing`, 303);
       return NextResponse.json({ error: "Invalid toolkit" }, { status: 400 });
     }
 
     const user = await resolveUser(req);
     if (!user) {
-      if (isForm) return NextResponse.redirect(new URL("/login?next=/pricing", req.url), 303);
+      if (isForm) return NextResponse.redirect(`${baseUrl}/login?next=/pricing`, 303);
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
@@ -88,8 +94,8 @@ export async function POST(req: NextRequest) {
       mode: "subscription",
       payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?subscribed=${toolkit_slug}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing`,
+      success_url: `${baseUrl}/dashboard?subscribed=${toolkit_slug}`,
+      cancel_url: `${baseUrl}/pricing`,
       customer_email: user.email,
       metadata: { user_id: user.id, toolkit_slug },
     });
@@ -98,7 +104,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ url: stripeSession.url });
   } catch (err) {
     console.error("[checkout POST]", err);
-    if (isForm) return NextResponse.redirect(new URL("/pricing", req.url), 303);
+    if (isForm) return NextResponse.redirect(`${baseUrl}/pricing`, 303);
     return NextResponse.json({ error: "Checkout failed" }, { status: 500 });
   }
 }

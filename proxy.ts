@@ -4,7 +4,14 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, hostname } = request.nextUrl;
+
+  // ── 强制 canonical 域名：non-www → www（防止跨域名 cookie 丢失）──
+  if (hostname === "aitoolsstation.com") {
+    const wwwUrl = new URL(request.url);
+    wwwUrl.hostname = "www.aitoolsstation.com";
+    return NextResponse.redirect(wwwUrl, 301);
+  }
 
   // ── API 路由完全不拦截，直接 pass through ─────────────────────────
   if (pathname.startsWith("/api/")) {
