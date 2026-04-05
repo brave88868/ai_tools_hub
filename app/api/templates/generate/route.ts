@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
+import { requireAdmin, unauthorized } from "@/lib/auth-admin";
 import { anthropic } from "@/lib/claude";
 
 // tool_slug → category 映射
@@ -35,9 +36,12 @@ function generateSlug(toolSlug: string, variant: string): string {
 }
 
 export async function POST(req: NextRequest) {
-  const authHeader = req.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const authHeader = req.headers.get("authorization") ?? "";
+  const isCron = authHeader === `Bearer ${process.env.CRON_SECRET}`;
+
+  if (!isCron) {
+    const auth = await requireAdmin(req);
+    if (!auth) return unauthorized();
   }
 
   const admin = createAdminClient();

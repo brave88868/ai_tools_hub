@@ -13,6 +13,20 @@ interface Props {
 
 const SITE_URL = "https://aitoolsstation.com";
 
+// 已知的模板分类名（与 tool_templates.category 字段匹配）
+const TEMPLATE_CATEGORIES: Record<string, { h1: string; description: string }> = {
+  resume: { h1: "Free Resume Templates", description: "Professional resume templates for every role. Free download." },
+  email: { h1: "Free Email Templates", description: "Email templates for cold outreach, follow-ups, sales and more." },
+  "cover-letter": { h1: "Free Cover Letter Templates", description: "Cover letter templates that get interviews." },
+  "business-plan": { h1: "Free Business Plan Templates", description: "Business plan templates for startups and small businesses." },
+  marketing: { h1: "Free Marketing Templates", description: "Marketing templates for ads, emails, landing pages and more." },
+  linkedin: { h1: "Free LinkedIn Templates", description: "LinkedIn profile and message templates for professionals." },
+  blog: { h1: "Free Blog Templates", description: "Blog post templates for how-to guides, listicles and more." },
+  "video-script": { h1: "Free Video Script Templates", description: "YouTube and video script templates ready to use." },
+  productivity: { h1: "Free Productivity Templates", description: "Meeting notes, retrospectives and planning templates." },
+  "social-media": { h1: "Free Social Media Templates", description: "Caption and post templates for every platform." },
+};
+
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
@@ -21,6 +35,17 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+
+  // Category page metadata
+  const catMeta = TEMPLATE_CATEGORIES[slug];
+  if (catMeta) {
+    return {
+      title: `${catMeta.h1} | AI Tools Hub`,
+      description: catMeta.description,
+      alternates: { canonical: `${SITE_URL}/templates/${slug}` },
+    };
+  }
+
   const supabase = createAdminClient();
 
   // 优先查 tool_templates（Module B UGC 模板）
@@ -63,6 +88,101 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function TemplatePage({ params }: Props) {
   const { slug } = await params;
   const supabase = createAdminClient();
+
+  // ── Category page ─────────────────────────────────────────────────────
+  const catMeta = TEMPLATE_CATEGORIES[slug];
+  if (catMeta) {
+    const { data: templates } = await supabase
+      .from("tool_templates")
+      .select("id, title, slug, description, download_count, tool_slug")
+      .eq("category", slug)
+      .eq("is_active", true)
+      .order("download_count", { ascending: false })
+      .limit(48);
+
+    const { data: allCategories } = await supabase
+      .from("tool_templates")
+      .select("category")
+      .eq("is_active", true);
+
+    const uniqueCategories = [...new Set((allCategories ?? []).map((c) => c.category))];
+
+    const formatCategory = (cat: string) =>
+      cat.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase());
+
+    return (
+      <div className="min-h-screen bg-white">
+        <div className="bg-gradient-to-b from-green-50 to-white border-b border-green-100">
+          <div className="max-w-5xl mx-auto px-4 py-12 text-center">
+            <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 text-xs font-medium px-3 py-1 rounded-full mb-4">
+              {templates?.length ?? 0} Free Templates
+            </div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-3">{catMeta.h1}</h1>
+            <p className="text-gray-500 text-lg max-w-xl mx-auto">
+              Download free, customize with AI, use immediately.
+            </p>
+          </div>
+        </div>
+
+        <div className="max-w-5xl mx-auto px-4 py-10">
+          {/* Category Nav */}
+          <div className="flex flex-wrap gap-2 mb-8">
+            {uniqueCategories.map((cat) => (
+              <Link
+                key={cat}
+                href={`/templates/${cat}`}
+                className={`px-3 py-1.5 rounded-full text-sm transition-colors ${
+                  cat === slug
+                    ? "bg-green-600 text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {formatCategory(cat)}
+              </Link>
+            ))}
+          </div>
+
+          {/* Templates Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {(templates ?? []).map((t) => (
+              <Link
+                key={t.id}
+                href={`/templates/${t.slug}`}
+                className="group rounded-2xl border border-gray-200 bg-white p-5 hover:border-green-300 hover:shadow-md transition-all"
+              >
+                <div className="flex items-start justify-between mb-2">
+                  <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-medium">
+                    Free Download
+                  </span>
+                  {t.download_count > 0 && (
+                    <span className="text-xs text-gray-400">↓ {t.download_count}</span>
+                  )}
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-1.5 group-hover:text-green-700 transition-colors">
+                  {t.title}
+                </h3>
+                {t.description && (
+                  <p className="text-xs text-gray-500 line-clamp-2">{t.description}</p>
+                )}
+                <div className="mt-3 text-xs text-green-600 font-medium">
+                  Download free →
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {(!templates || templates.length === 0) && (
+            <div className="text-center py-20 text-gray-400">
+              <p>No templates yet in this category.</p>
+              <Link href="/templates" className="text-indigo-600 text-sm mt-2 inline-block hover:underline">
+                Browse all templates →
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   // ── 优先：tool_templates（Module B 可下载模板）────────────────────────
   const { data: template } = await supabase

@@ -18,6 +18,7 @@ const STEP_TIMEOUT_MS = 90_000; // 90s per step max
  * Step 8:  Sitemap Ping        → /api/seo/ping
  * Step 9:  Template Generation → /api/templates/generate (Mondays only)
  * Step 10: Examples Cleanup    → delete is_public=false older than 30d (1st of month)
+ * Step 11: Prompts Generation  → /api/prompts/generate (Tuesdays only)
  */
 export async function GET(req: NextRequest) {
   if (req.headers.get("authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -233,7 +234,25 @@ export async function GET(req: NextRequest) {
     log.step10_examples_cleanup = { skipped: "not 1st of month" };
   }
 
-  console.log(`[cron/daily] Completed ${stepsCompleted}/10 steps`);
+  // ── Step 11: Weekly Prompts Generation (每周二) ─────────────────────────
+  const isTuesday = new Date().getDay() === 2;
+  if (isTuesday) {
+    try {
+      const result = await callStep("/api/prompts/generate", "POST", undefined, {
+        Authorization: `Bearer ${process.env.CRON_SECRET}`,
+      });
+      log.step11_prompts_generation = result;
+      stepsCompleted++;
+      console.log("[cron/daily] Step 11: Prompts generation", result);
+    } catch (err) {
+      log.step11_error = (err as Error).message;
+      console.error("[cron/daily] Step 11 failed:", err);
+    }
+  } else {
+    log.step11_prompts_generation = { skipped: "not Tuesday" };
+  }
+
+  console.log(`[cron/daily] Completed ${stepsCompleted}/11 steps`);
 
   return NextResponse.json({
     success: true,

@@ -495,6 +495,20 @@ export default function AdminSeoPage() {
             body: { count: 5 },
             desc: "5 audience-targeted pages → /ai-for/{audience}",
           },
+          {
+            label: "Generate Prompts",
+            key: "gen-prompts",
+            endpoint: "/api/prompts/generate",
+            body: {},
+            desc: "批量生成 AI prompts 库（~100 条，跳过已有）",
+          },
+          {
+            label: "Generate Templates",
+            key: "gen-templates",
+            endpoint: "/api/templates/generate",
+            body: {},
+            desc: "批量生成 AI templates（~80 条，跳过已有）",
+          },
         ].map(({ label, key, endpoint, body, desc }) => (
           <div key={key} className="bg-white border border-teal-100 rounded-xl p-5">
             <h3 className="text-sm font-semibold text-gray-900 mb-1">{label}</h3>
