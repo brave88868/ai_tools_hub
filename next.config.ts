@@ -3,6 +3,16 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   serverExternalPackages: ["pdf-parse", "mammoth", "officeparser"],
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "aitoolsstation.com" }],
+        destination: "https://www.aitoolsstation.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
