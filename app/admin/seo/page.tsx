@@ -26,6 +26,7 @@ interface Stats {
   sp_alternatives: number;
   sp_problems: number;
   sp_templates: number;
+  sp_ai_for: number;
   sp_total: number;
 }
 
@@ -53,7 +54,7 @@ export default function AdminSeoPage() {
     keyword_pages: 0, templates: 0, examples: 0, guides: 0, intents: 0,
     flat_use_cases: 0,
     sp_use_cases: 0, sp_comparisons: 0, sp_alternatives: 0, sp_problems: 0,
-    sp_templates: 0, sp_total: 0,
+    sp_templates: 0, sp_ai_for: 0, sp_total: 0,
   });
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState<string | null>(null);
@@ -69,7 +70,7 @@ export default function AdminSeoPage() {
       { count: kwPages }, { count: tmpl }, { count: exmp }, { count: gds }, { count: ints },
       { count: flatUc },
       { count: spUc }, { count: spComps }, { count: spAlts }, { count: spProbs },
-      { count: spTmpl }, { count: spTotal },
+      { count: spTmpl }, { count: spAiFor }, { count: spTotal },
     ] = await Promise.all([
       supabase.from("seo_keywords").select("*", { count: "exact", head: true }),
       supabase.from("seo_keywords").select("*", { count: "exact", head: true }).eq("status", "pending"),
@@ -92,13 +93,9 @@ export default function AdminSeoPage() {
       supabase.from("seo_pages").select("*", { count: "exact", head: true }).eq("type", "alternative"),
       supabase.from("seo_pages").select("*", { count: "exact", head: true }).eq("type", "problem"),
       supabase.from("seo_pages").select("*", { count: "exact", head: true }).eq("type", "template"),
+      supabase.from("seo_pages").select("*", { count: "exact", head: true }).eq("type", "ai-for"),
       supabase.from("seo_pages").select("*", { count: "exact", head: true }).neq("type", "legacy"),
     ]);
-    const spUcN = spUc ?? 0;
-    const spCompsN = spComps ?? 0;
-    const spAltsN = spAlts ?? 0;
-    const spProbsN = spProbs ?? 0;
-    const spTmplN = spTmpl ?? 0;
     setStats({
       keywords: kw ?? 0, pendingKeywords: pending ?? 0, useCasePages: uc ?? 0,
       growthKeywords: gkw ?? 0, opportunities: opps ?? 0,
@@ -107,8 +104,8 @@ export default function AdminSeoPage() {
       keyword_pages: kwPages ?? 0, templates: tmpl ?? 0, examples: exmp ?? 0,
       guides: gds ?? 0, intents: ints ?? 0,
       flat_use_cases: flatUc ?? 0,
-      sp_use_cases: spUcN, sp_comparisons: spCompsN, sp_alternatives: spAltsN,
-      sp_problems: spProbsN, sp_templates: spTmplN,
+      sp_use_cases: spUc ?? 0, sp_comparisons: spComps ?? 0, sp_alternatives: spAlts ?? 0,
+      sp_problems: spProbs ?? 0, sp_templates: spTmpl ?? 0, sp_ai_for: spAiFor ?? 0,
       sp_total: spTotal ?? 0,
     });
   }
@@ -231,13 +228,14 @@ export default function AdminSeoPage() {
       <h1 className="text-xl font-bold text-gray-900 mb-6">SEO Engine</h1>
 
       {/* Stats — seo_pages 统一表（顶部汇总） */}
-      <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6 p-4 bg-gradient-to-r from-indigo-50 to-violet-50 rounded-2xl border border-indigo-100">
+      <div className="grid grid-cols-2 md:grid-cols-7 gap-4 mb-6 p-4 bg-gradient-to-r from-indigo-50 to-violet-50 rounded-2xl border border-indigo-100">
         {[
           { label: "Use Cases", value: stats.sp_use_cases },
           { label: "Comparisons", value: stats.sp_comparisons },
           { label: "Alternatives", value: stats.sp_alternatives },
           { label: "Problems", value: stats.sp_problems },
           { label: "Templates", value: stats.sp_templates },
+          { label: "AI-For Pages", value: stats.sp_ai_for },
           { label: "Total SEO Pages", value: stats.sp_total, highlight: true },
         ].map(({ label, value, highlight }) => (
           <div key={label} className={`rounded-xl p-4 text-center ${highlight ? "bg-indigo-600 text-white" : "bg-white border border-indigo-100"}`}>
@@ -489,6 +487,13 @@ export default function AdminSeoPage() {
             endpoint: "/api/seo/generate-templates",
             body: { count: 10 },
             desc: "10 template pages → /templates/{tool}-template",
+          },
+          {
+            label: "Generate AI-For Pages",
+            key: "gen-ai-for",
+            endpoint: "/api/seo/generate-ai-for",
+            body: { count: 5 },
+            desc: "5 audience-targeted pages → /ai-for/{audience}",
           },
         ].map(({ label, key, endpoint, body, desc }) => (
           <div key={key} className="bg-white border border-teal-100 rounded-xl p-5">

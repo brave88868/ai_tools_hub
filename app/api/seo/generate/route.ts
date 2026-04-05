@@ -6,8 +6,8 @@ import { requireAdmin, unauthorized } from "@/lib/auth-admin";
  * SSE streaming bulk generator — sends real-time progress to the client.
  * Auth: Admin Bearer token or CRON_SECRET.
  *
- * Generates ~22 pages:
- *   10 use cases + 5 comparisons + 3 problems + 2 templates + 2 alternatives
+ * Generates ~27 pages:
+ *   10 use cases + 5 comparisons + 3 problems + 2 templates + 2 alternatives + 5 ai-for
  */
 
 export const maxDuration = 300; // 5 min (Vercel Pro)
@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
     { label: "Generating problems (3)…",          path: "/api/seo/generate-problems",    body: { count: 3 } },
     { label: "Generating templates (2)…",         path: "/api/seo/generate-templates",   body: { count: 2 } },
     { label: "Generating alternatives (2)…",      path: "/api/seo/generate-alternatives",body: { count: 2 } },
+    { label: "Generating AI-for pages (5)…",      path: "/api/seo/generate-ai-for",      body: { count: 5 } },
   ];
 
   const encoder = new TextEncoder();
@@ -99,6 +100,7 @@ export async function GET(req: NextRequest) {
     { path: "/api/seo/generate-problems",     body: { count: 3 } },
     { path: "/api/seo/generate-templates",    body: { count: 2 } },
     { path: "/api/seo/generate-alternatives", body: { count: 2 } },
+    { path: "/api/seo/generate-ai-for",       body: { count: 5 } },
   ];
 
   const results: Record<string, unknown> = {};
