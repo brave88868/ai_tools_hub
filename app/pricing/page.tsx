@@ -41,10 +41,6 @@ export default function PricingPage() {
   }, []);
 
   async function handleSubscribe(toolkitSlug: string) {
-    // DEBUG — 临时诊断
-    const { data: { user } } = await supabase.auth.getUser();
-    alert(`user: ${user?.email ?? 'NULL'} | id: ${user?.id ?? 'NULL'}`);
-
     // 记录定价实验转化
     if (experiment?.variant) {
       fetch("/api/revenue/pricing-convert", {
@@ -54,7 +50,7 @@ export default function PricingPage() {
       }).catch(() => {});
     }
 
-    // getUser() 向 Supabase 服务器发请求验证 token，比 getSession() 更可靠
+    // getUser() 向 Supabase 服务器验证 token，比 getSession() 可靠
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       router.push("/login?next=/pricing");
