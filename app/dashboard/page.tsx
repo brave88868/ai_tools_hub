@@ -8,6 +8,7 @@ import ReferralBlock from "@/components/ReferralBlock";
 import UpgradeCTA from "@/components/revenue/UpgradeCTA";
 import InviteBanner from "@/components/InviteBanner";
 import SignOutButton from "@/components/SignOutButton";
+import DeleteAccountButton from "@/components/DeleteAccountButton";
 
 export const metadata: Metadata = {
   title: "Dashboard | AI Tools Hub",
@@ -153,6 +154,7 @@ export default async function DashboardPage({
           </Link>
         ))}
         <SignOutButton />
+        <DeleteAccountButton />
       </div>
     </main>
   );
