@@ -7,9 +7,9 @@
 
 ## 当前项目状态
 
-**项目阶段**: 🟢 SPEC-ADMIN-02（第二轮）完成  
+**项目阶段**: 🟢 SPEC-ADMIN-03 完成  
 **当前里程碑**: Stripe Live 切换（SPEC-11-C，手动）→ SPEC-09 Programmatic SEO  
-**最后更新**: 2026-04-05 — Bearer token 修复 + 完整 Admin 后台（toolkits/tools-manage/users/pricing）
+**最后更新**: 2026-04-05 — 三级角色系统（user/pro/admin）+ admin无限制 + pro角色绕过订阅检查
 
 ### 已完成修复（Bug Fix Log）
 
@@ -41,7 +41,8 @@
 - Auth: Supabase email + Google OAuth，sign-out 正常
 - Billing: Stripe checkout + webhook (price.updated) + Supabase 同步（**仍在 Test 模式**）
 - Prompt 质量: 所有工具含 STEP 1 内部分析 + 结构化输出
-- Rate limiting: 匿名1次/天（IP+UA fingerprint）/ 登录免费3次/天+30次终身 / 付费100次/天
+- Rate limiting: 匿名1次/天（IP+UA fingerprint）/ 登录免费3次/天+30次终身 / 付费/pro角色100次/天 / admin无限制
+- 角色系统: users.role = user(默认)/pro(付费，可手动授予)/admin；users.plan = free/pro（set-role API同步）
 - Cover Letter: 6字段（cv_text_file/job_description/name/hiring_manager/company/job_title），Supabase inputs_schema已更新
 
 ---

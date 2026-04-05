@@ -400,6 +400,7 @@ Optimization Agent       →  自动优化产品
 - SPEC-FINAL ✅ Admin 路由重构 + 3 独立 Cron + Referral 短码修复 + Analytics 完整字段
 - SPEC-TEST-01 ✅ Task 2（72/72）+ Task 8（build 通过）；proxy.ts 函数名修复（middleware→proxy）
 - SPEC-ADMIN-02 ✅ Bearer token auth修复 + /admin/users/toolkits/tools-manage/pricing 全功能后台
+- SPEC-ADMIN-03 ✅ 三级角色系统（user/pro/admin）+ admin无限制 + pro角色=付费权限 + set-role同步plan
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
@@ -430,7 +431,8 @@ Optimization Agent       →  自动优化产品
 - File parsing: `pdf-parse@1` + `mammoth` + `officeparser` (all in `serverExternalPackages`)
 - Stripe webhook: `price.updated` → auto-sync to Supabase `toolkits.price_monthly`
 - Sign Out: `<button>` with `supabase.auth.signOut()` + `router.push("/")` (not `<Link>`)
-- Rate limiting: anonymous = 1/day via SHA256(IP:UA); logged-in free = 3/day+30 lifetime; paid = 100/day
+- Rate limiting: anonymous = 1/day via SHA256(IP:UA); logged-in free = 3/day+30 lifetime; paid/pro = 100/day; admin = unlimited
+- Role system: `users.role` = user(default) / pro(paid, manual) / admin；`users.plan` = free/pro（与role联动，set-role API自动同步）
 - `InputForm` file fields: `name: "xyz_file", type: "file"` → extracts text → submits as `xyz`
 - Referral short code = `user.id.slice(0, 8)`；callback 用 UUID prefix range query 查找推荐人
 - Admin 路由: `/admin/*`（layout 校验 users.role='admin'），10 页面：overview/users/toolkits/tools-manage/tools(AI)/seo/blog/analytics/feedback/pricing
