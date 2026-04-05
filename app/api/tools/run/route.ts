@@ -80,10 +80,10 @@ export async function POST(req: NextRequest) {
       // ── Authenticated user ──────────────────────────────────────
       userId = user.id;
 
-      // 检查用户是否被封禁
+      // 检查用户是否被封禁，同时读取 role
       const { data: userRecord } = await supabase
         .from("users")
-        .select("banned")
+        .select("banned, role")
         .eq("id", userId)
         .maybeSingle();
 
@@ -94,79 +94,91 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      const { data: toolCheck } = await supabase
-        .from("tools")
-        .select("toolkits(slug)")
-        .eq("slug", tool_slug)
-        .single();
+      // Admin: unlimited access — skip all rate limiting
+      if (userRecord?.role !== "admin") {
+        // Pro role (manually granted) counts as paid — skip subscription check
+        const isPro = userRecord?.role === "pro";
 
-      const earlyToolkitSlug =
-        (toolCheck?.toolkits as unknown as { slug: string } | null)?.slug ?? "";
+        let hasPaidAccess = isPro;
 
-      const { data: sub } = await supabase
-        .from("subscriptions")
-        .select("id")
-        .eq("user_id", userId)
-        .eq("status", "active")
-        .or(`toolkit_slug.eq.bundle,toolkit_slug.eq.${earlyToolkitSlug}`)
-        .limit(1)
-        .maybeSingle();
+        if (!isPro) {
+          const { data: toolCheck } = await supabase
+            .from("tools")
+            .select("toolkits(slug)")
+            .eq("slug", tool_slug)
+            .single();
 
-      if (sub) {
-        // Paid user: 100/day
-        const { count: todayCount } = await supabase
-          .from("usage_logs")
-          .select("*", { count: "exact", head: true })
-          .eq("user_id", userId)
-          .gte("created_at", `${today}T00:00:00.000Z`)
-          .lt("created_at", `${tomorrow}T00:00:00.000Z`);
+          const earlyToolkitSlug =
+            (toolCheck?.toolkits as unknown as { slug: string } | null)?.slug ?? "";
 
-        if ((todayCount ?? 0) >= 100) {
-          return NextResponse.json(
-            {
-              success: false,
-              error: "daily_limit_reached",
-              message: "You have reached your daily limit of 100 uses. Resets at midnight UTC.",
-            },
-            { status: 429 }
-          );
-        }
-      } else {
-        // Logged in, not subscribed: 3/day + 30 lifetime
-        const { count: todayCount } = await supabase
-          .from("usage_logs")
-          .select("*", { count: "exact", head: true })
-          .eq("user_id", userId)
-          .gte("created_at", `${today}T00:00:00.000Z`)
-          .lt("created_at", `${tomorrow}T00:00:00.000Z`);
+          const { data: sub } = await supabase
+            .from("subscriptions")
+            .select("id")
+            .eq("user_id", userId)
+            .eq("status", "active")
+            .or(`toolkit_slug.eq.bundle,toolkit_slug.eq.${earlyToolkitSlug}`)
+            .limit(1)
+            .maybeSingle();
 
-        if ((todayCount ?? 0) >= 3) {
-          return NextResponse.json(
-            {
-              success: false,
-              error: "free_limit_reached",
-              message: "You have used your 3 free uses today. Upgrade to continue.",
-              upgrade_required: true,
-            },
-            { status: 403 }
-          );
+          hasPaidAccess = !!sub;
         }
 
-        const { count: totalCount } = await supabase
-          .from("usage_logs")
-          .select("*", { count: "exact", head: true })
-          .eq("user_id", userId);
+        if (hasPaidAccess) {
+          // Paid user (pro role or active subscription): 100/day
+          const { count: todayCount } = await supabase
+            .from("usage_logs")
+            .select("*", { count: "exact", head: true })
+            .eq("user_id", userId)
+            .gte("created_at", `${today}T00:00:00.000Z`)
+            .lt("created_at", `${tomorrow}T00:00:00.000Z`);
 
-        if ((totalCount ?? 0) >= 30) {
-          return NextResponse.json(
-            {
-              success: false,
-              error: "lifetime_limit_reached",
-              message: "You have used all 30 lifetime free uses. Please subscribe to continue.",
-              upgrade_required: true,
-            },
-            { status: 403 }
-          );
+          if ((todayCount ?? 0) >= 100) {
+            return NextResponse.json(
+              {
+                success: false,
+                error: "daily_limit_reached",
+                message: "You have reached your daily limit of 100 uses. Resets at midnight UTC.",
+              },
+              { status: 429 }
+            );
+          }
+        } else {
+          // Logged in free user: 3/day + 30 lifetime
+          const { count: todayCount } = await supabase
+            .from("usage_logs")
+            .select("*", { count: "exact", head: true })
+            .eq("user_id", userId)
+            .gte("created_at", `${today}T00:00:00.000Z`)
+            .lt("created_at", `${tomorrow}T00:00:00.000Z`);
+
+          if ((todayCount ?? 0) >= 3) {
+            return NextResponse.json(
+              {
+                success: false,
+                error: "free_limit_reached",
+                message: "You have used your 3 free uses today. Upgrade to continue.",
+                upgrade_required: true,
+              },
+              { status: 403 }
+            );
+          }
+
+          const { count: totalCount } = await supabase
+            .from("usage_logs")
+            .select("*", { count: "exact", head: true })
+            .eq("user_id", userId);
+
+          if ((totalCount ?? 0) >= 30) {
+            return NextResponse.json(
+              {
+                success: false,
+                error: "lifetime_limit_reached",
+                message: "You have used all 30 lifetime free uses. Please subscribe to continue.",
+                upgrade_required: true,
+              },
+              { status: 403 }
+            );
+          }
         }
       }
     } else {

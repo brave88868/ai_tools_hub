@@ -68,7 +68,11 @@ export default function AdminUsersPage() {
     });
     const data = await res.json();
     if (res.ok) {
-      setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, role: newRole } : u));
+      setUsers((prev) => prev.map((u) => u.id === userId ? {
+        ...u,
+        role: newRole,
+        plan: newRole === "pro" ? "pro" : newRole === "user" ? "free" : u.plan,
+      } : u));
       setMsg("✓ Role updated");
     } else {
       setMsg(`✗ ${data.error}`);
@@ -154,12 +158,24 @@ export default function AdminUsersPage() {
                     <tr key={u.id} className={u.banned ? "bg-red-50" : "hover:bg-gray-50"}>
                       <td className="px-4 py-2.5 text-gray-800 text-xs max-w-[200px] truncate">{u.email ?? "—"}</td>
                       <td className="px-3 py-2.5 text-center">
-                        <select value={u.role ?? "user"} disabled={actingId === u.id}
-                          onChange={(e) => handleRoleChange(u.id, e.target.value)}
-                          className="text-xs border border-gray-200 rounded px-1.5 py-0.5 bg-white disabled:opacity-50">
-                          <option value="user">user</option>
-                          <option value="admin">admin</option>
-                        </select>
+                        <div className="flex flex-col items-center gap-1">
+                          <select value={u.role ?? "user"} disabled={actingId === u.id}
+                            onChange={(e) => handleRoleChange(u.id, e.target.value)}
+                            className="text-xs border border-gray-200 rounded px-1.5 py-0.5 bg-white disabled:opacity-50">
+                            <option value="user">user</option>
+                            <option value="pro">pro</option>
+                            <option value="admin">admin</option>
+                          </select>
+                          {u.role === "admin" && (
+                            <span className="text-xs bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded-full font-medium">Admin</span>
+                          )}
+                          {u.role === "pro" && (
+                            <span className="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded-full font-medium">Pro</span>
+                          )}
+                          {(!u.role || u.role === "user") && (
+                            <span className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">Free</span>
+                          )}
+                        </div>
                       </td>
                       <td className="px-3 py-2.5 text-center">
                         <span className={`text-xs px-1.5 py-0.5 rounded-full ${u.plan === "pro" ? "bg-indigo-100 text-indigo-700" : "bg-gray-100 text-gray-500"}`}>
