@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
 
   const { limit = 20 } = await req.json().catch(() => ({}));
 
-  const { data: tools } = await admin.from("tools").select("slug, name, toolkit_slug").eq("status", "active");
+  const { data: tools } = await admin.from("tools").select("slug, name, toolkit_slug").eq("is_active", true);
   if (!tools) return NextResponse.json({ error: "No tools found" }, { status: 500 });
 
   let generated = 0;

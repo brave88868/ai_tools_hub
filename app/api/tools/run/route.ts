@@ -42,6 +42,28 @@ export async function POST(req: NextRequest) {
     const supabase = createAdminClient();
     const { today, tomorrow } = getDateRange();
 
+    // ── IP 封禁检查 ──────────────────────────────────────────────
+    const clientIp =
+      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      req.headers.get("x-real-ip") ||
+      "unknown";
+
+    if (clientIp !== "unknown") {
+      const { data: bannedIp } = await supabase
+        .from("banned_ips")
+        .select("ip")
+        .eq("ip", clientIp)
+        .maybeSingle();
+
+      if (bannedIp) {
+        return NextResponse.json(
+          { success: false, error: "Access denied" },
+          { status: 403 }
+        );
+      }
+    }
+    // ─────────────────────────────────────────────────────────────
+
     // ── Auth resolution ───────────────────────────────────────────
     // If token exists but is invalid/expired, getUser returns user=null.
     // In that case we fall through to the anonymous path — no bypass.
@@ -57,6 +79,20 @@ export async function POST(req: NextRequest) {
     if (user) {
       // ── Authenticated user ──────────────────────────────────────
       userId = user.id;
+
+      // 检查用户是否被封禁
+      const { data: userRecord } = await supabase
+        .from("users")
+        .select("banned")
+        .eq("id", userId)
+        .maybeSingle();
+
+      if (userRecord?.banned) {
+        return NextResponse.json(
+          { success: false, error: "Access denied" },
+          { status: 403 }
+        );
+      }
 
       const { data: toolCheck } = await supabase
         .from("tools")

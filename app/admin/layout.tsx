@@ -5,11 +5,13 @@ import { createAdminClient } from "@/lib/supabase";
 
 const NAV = [
   { label: "Overview", href: "/admin" },
+  { label: "Users", href: "/admin/users" },
   { label: "Tools", href: "/admin/tools" },
   { label: "SEO", href: "/admin/seo" },
   { label: "Blog", href: "/admin/blog" },
   { label: "Analytics", href: "/admin/analytics" },
   { label: "Feedback", href: "/admin/feedback" },
+  { label: "Pricing", href: "/admin/pricing" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {

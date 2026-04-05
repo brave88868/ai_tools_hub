@@ -33,21 +33,23 @@ export async function POST(req: NextRequest) {
     // 基础 inputs_schema（可后续手动完善）
     const inputs_schema = [{ name: "input", label: "Your Input", type: "textarea", required: true }];
 
+    // 查找对应 toolkit_id
+    const { data: toolkitRow } = await admin
+      .from("toolkits")
+      .select("id")
+      .eq("slug", idea.toolkit_slug)
+      .single();
+
     const { error: insertError } = await admin.from("tools").insert({
       slug: idea.tool_slug,
       name: idea.tool_name,
       description: idea.description,
-      toolkit_slug: idea.toolkit_slug,
+      toolkit_id: toolkitRow?.id ?? null,
       tool_type: "template",
       prompt_file: `${idea.toolkit_slug}/${idea.tool_slug}.txt`,
       prompt_template: idea.prompt_template ?? null,
       inputs_schema,
       is_active: true,
-      status: "active",
-      auto_generated: true,
-      generated_by: "ai",
-      seo_title: idea.seo_title ?? null,
-      seo_description: idea.seo_description ?? null,
     });
 
     if (insertError) {
