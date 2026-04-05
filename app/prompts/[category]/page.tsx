@@ -1,9 +1,6 @@
 import { createAdminClient } from "@/lib/supabase";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-
-// notFound() 仅用于 generateMetadata 中未知分类，列表为空时显示空状态
 
 interface Props {
   params: Promise<{ category: string }>;
@@ -55,7 +52,7 @@ const CATEGORY_META: Record<string, { title: string; description: string; h1: st
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params;
   const meta = CATEGORY_META[category];
-  if (!meta) notFound();
+  if (!meta) return { title: "AI Prompts | AI Tools Hub" };
   return {
     title: meta.title,
     description: meta.description,

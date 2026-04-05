@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 import { requireAdmin, unauthorized } from "@/lib/auth-admin";
-import { anthropic } from "@/lib/claude";
+import { openai } from "@/lib/openai";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -68,8 +68,8 @@ async function generatePromptsForCategory(
     if (existing) continue;
 
     try {
-      const response = await anthropic.messages.create({
-        model: "claude-haiku-4-5-20251001",
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
         max_tokens: 600,
         messages: [
           {
@@ -97,8 +97,7 @@ Output ONLY valid JSON, no markdown:
         ],
       });
 
-      const raw =
-        response.content[0].type === "text" ? response.content[0].text : "{}";
+      const raw = response.choices[0]?.message?.content ?? "{}";
       const parsed = JSON.parse(raw.replace(/```json|```/g, "").trim());
 
       const { error } = await supabase.from("ai_prompts").insert({
