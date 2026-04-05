@@ -21,6 +21,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { data: examples },
     { data: guides },
     { data: intents },
+    { data: flatUseCases },
+    { data: flatComparisons },
+    { data: flatAlternatives },
+    { data: flatProblems },
   ] = await Promise.all([
     supabase.from("tools").select("slug, created_at").eq("is_active", true),
     supabase.from("toolkits").select("slug, created_at").eq("is_active", true),
@@ -66,6 +70,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       () => ({ data: null })
     ),
     supabase.from("seo_intents").select("slug, created_at").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    // 扁平路由
+    supabase.from("seo_use_cases").select("slug, created_at").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_comparisons").select("flat_slug, created_at").not("flat_slug", "is", null).then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_alternatives").select("flat_slug, created_at").not("flat_slug", "is", null).then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_problems").select("flat_slug, created_at").not("flat_slug", "is", null).then(
       (res) => res,
       () => ({ data: null })
     ),
@@ -199,6 +220,39 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: row.created_at ?? now,
       changeFrequency: "monthly" as const,
       priority: 0.75,
+    })),
+
+    // ── 扁平路由（根路径，高 SEO 权重）──────────────────────────────
+    // Use Case 页面
+    ...(flatUseCases ?? []).map((row) => ({
+      url: `${SITE_URL}/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+
+    // Comparison 页面（flat_slug）
+    ...(flatComparisons ?? []).map((row: { flat_slug: string | null; created_at: string | null }) => ({
+      url: `${SITE_URL}/${row.flat_slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+    })),
+
+    // Alternatives 页面（flat_slug）
+    ...(flatAlternatives ?? []).map((row: { flat_slug: string | null; created_at: string | null }) => ({
+      url: `${SITE_URL}/${row.flat_slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+    })),
+
+    // Problems 页面（flat_slug）
+    ...(flatProblems ?? []).map((row: { flat_slug: string | null; created_at: string | null }) => ({
+      url: `${SITE_URL}/${row.flat_slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.72,
     })),
   ];
 }

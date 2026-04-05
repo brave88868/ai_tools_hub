@@ -19,6 +19,10 @@ interface Stats {
   examples: number;
   guides: number;
   intents: number;
+  flat_use_cases: number;
+  flat_comparisons: number;
+  flat_alternatives: number;
+  flat_problems: number;
 }
 
 interface SeoSuggestion {
@@ -43,6 +47,7 @@ export default function AdminSeoPage() {
     keywords: 0, pendingKeywords: 0, useCasePages: 0, growthKeywords: 0, opportunities: 0,
     comparisons: 0, alternatives: 0, industries: 0, problems: 0, workflows: 0,
     keyword_pages: 0, templates: 0, examples: 0, guides: 0, intents: 0,
+    flat_use_cases: 0, flat_comparisons: 0, flat_alternatives: 0, flat_problems: 0,
   });
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState<string | null>(null);
@@ -54,6 +59,7 @@ export default function AdminSeoPage() {
       { count: kw }, { count: pending }, { count: uc }, { count: gkw }, { count: opps },
       { count: comps }, { count: alts }, { count: inds }, { count: probs }, { count: wfs },
       { count: kwPages }, { count: tmpl }, { count: exmp }, { count: gds }, { count: ints },
+      { count: flatUc }, { count: flatComps }, { count: flatAlts }, { count: flatProbs },
     ] = await Promise.all([
       supabase.from("seo_keywords").select("*", { count: "exact", head: true }),
       supabase.from("seo_keywords").select("*", { count: "exact", head: true }).eq("status", "pending"),
@@ -70,6 +76,10 @@ export default function AdminSeoPage() {
       supabase.from("seo_examples").select("*", { count: "exact", head: true }),
       supabase.from("seo_guides").select("*", { count: "exact", head: true }),
       supabase.from("seo_intents").select("*", { count: "exact", head: true }),
+      supabase.from("seo_use_cases").select("*", { count: "exact", head: true }),
+      supabase.from("seo_comparisons").select("*", { count: "exact", head: true }).not("flat_slug", "is", null),
+      supabase.from("seo_alternatives").select("*", { count: "exact", head: true }).not("flat_slug", "is", null),
+      supabase.from("seo_problems").select("*", { count: "exact", head: true }).not("flat_slug", "is", null),
     ]);
     setStats({
       keywords: kw ?? 0, pendingKeywords: pending ?? 0, useCasePages: uc ?? 0,
@@ -78,6 +88,8 @@ export default function AdminSeoPage() {
       problems: probs ?? 0, workflows: wfs ?? 0,
       keyword_pages: kwPages ?? 0, templates: tmpl ?? 0, examples: exmp ?? 0,
       guides: gds ?? 0, intents: ints ?? 0,
+      flat_use_cases: flatUc ?? 0, flat_comparisons: flatComps ?? 0,
+      flat_alternatives: flatAlts ?? 0, flat_problems: flatProbs ?? 0,
     });
   }
 
@@ -166,6 +178,21 @@ export default function AdminSeoPage() {
           <div key={label} className="bg-indigo-50 border border-indigo-100 rounded-xl p-4">
             <div className="text-2xl font-bold text-indigo-700">{value.toLocaleString()}</div>
             <div className="text-xs text-indigo-400 mt-1">{label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Stats — Flat Routes */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+        {[
+          { label: "Use Cases (Flat)", value: stats.flat_use_cases },
+          { label: "Comparisons (Flat)", value: stats.flat_comparisons },
+          { label: "Alternatives (Flat)", value: stats.flat_alternatives },
+          { label: "Problems (Flat)", value: stats.flat_problems },
+        ].map(({ label, value }) => (
+          <div key={label} className="bg-emerald-50 border border-emerald-100 rounded-xl p-4">
+            <div className="text-2xl font-bold text-emerald-700">{value.toLocaleString()}</div>
+            <div className="text-xs text-emerald-500 mt-1">{label}</div>
           </div>
         ))}
       </div>
@@ -315,6 +342,46 @@ export default function AdminSeoPage() {
               onClick={onClick}
               disabled={loading === key}
               className="w-full bg-violet-600 text-white text-sm py-2 rounded-lg hover:bg-violet-700 disabled:opacity-50 transition-colors"
+            >
+              {loading === key ? "Running…" : "Run"}
+            </button>
+          </div>
+        ))}
+
+        {/* Flat Route generation cards */}
+        {[
+          {
+            label: "Generate Use Cases (Flat)",
+            key: "gen-uc-flat",
+            onClick: () => runAction("gen-uc-flat", "/api/growth/generate-use-cases-flat", { count: 20 }),
+            desc: "Generate 20 use case pages: /ai-{tool}-for-{profession} (root path)",
+          },
+          {
+            label: "Generate Comparisons (Flat)",
+            key: "gen-comps-flat",
+            onClick: () => runAction("gen-comps-flat", "/api/growth/generate-comparisons-flat", { count: 10 }),
+            desc: "Generate 10 comparison pages: /{tool-a}-vs-{tool-b} (root path)",
+          },
+          {
+            label: "Generate Alternatives (Flat)",
+            key: "gen-alts-flat",
+            onClick: () => runAction("gen-alts-flat", "/api/growth/generate-alternatives-flat", { count: 5 }),
+            desc: "Generate 5 alternatives pages: /{tool}-alternatives (root path)",
+          },
+          {
+            label: "Generate Problems (Flat)",
+            key: "gen-probs-flat",
+            onClick: () => runAction("gen-probs-flat", "/api/growth/generate-problems-flat", { count: 10 }),
+            desc: "Generate 10 how-to problem guides: /how-to-{action} (root path)",
+          },
+        ].map(({ label, key, onClick, desc }) => (
+          <div key={key} className="bg-white border border-emerald-100 rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-gray-900 mb-1">{label}</h3>
+            <p className="text-xs text-gray-400 mb-4">{desc}</p>
+            <button
+              onClick={onClick}
+              disabled={loading === key}
+              className="w-full bg-emerald-600 text-white text-sm py-2 rounded-lg hover:bg-emerald-700 disabled:opacity-50 transition-colors"
             >
               {loading === key ? "Running…" : "Run"}
             </button>
