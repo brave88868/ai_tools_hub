@@ -7,9 +7,9 @@
 
 ## 当前项目状态
 
-**项目阶段**: 🟢 SPEC-FINAL 全部完成  
+**项目阶段**: 🟢 SPEC-ADMIN-02 完成  
 **当前里程碑**: Stripe Live 切换（SPEC-11-C，手动）→ SPEC-09 Programmatic SEO  
-**最后更新**: 2026-04-05 — SPEC-FINAL 完成（Admin 路由 + 3 独立 Cron + Referral 修复）
+**最后更新**: 2026-04-05 — SPEC-ADMIN-02 完成（用户管理 + IP封禁 + 定价管理 + operator修复）
 
 ### 已完成修复（Bug Fix Log）
 
@@ -88,7 +88,7 @@
 | Feedback 模块 | ✅ 完成 | FeedbackModal 完整版 + /api/feedback/submit |
 | Feature Voting Board | ✅ 完成 | /features 页 + vote/submit API |
 | Analytics Dashboard | ✅ 完成 | /api/admin/analytics（totalUsers/todayToolUses/weekToolUses + top10 tools）|
-| Admin Dashboard（/admin/*） | ✅ 完成 | layout + overview/tools/seo/blog/analytics/feedback 6页面 |
+| Admin Dashboard（/admin/*） | ✅ 完成 | layout + overview/users/tools/seo/blog/analytics/feedback/pricing 8页面 |
 
 ### Phase 4 — 自动化运营
 
