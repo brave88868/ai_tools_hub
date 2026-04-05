@@ -7,7 +7,7 @@
 
 ## 当前项目状态
 
-**项目阶段**: 🟢 SPEC-SAAS-FACTORY 完成  
+**项目阶段**: 🟢 SPEC-LANDING-V2 完成  
 **当前里程碑**: 在 /admin/saas 输入关键词生成第一个 SaaS 项目，确认后 Activate；随后可推进 Stripe Live 切换（SPEC-11-C）  
 **最后更新**: 2026-04-05 — AI SaaS Factory：saas_projects表 + /saas/* 落地页 + /admin/saas管理页 + cron自动生成
 

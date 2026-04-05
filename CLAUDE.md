@@ -411,6 +411,7 @@ Optimization Agent       →  自动优化产品
 - SPEC-SEO-FLAT-ROUTES ✅ 扁平根路径SEO：app/[slug]/page.tsx统一分发（-vs-/- alternatives/how-to-/ai-...-for-）+ seo_use_cases表 + 4个生成API（use-cases-flat/comparisons-flat/alternatives-flat/problems-flat）+ proxy.ts 301重定向 + sitemap扩展 + admin/seo 4个新计数+4个绿色按钮
 - SPEC-PROGRAMMATIC-SEO-CORE ✅ 统一SEO生成系统：lib/seo-keywords.ts常量库（30职业/24竞品/30问题）+ /use-cases/[slug]页面（SoftwareApplication JSON-LD）+ /use-cases列表页 + 5个统一生成API（/api/seo/generate-*）+ /api/seo/generate批量入口（~22页/次）+ seo_pages统一表（type字段分类）+ sitemap 5类新路径 + admin/seo顶部汇总看板+6个青色按钮
 - SPEC-WEEKLY-INSIGHTS ✅ AI周报系统：weekly_insights表 + lib/insights/generate.ts（聚合7天数据→GPT-4o-mini→Resend邮件）+ /api/cron/weekly-insights（每周一6am UTC）+ /api/admin/generate-insights（手动强制生成）+ WeeklyInsightsBlock客户端组件 + admin/analytics底部集成
+- SPEC-LANDING-V2 ✅ 首页高转化改造：9区块（Hero+SocialProof+Toolkits+PopularTools+HowItWorks+ExampleResults+PricingPreview+FAQ+FinalCTA）+ components/home/* 目录 + Header "Start Free →" 按钮 + metadata优化
 - SPEC-SAAS-FACTORY ✅ AI SaaS工厂：saas_projects表 + /api/operator/generate-saas（GPT-4o-mini生成name/slug/domain/tagline→DB→异步触发SEO页面）+ /api/operator/generate-saas-pages（20关键词变体→seo_pages type=saas_page）+ /saas/[slug]落地页（Hero渐变+Features+Pricing Free/Pro+SEO Pages+Footer CTA，SoftwareApplication JSON-LD）+ /saas列表页（status=active）+ /admin/saas管理页（统计4卡片+生成表单+项目表格，Gen SEO/Activate/Archive/Delete操作）+ 3辅助API（saas-list/saas-update-status/saas-delete）+ admin导航"SaaS Factory" + sitemap /saas/* priority 0.8 + cron Step 8自动生成SaaS草稿
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
