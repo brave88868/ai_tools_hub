@@ -47,6 +47,10 @@ export async function DELETE(req: NextRequest) {
   const { error: pubError } = await admin.from("users").delete().eq("id", user_id);
   if (pubError) errors.push(`users: ${pubError.message}`);
 
+  // Fetch the user's email before deleting from auth (needed for email-based cleanup)
+  const { data: authUserData } = await admin.auth.admin.getUserById(user_id);
+  const userEmail = authUserData?.user?.email;
+
   // Delete auth.users last — this is the authoritative step
   const { error: authError } = await admin.auth.admin.deleteUser(user_id);
   if (authError) {
@@ -56,8 +60,14 @@ export async function DELETE(req: NextRequest) {
     );
   }
 
+  // Extra safety: remove any orphaned public.users row matched by email.
+  // This catches cases where a trigger inserted a row with a different UUID
+  // (e.g. re-registration attempts that partially wrote to public.users).
+  if (userEmail) {
+    await admin.from("users").delete().eq("email", userEmail).neq("id", user_id);
+  }
+
   if (errors.length > 0) {
-    // Auth user deleted successfully but some related rows had errors — log and continue
     console.warn("[delete-user] partial errors:", errors);
   }
 
