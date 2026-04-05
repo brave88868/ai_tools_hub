@@ -20,11 +20,12 @@ export async function GET(request: NextRequest) {
       if (referrerCode && referrerCode !== user.id) {
         const admin = createAdminClient();
 
-        // 用 referrerCode 查找推荐人（referrerCode 存的是 referrer 的 user.id）
+        // 用 referrerCode（8位前缀）查找推荐人，通过 UUID 范围查询
         const { data: referrer } = await admin
           .from("users")
           .select("id")
-          .eq("id", referrerCode)
+          .gte("id", `${referrerCode}-0000-0000-0000-000000000000`)
+          .lte("id", `${referrerCode}-ffff-ffff-ffff-ffffffffffff`)
           .single();
 
         if (referrer) {

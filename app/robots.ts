@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/dashboard", "/auth/", "/operator"],
+        disallow: ["/api/", "/dashboard", "/auth/", "/admin"],
       },
     ],
     sitemap: "https://aitoolsstation.com/sitemap.xml",

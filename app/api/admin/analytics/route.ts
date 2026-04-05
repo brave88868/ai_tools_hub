@@ -33,6 +33,9 @@ export async function GET(req: NextRequest) {
     { data: topToolsData },
     { count: totalSubscriptions },
     { count: todayPageViews },
+    { count: totalUsers },
+    { count: todayToolUses },
+    { count: weekToolUses },
   ] = await Promise.all([
     // 今日新用户
     admin
@@ -67,6 +70,25 @@ export async function GET(req: NextRequest) {
       .select("*", { count: "exact", head: true })
       .eq("event_type", "page_view")
       .gte("created_at", `${todayStr}T00:00:00.000Z`),
+
+    // 总用户数
+    admin
+      .from("users")
+      .select("*", { count: "exact", head: true }),
+
+    // 今日工具使用次数
+    admin
+      .from("analytics_events")
+      .select("*", { count: "exact", head: true })
+      .eq("event_type", "tool_use")
+      .gte("created_at", `${todayStr}T00:00:00.000Z`),
+
+    // 本周工具使用次数
+    admin
+      .from("analytics_events")
+      .select("*", { count: "exact", head: true })
+      .eq("event_type", "tool_use")
+      .gte("created_at", weekAgo),
   ]);
 
   // 统计 Top 10 工具
@@ -87,5 +109,8 @@ export async function GET(req: NextRequest) {
     top_tools: topTools,
     total_subscriptions: totalSubscriptions ?? 0,
     today_page_views: todayPageViews ?? 0,
+    total_users: totalUsers ?? 0,
+    today_tool_uses: todayToolUses ?? 0,
+    week_tool_uses: weekToolUses ?? 0,
   });
 }

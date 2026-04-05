@@ -1,8 +1,16 @@
 {
   "crons": [
     {
-      "path": "/api/cron/daily",
+      "path": "/api/cron/discover-keywords",
       "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/cron/generate-tools",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron/generate-blog",
+      "schedule": "0 4 * * *"
     }
   ]
 }

@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function ReferralBlock({ userId, referralCount, rewardCount }: Props) {
-  const referralLink = `https://aitoolsstation.com/?ref=${userId}`;
+  const referralLink = `https://aitoolsstation.com/?ref=${userId.slice(0, 8)}`;
   const [copied, setCopied] = useState(false);
 
   function handleCopy() {

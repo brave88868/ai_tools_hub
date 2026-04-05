@@ -43,10 +43,10 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  // 保护 /dashboard 和 /operator 路由
+  // 保护 /dashboard 和 /admin 路由
   if (!user && (
     request.nextUrl.pathname.startsWith("/dashboard") ||
-    request.nextUrl.pathname.startsWith("/operator")
+    request.nextUrl.pathname.startsWith("/admin")
   )) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
