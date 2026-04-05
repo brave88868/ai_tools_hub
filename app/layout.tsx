@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
+const SITE_URL = "https://aitoolsstation.com";
+
 export const metadata: Metadata = {
   title: {
     default: "AI Tools Hub — 50+ AI tools to boost productivity",
@@ -13,8 +15,33 @@ export const metadata: Metadata = {
   },
   description:
     "Free AI tools for resume optimization, content creation, marketing copy, business analysis, and legal documents.",
+  metadataBase: new URL(SITE_URL),
   verification: {
     google: "ajg5WUsl3Y2Wud0Y81FGuVqt_cv022967bfCQblVZuQ",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "AI Tools Hub",
+    title: "AI Tools Hub — 50+ AI tools to boost productivity",
+    description:
+      "Free AI tools for resume optimization, content creation, marketing copy, business analysis, and legal documents.",
+    url: SITE_URL,
+    images: [
+      {
+        url: `${SITE_URL}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "AI Tools Hub",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@aitoolsstation",
+    title: "AI Tools Hub — 50+ AI tools to boost productivity",
+    description:
+      "Free AI tools for resume optimization, content creation, marketing copy, business analysis, and legal documents.",
+    images: [`${SITE_URL}/og-image.png`],
   },
 };
 
