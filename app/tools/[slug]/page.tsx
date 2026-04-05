@@ -136,11 +136,11 @@ export default function ToolPage() {
         .eq("is_active", true)
         .single();
 
-      // 检查登录状态和角色
-      const { data: { session } } = await supabase.auth.getSession();
-      setIsLoggedIn(!!session);
-      if (session?.user) {
-        supabase.from("users").select("role").eq("id", session.user.id).single()
+      // 检查登录状态和角色（getUser 向服务器验证，不会返回过期 session）
+      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      setIsLoggedIn(!!currentUser);
+      if (currentUser) {
+        supabase.from("users").select("role").eq("id", currentUser.id).single()
           .then(({ data: ur }) => { if (ur?.role) setUserRole(ur.role); });
       }
 
@@ -176,14 +176,18 @@ export default function ToolPage() {
 
     try {
       const sessionId = getSessionId();
+      // getUser() 向服务器验证 token，比 getSession() 更可靠（不返回过期/缓存态）
+      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      setIsLoggedIn(!!currentUser);
+      // getSession() 获取 access_token（只在确认有效 user 后使用）
       const { data: { session } } = await supabase.auth.getSession();
-      setIsLoggedIn(!!session);
+      const accessToken = currentUser ? (session?.access_token ?? "") : "";
 
       const res = await fetch("/api/tools/run", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+          ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
         },
         body: JSON.stringify({ tool_slug: slug, inputs, session_id: sessionId }),
       });

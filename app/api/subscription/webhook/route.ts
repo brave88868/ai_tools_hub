@@ -40,6 +40,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Subscription retrieval failed" }, { status: 500 });
     }
 
+    // 确保 public.users 记录存在，防止 FK 约束导致 subscriptions upsert 失败
+    await supabase
+      .from("users")
+      .upsert({ id: user_id }, { onConflict: "id", ignoreDuplicates: true });
+
     const { error: upsertError } = await supabase.from("subscriptions").upsert(
       {
         user_id,

@@ -15,6 +15,16 @@ export async function GET(request: NextRequest) {
       const user = data.user;
       const admin = createAdminClient();
 
+      // ── 确保 public.users 记录存在（无 Supabase trigger 时的保障）──
+      // 必须在任何 FK 引用 users(id) 的操作之前完成
+      await admin
+        .from("users")
+        .upsert(
+          { id: user.id, email: user.email ?? "" },
+          { onConflict: "id", ignoreDuplicates: true }
+        );
+      // ─────────────────────────────────────────────────────────────
+
       // ── 获取注册 IP ──────────────────────────────────────────────
       const signupIp =
         request.headers.get("cf-connecting-ip") ||

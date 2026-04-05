@@ -37,11 +37,15 @@ export default function ReferralsDashboard() {
 
   useEffect(() => {
     async function load() {
+      // getUser() 向服务器验证，比 getSession() 更可靠
+      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      if (!currentUser) { setLoading(false); return; }
+      setUserId(currentUser.id);
       const { data: { session } } = await supabase.auth.getSession();
-      if (!session) { setLoading(false); return; }
-      setUserId(session.user.id);
+      const accessToken = session?.access_token ?? "";
+      if (!accessToken) { setLoading(false); return; }
       const res = await fetch("/api/referral/detail", {
-        headers: { Authorization: `Bearer ${session.access_token}` },
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
       if (res.ok) setDetail(await res.json());
       setLoading(false);
@@ -50,7 +54,7 @@ export default function ReferralsDashboard() {
   }, []);
 
   const referralLink = userId
-    ? `https://aitoolsstation.com/?ref=${userId.slice(0, 8)}`
+    ? `${typeof window !== "undefined" ? window.location.origin : ""}/?ref=${userId.slice(0, 8)}`
     : "";
 
   function handleCopy() {
