@@ -49,17 +49,26 @@ export default function PricingPage() {
         body: JSON.stringify({ variant: experiment.variant }),
       }).catch(() => {});
     }
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      router.push("/login");
+
+    // getUser() 向 Supabase 服务器发请求验证 token，比 getSession() 更可靠
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      router.push("/login?next=/pricing");
       return;
     }
+
+    // 获取 access_token 用于 API 鉴权
+    const { data: { session } } = await supabase.auth.getSession();
+    const accessToken = session?.access_token ?? "";
 
     setSubscribingSlug(toolkitSlug);
     try {
       const res = await fetch("/api/subscription/checkout", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+        },
         body: JSON.stringify({ toolkit_slug: toolkitSlug }),
       });
       const data = await res.json();

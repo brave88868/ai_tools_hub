@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe, TOOLKIT_PRICE_IDS } from "@/lib/stripe";
-import { createServerClient } from "@/lib/supabase-server";
+import { createAdminClient } from "@/lib/supabase";
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,8 +21,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid toolkit" }, { status: 400 });
     }
 
-    const supabase = await createServerClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    // 优先用 Authorization: Bearer <token>（与 tools/run 保持一致）
+    // 兜底：cookie-based auth（向后兼容）
+    const authHeader = req.headers.get("authorization");
+    const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+
+    const supabase = createAdminClient();
+    const { data: { user } } = token
+      ? await supabase.auth.getUser(token)
+      : { data: { user: null } };
 
     if (!user) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
