@@ -402,6 +402,7 @@ Optimization Agent       →  自动优化产品
 - SPEC-ADMIN-02 ✅ Bearer token auth修复 + /admin/users/toolkits/tools-manage/pricing 全功能后台
 - SPEC-ADMIN-03 ✅ 三级角色系统（user/pro/admin）+ admin无限制 + pro角色=付费权限 + set-role同步plan
 - SPEC-GROWTH-01 ✅ Growth Engine 8模块：关键词发现→工具机会→AI自动建工具→SEO页面→内链→流量分析→SEO优化→增长控制台
+- SPEC-REFERRAL-02 ✅ Referral 防作弊（同IP 24h限制 + signup_ip写入）+ stats API + ReferralBlock增强 + /admin/referrals
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
@@ -436,6 +437,10 @@ Optimization Agent       →  自动优化产品
 - Role system: `users.role` = user(default) / pro(paid, manual) / admin；`users.plan` = free/pro（与role联动，set-role API自动同步）
 - Growth Engine: `growth_keywords` + `tool_opportunities` 表；`tools.auto_generated/seo_title/seo_description/prompt_template` 列；`tool_use_cases` 表
 - Internal linking: `lib/internal-linking.ts` → `injectInternalLinks(content, tools)` 注入博客内链
+- Referral 防作弊: auth/callback 记录 signup_ip；同 IP 24h 内已有注册 → 忽略 referral；users.signup_ip 列
+- Referral stats API: GET /api/referral/stats → {invited_count, paid_count, rewards_count}（Bearer token auth）
+- ReferralBlock: 客户端 fetch /api/referral/stats，显示 Invited/Paid/Rewards 三项
+- /admin/referrals: 服务端组件，显示所有推荐记录 + 4个统计卡片
 - OG Meta: `app/layout.tsx` 默认 openGraph；`app/tools/[slug]/layout.tsx` 工具页 OG；`app/blog/[slug]/page.tsx` 文章 OG
 - Growth API: `/api/growth/discover-keywords|find-opportunities|auto-create-tool|traffic-report|optimize-seo`（全部 requireAdmin）
 - `/ai-tools-for/[profession]/page.tsx`：职业聚合页，11个预定义职业→toolkit 映射
