@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
+import ReactMarkdown from "react-markdown";
 
 type FeatureStatus = "open" | "planned" | "in_progress" | "released";
+type SortMode = "votes" | "newest" | "trending";
 
 interface Feature {
   id: string;
@@ -31,12 +33,29 @@ const STATUS_LABEL: Record<FeatureStatus, string> = {
 
 const TOOLKITS = ["jobseeker", "creator", "marketing", "business", "legal", "exam"];
 
+function daysSince(dateStr: string): number {
+  return (Date.now() - new Date(dateStr).getTime()) / (1000 * 60 * 60 * 24);
+}
+
+function trendingScore(f: Feature): number {
+  return f.votes * 2 + 1 / (daysSince(f.created_at) + 1);
+}
+
 export default function FeaturesPage() {
   const [features, setFeatures] = useState<Feature[]>([]);
   const [loading, setLoading] = useState(true);
   const [votedIds, setVotedIds] = useState<Set<string>>(new Set());
   const [votingId, setVotingId] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // Sort
+  const [sort, setSort] = useState<SortMode>("votes");
+
+  // AI Analyze
+  const [analyzing, setAnalyzing] = useState(false);
+  const [analysis, setAnalysis] = useState<string | null>(null);
+  const [analysisOpen, setAnalysisOpen] = useState(false);
 
   // Submit form state
   const [title, setTitle] = useState("");
@@ -56,16 +75,30 @@ export default function FeaturesPage() {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUserId(user.id);
-        const { data: votes } = await supabase
-          .from("feature_votes")
-          .select("feature_id")
-          .eq("user_id", user.id);
-        setVotedIds(new Set((votes ?? []).map((v: { feature_id: string }) => v.feature_id)));
+        const [votesRes, roleRes] = await Promise.all([
+          supabase.from("feature_votes").select("feature_id").eq("user_id", user.id),
+          supabase.from("users").select("role").eq("id", user.id).single(),
+        ]);
+        setVotedIds(
+          new Set((votesRes.data ?? []).map((v: { feature_id: string }) => v.feature_id))
+        );
+        setIsAdmin(roleRes.data?.role === "admin");
       }
       setLoading(false);
     }
     load();
   }, []);
+
+  const sortedFeatures = useMemo(() => {
+    const copy = [...features];
+    if (sort === "votes") return copy.sort((a, b) => b.votes - a.votes);
+    if (sort === "newest")
+      return copy.sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+    // trending
+    return copy.sort((a, b) => trendingScore(b) - trendingScore(a));
+  }, [features, sort]);
 
   async function handleVote(featureId: string) {
     if (!userId) {
@@ -81,11 +114,30 @@ export default function FeaturesPage() {
     });
     if (res.ok) {
       setFeatures((prev) =>
-        prev.map((f) => f.id === featureId ? { ...f, votes: f.votes + 1 } : f)
+        prev.map((f) => (f.id === featureId ? { ...f, votes: f.votes + 1 } : f))
       );
       setVotedIds((prev) => new Set([...prev, featureId]));
     }
     setVotingId(null);
+  }
+
+  async function handleAnalyze() {
+    setAnalyzing(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+      const res = await fetch("/api/features/analyze", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setAnalysis(data.analysis);
+        setAnalysisOpen(true);
+      }
+    } finally {
+      setAnalyzing(false);
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -103,7 +155,6 @@ export default function FeaturesPage() {
       setTitle("");
       setDescription("");
       setToolkit("");
-      // Reload features
       const { data } = await supabase
         .from("features")
         .select("*")
@@ -111,20 +162,57 @@ export default function FeaturesPage() {
       setFeatures((data as Feature[]) ?? []);
     } else {
       const data = await res.json();
-      setSubmitMsg(data.error === "Login required" ? "Please log in to submit." : "Submit failed. Please try again.");
+      setSubmitMsg(
+        data.error === "Login required"
+          ? "Please log in to submit."
+          : "Submit failed. Please try again."
+      );
     }
     setSubmitting(false);
   }
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">Feature Requests</h1>
-        <p className="text-gray-500 text-sm">Vote for features you want most. We build what you need.</p>
+      <div className="mb-8 flex items-start justify-between flex-wrap gap-3">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">Feature Requests</h1>
+          <p className="text-gray-500 text-sm">Vote for features you want most. We build what you need.</p>
+        </div>
+        {isAdmin && (
+          <button
+            onClick={handleAnalyze}
+            disabled={analyzing}
+            className="text-xs bg-indigo-600 text-white px-3 py-1.5 rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-60"
+          >
+            {analyzing ? "Analysing…" : "✦ AI Analyze"}
+          </button>
+        )}
       </div>
 
+      {/* AI Analysis block (admin only) */}
+      {analysis && (
+        <div className="border border-indigo-200 bg-indigo-50 rounded-2xl p-5 mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-semibold text-indigo-700 uppercase tracking-wider">
+              AI Analysis Report
+            </span>
+            <button
+              onClick={() => setAnalysisOpen((o) => !o)}
+              className="text-xs text-indigo-500 hover:text-indigo-700"
+            >
+              {analysisOpen ? "Collapse ▲" : "Expand ▼"}
+            </button>
+          </div>
+          {analysisOpen && (
+            <div className="prose prose-sm prose-indigo max-w-none text-gray-700">
+              <ReactMarkdown>{analysis}</ReactMarkdown>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Submit form */}
-      <div className="border border-gray-200 rounded-2xl p-5 mb-8">
+      <div className="border border-gray-200 rounded-2xl p-5 mb-6">
         <h2 className="text-sm font-semibold text-gray-900 mb-4">Submit a Feature Request</h2>
         <form onSubmit={handleSubmit} className="space-y-3">
           <input
@@ -150,7 +238,9 @@ export default function FeaturesPage() {
             >
               <option value="">All toolkits</option>
               {TOOLKITS.map((t) => (
-                <option key={t} value={t} className="capitalize">{t.charAt(0).toUpperCase() + t.slice(1)} Toolkit</option>
+                <option key={t} value={t} className="capitalize">
+                  {t.charAt(0).toUpperCase() + t.slice(1)} Toolkit
+                </option>
               ))}
             </select>
             <button
@@ -165,16 +255,39 @@ export default function FeaturesPage() {
         </form>
       </div>
 
+      {/* Sort tabs */}
+      <div className="flex items-center gap-1 mb-4">
+        {(
+          [
+            { key: "votes", label: "Most Votes" },
+            { key: "newest", label: "Newest" },
+            { key: "trending", label: "Trending" },
+          ] as { key: SortMode; label: string }[]
+        ).map(({ key, label }) => (
+          <button
+            key={key}
+            onClick={() => setSort(key)}
+            className={`text-xs px-3 py-1.5 rounded-lg transition-colors ${
+              sort === key
+                ? "bg-black text-white"
+                : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
       {/* Feature list */}
       {loading ? (
         <div className="text-center py-8 text-gray-400 text-sm">Loading...</div>
-      ) : features.length === 0 ? (
+      ) : sortedFeatures.length === 0 ? (
         <div className="text-center py-8 border border-dashed border-gray-200 rounded-2xl">
           <p className="text-gray-400 text-sm">No feature requests yet. Be the first!</p>
         </div>
       ) : (
         <div className="space-y-3">
-          {features.map((feature) => {
+          {sortedFeatures.map((feature) => {
             const voted = votedIds.has(feature.id);
             const status = (feature.status ?? "open") as FeatureStatus;
             return (
@@ -219,7 +332,10 @@ export default function FeaturesPage() {
 
       {!userId && (
         <p className="mt-6 text-center text-xs text-gray-400">
-          <a href="/login" className="underline hover:text-gray-600">Log in</a> to vote or submit feature requests.
+          <a href="/login" className="underline hover:text-gray-600">
+            Log in
+          </a>{" "}
+          to vote or submit feature requests.
         </p>
       )}
     </main>

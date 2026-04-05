@@ -30,6 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/pricing`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/blog`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
     { url: `${SITE_URL}/features`, lastModified: now, changeFrequency: "weekly", priority: 0.6 },
+    { url: `${SITE_URL}/roadmap`, lastModified: now, changeFrequency: "weekly", priority: 0.6 },
 
     // Toolkit 页面
     ...(toolkits ?? []).map((kit) => ({
