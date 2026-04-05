@@ -410,6 +410,7 @@ Optimization Agent       →  自动优化产品
 - SPEC-REVENUE-ENGINE ✅ 7模块收入引擎：UpgradeCTA（动态文案+7天抑制）+ EmailCapture（匿名线索）+ upgrade-prompt/track-upgrade-view API + leads capture/list + affiliate/stats（30%佣金）+ pricing-experiment（IP哈希A/B）+ pricing-convert + send-welcome（Resend）+ webhook自动affiliate_commissions + auth/callback欢迎邮件 + /admin/revenue全量重构（6区块）
 - SPEC-SEO-FLAT-ROUTES ✅ 扁平根路径SEO：app/[slug]/page.tsx统一分发（-vs-/- alternatives/how-to-/ai-...-for-）+ seo_use_cases表 + 4个生成API（use-cases-flat/comparisons-flat/alternatives-flat/problems-flat）+ proxy.ts 301重定向 + sitemap扩展 + admin/seo 4个新计数+4个绿色按钮
 - SPEC-PROGRAMMATIC-SEO-CORE ✅ 统一SEO生成系统：lib/seo-keywords.ts常量库（30职业/24竞品/30问题）+ /use-cases/[slug]页面（SoftwareApplication JSON-LD）+ /use-cases列表页 + 5个统一生成API（/api/seo/generate-*）+ /api/seo/generate批量入口（~22页/次）+ seo_pages统一表（type字段分类）+ sitemap 5类新路径 + admin/seo顶部汇总看板+6个青色按钮
+- SPEC-WEEKLY-INSIGHTS ✅ AI周报系统：weekly_insights表 + lib/insights/generate.ts（聚合7天数据→GPT-4o-mini→Resend邮件）+ /api/cron/weekly-insights（每周一6am UTC）+ /api/admin/generate-insights（手动强制生成）+ WeeklyInsightsBlock客户端组件 + admin/analytics底部集成
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
@@ -473,6 +474,7 @@ Optimization Agent       →  自动优化产品
 - Revenue Engine 触发点: tool页结果后（未登录→EmailCapture，已登录free→UpgradeCTA trigger=result_page）；dashboard（7天内>5次tool_use→UpgradeCTA trigger=heavy_user）；pricing页（A/B实验标签展示）；UpgradeModal（动态文案by errorType）；ReferralBlock（显示联盟佣金）
 - Flat Routes: `app/[slug]/page.tsx` 根路径动态路由，按slug格式分发4类SEO页面；Named routes优先级高于动态路由，无需白名单；seo_use_cases表（slug=ai-{tool}-for-{profession}）；seo_comparisons/alternatives/problems 新增flat_slug字段；proxy.ts 301: /compare/*→/*，/alternatives/*→/*-alternatives，/problems/*→/*，/tools/*/for-*→/ai-*-for-*
 - Programmatic SEO: `lib/seo-keywords.ts` 导出PROFESSIONS/COMPETITORS/PROBLEMS/MODIFIERS常量；`/use-cases/[slug]` 服务端页面从seo_pages(type=use_case)读取；`/api/seo/generate-*` 5个统一生成API（写seo_pages主表 + 同步各分散表）；`/api/seo/generate` 批量入口顺序调用5个API；seo_pages表新增type/seo_title/seo_description/tool_slug/meta字段
+- Weekly Insights: `lib/insights/generate.ts` 聚合analytics_events/subscriptions/leads→GPT-4o-mini周报→weekly_insights表→Resend邮件（from: onboarding@resend.dev, to: ADMIN_EMAIL）；force=false跳过重复；vercel.json cron每周一6am UTC；admin/analytics底部WeeklyInsightsBlock客户端组件（Generate按钮+最近5条报告）
 
 ## SPEC-11-C — Stripe Live 切换（待手动操作）
 
