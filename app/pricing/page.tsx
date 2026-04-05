@@ -1,44 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { createServerClient } from "@/lib/supabase-server";
-import { stripe, TOOLKIT_PRICE_IDS } from "@/lib/stripe";
 
 export const metadata: Metadata = {
   title: "Pricing | AI Tools Hub",
   description: "Subscribe to the AI toolkit you need. Start free, upgrade anytime.",
 };
-
-// Server Action — runs entirely on the server, has native cookie access
-async function subscribeAction(formData: FormData) {
-  "use server";
-
-  const toolkit_slug = (formData.get("toolkit_slug") as string) ?? "";
-  const priceId = TOOLKIT_PRICE_IDS[toolkit_slug];
-
-  if (!toolkit_slug || !priceId) {
-    redirect("/pricing");
-  }
-
-  const supabase = await createServerClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login?next=/pricing");
-  }
-
-  const session = await stripe.checkout.sessions.create({
-    mode: "subscription",
-    payment_method_types: ["card"],
-    line_items: [{ price: priceId, quantity: 1 }],
-    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?subscribed=${toolkit_slug}`,
-    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing`,
-    customer_email: user.email,
-    metadata: { user_id: user.id, toolkit_slug },
-  });
-
-  redirect(session.url!);
-}
 
 export default async function PricingPage() {
   const supabase = await createServerClient();
@@ -75,15 +42,12 @@ export default async function PricingPage() {
                   <span className="text-2xl font-bold text-gray-900">${kit.price_monthly}</span>
                   <span className="text-xs text-gray-400 ml-1">/month</span>
                 </div>
-                <form action={subscribeAction}>
-                  <input type="hidden" name="toolkit_slug" value={kit.slug} />
-                  <button
-                    type="submit"
-                    className="text-xs bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
-                  >
-                    Subscribe
-                  </button>
-                </form>
+                <a
+                  href={`/api/subscription/checkout?toolkit_slug=${kit.slug}`}
+                  className="text-xs bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+                >
+                  Subscribe
+                </a>
               </div>
 
               <ul className="mt-4 space-y-1.5 text-xs text-gray-500">
