@@ -202,6 +202,22 @@ export default function ToolPage() {
 
       setResult(data.output);
       setOutputFormat(data.output_format ?? "markdown");
+
+      // 异步创建 UGC example 页（不阻塞用户体验）
+      const inputContext = Object.values(inputs)
+        .filter(Boolean)
+        .slice(0, 2)
+        .join(" ")
+        .substring(0, 120);
+      fetch("/api/examples/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tool_slug: slug,
+          raw_output: data.output,
+          input_context: inputContext,
+        }),
+      }).catch(() => {});
     } catch {
       setError("Network error. Please try again.");
     } finally {
