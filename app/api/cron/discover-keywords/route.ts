@@ -206,6 +206,31 @@ Return ONLY valid JSON: {"keywords":[{"keyword":"...","search_intent":"informati
   }
 
   console.log(`[cron/discover-keywords] autocomplete=${autocompleteFound} expanded=${expandedCount} intents=${intentsClassified} pages=${pagesGenerated}`);
+
+  // ── Step 8: Auto-generate a SaaS project from a top growth keyword ──────
+  let saasGenerated = false;
+  try {
+    const { data: topKw } = await admin
+      .from("growth_keywords")
+      .select("keyword")
+      .eq("status", "done")
+      .gte("score", 70)
+      .order("score", { ascending: false })
+      .limit(1)
+      .single();
+
+    if (topKw?.keyword) {
+      const saasRes = await fetch(`${APP_URL}/api/operator/generate-saas`, {
+        method: "POST",
+        headers: { "Authorization": cronAuth, "Content-Type": "application/json" },
+        body: JSON.stringify({ keyword: topKw.keyword }),
+      });
+      if (saasRes.ok) saasGenerated = true;
+    }
+  } catch (err) {
+    console.error("[cron/discover-keywords] saas-generate step failed", err);
+  }
+
   return Response.json({
     success: true,
     toolkit: selected,
@@ -216,5 +241,6 @@ Return ONLY valid JSON: {"keywords":[{"keyword":"...","search_intent":"informati
     expanded: expandedCount,
     intents_classified: intentsClassified,
     pages_generated: pagesGenerated,
+    saas_generated: saasGenerated,
   });
 }

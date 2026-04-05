@@ -7,9 +7,9 @@
 
 ## 当前项目状态
 
-**项目阶段**: 🟢 SPEC-WEEKLY-INSIGHTS 完成  
-**当前里程碑**: Stripe Live 切换（SPEC-11-C，手动）→ 在 /admin/seo 点击「⚡ Bulk Generate All」开始批量生成 SEO 页面  
-**最后更新**: 2026-04-05 — 统一 SEO 生成系统：seo_pages统一表 + 5个生成API + /use-cases路由 + 批量入口
+**项目阶段**: 🟢 SPEC-SAAS-FACTORY 完成  
+**当前里程碑**: 在 /admin/saas 输入关键词生成第一个 SaaS 项目，确认后 Activate；随后可推进 Stripe Live 切换（SPEC-11-C）  
+**最后更新**: 2026-04-05 — AI SaaS Factory：saas_projects表 + /saas/* 落地页 + /admin/saas管理页 + cron自动生成
 
 ### 已完成修复（Bug Fix Log）
 
@@ -99,6 +99,7 @@
 | Revenue Dashboard（/admin/revenue） | ✅ 完成 | MRR / 活跃订阅 / 本月收入 / Top Toolkit KPI 卡片；Toolkit 分布表格；最近 5 笔 subscriptions；Stripe best-effort 活跃数；/api/admin/revenue（Bearer token）|
 | Revenue Engine（SPEC-REVENUE-ENGINE） | ✅ 完成 | UpgradeCTA（动态文案+7天抑制）+ EmailCapture（匿名用户线索捕获）+ upgrade-prompt API + leads capture/list API + affiliate/stats（30%佣金）+ pricing-experiment（IP哈希A/B）+ pricing-convert + send-welcome（Resend）+ webhook自动写affiliate_commissions + auth/callback新用户触发欢迎邮件 + tool页/dashboard页 CTA注入 + /admin/revenue完整收入仪表盘重构（6区块）|
 | Weekly Insights（SPEC-WEEKLY-INSIGHTS） | ✅ 完成 | weekly_insights表 + lib/insights/generate.ts核心逻辑 + cron每周一 + 手动API + WeeklyInsightsBlock组件 + admin/analytics集成 |
+| AI SaaS Factory（SPEC-SAAS-FACTORY） | ✅ 完成 | saas_projects表 + generate-saas/generate-saas-pages API + /saas/[slug]落地页 + /saas列表页 + /admin/saas管理页 + cron Step 8 + sitemap |
 | Programmatic SEO Core（SPEC-PROGRAMMATIC-SEO-CORE） | ✅ 完成 | lib/seo-keywords.ts常量库 + /use-cases/[slug]服务端页面 + /use-cases列表页 + 5个/api/seo/generate-*统一API（写seo_pages主表+同步分散表）+ /api/seo/generate批量入口（~22页/次，一年~8000页）+ sitemap 5类新路径 + admin/seo顶部汇总看板+青色生成按钮 |
 | SEO Flat Routes（SPEC-SEO-FLAT-ROUTES） | ✅ 完成 | app/[slug]/page.tsx根路径统一分发（-vs-/alternatives/how-to-/ai-for-）+ seo_use_cases表 + 4个生成API + proxy.ts 301重定向 + sitemap 4类扁平路径 + admin/seo 绿色统计+按钮 |
 | Google Traffic Capture（SPEC-GROWTH-CAPTURE） | ✅ 完成 | google-autocomplete + extract-paa（GPT-4o-mini）+ expand-keywords + detect-intent + generate-from-intents + ranking-monitor + import-rankings + optimize-content；/admin/growth Section 5 增加7个操作卡片；discover-keywords cron扩展4步 |

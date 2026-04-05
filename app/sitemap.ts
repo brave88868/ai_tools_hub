@@ -31,6 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { data: seoPagesAlternatives },
     { data: seoPagesProblems },
     { data: seoPagesTemplates },
+    { data: saasProjects },
   ] = await Promise.all([
     supabase.from("tools").select("slug, created_at").eq("is_active", true),
     supabase.from("toolkits").select("slug, created_at").eq("is_active", true),
@@ -114,6 +115,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       () => ({ data: null })
     ),
     supabase.from("seo_pages").select("slug, created_at").eq("type", "template").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("saas_projects").select("slug, created_at").eq("status", "active").then(
       (res) => res,
       () => ({ data: null })
     ),
@@ -321,6 +326,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: row.created_at ?? now,
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+
+    // SaaS 产品落地页
+    ...(saasProjects ?? []).map((row) => ({
+      url: `${SITE_URL}/saas/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
     })),
   ];
 }
