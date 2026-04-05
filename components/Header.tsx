@@ -60,8 +60,8 @@ export default function Header() {
               <Link href="/login" className="text-[15px] font-medium text-gray-700 hover:text-indigo-600 transition-colors">
                 Sign In
               </Link>
-              <Link href="/toolkits" className="text-sm bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors font-semibold">
-                Start Free →
+              <Link href="/signup" className="text-sm bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors font-semibold">
+                Sign Up
               </Link>
             </>
           )}
@@ -91,7 +91,7 @@ export default function Header() {
           ) : (
             <>
               <Link href="/login" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Sign In</Link>
-              <Link href="/toolkits" className="bg-black text-white text-center px-4 py-2 rounded-lg font-semibold" onClick={() => setMenuOpen(false)}>Start Free →</Link>
+              <Link href="/signup" className="bg-black text-white text-center px-4 py-2 rounded-lg font-semibold" onClick={() => setMenuOpen(false)}>Sign Up</Link>
             </>
           )}
         </div>
