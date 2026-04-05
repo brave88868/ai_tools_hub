@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdmin, unauthorized } from "@/lib/auth-admin";
 
 /**
  * POST /api/seo/generate
@@ -12,13 +13,15 @@ export async function POST(req: NextRequest) {
   // 支持两种认证：CRON_SECRET（来自 vercel cron）或 Admin Bearer token
   const authHeader = req.headers.get("authorization") ?? "";
   const isCron = authHeader === `Bearer ${process.env.CRON_SECRET}`;
-  const isAdmin = !isCron && authHeader.startsWith("Bearer ");
 
-  if (!isCron && !isAdmin) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!isCron) {
+    const auth = await requireAdmin(req);
+    if (!auth) return unauthorized();
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  // Derive appUrl from the request itself so internal calls work on Vercel
+  const reqUrl = new URL(req.url);
+  const appUrl = `${reqUrl.protocol}//${reqUrl.host}`;
 
   const tasks = [
     { path: "/api/seo/generate-use-cases", body: { count: 10 } },
