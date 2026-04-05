@@ -409,6 +409,7 @@ Optimization Agent       →  自动优化产品
 - SPEC-GROWTH-CAPTURE ✅ 7模块流量捕获飞轮：google-autocomplete + extract-paa + expand-keywords + detect-intent + generate-from-intents + ranking-monitor/import-rankings + optimize-content；3张新表（growth_questions/keyword_intents/seo_rankings）；/admin/growth Section 5 + cron Step 4-7
 - SPEC-REVENUE-ENGINE ✅ 7模块收入引擎：UpgradeCTA（动态文案+7天抑制）+ EmailCapture（匿名线索）+ upgrade-prompt/track-upgrade-view API + leads capture/list + affiliate/stats（30%佣金）+ pricing-experiment（IP哈希A/B）+ pricing-convert + send-welcome（Resend）+ webhook自动affiliate_commissions + auth/callback欢迎邮件 + /admin/revenue全量重构（6区块）
 - SPEC-SEO-FLAT-ROUTES ✅ 扁平根路径SEO：app/[slug]/page.tsx统一分发（-vs-/- alternatives/how-to-/ai-...-for-）+ seo_use_cases表 + 4个生成API（use-cases-flat/comparisons-flat/alternatives-flat/problems-flat）+ proxy.ts 301重定向 + sitemap扩展 + admin/seo 4个新计数+4个绿色按钮
+- SPEC-PROGRAMMATIC-SEO-CORE ✅ 统一SEO生成系统：lib/seo-keywords.ts常量库（30职业/24竞品/30问题）+ /use-cases/[slug]页面（SoftwareApplication JSON-LD）+ /use-cases列表页 + 5个统一生成API（/api/seo/generate-*）+ /api/seo/generate批量入口（~22页/次）+ seo_pages统一表（type字段分类）+ sitemap 5类新路径 + admin/seo顶部汇总看板+6个青色按钮
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
@@ -471,6 +472,7 @@ Optimization Agent       →  自动优化产品
 - Revenue Engine: `UpgradeCTA` 7天localStorage抑制（key: `upgrade_cta_hidden_{trigger}`）；`EmailCapture` 一次性提交（key: `email_capture_submitted`）；`upgrade_prompts` 表存动态文案，DEFAULTS兜底；`leads` 表存邮件线索；`affiliate_commissions` 表存佣金（30%，单位分）；`pricing_experiments` 表做A/B实验（IP哈希分组）；欢迎邮件用 Resend REST API（无SDK），RESEND_API_KEY未设置时静默跳过
 - Revenue Engine 触发点: tool页结果后（未登录→EmailCapture，已登录free→UpgradeCTA trigger=result_page）；dashboard（7天内>5次tool_use→UpgradeCTA trigger=heavy_user）；pricing页（A/B实验标签展示）；UpgradeModal（动态文案by errorType）；ReferralBlock（显示联盟佣金）
 - Flat Routes: `app/[slug]/page.tsx` 根路径动态路由，按slug格式分发4类SEO页面；Named routes优先级高于动态路由，无需白名单；seo_use_cases表（slug=ai-{tool}-for-{profession}）；seo_comparisons/alternatives/problems 新增flat_slug字段；proxy.ts 301: /compare/*→/*，/alternatives/*→/*-alternatives，/problems/*→/*，/tools/*/for-*→/ai-*-for-*
+- Programmatic SEO: `lib/seo-keywords.ts` 导出PROFESSIONS/COMPETITORS/PROBLEMS/MODIFIERS常量；`/use-cases/[slug]` 服务端页面从seo_pages(type=use_case)读取；`/api/seo/generate-*` 5个统一生成API（写seo_pages主表 + 同步各分散表）；`/api/seo/generate` 批量入口顺序调用5个API；seo_pages表新增type/seo_title/seo_description/tool_slug/meta字段
 
 ## SPEC-11-C — Stripe Live 切换（待手动操作）
 
