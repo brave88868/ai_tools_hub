@@ -3,9 +3,23 @@ import type { CookieOptions } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
 
+  // ── Referral 追踪：?ref=CODE → cookie（30天有效期）──────────────
+  const refCode = request.nextUrl.searchParams.get("ref");
+  if (refCode && !request.cookies.get("referrer_code")) {
+    supabaseResponse = NextResponse.next({ request });
+    supabaseResponse.cookies.set("referrer_code", refCode, {
+      httpOnly: false,
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+      path: "/",
+      sameSite: "lax",
+    });
+  }
+  // ─────────────────────────────────────────────────────────────────
+
+  // ── Supabase session refresh ──────────────────────────────────────
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -29,8 +43,11 @@ export async function proxy(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  // 保护 /dashboard 路由，未登录重定向到 /login
-  if (!user && request.nextUrl.pathname.startsWith("/dashboard")) {
+  // 保护 /dashboard 和 /admin 路由，未登录重定向到 /login
+  if (!user && (
+    request.nextUrl.pathname.startsWith("/dashboard") ||
+    request.nextUrl.pathname.startsWith("/admin")
+  )) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
