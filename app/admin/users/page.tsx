@@ -20,6 +20,11 @@ interface BannedIp {
   created_at: string;
 }
 
+function randomPassword() {
+  const chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
+  return Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+}
+
 async function authHeader() {
   const { data: { session } } = await supabase.auth.getSession();
   return {
@@ -34,6 +39,16 @@ export default function AdminUsersPage() {
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState("");
   const [actingId, setActingId] = useState<string | null>(null);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  // Add user form
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newEmail, setNewEmail] = useState("");
+  const [newRole, setNewRole] = useState("user");
+  const [newPassword, setNewPassword] = useState(randomPassword());
+  const [addLoading, setAddLoading] = useState(false);
+
+  // IP ban
   const [ipInput, setIpInput] = useState("");
   const [ipReason, setIpReason] = useState("");
   const [ipMsg, setIpMsg] = useState("");
@@ -56,6 +71,9 @@ export default function AdminUsersPage() {
   useEffect(() => {
     loadUsers();
     loadBannedIps();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setCurrentUserId(session?.user?.id ?? null);
+    });
   }, []);
 
   async function handleRoleChange(userId: string, newRole: string) {
@@ -80,6 +98,24 @@ export default function AdminUsersPage() {
     setActingId(null);
   }
 
+  async function handlePlanChange(userId: string, newPlan: string) {
+    setActingId(userId);
+    setMsg("");
+    const headers = await authHeader();
+    const res = await fetch("/api/admin/update-user-plan", {
+      method: "PATCH", headers,
+      body: JSON.stringify({ user_id: userId, plan: newPlan }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, plan: newPlan } : u));
+      setMsg("✓ Plan updated");
+    } else {
+      setMsg(`✗ ${data.error}`);
+    }
+    setActingId(null);
+  }
+
   async function handleBanToggle(userId: string, banned: boolean) {
     setActingId(userId);
     setMsg("");
@@ -96,6 +132,57 @@ export default function AdminUsersPage() {
       setMsg(`✗ ${data.error}`);
     }
     setActingId(null);
+  }
+
+  async function handleDelete(userId: string, email: string | null) {
+    if (!window.confirm(`Delete ${email ?? userId}? This cannot be undone.`)) return;
+    setActingId(userId);
+    setMsg("");
+    const headers = await authHeader();
+    const res = await fetch("/api/admin/delete-user", {
+      method: "DELETE", headers,
+      body: JSON.stringify({ user_id: userId }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      setUsers((prev) => prev.filter((u) => u.id !== userId));
+      setMsg("✓ User deleted");
+    } else {
+      setMsg(`✗ ${data.error}`);
+    }
+    setActingId(null);
+  }
+
+  async function handleCreateUser(e: React.FormEvent) {
+    e.preventDefault();
+    setAddLoading(true);
+    setMsg("");
+    const headers = await authHeader();
+    const res = await fetch("/api/admin/create-user", {
+      method: "POST", headers,
+      body: JSON.stringify({ email: newEmail.trim(), password: newPassword, role: newRole }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      const created: UserRow = {
+        id: data.user.id,
+        email: data.user.email,
+        role: data.user.role,
+        plan: data.user.plan,
+        usage_count: 0,
+        banned: false,
+        created_at: new Date().toISOString(),
+      };
+      setUsers((prev) => [created, ...prev]);
+      setMsg("✓ User created");
+      setShowAddForm(false);
+      setNewEmail("");
+      setNewRole("user");
+      setNewPassword(randomPassword());
+    } else {
+      setMsg(`✗ ${data.error}`);
+    }
+    setAddLoading(false);
   }
 
   async function handleBanIp(e: React.FormEvent) {
@@ -133,15 +220,72 @@ export default function AdminUsersPage() {
           <h1 className="text-xl font-bold text-gray-900">
             Users <span className="text-gray-400 font-normal text-base">({users.length})</span>
           </h1>
-          {msg && <p className="text-sm text-gray-600">{msg}</p>}
+          <div className="flex items-center gap-3">
+            {msg && <p className="text-sm text-gray-600">{msg}</p>}
+            <button
+              onClick={() => { setShowAddForm((v) => !v); setMsg(""); }}
+              className="bg-indigo-600 text-white text-xs px-3 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
+            >
+              + Add User
+            </button>
+          </div>
         </div>
+
+        {/* Inline add-user form */}
+        {showAddForm && (
+          <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-5 mb-4">
+            <h2 className="text-sm font-semibold text-gray-900 mb-4">New User</h2>
+            <form onSubmit={handleCreateUser} className="flex flex-wrap gap-3 items-end">
+              <div className="flex flex-col gap-1">
+                <label className="text-xs text-gray-500">Email</label>
+                <input
+                  type="email" required value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
+                  placeholder="user@example.com"
+                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm w-52 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs text-gray-500">Role</label>
+                <select
+                  value={newRole} onChange={(e) => setNewRole(e.target.value)}
+                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                >
+                  <option value="user">user</option>
+                  <option value="pro">pro</option>
+                  <option value="admin">admin</option>
+                </select>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs text-gray-500">Password</label>
+                <input
+                  type="text" required value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm w-36 font-mono focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                />
+              </div>
+              <button
+                type="submit" disabled={addLoading}
+                className="bg-indigo-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition-colors"
+              >
+                {addLoading ? "Creating…" : "Create User"}
+              </button>
+              <button
+                type="button" onClick={() => { setShowAddForm(false); setMsg(""); }}
+                className="text-sm px-4 py-2 rounded-lg border border-gray-200 text-gray-600 hover:border-gray-400 transition-colors"
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        )}
 
         {loading ? (
           <p className="text-gray-400 text-sm">Loading...</p>
         ) : (
           <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm min-w-[700px]">
+              <table className="w-full text-sm min-w-[800px]">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-200 text-xs text-gray-500">
                     <th className="text-left px-4 py-3 font-medium">Email</th>
@@ -178,9 +322,19 @@ export default function AdminUsersPage() {
                         </div>
                       </td>
                       <td className="px-3 py-2.5 text-center">
-                        <span className={`text-xs px-1.5 py-0.5 rounded-full ${u.plan === "pro" ? "bg-indigo-100 text-indigo-700" : "bg-gray-100 text-gray-500"}`}>
-                          {u.plan ?? "free"}
-                        </span>
+                        <select
+                          value={u.plan ?? "free"}
+                          disabled={actingId === u.id}
+                          onChange={(e) => handlePlanChange(u.id, e.target.value)}
+                          className={`text-xs border rounded px-1.5 py-0.5 bg-white disabled:opacity-50 ${
+                            u.plan === "pro"
+                              ? "border-indigo-200 text-indigo-700"
+                              : "border-gray-200 text-gray-500"
+                          }`}
+                        >
+                          <option value="free">free</option>
+                          <option value="pro">pro</option>
+                        </select>
                       </td>
                       <td className="px-3 py-2.5 text-center text-xs text-gray-500">{u.usage_count ?? 0}</td>
                       <td className="px-3 py-2.5 text-center">
@@ -190,10 +344,23 @@ export default function AdminUsersPage() {
                       </td>
                       <td className="px-4 py-2.5 text-right text-xs text-gray-400">{new Date(u.created_at).toLocaleDateString()}</td>
                       <td className="px-4 py-2.5 text-right">
-                        <button onClick={() => handleBanToggle(u.id, !u.banned)} disabled={actingId === u.id}
-                          className={`text-xs px-2.5 py-1 rounded-lg disabled:opacity-50 transition-colors ${u.banned ? "border border-gray-200 text-gray-600 hover:border-gray-400" : "bg-red-50 text-red-600 hover:bg-red-100"}`}>
-                          {u.banned ? "Unban" : "Ban"}
-                        </button>
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            onClick={() => handleBanToggle(u.id, !u.banned)}
+                            disabled={actingId === u.id}
+                            className={`text-xs px-2.5 py-1 rounded-lg disabled:opacity-50 transition-colors ${u.banned ? "border border-gray-200 text-gray-600 hover:border-gray-400" : "bg-red-50 text-red-600 hover:bg-red-100"}`}
+                          >
+                            {u.banned ? "Unban" : "Ban"}
+                          </button>
+                          <button
+                            onClick={() => handleDelete(u.id, u.email)}
+                            disabled={actingId === u.id || u.id === currentUserId}
+                            title={u.id === currentUserId ? "Cannot delete yourself" : "Delete user"}
+                            className="text-xs px-2.5 py-1 rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
