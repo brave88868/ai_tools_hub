@@ -397,6 +397,7 @@ Optimization Agent       →  自动优化产品
 - SPEC-FIX-06 ✅ Checkout "Invalid toolkit" 修复（env var 诊断日志 + TOOLKIT_PRICE_IDS 类型修正）
 - SPEC-FIX-07 ✅ Dashboard 订阅显示修复 + 退订功能 + Terms/Privacy 页面
 - SPEC-10 ✅ 完整自动化系统（Task 2-11）：SEO + Blog + Feedback + Feature Voting + Referral + Analytics + Operator Dashboard + Auto Tool Generator + Vercel Cron + Sitemap/robots
+- SPEC-FINAL ✅ Admin 路由重构 + 3 独立 Cron + Referral 短码修复 + Analytics 完整字段
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
@@ -418,7 +419,7 @@ Optimization Agent       →  自动优化产品
 - `prompts/jobseeker/cover_letter.txt` — 5-paragraph STAR cover letter prompt
 - `prompts/` — all tool prompts organized by toolkit (all upgraded with STEP 1)
 - `scripts/test-all-tools.mjs` — validates all 72 tools (72/72 pass)
-- `proxy.ts` — Next.js 16 session refresh middleware (renamed from middleware.ts)
+- `middleware.ts` — Next.js session refresh + referral cookie + protect /dashboard + /admin
 
 ## Architecture Notes
 
@@ -429,6 +430,8 @@ Optimization Agent       →  自动优化产品
 - Sign Out: `<button>` with `supabase.auth.signOut()` + `router.push("/")` (not `<Link>`)
 - Rate limiting: anonymous = 1/day via SHA256(IP:UA); logged-in free = 3/day+30 lifetime; paid = 100/day
 - `InputForm` file fields: `name: "xyz_file", type: "file"` → extracts text → submits as `xyz`
+- Referral short code = `user.id.slice(0, 8)`；callback 用 UUID prefix range query 查找推荐人
+- Admin 路由: `/admin/*`（layout 校验 users.role='admin'），3 个 cron: discover-keywords(2am) / generate-tools(3am) / generate-blog(4am)
 
 ## SPEC-11-C — Stripe Live 切换（待手动操作）
 
@@ -442,3 +445,4 @@ Optimization Agent       →  自动优化产品
 
 1. SPEC-11-C: Stripe Live 切换（手动）
 2. SPEC-09: Programmatic SEO Engine（keyword data layer → use-case pages → sitemap）
+3. 考虑删除 /operator/* 页面（已被 /admin/* 完全替代）
