@@ -1,51 +1,34 @@
 import type { MetadataRoute } from "next";
 import { createAdminClient } from "@/lib/supabase";
-import { getUseCases, getCompares, getProfessions } from "@/lib/seo/loaders";
 
 const SITE_URL = "https://aitoolsstation.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = createAdminClient();
 
-  const [{ data: tools }, { data: toolkits }] = await Promise.all([
+  const [
+    { data: tools },
+    { data: toolkits },
+    { data: useCases },
+    { data: blogPosts },
+  ] = await Promise.all([
     supabase.from("tools").select("slug, updated_at").eq("is_active", true),
     supabase.from("toolkits").select("slug, updated_at").eq("is_active", true),
+    supabase.from("tool_use_cases").select("slug, created_at"),
+    supabase.from("blog_posts").select("slug, updated_at").eq("published", true),
   ]);
-
-  const useCases = getUseCases();
-  const compares = getCompares();
-  const professions = getProfessions();
 
   const now = new Date().toISOString();
 
   return [
-    // Static pages
-    {
-      url: SITE_URL,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 1.0,
-    },
-    {
-      url: `${SITE_URL}/toolkits`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/pricing`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/blog`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.7,
-    },
+    // 静态页面
+    { url: SITE_URL, lastModified: now, changeFrequency: "weekly", priority: 1.0 },
+    { url: `${SITE_URL}/toolkits`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE_URL}/pricing`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/blog`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
+    { url: `${SITE_URL}/features`, lastModified: now, changeFrequency: "weekly", priority: 0.6 },
 
-    // Toolkit pages
+    // Toolkit 页面
     ...(toolkits ?? []).map((kit) => ({
       url: `${SITE_URL}/toolkits/${kit.slug}`,
       lastModified: kit.updated_at ?? now,
@@ -53,7 +36,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     })),
 
-    // Tool detail pages
+    // 工具页面
     ...(tools ?? []).map((tool) => ({
       url: `${SITE_URL}/tools/${tool.slug}`,
       lastModified: tool.updated_at ?? now,
@@ -61,28 +44,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     })),
 
-    // Use-case pages
-    ...useCases.map((uc) => ({
-      url: `${SITE_URL}/use-case/${uc.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    })),
+    // Use-case 页面（/tools/[slug]/[usecase]）
+    ...(useCases ?? []).map((uc) => {
+      // slug 格式：resume-optimizer-for-data-analyst
+      // URL：/tools/resume-optimizer/for-data-analyst
+      const parts = uc.slug.split("-for-");
+      const toolSlug = parts[0];
+      const usecase = parts.slice(1).join("-for-");
+      return {
+        url: `${SITE_URL}/tools/${toolSlug}/for-${usecase}`,
+        lastModified: uc.created_at ?? now,
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+      };
+    }),
 
-    // Compare pages
-    ...compares.map((c) => ({
-      url: `${SITE_URL}/compare/${c.slug}`,
-      lastModified: now,
+    // 博客文章
+    ...(blogPosts ?? []).map((post) => ({
+      url: `${SITE_URL}/blog/${post.slug}`,
+      lastModified: post.updated_at ?? now,
       changeFrequency: "monthly" as const,
-      priority: 0.7,
-    })),
-
-    // Profession / ai-tools-for pages
-    ...professions.map((p) => ({
-      url: `${SITE_URL}/ai-tools-for/${p.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
+      priority: 0.6,
     })),
   ];
 }

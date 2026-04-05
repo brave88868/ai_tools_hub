@@ -7,9 +7,9 @@
 
 ## 当前项目状态
 
-**项目阶段**: 🟡 进行中（SPEC-12 完成）  
-**当前里程碑**: Stripe Live 切换（SPEC-11-C，手动）→ SPEC-09 SEO Engine  
-**最后更新**: 2026-04-05 — SPEC-11 + SPEC-12 完成
+**项目阶段**: 🟢 SPEC-10 全部完成（Task 1-11）  
+**当前里程碑**: Stripe Live 切换（SPEC-11-C，手动）→ 运行 generate-seo-content / seed-keywords / generate-use-cases 脚本填充数据  
+**最后更新**: 2026-04-05 — SPEC-10 Task 8-11 完成
 
 ### 已完成修复（Bug Fix Log）
 
@@ -27,6 +27,7 @@
 12. **Cover Letter Generator 升级（SPEC-12）** — CV上传（PDF/DOCX/TXT）+ 六字段输入 + 五段STAR结构prompt + ATS优化
 13. **Cloudflare 源站保护（SPEC-SEC-01）** — 生产环境 `/api/tools/run` 无 `cf-ray` header → 403，阻止机器人绕过 Cloudflare 直打 Vercel 源站
 16. **SPEC-10 Task 4–7** — Feedback Modal + API；Feature Voting Board（/features）+ vote/submit API；Referral System（middleware.ts ref cookie + auth callback 写入 referrals + webhook 触发奖励 + Dashboard 推荐区块）；Analytics（page_view 埋点 + /api/analytics/track + /api/admin/analytics）
+17. **SPEC-10 Task 8–11** — Operator Dashboard（/operator/* 6页面 + 4个 operator API）；template-engine 支持 inline prompt_template fallback；scripts/discover-tools.mjs；Vercel Cron（/api/cron/daily 每日2点 UTC）+ vercel.json；sitemap.ts 更新（tools + use_cases + blog_posts）；robots.ts 禁止 /api/ /dashboard /auth/ /operator
 14. **Checkout Invalid toolkit 修复（SPEC-FIX-06）** — `TOOLKIT_PRICE_IDS` 类型改为 `string | undefined`（移除 `!` 断言）；失败时打印完整诊断日志（received slug + 每个 env var 是否已设置）到 Vercel 函数日志
 15. **Dashboard 订阅显示修复 + 退订（SPEC-FIX-07）** — 新增 `SubscriptionList` 客户端组件（Cancel 按钮 + window.confirm 确认）；Dashboard 查询新增 `stripe_subscription_id`，status 扩展为 `['active','canceling']`，Plan 字段显示实际 toolkit 名；新建 `POST /api/subscription/cancel`（cancel_at_period_end=true）；新建 `/terms` 和 `/privacy` 占位页面
 
