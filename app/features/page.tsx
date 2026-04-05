@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import ReactMarkdown from "react-markdown";
 
 type FeatureStatus = "open" | "planned" | "in_progress" | "released";
-type SortMode = "votes" | "newest" | "trending";
 
 interface Feature {
   id: string;
@@ -32,14 +31,7 @@ const STATUS_LABEL: Record<FeatureStatus, string> = {
 };
 
 const TOOLKITS = ["jobseeker", "creator", "marketing", "business", "legal", "exam"];
-
-function daysSince(dateStr: string): number {
-  return (Date.now() - new Date(dateStr).getTime()) / (1000 * 60 * 60 * 24);
-}
-
-function trendingScore(f: Feature): number {
-  return f.votes * 2 + 1 / (daysSince(f.created_at) + 1);
-}
+const PAGE_SIZE = 10;
 
 export default function FeaturesPage() {
   const [features, setFeatures] = useState<Feature[]>([]);
@@ -48,9 +40,7 @@ export default function FeaturesPage() {
   const [votingId, setVotingId] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
-
-  // Sort
-  const [sort, setSort] = useState<SortMode>("votes");
+  const [page, setPage] = useState(0);
 
   // AI Analyze
   const [analyzing, setAnalyzing] = useState(false);
@@ -69,7 +59,7 @@ export default function FeaturesPage() {
       const { data } = await supabase
         .from("features")
         .select("*")
-        .order("votes", { ascending: false });
+        .order("created_at", { ascending: false });
       setFeatures((data as Feature[]) ?? []);
 
       const { data: { user } } = await supabase.auth.getUser();
@@ -88,17 +78,6 @@ export default function FeaturesPage() {
     }
     load();
   }, []);
-
-  const sortedFeatures = useMemo(() => {
-    const copy = [...features];
-    if (sort === "votes") return copy.sort((a, b) => b.votes - a.votes);
-    if (sort === "newest")
-      return copy.sort(
-        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-      );
-    // trending
-    return copy.sort((a, b) => trendingScore(b) - trendingScore(a));
-  }, [features, sort]);
 
   async function handleVote(featureId: string) {
     if (!userId) {
@@ -155,10 +134,11 @@ export default function FeaturesPage() {
       setTitle("");
       setDescription("");
       setToolkit("");
+      setPage(0);
       const { data } = await supabase
         .from("features")
         .select("*")
-        .order("votes", { ascending: false });
+        .order("created_at", { ascending: false });
       setFeatures((data as Feature[]) ?? []);
     } else {
       const data = await res.json();
@@ -170,6 +150,9 @@ export default function FeaturesPage() {
     }
     setSubmitting(false);
   }
+
+  const totalPages = Math.ceil(features.length / PAGE_SIZE);
+  const paginatedFeatures = features.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
@@ -255,79 +238,88 @@ export default function FeaturesPage() {
         </form>
       </div>
 
-      {/* Sort tabs */}
-      <div className="flex items-center gap-1 mb-4">
-        {(
-          [
-            { key: "votes", label: "Most Votes" },
-            { key: "newest", label: "Newest" },
-            { key: "trending", label: "Trending" },
-          ] as { key: SortMode; label: string }[]
-        ).map(({ key, label }) => (
-          <button
-            key={key}
-            onClick={() => setSort(key)}
-            className={`text-xs px-3 py-1.5 rounded-lg transition-colors ${
-              sort === key
-                ? "bg-black text-white"
-                : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
-            }`}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-
       {/* Feature list */}
       {loading ? (
         <div className="text-center py-8 text-gray-400 text-sm">Loading...</div>
-      ) : sortedFeatures.length === 0 ? (
+      ) : features.length === 0 ? (
         <div className="text-center py-8 border border-dashed border-gray-200 rounded-2xl">
           <p className="text-gray-400 text-sm">No feature requests yet. Be the first!</p>
         </div>
       ) : (
-        <div className="space-y-3">
-          {sortedFeatures.map((feature) => {
-            const voted = votedIds.has(feature.id);
-            const status = (feature.status ?? "open") as FeatureStatus;
-            return (
-              <div
-                key={feature.id}
-                className="border border-gray-200 rounded-xl p-4 flex items-start gap-4"
-              >
-                {/* Vote button */}
-                <button
-                  onClick={() => handleVote(feature.id)}
-                  disabled={voted || votingId === feature.id || !userId}
-                  className={`flex flex-col items-center min-w-[44px] px-2 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                    voted
-                      ? "border-black bg-black text-white"
-                      : "border-gray-200 text-gray-600 hover:border-gray-400"
-                  } disabled:cursor-not-allowed`}
+        <>
+          <div className="space-y-3">
+            {paginatedFeatures.map((feature) => {
+              const voted = votedIds.has(feature.id);
+              const status = (feature.status ?? "open") as FeatureStatus;
+              return (
+                <div
+                  key={feature.id}
+                  className="border border-gray-200 rounded-xl p-4 flex items-start gap-4"
                 >
-                  <span className="text-base leading-none mb-0.5">▲</span>
-                  <span>{votingId === feature.id ? "…" : feature.votes}</span>
-                </button>
+                  {/* Vote button */}
+                  <button
+                    onClick={() => handleVote(feature.id)}
+                    disabled={voted || votingId === feature.id || !userId}
+                    className={`flex flex-col items-center min-w-[44px] px-2 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
+                      voted
+                        ? "border-black bg-black text-white"
+                        : "border-gray-200 text-gray-600 hover:border-gray-400"
+                    } disabled:cursor-not-allowed`}
+                  >
+                    <span className="text-base leading-none mb-0.5">▲</span>
+                    <span>{votingId === feature.id ? "…" : feature.votes}</span>
+                  </button>
 
-                {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap mb-1">
-                    <span className="text-sm font-medium text-gray-900">{feature.title}</span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${STATUS_BADGE[status]}`}>
-                      {STATUS_LABEL[status]}
-                    </span>
-                    {feature.toolkit && (
-                      <span className="text-xs text-gray-400 capitalize">{feature.toolkit}</span>
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <span className="text-sm font-medium text-gray-900">{feature.title}</span>
+                      <span className={`text-xs px-2 py-0.5 rounded-full ${STATUS_BADGE[status]}`}>
+                        {STATUS_LABEL[status]}
+                      </span>
+                      {feature.toolkit && (
+                        <span className="text-xs text-gray-400 capitalize">
+                          {feature.toolkit.charAt(0).toUpperCase() + feature.toolkit.slice(1)} Toolkit
+                        </span>
+                      )}
+                    </div>
+                    {feature.description && (
+                      <p className="text-xs text-gray-400 leading-relaxed mb-1">{feature.description}</p>
                     )}
+                    <p className="text-xs text-gray-300">
+                      {new Date(feature.created_at).toLocaleDateString("en-US", {
+                        year: "numeric", month: "short", day: "numeric",
+                      })}
+                    </p>
                   </div>
-                  {feature.description && (
-                    <p className="text-xs text-gray-400 leading-relaxed">{feature.description}</p>
-                  )}
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between mt-6">
+              <button
+                onClick={() => setPage((p) => Math.max(0, p - 1))}
+                disabled={page === 0}
+                className="text-xs px-3 py-1.5 border border-gray-200 rounded-lg text-gray-600 hover:border-gray-400 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                ← Previous
+              </button>
+              <span className="text-xs text-gray-400">
+                Page {page + 1} of {totalPages}
+              </span>
+              <button
+                onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                disabled={page >= totalPages - 1}
+                className="text-xs px-3 py-1.5 border border-gray-200 rounded-lg text-gray-600 hover:border-gray-400 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                Next →
+              </button>
+            </div>
+          )}
+        </>
       )}
 
       {!userId && (
