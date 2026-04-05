@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase";
 
 export const metadata: Metadata = {
@@ -93,12 +92,6 @@ export default async function RoadmapPage() {
             What we&apos;re building, what&apos;s planned, and what&apos;s shipped.
           </p>
         </div>
-        <Link
-          href="/features"
-          className="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
-        >
-          + Submit a Request
-        </Link>
       </div>
 
       {/* Kanban board */}
@@ -151,19 +144,6 @@ export default async function RoadmapPage() {
         })}
       </div>
 
-      {/* Footer CTA */}
-      <div className="mt-10 bg-black text-white rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div>
-          <p className="font-semibold text-sm mb-0.5">Have a feature request?</p>
-          <p className="text-gray-400 text-xs">Vote on existing requests or submit your own.</p>
-        </div>
-        <Link
-          href="/features"
-          className="bg-white text-black px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors whitespace-nowrap"
-        >
-          Go to Feature Requests →
-        </Link>
-      </div>
     </main>
   );
 }
