@@ -350,6 +350,19 @@ export default function ToolPage() {
         {result && isLoggedIn && userRole === "user" && (
           <UpgradeCTA trigger="result_page" toolName={tool.name} className="mt-4" />
         )}
+        {/* Viral referral prompt — shown after any result for logged-in free users */}
+        {result && isLoggedIn && userRole === "user" && (
+          <div className="mt-3 flex items-center gap-3 bg-indigo-50 border border-indigo-100 rounded-xl px-4 py-3">
+            <span className="text-base">💡</span>
+            <p className="text-xs text-gray-600 flex-1">
+              Loving the results?{" "}
+              <a href="/dashboard/referrals" className="font-semibold text-indigo-600 hover:text-indigo-800 underline">
+                Share with friends and earn +20 free uses
+              </a>{" "}
+              per invite.
+            </p>
+          </div>
+        )}
 
         {/* Legal disclaimer */}
         {tool.toolkits?.slug === "legal" && (

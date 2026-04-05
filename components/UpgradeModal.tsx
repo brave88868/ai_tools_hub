@@ -136,7 +136,21 @@ export default function UpgradeModal({ onClose, toolkitSlug, isLoggedIn = false,
           </button>
         </div>
 
-        <p className="text-center text-xs text-gray-400 mt-4">⭐ Trusted by 1,000+ professionals</p>
+        {/* Viral referral prompt */}
+        <div className="mt-4 pt-4 border-t border-gray-100 text-center">
+          <p className="text-xs text-gray-500">
+            Not ready to upgrade?{" "}
+            <a
+              href="/dashboard/referrals"
+              onClick={onClose}
+              className="font-semibold text-indigo-600 hover:text-indigo-800"
+            >
+              Invite friends to unlock +20 more uses per invite →
+            </a>
+          </p>
+        </div>
+
+        <p className="text-center text-xs text-gray-400 mt-3">⭐ Trusted by 1,000+ professionals</p>
       </div>
     </div>
   );

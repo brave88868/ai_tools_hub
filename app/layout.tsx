@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Suspense } from "react";
 import "@/styles/globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ReferralCapture from "@/components/ReferralCapture";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
@@ -65,6 +67,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Script>
           </>
         )}
+        <Suspense fallback={null}>
+          <ReferralCapture />
+        </Suspense>
         <Header />
         <div className="pt-14">{children}</div>
         <Footer />

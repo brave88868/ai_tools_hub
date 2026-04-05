@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import SubscriptionList from "@/components/SubscriptionList";
 import ReferralBlock from "@/components/ReferralBlock";
 import UpgradeCTA from "@/components/revenue/UpgradeCTA";
+import InviteBanner from "@/components/InviteBanner";
 
 export const metadata: Metadata = {
   title: "Dashboard | AI Tools Hub",
@@ -82,6 +83,9 @@ export default async function DashboardPage({
         <p className="text-gray-400 text-sm">{user.email}</p>
       </div>
 
+      {/* Invite friends banner */}
+      <InviteBanner />
+
       {/* Heavy user upgrade CTA */}
       {showUpgradeCTA && (
         <div className="mb-6">
@@ -136,6 +140,7 @@ export default async function DashboardPage({
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {[
           { label: "Browse Tools", href: "/toolkits" },
+          { label: "Invite Friends", href: "/dashboard/referrals" },
           { label: "View Pricing", href: "/pricing" },
           { label: "Sign Out", href: "/auth/signout" },
         ].map(({ label, href }) => (

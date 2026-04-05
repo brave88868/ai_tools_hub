@@ -7,7 +7,7 @@
 
 ## 当前项目状态
 
-**项目阶段**: 🟢 SPEC-STARTUP-GENERATOR 完成  
+**项目阶段**: 🟢 SPEC-VIRAL-GROWTH-ENGINE 完成  
 **当前里程碑**: 在 /admin/saas 输入关键词生成第一个 SaaS 项目，确认后 Activate；随后可推进 Stripe Live 切换（SPEC-11-C）  
 **最后更新**: 2026-04-05 — AI SaaS Factory：saas_projects表 + /saas/* 落地页 + /admin/saas管理页 + cron自动生成
 
@@ -101,6 +101,7 @@
 | Weekly Insights（SPEC-WEEKLY-INSIGHTS） | ✅ 完成 | weekly_insights表 + lib/insights/generate.ts核心逻辑 + cron每周一 + 手动API + WeeklyInsightsBlock组件 + admin/analytics集成 |
 | AI SaaS Factory（SPEC-SAAS-FACTORY） | ✅ 完成 | saas_projects表 + generate-saas/generate-saas-pages API + /saas/[slug]落地页 + /saas列表页 + /admin/saas管理页 + cron Step 8 + sitemap |
 | AI Startup Generator（SPEC-STARTUP-GENERATOR） | ✅ 完成 | 3张新表(startup_opportunities/analysis/ideas) + 6个operator API + /admin/startup全流水线管理页 + cron weekly-startup(每周一9am UTC) |
+| Viral Growth Engine（SPEC-VIRAL-GROWTH-ENGINE） | ✅ 完成 | users.bonus_uses + referral_rewards表 + 奖励发放逻辑 + /dashboard/referrals + ReferralCapture + InviteBanner + 3个病毒触发点 |
 | Programmatic SEO Core（SPEC-PROGRAMMATIC-SEO-CORE） | ✅ 完成 | lib/seo-keywords.ts常量库 + /use-cases/[slug]服务端页面 + /use-cases列表页 + 5个/api/seo/generate-*统一API（写seo_pages主表+同步分散表）+ /api/seo/generate批量入口（~22页/次，一年~8000页）+ sitemap 5类新路径 + admin/seo顶部汇总看板+青色生成按钮 |
 | SEO Flat Routes（SPEC-SEO-FLAT-ROUTES） | ✅ 完成 | app/[slug]/page.tsx根路径统一分发（-vs-/alternatives/how-to-/ai-for-）+ seo_use_cases表 + 4个生成API + proxy.ts 301重定向 + sitemap 4类扁平路径 + admin/seo 绿色统计+按钮 |
 | Google Traffic Capture（SPEC-GROWTH-CAPTURE） | ✅ 完成 | google-autocomplete + extract-paa（GPT-4o-mini）+ expand-keywords + detect-intent + generate-from-intents + ranking-monitor + import-rankings + optimize-content；/admin/growth Section 5 增加7个操作卡片；discover-keywords cron扩展4步 |

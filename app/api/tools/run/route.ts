@@ -80,10 +80,10 @@ export async function POST(req: NextRequest) {
       // ── Authenticated user ──────────────────────────────────────
       userId = user.id;
 
-      // 检查用户是否被封禁，同时读取 role
+      // 检查用户是否被封禁，同时读取 role + bonus_uses
       const { data: userRecord } = await supabase
         .from("users")
-        .select("banned, role")
+        .select("banned, role, bonus_uses")
         .eq("id", userId)
         .maybeSingle();
 
@@ -168,7 +168,8 @@ export async function POST(req: NextRequest) {
             .select("*", { count: "exact", head: true })
             .eq("user_id", userId);
 
-          if ((totalCount ?? 0) >= 30) {
+          const bonusUses = userRecord?.bonus_uses ?? 0;
+          if ((totalCount ?? 0) >= 30 + bonusUses) {
             return NextResponse.json(
               {
                 success: false,

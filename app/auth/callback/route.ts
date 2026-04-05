@@ -22,7 +22,6 @@ export async function GET(request: NextRequest) {
         request.headers.get("x-real-ip") ||
         null;
 
-      // 写入 signup_ip（只在首次注册时写入，忽略错误）
       if (signupIp) {
         await admin
           .from("users")
@@ -32,10 +31,9 @@ export async function GET(request: NextRequest) {
       }
       // ─────────────────────────────────────────────────────────────
 
-      // ── Referral 写入（含防作弊）─────────────────────────────────
+      // ── Referral 写入（含防作弊）+ 奖励发放 ──────────────────────
       const referrerCode = request.cookies.get("referrer_code")?.value;
       if (referrerCode && referrerCode !== user.id.slice(0, 8)) {
-        // 防作弊：同 IP 在 24 小时内已有其他注册 → 忽略 referral
         let isAbuse = false;
         if (signupIp) {
           const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
@@ -51,16 +49,15 @@ export async function GET(request: NextRequest) {
         }
 
         if (!isAbuse) {
-          // 用 referrerCode（8位前缀）通过 UUID 范围查询找推荐人
           const { data: referrer } = await admin
             .from("users")
-            .select("id")
+            .select("id, bonus_uses")
             .gte("id", `${referrerCode}-0000-0000-0000-000000000000`)
             .lte("id", `${referrerCode}-ffff-ffff-ffff-ffffffffffff`)
             .single();
 
           if (referrer) {
-            // 防重复：该用户是否已有 referral 记录
+            // 防重复
             const { data: existing } = await admin
               .from("referrals")
               .select("id")
@@ -71,8 +68,77 @@ export async function GET(request: NextRequest) {
               await admin.from("referrals").insert({
                 referrer_id: referrer.id,
                 referred_user_id: user.id,
-                status: "pending",
+                status: "completed",
               });
+
+              // ── 奖励新用户 +10 uses ──────────────────────────────
+              await admin.from("referral_rewards").insert({
+                user_id: user.id,
+                type: "signup_bonus",
+                uses_granted: 10,
+              });
+              // Increment bonus_uses for new user (get current value first)
+              const { data: newUserRecord } = await admin
+                .from("users")
+                .select("bonus_uses")
+                .eq("id", user.id)
+                .single();
+              await admin
+                .from("users")
+                .update({ bonus_uses: (newUserRecord?.bonus_uses ?? 0) + 10 })
+                .eq("id", user.id);
+
+              // ── 奖励邀请者 +20 uses ──────────────────────────────
+              const referrerBonusNow = (referrer.bonus_uses ?? 0) + 20;
+              await Promise.all([
+                admin.from("referral_rewards").insert({
+                  user_id: referrer.id,
+                  type: "referral_invite",
+                  uses_granted: 20,
+                }),
+                admin
+                  .from("users")
+                  .update({ bonus_uses: referrerBonusNow })
+                  .eq("id", referrer.id),
+              ]);
+
+              // ── 里程碑检查 ──────────────────────────────────────
+              const { count: totalInvites } = await admin
+                .from("referrals")
+                .select("*", { count: "exact", head: true })
+                .eq("referrer_id", referrer.id);
+
+              const inviteCount = totalInvites ?? 0;
+
+              if (inviteCount === 5) {
+                await Promise.all([
+                  admin.from("referral_rewards").insert({
+                    user_id: referrer.id,
+                    type: "milestone",
+                    uses_granted: 100,
+                    milestone: "5_invites",
+                  }),
+                  admin
+                    .from("users")
+                    .update({ bonus_uses: referrerBonusNow + 100 })
+                    .eq("id", referrer.id),
+                ]);
+              } else if (inviteCount === 20) {
+                const proExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+                await Promise.all([
+                  admin.from("referral_rewards").insert({
+                    user_id: referrer.id,
+                    type: "milestone",
+                    uses_granted: 0,
+                    milestone: "20_invites",
+                  }),
+                  admin
+                    .from("users")
+                    .update({ plan: "pro", role: "pro" })
+                    .eq("id", referrer.id),
+                ]);
+                console.log(`[auth/callback] Milestone 20_invites: granted Pro to ${referrer.id} until ${proExpiry}`);
+              }
             }
           }
         } else {
@@ -81,7 +147,7 @@ export async function GET(request: NextRequest) {
       }
       // ─────────────────────────────────────────────────────────────
 
-      // ── 发送欢迎邮件（新用户注册时）──────────────────────────────────
+      // ── 发送欢迎邮件（新用户注册时）────────────────────────────────
       const isNewUser = !user.last_sign_in_at ||
         Math.abs(new Date(user.created_at).getTime() - new Date(user.last_sign_in_at).getTime()) < 30000;
       if (isNewUser && user.email) {
@@ -91,10 +157,9 @@ export async function GET(request: NextRequest) {
           body: JSON.stringify({ email: user.email }),
         }).catch(() => {});
       }
-      // ─────────────────────────────────────────────────────────────────
+      // ─────────────────────────────────────────────────────────────
 
       const response = NextResponse.redirect(`${origin}${next}`);
-      // 清除 referrer_code cookie
       if (referrerCode) {
         response.cookies.set("referrer_code", "", { maxAge: 0, path: "/" });
       }
