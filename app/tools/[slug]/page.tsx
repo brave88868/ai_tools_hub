@@ -12,6 +12,7 @@ import type { Tool, InputField } from "@/types";
 import FeedbackModal from "@/components/FeedbackModal";
 import UpgradeCTA from "@/components/revenue/UpgradeCTA";
 import EmailCapture from "@/components/revenue/EmailCapture";
+import { CopyButton } from "@/components/ui/CopyButton";
 
 // ── Doc tool config — only slugs that actually exist in the DB ────────────
 const DOC_TOOL_CONFIG: Record<string, {
@@ -418,6 +419,27 @@ export default function ToolPage() {
             </div>
           </div>
         )}
+
+        {/* Embed Section */}
+        <details className="mt-8 rounded-xl border border-gray-200 overflow-hidden">
+          <summary className="flex items-center justify-between px-5 py-4 cursor-pointer hover:bg-gray-50 transition-colors list-none">
+            <span className="text-sm font-medium text-gray-700">Embed this tool on your website</span>
+            <span className="text-xs text-gray-400">Show embed code ▼</span>
+          </summary>
+          <div className="px-5 pb-5 border-t border-gray-100 bg-gray-50">
+            <p className="text-xs text-gray-500 my-3">
+              Add this AI tool to your website for free. Your visitors get the tool, you get the traffic.
+            </p>
+            <div className="bg-gray-900 rounded-lg p-3 font-mono text-xs text-gray-300 select-all break-all">
+              {`<iframe src="https://aitoolsstation.com/embed/${slug}" width="100%" height="600" frameborder="0"></iframe>`}
+            </div>
+            <div className="mt-2">
+              <CopyButton
+                text={`<iframe src="https://aitoolsstation.com/embed/${slug}" width="100%" height="600" frameborder="0"></iframe>`}
+              />
+            </div>
+          </div>
+        </details>
 
         {/* Feedback */}
         <div className="mt-8 pt-6 border-t border-gray-100 text-center">
