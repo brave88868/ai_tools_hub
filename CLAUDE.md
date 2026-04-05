@@ -416,6 +416,7 @@ Optimization Agent       →  自动优化产品
 - SPEC-STARTUP-GENERATOR ✅ AI创业流水线：startup_opportunities/analysis/ideas 3张表 + discover-opportunities/analyze-market/generate-startup/generate-landing-page/generate-product-seo/launch-product 6个operator API + /admin/startup管理页（统计+6步流水线+全流水线按钮+机会表+产品表）+ startup-list/admin API + admin导航"Startup Gen" + vercel.json cron每周一9am + /api/cron/weekly-startup
 - SPEC-SAAS-FACTORY ✅ AI SaaS工厂：saas_projects表 + /api/operator/generate-saas（GPT-4o-mini生成name/slug/domain/tagline→DB→异步触发SEO页面）+ /api/operator/generate-saas-pages（20关键词变体→seo_pages type=saas_page）+ /saas/[slug]落地页（Hero渐变+Features+Pricing Free/Pro+SEO Pages+Footer CTA，SoftwareApplication JSON-LD）+ /saas列表页（status=active）+ /admin/saas管理页（统计4卡片+生成表单+项目表格，Gen SEO/Activate/Archive/Delete操作）+ 3辅助API（saas-list/saas-update-status/saas-delete）+ admin导航"SaaS Factory" + sitemap /saas/* priority 0.8 + cron Step 8自动生成SaaS草稿
 - SPEC-AUTONOMOUS-COMPANY-SYSTEM ✅ 自循环闭环：market_signals/opportunity_scores/revenue_metrics 3张新表 + seo_pages.view_count列 + scan-market/score-opportunities/record-metrics/optimize-pages 4个 intelligence API + /api/seo/ping（Google+Bing sitemap ping）+ /api/cron/daily 重写为8步全自动流水线（市场扫描→机会评分→SEO生成→博客→Startup→页面优化→收入记录→sitemap ping，每步90s timeout+独立try-catch）+ vercel.json 新增每日6am UTC cron + /admin/intelligence仪表盘（4统计+5手动按钮+流水线进度+信号列表+MRR折线图）+ admin导航"Intelligence"
+- SPEC-SEO-INDEXING-ACCELERATOR ✅ 加速收录：app/sitemap.ts简化为4个子sitemap入口 + app/sitemap-index.xml（真正<sitemapindex>格式，提交给GSC）+ sitemap-main/tools/seo/blog.xml 4个Route Handler子sitemap + /api/seo/ping改为无鉴权GET（pings sitemap-index.xml）+ 5个SEO生成API末尾追加fire-and-forget ping + tools/[slug]页面底部新增"Use Cases for This Tool"区块（6条，client-side fetch）+ 首页sr-only导航（Google crawl discovery）
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
@@ -476,6 +477,8 @@ Optimization Agent       →  自动优化产品
 - Intelligence Pipeline: /api/intelligence/{scan-market,score-opportunities,record-metrics,optimize-pages}；所有用 requireAdmin；/admin/intelligence 仪表盘
 - Daily Cron (6am): 市场扫描→机会评分→SEO批量→博客→Startup(score≥75)→页面优化→收入记录→sitemap ping；每步90s timeout；appUrl从req.url推导
 - market_signals表（keyword/score/status=new/processed）；opportunity_scores表（demand/competition/monetization/score/ai_summary）；revenue_metrics表（metric=mrr/new_users/tool_uses/date_marker）；seo_pages.view_count列
+- Sitemap拆分: /sitemap.xml→4个子sitemap URL；/sitemap-index.xml→真正sitemapindex XML（提交GSC）；/sitemap-seo.xml→seo_pages全量（5000条上限）；/sitemap-blog.xml→blog_posts；/sitemap-tools.xml→tools+toolkits；/sitemap-main.xml→静态页面
+- SEO收录加速: 5个生成API末尾fire-and-forget ping；/api/seo/ping无鉴权GET；tools页新增Use Cases内链区块；首页sr-only crawl nav
 - 用户封禁：`users.banned=true` → /api/tools/run 返回 403；IP封禁：`banned_ips` 表，同入口检查
 - **proxy.ts**（Next.js 16 的 middleware 替代）：文件名固定 `proxy.ts`，导出函数必须命名为 `proxy`，不是 `middleware`
 - Revenue Engine: `UpgradeCTA` 7天localStorage抑制（key: `upgrade_cta_hidden_{trigger}`）；`EmailCapture` 一次性提交（key: `email_capture_submitted`）；`upgrade_prompts` 表存动态文案，DEFAULTS兜底；`leads` 表存邮件线索；`affiliate_commissions` 表存佣金（30%，单位分）；`pricing_experiments` 表做A/B实验（IP哈希分组）；欢迎邮件用 Resend REST API（无SDK），RESEND_API_KEY未设置时静默跳过
