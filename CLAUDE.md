@@ -404,6 +404,7 @@ Optimization Agent       →  自动优化产品
 - SPEC-GROWTH-01 ✅ Growth Engine 8模块：关键词发现→工具机会→AI自动建工具→SEO页面→内链→流量分析→SEO优化→增长控制台
 - SPEC-REFERRAL-02 ✅ Referral 防作弊（同IP 24h限制 + signup_ip写入）+ stats API + ReferralBlock增强 + /admin/referrals
 - SPEC-UX-01 ✅ /roadmap 产品路线图（4列看板）+ /features 排序Tabs + Admin AI Analyze + /admin/revenue 收入面板
+- SPEC-SEO-20 ✅ Programmatic SEO 2.0：5类页面矩阵（compare/alternatives/problems/workflows/industries）+ 5张DB表 + 5个admin API + 5个scripts + cron自动生成 + InternalLinks组件 + sitemap全覆盖
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
@@ -454,6 +455,11 @@ Optimization Agent       →  自动优化产品
 - `InputForm` file fields: `name: "xyz_file", type: "file"` → extracts text → submits as `xyz`
 - Referral short code = `user.id.slice(0, 8)`；callback 用 UUID prefix range query 查找推荐人
 - Admin 路由: `/admin/*`（layout 校验 users.role='admin'），11 页面：overview/users/toolkits/tools-manage/tools(AI)/seo/blog/analytics/feedback/pricing/revenue
+- SEO 2.0 路由: `/compare/[slug]`（DB+static fallback）`/alternatives/[slug]` `/problems/[slug]` `/workflows/[slug]`；`/ai-tools-for/[slug]` 优先读 seo_industries，fallback 到 getProfession()
+- SEO 2.0 常量: `lib/seo/seo-constants.ts` — 30 competitors, 20 problems, 15 workflows, 40 industries
+- SEO 2.0 Cron: generate-blog 额外生成 3 comparisons + 2 alternatives + 2 problems + 1 workflow + 1 industry/次
+- SEO 2.0 Admin: /admin/seo 新增 5 个计数器 + 5 个触发按钮（generate-comparisons/alternatives/industries/problems/workflows）
+- InternalLinks: `components/seo/InternalLinks.tsx`（async server component），props: currentSlug + type
 - Admin API 鉴权：统一用 Bearer token（`lib/auth-admin.ts` → `requireAdmin(req)`），客户端页面先 `supabase.auth.getSession()` 取 token
 - Cron: discover-keywords(2am) / generate-tools(3am) / generate-blog(4am)
 - 用户封禁：`users.banned=true` → /api/tools/run 返回 403；IP封禁：`banned_ips` 表，同入口检查

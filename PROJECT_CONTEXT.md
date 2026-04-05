@@ -87,7 +87,7 @@
 | 模块 | 状态 | 说明 |
 |------|------|------|
 | Stripe Live 切换（SPEC-11-C） | 🔲 待手动操作 | Stripe Dashboard + Vercel 环境变量更新 |
-| Programmatic SEO Engine | ⬜ 未开始 | 关键词 → 页面自动生成 |
+| Programmatic SEO 2.0（SPEC-SEO-20） | ✅ 完成 | 5类页面矩阵：/compare/[slug] + /alternatives/[slug] + /problems/[slug] + /workflows/[slug] + /ai-tools-for/[slug]（DB优先）；5张新表；5个grow API；5个scripts；Cron每日自动生成；InternalLinks组件；Sitemap全更新 |
 | SEO 关键词数据库（1000+条） | ⬜ 未开始 | |
 | Blog 页面（/blog/[slug]） | ✅ 完成 | 列表页 + 详情页 + ReactMarkdown + SEO metadata |
 | Referral System（推荐系统） | ✅ 完成 | ref cookie + auth callback + webhook 奖励 + Dashboard ReferralBlock；短码 = user.id.slice(0,8)；anti-abuse（signup_ip + 24h同IP封锁）；/api/referral/stats API；enhanced ReferralBlock client-side fetch；/admin/referrals 管理页 |
