@@ -25,16 +25,37 @@ const NAV = [
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createServerClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
+  if (!user) redirect("/login?next=/admin");
 
   const admin = createAdminClient();
-  const { data: userRecord } = await admin
+  const { data: userRecord, error: dbError } = await admin
     .from("users")
     .select("role")
     .eq("id", user.id)
     .single();
 
-  if (userRecord?.role !== "admin") redirect("/?error=access_denied");
+  // 诊断日志（可在 Vercel Functions 日志中查看）
+  console.log("[admin/layout] user:", user.email, user.id);
+  console.log("[admin/layout] userRecord:", userRecord, "dbError:", dbError?.message);
+
+  // 判断逻辑：DB role=admin  OR  email 匹配 ADMIN_EMAIL 环境变量（兜底）
+  const adminEmail = process.env.ADMIN_EMAIL;
+  const isAdmin =
+    userRecord?.role === "admin" ||
+    (adminEmail && user.email === adminEmail);
+
+  if (!isAdmin) {
+    console.warn("[admin/layout] Access denied for:", user.email, "role:", userRecord?.role);
+    redirect("/?error=access_denied");
+  }
+
+  // 如果 email 匹配但 DB 里 role 还不是 admin，自动同步
+  if (adminEmail && user.email === adminEmail && userRecord?.role !== "admin") {
+    console.log("[admin/layout] Auto-upgrading role to admin for:", user.email);
+    await admin
+      .from("users")
+      .upsert({ id: user.id, email: user.email, role: "admin", plan: "pro" }, { onConflict: "id" });
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
