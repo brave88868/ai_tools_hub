@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: authHeader,
+              Authorization: `Bearer ${process.env.CRON_SECRET}`,
             },
             body: JSON.stringify(task.body),
           });
@@ -114,7 +114,6 @@ export async function GET(req: NextRequest) {
 
   const reqUrl = new URL(req.url);
   const appUrl = `${reqUrl.protocol}//${reqUrl.host}`;
-  const authHeader = req.headers.get("authorization") ?? "";
 
   const tasks = [
     { path: "/api/seo/generate-use-cases",   body: { count: 10 } },
@@ -130,7 +129,7 @@ export async function GET(req: NextRequest) {
     try {
       const res = await fetch(`${appUrl}${task.path}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: authHeader },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${process.env.CRON_SECRET}` },
         body: JSON.stringify(task.body),
       });
       results[task.path] = await res.json().catch(() => ({}));
