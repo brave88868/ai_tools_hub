@@ -7,9 +7,9 @@
 
 ## 当前项目状态
 
-**项目阶段**: 🟢 SPEC-ADMIN-03 完成  
+**项目阶段**: 🟢 SPEC-GROWTH-01 完成  
 **当前里程碑**: Stripe Live 切换（SPEC-11-C，手动）→ SPEC-09 Programmatic SEO  
-**最后更新**: 2026-04-05 — 三级角色系统（user/pro/admin）+ admin无限制 + pro角色绕过订阅检查
+**最后更新**: 2026-04-05 — Growth Engine 8模块全自动增长飞轮
 
 ### 已完成修复（Bug Fix Log）
 
@@ -43,6 +43,11 @@
 - Prompt 质量: 所有工具含 STEP 1 内部分析 + 结构化输出
 - Rate limiting: 匿名1次/天（IP+UA fingerprint）/ 登录免费3次/天+30次终身 / 付费/pro角色100次/天 / admin无限制
 - 角色系统: users.role = user(默认)/pro(付费，可手动授予)/admin；users.plan = free/pro（set-role API同步）
+- Growth Engine: growth_keywords/tool_opportunities 两张新表；tools 表新增 auto_generated/seo_title/seo_description/prompt_template 列；tool_use_cases 表新增
+- SEO页面: /tools/[slug]/[usecase] (use-case落地页), /ai-tools-for/[profession] (职业聚合页)
+- 内链系统: lib/internal-linking.ts 自动在博客文章注入工具链接
+- 增长控制台: /admin/growth（4模块：关键词/机会/自动工具/流量报告）
+- Cron 增强: discover-keywords 同时生成 growth_keywords + 发现机会；generate-tools 同时自动创建 score≥80 的工具
 - Cover Letter: 6字段（cv_text_file/job_description/name/hiring_manager/company/job_title），Supabase inputs_schema已更新
 
 ---
