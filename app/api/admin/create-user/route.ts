@@ -26,16 +26,16 @@ export async function POST(req: NextRequest) {
   const newUser = authData.user;
   const plan = role === "pro" || role === "admin" ? "pro" : "free";
 
-  const { error: dbError } = await admin.from("users").insert({
-    id: newUser.id,
-    email: newUser.email,
-    role,
-    plan,
-    usage_count: 0,
-    banned: false,
-  });
+  // upsert instead of insert — handles the case where a public.users row
+  // already exists (e.g. from a previous partial creation).
+  const { error: dbError } = await admin.from("users").upsert(
+    { id: newUser.id, email: newUser.email, role, plan, usage_count: 0, banned: false },
+    { onConflict: "id" }
+  );
 
   if (dbError) {
+    // Roll back the auth user so we don't leave an orphan in auth.users
+    await admin.auth.admin.deleteUser(newUser.id);
     return NextResponse.json({ error: dbError.message }, { status: 500 });
   }
 
