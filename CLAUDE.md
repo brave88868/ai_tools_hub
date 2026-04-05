@@ -399,7 +399,7 @@ Optimization Agent       →  自动优化产品
 - SPEC-10 ✅ 完整自动化系统（Task 2-11）：SEO + Blog + Feedback + Feature Voting + Referral + Analytics + Operator Dashboard + Auto Tool Generator + Vercel Cron + Sitemap/robots
 - SPEC-FINAL ✅ Admin 路由重构 + 3 独立 Cron + Referral 短码修复 + Analytics 完整字段
 - SPEC-TEST-01 ✅ Task 2（72/72）+ Task 8（build 通过）；proxy.ts 函数名修复（middleware→proxy）
-- SPEC-ADMIN-02 ✅ /admin/users（用户管理+封禁）+ /admin/pricing（显示价格编辑）+ IP封禁 + operator bug修复
+- SPEC-ADMIN-02 ✅ Bearer token auth修复 + /admin/users/toolkits/tools-manage/pricing 全功能后台
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
@@ -433,7 +433,8 @@ Optimization Agent       →  自动优化产品
 - Rate limiting: anonymous = 1/day via SHA256(IP:UA); logged-in free = 3/day+30 lifetime; paid = 100/day
 - `InputForm` file fields: `name: "xyz_file", type: "file"` → extracts text → submits as `xyz`
 - Referral short code = `user.id.slice(0, 8)`；callback 用 UUID prefix range query 查找推荐人
-- Admin 路由: `/admin/*`（layout 校验 users.role='admin'），8 个页面：overview/users/tools/seo/blog/analytics/feedback/pricing
+- Admin 路由: `/admin/*`（layout 校验 users.role='admin'），10 页面：overview/users/toolkits/tools-manage/tools(AI)/seo/blog/analytics/feedback/pricing
+- Admin API 鉴权：统一用 Bearer token（`lib/auth-admin.ts` → `requireAdmin(req)`），客户端页面先 `supabase.auth.getSession()` 取 token
 - Cron: discover-keywords(2am) / generate-tools(3am) / generate-blog(4am)
 - 用户封禁：`users.banned=true` → /api/tools/run 返回 403；IP封禁：`banned_ips` 表，同入口检查
 - **proxy.ts**（Next.js 16 的 middleware 替代）：文件名固定 `proxy.ts`，导出函数必须命名为 `proxy`，不是 `middleware`
