@@ -91,6 +91,24 @@ export async function POST(req: NextRequest) {
         .update({ status: "rewarded" })
         .eq("id", referral.id);
       console.log("[webhook] referral reward created for:", referral.referrer_id);
+
+      // ── 联盟佣金记录（30% 首月）──────────────────────────────────────
+      try {
+        const subscriptionAmount = sub.items?.data[0]?.price?.unit_amount ?? 0;
+        const commissionAmount = Math.round(subscriptionAmount * 0.30);
+        await supabase.from("affiliate_commissions").insert({
+          referrer_id: referral.referrer_id,
+          referred_user_id: user_id,
+          amount: commissionAmount,
+          rate: 0.30,
+          status: "pending",
+          stripe_payment_id: subscription_id,
+        });
+        console.log("[webhook] affiliate commission created:", { referrer: referral.referrer_id, amount: commissionAmount });
+      } catch (commErr) {
+        console.warn("[webhook] affiliate commission insert failed:", commErr);
+      }
+      // ──────────────────────────────────────────────────────────────────
     }
     // ─────────────────────────────────────────────────────────────────
   }

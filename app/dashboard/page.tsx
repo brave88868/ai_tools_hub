@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { createServerClient } from "@/lib/supabase-server";
+import { createAdminClient } from "@/lib/supabase";
 import { redirect } from "next/navigation";
 import SubscriptionList from "@/components/SubscriptionList";
 import ReferralBlock from "@/components/ReferralBlock";
+import UpgradeCTA from "@/components/revenue/UpgradeCTA";
 
 export const metadata: Metadata = {
   title: "Dashboard | AI Tools Hub",
@@ -30,6 +32,22 @@ export default async function DashboardPage({
     .in("status", ["active", "canceling"]);
 
   const subs = subscriptions ?? [];
+
+  // 用户角色 + 近 7 天 tool_use 次数（用于重度用户 CTA）
+  const admin = createAdminClient();
+  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+
+  const [{ data: userRecord }, { count: recentToolUses }] = await Promise.all([
+    admin.from("users").select("role").eq("id", user.id).single(),
+    admin.from("analytics_events")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .eq("event_type", "tool_use")
+      .gte("created_at", weekAgo),
+  ]);
+
+  const userRole = userRecord?.role ?? "user";
+  const showUpgradeCTA = userRole === "user" && (recentToolUses ?? 0) > 5;
 
   // 今日使用次数
   const today = new Date().toISOString().slice(0, 10);
@@ -63,6 +81,13 @@ export default async function DashboardPage({
         <h1 className="text-2xl font-bold text-gray-900 mb-1">Dashboard</h1>
         <p className="text-gray-400 text-sm">{user.email}</p>
       </div>
+
+      {/* Heavy user upgrade CTA */}
+      {showUpgradeCTA && (
+        <div className="mb-6">
+          <UpgradeCTA trigger="heavy_user" />
+        </div>
+      )}
 
       {/* 支付成功横幅 */}
       {justSubscribed && (

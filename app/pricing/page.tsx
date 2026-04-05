@@ -13,10 +13,17 @@ interface Toolkit {
   icon: string;
 }
 
+interface PricingExperiment {
+  variant: string | null;
+  price_monthly: number | null;
+  label: string | null;
+}
+
 export default function PricingPage() {
   const router = useRouter();
   const [toolkits, setToolkits] = useState<Toolkit[]>([]);
   const [subscribingSlug, setSubscribingSlug] = useState<string | null>(null);
+  const [experiment, setExperiment] = useState<PricingExperiment | null>(null);
 
   useEffect(() => {
     supabase
@@ -25,9 +32,23 @@ export default function PricingPage() {
       .eq("is_active", true)
       .order("sort_order")
       .then(({ data }) => setToolkits(data ?? []));
+
+    // 获取 A/B 定价实验
+    fetch("/api/revenue/pricing-experiment")
+      .then((r) => r.json())
+      .then((data: PricingExperiment) => { if (data.variant) setExperiment(data); })
+      .catch(() => {});
   }, []);
 
   async function handleSubscribe(toolkitSlug: string) {
+    // 记录定价实验转化
+    if (experiment?.variant) {
+      fetch("/api/revenue/pricing-convert", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ variant: experiment.variant }),
+      }).catch(() => {});
+    }
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
       router.push("/login");
@@ -62,6 +83,12 @@ export default function PricingPage() {
         <p className="text-gray-500 text-base max-w-xl mx-auto">
           Subscribe to the toolkit you need. Start free, upgrade anytime.
         </p>
+        {experiment?.label && (
+          <div className="mt-3 inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 rounded-full px-4 py-1.5 text-xs text-indigo-600">
+            <span className="font-semibold">Today&apos;s offer:</span>
+            <span>{experiment.label}/month per toolkit</span>
+          </div>
+        )}
       </div>
 
       {/* Toolkit Subscriptions */}

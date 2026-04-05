@@ -10,6 +10,8 @@ import ReactMarkdown from "react-markdown";
 import { Document, Paragraph, TextRun, Packer, HeadingLevel } from "docx";
 import type { Tool, InputField } from "@/types";
 import FeedbackModal from "@/components/FeedbackModal";
+import UpgradeCTA from "@/components/revenue/UpgradeCTA";
+import EmailCapture from "@/components/revenue/EmailCapture";
 
 // ── Doc tool config — only slugs that actually exist in the DB ────────────
 const DOC_TOOL_CONFIG: Record<string, {
@@ -116,10 +118,12 @@ export default function ToolPage() {
   const [error, setError] = useState("");
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [upgradeToolkit, setUpgradeToolkit] = useState<string | undefined>();
+  const [upgradeErrorType, setUpgradeErrorType] = useState<string | undefined>();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [docExpanded, setDocExpanded] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [userRole, setUserRole] = useState<string>("");
 
   useEffect(() => {
     async function loadTool() {
@@ -129,6 +133,14 @@ export default function ToolPage() {
         .eq("slug", slug)
         .eq("is_active", true)
         .single();
+
+      // 检查登录状态和角色
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsLoggedIn(!!session);
+      if (session?.user) {
+        supabase.from("users").select("role").eq("id", session.user.id).single()
+          .then(({ data: ur }) => { if (ur?.role) setUserRole(ur.role); });
+      }
 
       if (error || !data) {
         setError("Tool not found");
@@ -171,6 +183,7 @@ export default function ToolPage() {
       if (!res.ok || !data.success) {
         if (data.error === "free_limit_reached" || data.error === "lifetime_limit_reached") {
           setUpgradeToolkit(data.toolkit_slug);
+          setUpgradeErrorType(data.error);
           setShowUpgrade(true);
           return;
         }
@@ -219,6 +232,7 @@ export default function ToolPage() {
           onClose={() => setShowUpgrade(false)}
           toolkitSlug={upgradeToolkit}
           isLoggedIn={isLoggedIn}
+          errorType={upgradeErrorType}
         />
       )}
 
@@ -327,6 +341,14 @@ export default function ToolPage() {
             toolSlug={slug}
             toolName={tool.name}
           />
+        )}
+
+        {/* Post-result CTAs */}
+        {result && !isLoggedIn && (
+          <EmailCapture toolSlug={slug} />
+        )}
+        {result && isLoggedIn && userRole === "user" && (
+          <UpgradeCTA trigger="result_page" toolName={tool.name} className="mt-4" />
         )}
 
         {/* Legal disclaimer */}

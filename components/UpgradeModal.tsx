@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
@@ -8,11 +8,33 @@ interface Props {
   onClose: () => void;
   toolkitSlug?: string;
   isLoggedIn?: boolean;
+  errorType?: string; // "free_limit_reached" | "lifetime_limit_reached"
 }
 
-export default function UpgradeModal({ onClose, toolkitSlug, isLoggedIn = false }: Props) {
+interface PromptCopy {
+  headline: string;
+  subtext: string;
+}
+
+export default function UpgradeModal({ onClose, toolkitSlug, isLoggedIn = false, errorType }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [copy, setCopy] = useState<PromptCopy | null>(null);
+
+  useEffect(() => {
+    if (!isLoggedIn || !errorType) return;
+    const trigger = errorType === "lifetime_limit_reached" ? "lifetime_limit" : "daily_limit";
+    fetch(`/api/revenue/upgrade-prompt?trigger=${trigger}`)
+      .then((r) => r.json())
+      .then((data) => setCopy({ headline: data.headline, subtext: data.subtext }))
+      .catch(() => {});
+    // 记录展示
+    fetch("/api/revenue/track-upgrade-view", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ trigger }),
+    }).catch(() => {});
+  }, [isLoggedIn, errorType]);
 
   async function handleSubscribe() {
     setLoading(true);
@@ -71,6 +93,8 @@ export default function UpgradeModal({ onClose, toolkitSlug, isLoggedIn = false 
               Maybe later
             </button>
           </div>
+
+          <p className="text-center text-xs text-gray-400 mt-4">⭐ Trusted by 1,000+ professionals</p>
         </div>
       </div>
     );
@@ -82,10 +106,10 @@ export default function UpgradeModal({ onClose, toolkitSlug, isLoggedIn = false 
         <div className="text-center mb-6">
           <div className="text-4xl mb-3">✨</div>
           <h2 className="text-xl font-semibold text-gray-900 mb-2">
-            You&apos;ve used your 3 free generations
+            {copy?.headline ?? "You've used your free generations"}
           </h2>
           <p className="text-gray-500 text-sm">
-            Subscribe to continue using AI tools with unlimited generations.
+            {copy?.subtext ?? "Subscribe to continue using AI tools with unlimited generations."}
           </p>
         </div>
 
@@ -111,6 +135,8 @@ export default function UpgradeModal({ onClose, toolkitSlug, isLoggedIn = false 
             Maybe later
           </button>
         </div>
+
+        <p className="text-center text-xs text-gray-400 mt-4">⭐ Trusted by 1,000+ professionals</p>
       </div>
     </div>
   );

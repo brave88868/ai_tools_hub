@@ -81,6 +81,18 @@ export async function GET(request: NextRequest) {
       }
       // ─────────────────────────────────────────────────────────────
 
+      // ── 发送欢迎邮件（新用户注册时）──────────────────────────────────
+      const isNewUser = !user.last_sign_in_at ||
+        Math.abs(new Date(user.created_at).getTime() - new Date(user.last_sign_in_at).getTime()) < 30000;
+      if (isNewUser && user.email) {
+        fetch(`${origin}/api/email/send-welcome`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: user.email }),
+        }).catch(() => {});
+      }
+      // ─────────────────────────────────────────────────────────────────
+
       const response = NextResponse.redirect(`${origin}${next}`);
       // 清除 referrer_code cookie
       if (referrerCode) {
