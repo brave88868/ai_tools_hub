@@ -41,9 +41,9 @@ export default function PricingPage() {
   }, []);
 
   async function handleSubscribe(toolkitSlug: string) {
-    // DEBUG — 临时诊断，确认 getUser() 返回值
-    const debugResult = await supabase.auth.getUser();
-    alert(`getUser result: ${JSON.stringify(debugResult)}`);
+    // DEBUG — 临时诊断
+    const { data: { user } } = await supabase.auth.getUser();
+    alert(`user: ${user?.email ?? 'NULL'} | id: ${user?.id ?? 'NULL'}`);
 
     // 记录定价实验转化
     if (experiment?.variant) {
