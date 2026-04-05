@@ -60,6 +60,9 @@ export async function POST(req: NextRequest) {
 
     console.log("[webhook] subscription written successfully:", { user_id, toolkit_slug });
 
+    // 同步 users.plan = 'pro'
+    await supabase.from("users").update({ plan: "pro" }).eq("id", user_id);
+
     const { error: analyticsError } = await supabase.from("analytics_events").insert({
       event_type: "subscription_created",
       user_id,
@@ -119,17 +122,32 @@ export async function POST(req: NextRequest) {
 
     console.log("[webhook] subscription status update:", { id: sub.id, status });
 
-    const { error } = await supabase
+    const { error, data: updatedSubs } = await supabase
       .from("subscriptions")
       .update({
         status,
         current_period_end: new Date(sub.current_period_end * 1000).toISOString(),
       })
-      .eq("stripe_subscription_id", sub.id);
+      .eq("stripe_subscription_id", sub.id)
+      .select("user_id");
 
     if (error) {
       console.error("[webhook] subscription status update failed:", error);
       return NextResponse.json({ error: "DB update failed" }, { status: 500 });
+    }
+
+    // 如果取消订阅，检查用户是否还有其他 active 订阅，没有则降回 free
+    if (status === "canceled" && updatedSubs && updatedSubs.length > 0) {
+      const userId = updatedSubs[0].user_id;
+      const { count } = await supabase
+        .from("subscriptions")
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", userId)
+        .eq("status", "active");
+      if ((count ?? 0) === 0) {
+        await supabase.from("users").update({ plan: "free" }).eq("id", userId);
+        console.log("[webhook] user downgraded to free:", userId);
+      }
     }
   }
 

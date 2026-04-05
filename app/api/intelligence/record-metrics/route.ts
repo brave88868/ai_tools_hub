@@ -2,9 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin, unauthorized } from "@/lib/auth-admin";
 
 export async function POST(req: NextRequest) {
-  const auth = await requireAdmin(req);
-  if (!auth) return unauthorized();
-  const { admin } = auth;
+  const authHeader = req.headers.get("authorization") ?? "";
+  const isCron = authHeader === `Bearer ${process.env.CRON_SECRET}`;
+
+  let admin: ReturnType<typeof createAdminClient>;
+  if (isCron) {
+    admin = createAdminClient();
+  } else {
+    const auth = await requireAdmin(req);
+    if (!auth) return unauthorized();
+    admin = auth.admin;
+  }
 
   const today = new Date().toISOString().slice(0, 10);
   const todayStart = `${today}T00:00:00.000Z`;

@@ -5,9 +5,17 @@ import { openai } from "@/lib/openai";
 const CONCURRENCY = 3;
 
 export async function POST(req: NextRequest) {
-  const auth = await requireAdmin(req);
-  if (!auth) return unauthorized();
-  const { admin } = auth;
+  const authHeader = req.headers.get("authorization") ?? "";
+  const isCron = authHeader === `Bearer ${process.env.CRON_SECRET}`;
+
+  let admin: ReturnType<typeof createAdminClient>;
+  if (isCron) {
+    admin = createAdminClient();
+  } else {
+    const auth = await requireAdmin(req);
+    if (!auth) return unauthorized();
+    admin = auth.admin;
+  }
 
   const body = await req.json().catch(() => ({}));
   const count = Math.min(Number(body.count ?? 5), 10);

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
+import { requireAdmin, unauthorized } from "@/lib/auth-admin";
 import OpenAI from "openai";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -9,13 +10,17 @@ function slugify(text: string) {
 }
 
 export async function POST(req: NextRequest) {
-  const token = req.headers.get("authorization")?.replace("Bearer ", "").trim();
-  if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  const admin = createAdminClient();
-  const { data: { user } } = await admin.auth.getUser(token);
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  const { data: rec } = await admin.from("users").select("role").eq("id", user.id).single();
-  if (rec?.role !== "admin") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  const authHeader = req.headers.get("authorization") ?? "";
+  const isCron = authHeader === `Bearer ${process.env.CRON_SECRET}`;
+
+  let admin: ReturnType<typeof createAdminClient>;
+  if (isCron) {
+    admin = createAdminClient();
+  } else {
+    const auth = await requireAdmin(req);
+    if (!auth) return unauthorized();
+    admin = auth.admin;
+  }
 
   const { count = 5 } = await req.json().catch(() => ({}));
 
