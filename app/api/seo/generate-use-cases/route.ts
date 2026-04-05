@@ -149,5 +149,11 @@ Return JSON:
     await Promise.allSettled(chunk.map(generateOne));
   }
 
+  // Fire-and-forget sitemap ping
+  if (generated > 0) {
+    const reqUrl = new URL("https://aitoolsstation.com/api/seo/ping");
+    fetch(reqUrl.toString()).catch(() => {});
+  }
+
   return NextResponse.json({ generated, skipped, total_existing: totalExisting });
 }

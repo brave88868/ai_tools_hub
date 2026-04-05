@@ -136,5 +136,7 @@ Return JSON: { "title": "string", "seo_title": "max 60 chars", "seo_description"
     await Promise.allSettled(batch.slice(i, i + CONCURRENCY).map(generateOne));
   }
 
+  if (generated > 0) fetch("https://aitoolsstation.com/api/seo/ping").catch(() => {});
+
   return NextResponse.json({ generated, skipped });
 }

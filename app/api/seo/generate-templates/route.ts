@@ -105,5 +105,7 @@ Return JSON: { "title": "string", "seo_title": "max 60 chars", "seo_description"
     }
   }
 
+  if (generated > 0) fetch("https://aitoolsstation.com/api/seo/ping").catch(() => {});
+
   return NextResponse.json({ generated, skipped });
 }

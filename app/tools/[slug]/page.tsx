@@ -124,6 +124,7 @@ export default function ToolPage() {
   const [docExpanded, setDocExpanded] = useState(false);
   const [copied, setCopied] = useState(false);
   const [userRole, setUserRole] = useState<string>("");
+  const [toolUseCases, setToolUseCases] = useState<Array<{ slug: string; title: string | null; meta: Record<string, string> | null }>>([]);
 
   useEffect(() => {
     async function loadTool() {
@@ -152,6 +153,14 @@ export default function ToolPage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ event_type: "page_view", tool_slug: slug, metadata: { page: `/tools/${slug}` } }),
         }).catch(() => {});
+        // 加载该工具的 use-case 页面（最多 6 条）
+        supabase
+          .from("seo_pages")
+          .select("slug, title, meta")
+          .eq("tool_slug", slug)
+          .eq("type", "use_case")
+          .limit(6)
+          .then(({ data: ucs }) => { if (ucs) setToolUseCases(ucs as typeof toolUseCases); });
       }
       setPageLoading(false);
     }
@@ -369,6 +378,29 @@ export default function ToolPage() {
           <p className="mt-6 text-xs text-gray-400 text-center">
             ⚠️ This tool provides general informational analysis only. It does not constitute legal advice.
           </p>
+        )}
+
+        {/* Use Cases for This Tool — internal linking for SEO */}
+        {toolUseCases.length > 0 && (
+          <div className="mt-8 pt-6 border-t border-gray-100">
+            <h2 className="text-sm font-semibold text-gray-900 mb-3">
+              Use Cases for {tool.name}
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {toolUseCases.map((uc) => {
+                const profession = (uc.meta?.profession ?? "").replace(/-/g, " ");
+                return (
+                  <a
+                    key={uc.slug}
+                    href={`/use-cases/${uc.slug}`}
+                    className="border border-gray-100 rounded-lg px-3 py-2 text-xs text-gray-600 hover:border-indigo-200 hover:text-indigo-600 transition-all line-clamp-2 capitalize"
+                  >
+                    {uc.title ?? profession}
+                  </a>
+                );
+              })}
+            </div>
+          </div>
         )}
 
         {/* Feedback */}

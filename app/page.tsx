@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Hero from "@/components/home/Hero";
 import SocialProof from "@/components/home/SocialProof";
 import Toolkits from "@/components/home/Toolkits";
@@ -41,6 +42,17 @@ export default async function HomePage({
       <PricingPreview />
       <FAQ />
       <FinalCTA />
+
+      {/* Hidden nav for Google crawl discovery — not visible to users */}
+      <nav aria-label="Site sections" className="sr-only">
+        <Link href="/tools">All AI Tools</Link>
+        <Link href="/toolkits">AI Toolkits</Link>
+        <Link href="/use-cases">Use Cases</Link>
+        <Link href="/blog">Blog</Link>
+        <Link href="/pricing">Pricing</Link>
+        <Link href="/features">Features</Link>
+        <Link href="/sitemap-index.xml">Sitemap</Link>
+      </nav>
     </main>
   );
 }
