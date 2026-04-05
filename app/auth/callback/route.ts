@@ -1,4 +1,5 @@
-import { createServerClient } from "@/lib/supabase-server";
+import { createServerClient as createSSRClient } from "@supabase/ssr";
+import type { CookieOptions } from "@supabase/ssr";
 import { createAdminClient } from "@/lib/supabase";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
@@ -8,15 +9,40 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get("code");
   const next = searchParams.get("next") ?? "/dashboard";
 
+  console.log("[callback] code exists:", !!code);
+
   if (code) {
-    const supabase = await createServerClient();
+    // Collect cookies here; apply them to whichever response we return.
+    // DO NOT use the shared createServerClient() helper — it writes via
+    // cookieStore.set() which is NOT included when returning a custom
+    // NextResponse.redirect(). We must set cookies on the response object directly.
+    const pendingCookies: Array<{ name: string; value: string; options: CookieOptions }> = [];
+
+    const supabase = createSSRClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet: Array<{ name: string; value: string; options: CookieOptions }>) {
+            cookiesToSet.forEach((c) => pendingCookies.push(c));
+          },
+        },
+      }
+    );
+
     const { error, data } = await supabase.auth.exchangeCodeForSession(code);
+
+    console.log("[callback] session error:", error?.message);
+    console.log("[callback] user:", data?.user?.email);
+
     if (!error && data.user) {
       const user = data.user;
       const admin = createAdminClient();
 
       // ── 确保 public.users 记录存在（无 Supabase trigger 时的保障）──
-      // 用 try/catch 包裹：即使失败也绝不能阻断 session cookie 建立
       try {
         await admin
           .from("users")
@@ -27,7 +53,6 @@ export async function GET(request: NextRequest) {
       } catch (e) {
         console.error("[auth/callback] users upsert failed (non-fatal):", e);
       }
-      // ─────────────────────────────────────────────────────────────
 
       // ── 获取注册 IP ──────────────────────────────────────────────
       const signupIp =
@@ -43,7 +68,6 @@ export async function GET(request: NextRequest) {
           .eq("id", user.id)
           .is("signup_ip", null);
       }
-      // ─────────────────────────────────────────────────────────────
 
       // ── Referral 写入（含防作弊）+ 奖励发放 ──────────────────────
       const referrerCode = request.cookies.get("referrer_code")?.value;
@@ -71,7 +95,6 @@ export async function GET(request: NextRequest) {
             .single();
 
           if (referrer) {
-            // 防重复
             const { data: existing } = await admin
               .from("referrals")
               .select("id")
@@ -85,13 +108,11 @@ export async function GET(request: NextRequest) {
                 status: "completed",
               });
 
-              // ── 奖励新用户 +10 uses ──────────────────────────────
               await admin.from("referral_rewards").insert({
                 user_id: user.id,
                 type: "signup_bonus",
                 uses_granted: 10,
               });
-              // Increment bonus_uses for new user (get current value first)
               const { data: newUserRecord } = await admin
                 .from("users")
                 .select("bonus_uses")
@@ -102,7 +123,6 @@ export async function GET(request: NextRequest) {
                 .update({ bonus_uses: (newUserRecord?.bonus_uses ?? 0) + 10 })
                 .eq("id", user.id);
 
-              // ── 奖励邀请者 +20 uses ──────────────────────────────
               const referrerBonusNow = (referrer.bonus_uses ?? 0) + 20;
               await Promise.all([
                 admin.from("referral_rewards").insert({
@@ -116,7 +136,6 @@ export async function GET(request: NextRequest) {
                   .eq("id", referrer.id),
               ]);
 
-              // ── 里程碑检查 ──────────────────────────────────────
               const { count: totalInvites } = await admin
                 .from("referrals")
                 .select("*", { count: "exact", head: true })
@@ -159,7 +178,6 @@ export async function GET(request: NextRequest) {
           console.warn(`[auth/callback] Referral blocked — duplicate IP: ${signupIp}`);
         }
       }
-      // ─────────────────────────────────────────────────────────────
 
       // ── 发送欢迎邮件（新用户注册时）────────────────────────────────
       const isNewUser = !user.last_sign_in_at ||
@@ -171,9 +189,17 @@ export async function GET(request: NextRequest) {
           body: JSON.stringify({ email: user.email }),
         }).catch(() => {});
       }
-      // ─────────────────────────────────────────────────────────────
 
+      // ── Build redirect response and apply session cookies ──────────
       const response = NextResponse.redirect(`${origin}${next}`);
+
+      // Apply session cookies directly to the response object.
+      // This is the critical step — cookieStore.set() does NOT carry over
+      // to a custom NextResponse, so we must set them here explicitly.
+      pendingCookies.forEach(({ name, value, options }) => {
+        response.cookies.set(name, value, options as Parameters<typeof response.cookies.set>[2]);
+      });
+
       if (referrerCode) {
         response.cookies.set("referrer_code", "", { maxAge: 0, path: "/" });
       }
@@ -181,5 +207,6 @@ export async function GET(request: NextRequest) {
     }
   }
 
+  console.log("[callback] no code or exchange failed — redirecting to login error");
   return NextResponse.redirect(`${origin}/login?error=confirmation_failed`);
 }
