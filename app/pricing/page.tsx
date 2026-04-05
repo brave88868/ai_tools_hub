@@ -1,11 +1,44 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { createServerClient } from "@/lib/supabase-server";
+import { stripe, TOOLKIT_PRICE_IDS } from "@/lib/stripe";
 
 export const metadata: Metadata = {
   title: "Pricing | AI Tools Hub",
   description: "Subscribe to the AI toolkit you need. Start free, upgrade anytime.",
 };
+
+// Server Action — runs entirely on the server, has native cookie access
+async function subscribeAction(formData: FormData) {
+  "use server";
+
+  const toolkit_slug = (formData.get("toolkit_slug") as string) ?? "";
+  const priceId = TOOLKIT_PRICE_IDS[toolkit_slug];
+
+  if (!toolkit_slug || !priceId) {
+    redirect("/pricing");
+  }
+
+  const supabase = await createServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login?next=/pricing");
+  }
+
+  const session = await stripe.checkout.sessions.create({
+    mode: "subscription",
+    payment_method_types: ["card"],
+    line_items: [{ price: priceId, quantity: 1 }],
+    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?subscribed=${toolkit_slug}`,
+    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing`,
+    customer_email: user.email,
+    metadata: { user_id: user.id, toolkit_slug },
+  });
+
+  redirect(session.url!);
+}
 
 export default async function PricingPage() {
   const supabase = await createServerClient();
@@ -42,7 +75,7 @@ export default async function PricingPage() {
                   <span className="text-2xl font-bold text-gray-900">${kit.price_monthly}</span>
                   <span className="text-xs text-gray-400 ml-1">/month</span>
                 </div>
-                <form action="/api/subscription/checkout" method="POST">
+                <form action={subscribeAction}>
                   <input type="hidden" name="toolkit_slug" value={kit.slug} />
                   <button
                     type="submit"
@@ -63,7 +96,7 @@ export default async function PricingPage() {
         </div>
       </div>
 
-      {/* Free Plan — compact single row */}
+      {/* Free Plan */}
       <div className="mt-6 mb-14 border border-gray-100 rounded-xl px-6 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <span className="text-sm font-semibold text-gray-900">Free Plan</span>
@@ -120,30 +153,12 @@ export default async function PricingPage() {
         <h2 className="text-xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
         <div className="space-y-6">
           {[
-            {
-              q: "Do I need a credit card for the free plan?",
-              a: "No. You can start using any AI tool immediately — no account or credit card needed.",
-            },
-            {
-              q: "Can I subscribe to just one toolkit?",
-              a: "Yes. Each toolkit is billed separately. Subscribe only to what you need.",
-            },
-            {
-              q: "What happens when I reach the free limit?",
-              a: "You'll see an upgrade prompt. You can subscribe to any toolkit to continue.",
-            },
-            {
-              q: "Do I get access to all tools in a toolkit?",
-              a: "Yes. A toolkit subscription includes all current and future tools in that toolkit.",
-            },
-            {
-              q: "Will more tools be added?",
-              a: "Yes. New tools are added regularly and automatically included in your subscription.",
-            },
-            {
-              q: "Can I cancel anytime?",
-              a: "Yes. Cancel anytime from your dashboard. No contracts, no questions asked.",
-            },
+            { q: "Do I need a credit card for the free plan?", a: "No. You can start using any AI tool immediately — no account or credit card needed." },
+            { q: "Can I subscribe to just one toolkit?", a: "Yes. Each toolkit is billed separately. Subscribe only to what you need." },
+            { q: "What happens when I reach the free limit?", a: "You'll see an upgrade prompt. You can subscribe to any toolkit to continue." },
+            { q: "Do I get access to all tools in a toolkit?", a: "Yes. A toolkit subscription includes all current and future tools in that toolkit." },
+            { q: "Will more tools be added?", a: "Yes. New tools are added regularly and automatically included in your subscription." },
+            { q: "Can I cancel anytime?", a: "Yes. Cancel anytime from your dashboard. No contracts, no questions asked." },
           ].map(({ q, a }) => (
             <div key={q} className="border-b border-gray-100 pb-6">
               <h3 className="text-sm font-semibold text-gray-900 mb-2">{q}</h3>
