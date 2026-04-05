@@ -7,6 +7,7 @@ import SubscriptionList from "@/components/SubscriptionList";
 import ReferralBlock from "@/components/ReferralBlock";
 import UpgradeCTA from "@/components/revenue/UpgradeCTA";
 import InviteBanner from "@/components/InviteBanner";
+import SignOutButton from "@/components/SignOutButton";
 
 export const metadata: Metadata = {
   title: "Dashboard | AI Tools Hub",
@@ -142,7 +143,6 @@ export default async function DashboardPage({
           { label: "Browse Tools", href: "/toolkits" },
           { label: "Invite Friends", href: "/dashboard/referrals" },
           { label: "View Pricing", href: "/pricing" },
-          { label: "Sign Out", href: "/auth/signout" },
         ].map(({ label, href }) => (
           <Link
             key={label}
@@ -152,6 +152,7 @@ export default async function DashboardPage({
             {label}
           </Link>
         ))}
+        <SignOutButton />
       </div>
     </main>
   );
