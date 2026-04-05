@@ -50,6 +50,10 @@ export default function SignupForm() {
     if (error) {
       setError(error.message);
     } else {
+      // Supabase auto-creates an unverified session after signUp().
+      // Sign out immediately so the user is not treated as logged in
+      // while waiting for email confirmation.
+      await supabase.auth.signOut();
       setSuccess(true);
     }
     setLoading(false);
