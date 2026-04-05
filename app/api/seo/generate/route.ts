@@ -3,14 +3,16 @@ import { requireAdmin, unauthorized } from "@/lib/auth-admin";
 
 /**
  * POST /api/seo/generate
- * 统一 SEO 内容生成入口（供 Admin 手动触发 或 Cron 定时调用）
- * 认证：Bearer token（requireAdmin）或 CRON_SECRET
+ * SSE streaming bulk generator — sends real-time progress to the client.
+ * Auth: Admin Bearer token or CRON_SECRET.
  *
- * 每次生成约 22 个页面：
+ * Generates ~22 pages:
  *   10 use cases + 5 comparisons + 3 problems + 2 templates + 2 alternatives
  */
+
+export const maxDuration = 300; // 5 min (Vercel Pro)
+
 export async function POST(req: NextRequest) {
-  // 支持两种认证：CRON_SECRET（来自 vercel cron）或 Admin Bearer token
   const authHeader = req.headers.get("authorization") ?? "";
   const isCron = authHeader === `Bearer ${process.env.CRON_SECRET}`;
 
@@ -19,45 +21,99 @@ export async function POST(req: NextRequest) {
     if (!auth) return unauthorized();
   }
 
-  // Derive appUrl from the request itself so internal calls work on Vercel
+  // Derive appUrl from the request so internal calls work on Vercel
   const reqUrl = new URL(req.url);
   const appUrl = `${reqUrl.protocol}//${reqUrl.host}`;
 
   const tasks = [
-    { path: "/api/seo/generate-use-cases", body: { count: 10 } },
-    { path: "/api/seo/generate-comparisons", body: { count: 5 } },
-    { path: "/api/seo/generate-problems", body: { count: 3 } },
-    { path: "/api/seo/generate-templates", body: { count: 2 } },
+    { label: "Generating use cases (10)…",      path: "/api/seo/generate-use-cases",  body: { count: 10 } },
+    { label: "Generating comparisons (5)…",      path: "/api/seo/generate-comparisons", body: { count: 5 } },
+    { label: "Generating problems (3)…",          path: "/api/seo/generate-problems",    body: { count: 3 } },
+    { label: "Generating templates (2)…",         path: "/api/seo/generate-templates",   body: { count: 2 } },
+    { label: "Generating alternatives (2)…",      path: "/api/seo/generate-alternatives",body: { count: 2 } },
+  ];
+
+  const encoder = new TextEncoder();
+
+  const stream = new ReadableStream({
+    async start(controller) {
+      function send(data: Record<string, unknown>) {
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
+      }
+
+      let totalGenerated = 0;
+      const results: Record<string, unknown> = {};
+
+      for (const task of tasks) {
+        send({ message: task.label, step: tasks.indexOf(task) + 1, total_steps: tasks.length });
+
+        try {
+          const res = await fetch(`${appUrl}${task.path}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: authHeader,
+            },
+            body: JSON.stringify(task.body),
+          });
+          const data = await res.json().catch(() => ({}));
+          const generated = (data as { generated?: number }).generated ?? 0;
+          totalGenerated += generated;
+          results[task.path] = data;
+          send({ message: `✓ ${task.label.replace("…", "")} — ${generated} generated`, step: tasks.indexOf(task) + 1 });
+        } catch (err) {
+          const errMsg = (err as Error).message;
+          results[task.path] = { error: errMsg };
+          send({ message: `✗ ${task.label.replace("…", "")} — ${errMsg}`, step: tasks.indexOf(task) + 1 });
+        }
+      }
+
+      send({ message: "DONE", total_generated: totalGenerated, results });
+      controller.close();
+    },
+  });
+
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      "Connection": "keep-alive",
+      "X-Accel-Buffering": "no", // disable Nginx buffering on Vercel edge
+    },
+  });
+}
+
+// GET for Vercel Cron (non-streaming, returns JSON)
+export async function GET(req: NextRequest) {
+  if (req.headers.get("authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const reqUrl = new URL(req.url);
+  const appUrl = `${reqUrl.protocol}//${reqUrl.host}`;
+  const authHeader = req.headers.get("authorization") ?? "";
+
+  const tasks = [
+    { path: "/api/seo/generate-use-cases",   body: { count: 10 } },
+    { path: "/api/seo/generate-comparisons",  body: { count: 5 } },
+    { path: "/api/seo/generate-problems",     body: { count: 3 } },
+    { path: "/api/seo/generate-templates",    body: { count: 2 } },
     { path: "/api/seo/generate-alternatives", body: { count: 2 } },
   ];
 
   const results: Record<string, unknown> = {};
-
   for (const task of tasks) {
     try {
       const res = await fetch(`${appUrl}${task.path}`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authHeader,
-        },
+        headers: { "Content-Type": "application/json", Authorization: authHeader },
         body: JSON.stringify(task.body),
       });
-      const data = await res.json().catch(() => ({}));
-      results[task.path] = data;
+      results[task.path] = await res.json().catch(() => ({}));
     } catch (err) {
       results[task.path] = { error: String(err) };
     }
   }
 
   return NextResponse.json({ ok: true, results });
-}
-
-// 同时支持 GET（来自 Vercel Cron 默认 GET）
-export async function GET(req: NextRequest) {
-  if (req.headers.get("authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-  // 复用 POST 逻辑
-  return POST(req);
 }

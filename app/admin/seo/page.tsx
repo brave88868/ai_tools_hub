@@ -59,6 +59,8 @@ export default function AdminSeoPage() {
   const [loading, setLoading] = useState<string | null>(null);
   const [suggestions, setSuggestions] = useState<SeoSuggestion[]>([]);
   const [applyingSlug, setApplyingSlug] = useState<string | null>(null);
+  const [bulkProgress, setBulkProgress] = useState<string[]>([]);
+  const [bulkError, setBulkError] = useState<string | null>(null);
 
   async function loadStats() {
     const [
@@ -125,6 +127,66 @@ export default function AdminSeoPage() {
     } catch {
       setMsg("✗ Request failed");
     }
+    setLoading(null);
+  }
+
+  async function handleBulkGenerate() {
+    setLoading("bulk-generate");
+    setBulkProgress([]);
+    setBulkError(null);
+    setMsg("");
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch("/api/seo/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${session?.access_token ?? ""}`,
+        },
+        body: JSON.stringify({}),
+      });
+
+      if (!res.ok || !res.body) {
+        setBulkError(`Request failed (${res.status})`);
+        setLoading(null);
+        return;
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          try {
+            const parsed = JSON.parse(line.slice(6)) as {
+              message?: string;
+              total_generated?: number;
+            };
+            if (parsed.message === "DONE") {
+              setBulkProgress((prev) => [...prev, `✅ Done — ${parsed.total_generated ?? 0} total generated`]);
+              loadStats();
+            } else if (parsed.message) {
+              setBulkProgress((prev) => [...prev, parsed.message!]);
+            }
+          } catch {
+            // ignore malformed SSE line
+          }
+        }
+      }
+    } catch (err) {
+      setBulkError((err as Error).message);
+    }
+
     setLoading(null);
   }
 
@@ -428,13 +490,6 @@ export default function AdminSeoPage() {
             body: { count: 10 },
             desc: "10 template pages → /templates/{tool}-template",
           },
-          {
-            label: "⚡ Bulk Generate All",
-            key: "bulk-generate",
-            endpoint: "/api/seo/generate",
-            body: {},
-            desc: "Run all generators at once (~22 pages: 10+5+3+2+2)",
-          },
         ].map(({ label, key, endpoint, body, desc }) => (
           <div key={key} className="bg-white border border-teal-100 rounded-xl p-5">
             <h3 className="text-sm font-semibold text-gray-900 mb-1">{label}</h3>
@@ -448,6 +503,36 @@ export default function AdminSeoPage() {
             </button>
           </div>
         ))}
+
+        {/* ⚡ Bulk Generate All — SSE streaming card */}
+        <div className="bg-white border-2 border-teal-300 rounded-xl p-5 col-span-1 md:col-span-2 lg:col-span-3">
+          <h3 className="text-sm font-semibold text-gray-900 mb-1">⚡ Bulk Generate All</h3>
+          <p className="text-xs text-gray-400 mb-4">
+            Run all 5 generators in sequence (~22 pages: 10 use-cases + 5 comparisons + 3 problems + 2 templates + 2 alternatives). Real-time progress shown below.
+          </p>
+          <button
+            onClick={handleBulkGenerate}
+            disabled={loading === "bulk-generate"}
+            className="w-full bg-teal-600 text-white text-sm py-2 rounded-lg hover:bg-teal-700 disabled:opacity-50 transition-colors mb-3"
+          >
+            {loading === "bulk-generate" ? "Running…" : "Run All"}
+          </button>
+          {bulkProgress.length > 0 && (
+            <div className="bg-gray-900 rounded-lg p-3 font-mono text-xs space-y-1 max-h-48 overflow-y-auto">
+              {bulkProgress.map((line, i) => (
+                <div key={i} className={line.startsWith("✅") ? "text-green-400" : line.startsWith("✗") ? "text-red-400" : "text-gray-300"}>
+                  {line}
+                </div>
+              ))}
+              {loading === "bulk-generate" && (
+                <div className="text-yellow-400 animate-pulse">⏳ Working…</div>
+              )}
+            </div>
+          )}
+          {bulkError && (
+            <p className="mt-2 text-xs text-red-600 bg-red-50 rounded-lg px-3 py-2">✗ {bulkError}</p>
+          )}
+        </div>
 
         {/* SEO Optimizer card */}
         <div className="bg-white border border-indigo-100 rounded-xl p-5">
