@@ -18,6 +18,7 @@ const NAV = [
   { label: "Growth", href: "/admin/growth" },
   { label: "Revenue", href: "/admin/revenue" },
   { label: "SaaS Factory", href: "/admin/saas" },
+  { label: "Startup Gen", href: "/admin/startup" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
