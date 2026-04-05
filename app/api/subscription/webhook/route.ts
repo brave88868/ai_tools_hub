@@ -70,6 +70,29 @@ export async function POST(req: NextRequest) {
       // Non-critical — log but don't fail the webhook
       console.warn("[webhook] analytics insert failed:", analyticsError);
     }
+
+    // ── Referral 奖励：首次付费时查找 pending referral ───────────────
+    const { data: referral } = await supabase
+      .from("referrals")
+      .select("id, referrer_id")
+      .eq("referred_user_id", user_id)
+      .eq("status", "pending")
+      .single();
+
+    if (referral) {
+      await supabase.from("referral_rewards").insert({
+        user_id: referral.referrer_id,
+        reward_type: "free_month",
+        reward_value: "1",
+        applied: false,
+      });
+      await supabase
+        .from("referrals")
+        .update({ status: "rewarded" })
+        .eq("id", referral.id);
+      console.log("[webhook] referral reward created for:", referral.referrer_id);
+    }
+    // ─────────────────────────────────────────────────────────────────
   }
 
   if (event.type === "customer.subscription.updated" || event.type === "customer.subscription.deleted") {

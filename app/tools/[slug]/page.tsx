@@ -9,6 +9,7 @@ import UpgradeModal from "@/components/UpgradeModal";
 import ReactMarkdown from "react-markdown";
 import { Document, Paragraph, TextRun, Packer, HeadingLevel } from "docx";
 import type { Tool, InputField } from "@/types";
+import FeedbackModal from "@/components/FeedbackModal";
 
 // ── Doc tool config — only slugs that actually exist in the DB ────────────
 const DOC_TOOL_CONFIG: Record<string, {
@@ -133,6 +134,12 @@ export default function ToolPage() {
         setError("Tool not found");
       } else {
         setTool(data as Tool);
+        // page_view 埋点（非关键，失败不影响用户体验）
+        fetch("/api/analytics/track", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ event_type: "page_view", tool_slug: slug, metadata: { page: `/tools/${slug}` } }),
+        }).catch(() => {});
       }
       setPageLoading(false);
     }
@@ -328,6 +335,11 @@ export default function ToolPage() {
             ⚠️ This tool provides general informational analysis only. It does not constitute legal advice.
           </p>
         )}
+
+        {/* Feedback */}
+        <div className="mt-8 pt-6 border-t border-gray-100 text-center">
+          <FeedbackModal toolSlug={slug} />
+        </div>
       </div>
     </div>
   );
