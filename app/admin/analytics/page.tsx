@@ -1,7 +1,16 @@
 import { createAdminClient } from "@/lib/supabase";
+import WeeklyInsightsBlock from "@/components/admin/WeeklyInsightsBlock";
 
 export default async function AdminAnalyticsPage() {
   const admin = createAdminClient();
+
+  // 预取最近 5 条周报（传给客户端组件作初始数据）
+  const { data: weeklyInsightsData } = await admin
+    .from("weekly_insights")
+    .select("id, week_start, week_end, report, stats, created_at")
+    .order("week_start", { ascending: false })
+    .limit(5)
+    .then((res) => res, () => ({ data: null }));
   const todayStr = new Date().toISOString().slice(0, 10);
   const now = new Date();
   const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
@@ -165,6 +174,11 @@ export default async function AdminAnalyticsPage() {
           </table>
         )}
       </div>
+
+      {/* Weekly AI Insights（客户端组件，带生成按钮） */}
+      <WeeklyInsightsBlock
+        initialInsights={(weeklyInsightsData ?? []) as Parameters<typeof WeeklyInsightsBlock>[0]["initialInsights"]}
+      />
     </div>
   );
 }
