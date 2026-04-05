@@ -6,6 +6,8 @@ import {
   PROBLEM_SLUGS,
   WORKFLOW_SLUGS,
   INDUSTRY_SLUGS,
+  KEYWORD_MODIFIERS,
+  INTENT_SLUGS,
   slugToTitle,
 } from "@/lib/seo/seo-constants";
 
@@ -212,5 +214,141 @@ Return ONLY valid JSON:
   } catch { /* skip */ }
 
   console.log(`[cron/generate-blog] seo=${JSON.stringify(seoStats)}`);
-  return Response.json({ success: true, articles_generated: articlesGenerated, seo: seoStats, errors });
+
+  // ── SEO Multiplier content generation ──────────────────────────────────────
+  const multiplierStats = { keyword_pages: 0, templates: 0, examples: 0, guides: 0, intents: 0 };
+
+  // 10 keyword pages
+  try {
+    const { data: tools } = await admin.from("tools").select("slug, name").eq("is_active", true).limit(20);
+    const { data: existingKw } = await admin.from("seo_keyword_pages").select("slug");
+    const existingKwSet = new Set((existingKw ?? []).map((r: { slug: string }) => r.slug));
+    const kwCandidates: { keyword: string; slug: string; tool_slug: string }[] = [];
+    for (const tool of tools ?? []) {
+      for (const mod of KEYWORD_MODIFIERS) {
+        const slug = `${tool.slug}-${mod}`;
+        if (!existingKwSet.has(slug)) kwCandidates.push({ keyword: `${tool.name} ${mod}`, slug, tool_slug: tool.slug });
+      }
+    }
+    const kwToGen = kwCandidates.sort(() => Math.random() - 0.5).slice(0, 10);
+    for (const item of kwToGen) {
+      try {
+        const res = await openai.chat.completions.create({
+          model: "gpt-4o-mini",
+          messages: [{ role: "user", content: `Write a 600-word SEO page about "${item.keyword}" AI tool. Include: what it does, key features, who it's for, how to start. Return ONLY JSON: {"seo_title":"max 60 chars","seo_description":"max 155 chars","content":"markdown"}` }],
+          temperature: 0.7, response_format: { type: "json_object" },
+        });
+        const article = JSON.parse(res.choices[0].message.content ?? "{}");
+        const { error } = await admin.from("seo_keyword_pages").insert({
+          keyword: item.keyword, slug: item.slug, tool_slug: item.tool_slug,
+          seo_title: article.seo_title, seo_description: article.seo_description, content: article.content,
+        });
+        if (!error) multiplierStats.keyword_pages++;
+      } catch { /* skip */ }
+    }
+  } catch { /* skip */ }
+
+  // 3 templates
+  try {
+    const { data: tools } = await admin.from("tools").select("slug, name").eq("is_active", true).limit(20);
+    const { data: existingTmpl } = await admin.from("seo_templates").select("slug");
+    const existingTmplSet = new Set((existingTmpl ?? []).map((r: { slug: string }) => r.slug));
+    const tmplCandidates = (tools ?? []).filter((t) => !existingTmplSet.has(`${t.slug}-template`)).slice(0, 3);
+    for (const tool of tmplCandidates) {
+      const slug = `${tool.slug}-template`;
+      try {
+        const res = await openai.chat.completions.create({
+          model: "gpt-4o-mini",
+          messages: [{ role: "user", content: `Write 700-word SEO page about "${tool.name} Template". Include: what it is, structure, example, tips, how AI helps. Return ONLY JSON: {"template_name":"string","seo_title":"max 60 chars","seo_description":"max 155 chars","content":"markdown"}` }],
+          temperature: 0.7, response_format: { type: "json_object" },
+        });
+        const article = JSON.parse(res.choices[0].message.content ?? "{}");
+        const { error } = await admin.from("seo_templates").insert({
+          template_name: article.template_name ?? `${tool.name} Template`, slug, tool_slug: tool.slug,
+          seo_title: article.seo_title, seo_description: article.seo_description, content: article.content,
+        });
+        if (!error) multiplierStats.templates++;
+      } catch { /* skip */ }
+    }
+  } catch { /* skip */ }
+
+  // 3 examples
+  try {
+    const { data: tools } = await admin.from("tools").select("slug, name").eq("is_active", true).limit(20);
+    const { data: existingExmp } = await admin.from("seo_examples").select("slug");
+    const existingExmpSet = new Set((existingExmp ?? []).map((r: { slug: string }) => r.slug));
+    const exmpCandidates = (tools ?? []).filter((t) => !existingExmpSet.has(`${t.slug}-examples`)).slice(0, 3);
+    for (const tool of exmpCandidates) {
+      const slug = `${tool.slug}-examples`;
+      try {
+        const res = await openai.chat.completions.create({
+          model: "gpt-4o-mini",
+          messages: [{ role: "user", content: `Write 700-word SEO page showing real examples of "${tool.name}" AI tool outputs. Include: 3 before/after examples, what makes great output, mistakes to avoid. Return ONLY JSON: {"example_type":"string","seo_title":"max 60 chars","seo_description":"max 155 chars","content":"markdown"}` }],
+          temperature: 0.7, response_format: { type: "json_object" },
+        });
+        const article = JSON.parse(res.choices[0].message.content ?? "{}");
+        const { error } = await admin.from("seo_examples").insert({
+          example_type: article.example_type ?? `${tool.name} Examples`, slug, tool_slug: tool.slug,
+          seo_title: article.seo_title, seo_description: article.seo_description, content: article.content,
+        });
+        if (!error) multiplierStats.examples++;
+      } catch { /* skip */ }
+    }
+  } catch { /* skip */ }
+
+  // 5 guides
+  try {
+    const { data: tools } = await admin.from("tools").select("slug, name").eq("is_active", true).limit(10);
+    const { data: existingGds } = await admin.from("seo_guides").select("slug");
+    const existingGdsSet = new Set((existingGds ?? []).map((r: { slug: string }) => r.slug));
+    const guideActions = ["write", "create", "generate", "optimize", "improve"];
+    const gdsCandidates: { slug: string; tool_slug: string; topic: string }[] = [];
+    for (const tool of tools ?? []) {
+      for (const action of guideActions) {
+        const slug = `how-to-${action}-with-${tool.slug}`;
+        if (!existingGdsSet.has(slug)) gdsCandidates.push({ slug, tool_slug: tool.slug, topic: `How to ${action} with ${tool.name}` });
+      }
+    }
+    const gdsToGen = gdsCandidates.sort(() => Math.random() - 0.5).slice(0, 5);
+    for (const item of gdsToGen) {
+      try {
+        const res = await openai.chat.completions.create({
+          model: "gpt-4o-mini",
+          messages: [{ role: "user", content: `Write 700-word step-by-step guide: "${item.topic}". Include: overview, 5-7 steps, tips, mistakes to avoid, FAQ (2q). Return ONLY JSON: {"guide_topic":"string","seo_title":"max 60 chars","seo_description":"max 155 chars","content":"markdown"}` }],
+          temperature: 0.7, response_format: { type: "json_object" },
+        });
+        const article = JSON.parse(res.choices[0].message.content ?? "{}");
+        const { error } = await admin.from("seo_guides").insert({
+          guide_topic: article.guide_topic ?? item.topic, slug: item.slug, tool_slug: item.tool_slug,
+          seo_title: article.seo_title, seo_description: article.seo_description, content: article.content,
+        });
+        if (!error) multiplierStats.guides++;
+      } catch { /* skip */ }
+    }
+  } catch { /* skip */ }
+
+  // 2 intent pages
+  try {
+    const { data: existingInts } = await admin.from("seo_intents").select("slug");
+    const existingIntsSet = new Set((existingInts ?? []).map((r: { slug: string }) => r.slug));
+    const intCandidates = pickRandom(INTENT_SLUGS, existingIntsSet, (i) => i.slug, 2);
+    for (const item of intCandidates) {
+      try {
+        const res = await openai.chat.completions.create({
+          model: "gpt-4o-mini",
+          messages: [{ role: "user", content: `Write 800-word SEO page: "Best AI Tools for ${item.intent} in 2025". Include: why AI matters, top 5 tools, how to choose, quick start, FAQ (3q). Return ONLY JSON: {"seo_title":"max 60 chars","seo_description":"max 155 chars","content":"markdown"}` }],
+          temperature: 0.7, response_format: { type: "json_object" },
+        });
+        const article = JSON.parse(res.choices[0].message.content ?? "{}");
+        const { error } = await admin.from("seo_intents").insert({
+          intent: item.intent, slug: item.slug, category: item.category,
+          seo_title: article.seo_title, seo_description: article.seo_description, content: article.content,
+        });
+        if (!error) multiplierStats.intents++;
+      } catch { /* skip */ }
+    }
+  } catch { /* skip */ }
+
+  console.log(`[cron/generate-blog] multiplier=${JSON.stringify(multiplierStats)}`);
+  return Response.json({ success: true, articles_generated: articlesGenerated, seo: seoStats, multiplier: multiplierStats, errors });
 }

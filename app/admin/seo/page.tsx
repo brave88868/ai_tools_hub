@@ -14,6 +14,11 @@ interface Stats {
   industries: number;
   problems: number;
   workflows: number;
+  keyword_pages: number;
+  templates: number;
+  examples: number;
+  guides: number;
+  intents: number;
 }
 
 interface SeoSuggestion {
@@ -37,6 +42,7 @@ export default function AdminSeoPage() {
   const [stats, setStats] = useState<Stats>({
     keywords: 0, pendingKeywords: 0, useCasePages: 0, growthKeywords: 0, opportunities: 0,
     comparisons: 0, alternatives: 0, industries: 0, problems: 0, workflows: 0,
+    keyword_pages: 0, templates: 0, examples: 0, guides: 0, intents: 0,
   });
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState<string | null>(null);
@@ -47,6 +53,7 @@ export default function AdminSeoPage() {
     const [
       { count: kw }, { count: pending }, { count: uc }, { count: gkw }, { count: opps },
       { count: comps }, { count: alts }, { count: inds }, { count: probs }, { count: wfs },
+      { count: kwPages }, { count: tmpl }, { count: exmp }, { count: gds }, { count: ints },
     ] = await Promise.all([
       supabase.from("seo_keywords").select("*", { count: "exact", head: true }),
       supabase.from("seo_keywords").select("*", { count: "exact", head: true }).eq("status", "pending"),
@@ -58,12 +65,19 @@ export default function AdminSeoPage() {
       supabase.from("seo_industries").select("*", { count: "exact", head: true }),
       supabase.from("seo_problems").select("*", { count: "exact", head: true }),
       supabase.from("seo_workflows").select("*", { count: "exact", head: true }),
+      supabase.from("seo_keyword_pages").select("*", { count: "exact", head: true }),
+      supabase.from("seo_templates").select("*", { count: "exact", head: true }),
+      supabase.from("seo_examples").select("*", { count: "exact", head: true }),
+      supabase.from("seo_guides").select("*", { count: "exact", head: true }),
+      supabase.from("seo_intents").select("*", { count: "exact", head: true }),
     ]);
     setStats({
       keywords: kw ?? 0, pendingKeywords: pending ?? 0, useCasePages: uc ?? 0,
       growthKeywords: gkw ?? 0, opportunities: opps ?? 0,
       comparisons: comps ?? 0, alternatives: alts ?? 0, industries: inds ?? 0,
       problems: probs ?? 0, workflows: wfs ?? 0,
+      keyword_pages: kwPages ?? 0, templates: tmpl ?? 0, examples: exmp ?? 0,
+      guides: gds ?? 0, intents: ints ?? 0,
     });
   }
 
@@ -141,7 +155,7 @@ export default function AdminSeoPage() {
       </div>
 
       {/* Stats — SEO 2.0 */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
         {[
           { label: "Comparisons", value: stats.comparisons },
           { label: "Alternatives", value: stats.alternatives },
@@ -152,6 +166,22 @@ export default function AdminSeoPage() {
           <div key={label} className="bg-indigo-50 border border-indigo-100 rounded-xl p-4">
             <div className="text-2xl font-bold text-indigo-700">{value.toLocaleString()}</div>
             <div className="text-xs text-indigo-400 mt-1">{label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Stats — SEO Multiplier */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+        {[
+          { label: "Keyword Pages", value: stats.keyword_pages },
+          { label: "Templates", value: stats.templates },
+          { label: "Examples", value: stats.examples },
+          { label: "Guides", value: stats.guides },
+          { label: "Intent Pages", value: stats.intents },
+        ].map(({ label, value }) => (
+          <div key={label} className="bg-violet-50 border border-violet-100 rounded-xl p-4">
+            <div className="text-2xl font-bold text-violet-700">{value.toLocaleString()}</div>
+            <div className="text-xs text-violet-400 mt-1">{label}</div>
           </div>
         ))}
       </div>
@@ -239,6 +269,52 @@ export default function AdminSeoPage() {
               onClick={onClick}
               disabled={loading === key}
               className="w-full bg-indigo-600 text-white text-sm py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition-colors"
+            >
+              {loading === key ? "Running…" : "Run"}
+            </button>
+          </div>
+        ))}
+
+        {/* SEO Multiplier cards */}
+        {[
+          {
+            label: "Generate Keyword Pages",
+            key: "gen-kw-pages",
+            onClick: () => runAction("gen-kw-pages", "/api/growth/generate-keyword-pages", { count: 20 }),
+            desc: "Generate 20 keyword variant pages (tool + modifier combos)",
+          },
+          {
+            label: "Generate Templates",
+            key: "gen-tmpl",
+            onClick: () => runAction("gen-tmpl", "/api/growth/generate-templates", { count: 10 }),
+            desc: "Generate 10 template pages ({tool}-template format)",
+          },
+          {
+            label: "Generate Examples",
+            key: "gen-exmp",
+            onClick: () => runAction("gen-exmp", "/api/growth/generate-examples", { count: 10 }),
+            desc: "Generate 10 examples pages ({tool}-examples format)",
+          },
+          {
+            label: "Generate Guides",
+            key: "gen-guides",
+            onClick: () => runAction("gen-guides", "/api/growth/generate-guides", { count: 10 }),
+            desc: "Generate 10 how-to guides (how-to-{action}-with-{tool})",
+          },
+          {
+            label: "Generate Intent Pages",
+            key: "gen-ints",
+            onClick: () => runAction("gen-ints", "/api/growth/generate-intents", { count: 5 }),
+            desc: "Generate 5 intent pages (best-ai-tools-for-{intent})",
+          },
+        ].map(({ label, key, onClick, desc }) => (
+          <div key={key} className="bg-white border border-violet-100 rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-gray-900 mb-1">{label}</h3>
+            <p className="text-xs text-gray-400 mb-4">{desc}</p>
+            <button
+              onClick={onClick}
+              disabled={loading === key}
+              className="w-full bg-violet-600 text-white text-sm py-2 rounded-lg hover:bg-violet-700 disabled:opacity-50 transition-colors"
             >
               {loading === key ? "Running…" : "Run"}
             </button>

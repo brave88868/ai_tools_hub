@@ -69,6 +69,30 @@ export const INDUSTRY_SLUGS = [
   "customer-support-teams", "data-analysts", "investors",
 ];
 
+export const KEYWORD_MODIFIERS = [
+  "free", "online", "ai", "best", "top", "2025", "easy", "fast",
+  "professional", "automated", "no-login", "instant", "accurate",
+  "for-beginners", "advanced",
+];
+
+export const INTENT_SLUGS = [
+  { slug: "resume-writing", intent: "resume writing", category: "productivity" },
+  { slug: "content-creation", intent: "content creation", category: "marketing" },
+  { slug: "email-marketing", intent: "email marketing", category: "marketing" },
+  { slug: "social-media-management", intent: "social media management", category: "marketing" },
+  { slug: "video-creation", intent: "video creation", category: "creator" },
+  { slug: "blog-writing", intent: "blog writing", category: "marketing" },
+  { slug: "business-planning", intent: "business planning", category: "business" },
+  { slug: "legal-documents", intent: "legal documents", category: "legal" },
+  { slug: "sales-outreach", intent: "sales outreach", category: "marketing" },
+  { slug: "job-search", intent: "job search", category: "productivity" },
+  { slug: "youtube-growth", intent: "youtube growth", category: "creator" },
+  { slug: "freelance-work", intent: "freelance work", category: "productivity" },
+  { slug: "seo-optimization", intent: "SEO optimization", category: "marketing" },
+  { slug: "startup-growth", intent: "startup growth", category: "business" },
+  { slug: "hr-recruitment", intent: "HR and recruitment", category: "business" },
+];
+
 export function slugToTitle(slug: string): string {
   return slug
     .replace(/-/g, " ")

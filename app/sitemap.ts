@@ -16,6 +16,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { data: industries },
     { data: problems },
     { data: workflows },
+    { data: keywordPages },
+    { data: templates },
+    { data: examples },
+    { data: guides },
+    { data: intents },
   ] = await Promise.all([
     supabase.from("tools").select("slug, created_at").eq("is_active", true),
     supabase.from("toolkits").select("slug, created_at").eq("is_active", true),
@@ -41,6 +46,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       () => ({ data: null })
     ),
     supabase.from("seo_workflows").select("slug, created_at").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_keyword_pages").select("slug, created_at").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_templates").select("slug, created_at").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_examples").select("slug, created_at").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_guides").select("slug, created_at").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_intents").select("slug, created_at").then(
       (res) => res,
       () => ({ data: null })
     ),
@@ -134,6 +159,46 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: row.created_at ?? now,
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+
+    // 关键词页面
+    ...(keywordPages ?? []).map((row) => ({
+      url: `${SITE_URL}/tools/keyword/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.65,
+    })),
+
+    // 模板页面
+    ...(templates ?? []).map((row) => ({
+      url: `${SITE_URL}/templates/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+
+    // 示例页面
+    ...(examples ?? []).map((row) => ({
+      url: `${SITE_URL}/examples/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+
+    // 指南页面
+    ...(guides ?? []).map((row) => ({
+      url: `${SITE_URL}/guides/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.72,
+    })),
+
+    // 意图页面
+    ...(intents ?? []).map((row) => ({
+      url: `${SITE_URL}/best-ai-tools/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
     })),
   ];
 }
