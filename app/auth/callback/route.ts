@@ -16,13 +16,17 @@ export async function GET(request: NextRequest) {
       const admin = createAdminClient();
 
       // ── 确保 public.users 记录存在（无 Supabase trigger 时的保障）──
-      // 必须在任何 FK 引用 users(id) 的操作之前完成
-      await admin
-        .from("users")
-        .upsert(
-          { id: user.id, email: user.email ?? "" },
-          { onConflict: "id", ignoreDuplicates: true }
-        );
+      // 用 try/catch 包裹：即使失败也绝不能阻断 session cookie 建立
+      try {
+        await admin
+          .from("users")
+          .upsert(
+            { id: user.id, email: user.email ?? "" },
+            { onConflict: "id", ignoreDuplicates: true }
+          );
+      } catch (e) {
+        console.error("[auth/callback] users upsert failed (non-fatal):", e);
+      }
       // ─────────────────────────────────────────────────────────────
 
       // ── 获取注册 IP ──────────────────────────────────────────────
