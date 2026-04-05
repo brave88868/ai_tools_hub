@@ -14,6 +14,14 @@ interface ToolIdea {
   created_at: string;
 }
 
+async function authHeader() {
+  const { data: { session } } = await supabase.auth.getSession();
+  return {
+    "Authorization": `Bearer ${session?.access_token ?? ""}`,
+    "Content-Type": "application/json",
+  };
+}
+
 export default function AdminToolsPage() {
   const [ideas, setIdeas] = useState<ToolIdea[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,7 +44,8 @@ export default function AdminToolsPage() {
   async function handleDiscover() {
     setDiscovering(true);
     setMsg("");
-    const res = await fetch("/api/operator/generate-tool-ideas", { method: "POST" });
+    const headers = await authHeader();
+    const res = await fetch("/api/operator/generate-tool-ideas", { method: "POST", headers });
     const data = await res.json();
     setMsg(res.ok ? `✓ Generated ${data.generated} new tool ideas` : `✗ ${data.error}`);
     setDiscovering(false);
@@ -45,9 +54,10 @@ export default function AdminToolsPage() {
 
   async function handleAction(ideaId: string, action: "approve" | "reject") {
     setActingId(ideaId);
+    const headers = await authHeader();
     const res = await fetch("/api/operator/approve-tool", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({ idea_id: ideaId, action }),
     });
     const data = await res.json();
@@ -93,9 +103,7 @@ export default function AdminToolsPage() {
                     <code className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">{idea.tool_slug}</code>
                     <span className="text-xs text-gray-400 capitalize">{idea.toolkit_slug}</span>
                   </div>
-                  {idea.description && (
-                    <p className="text-xs text-gray-500 mb-2">{idea.description}</p>
-                  )}
+                  {idea.description && <p className="text-xs text-gray-500 mb-2">{idea.description}</p>}
                   {idea.prompt_template && (
                     <details className="text-xs text-gray-400">
                       <summary className="cursor-pointer hover:text-gray-600">View prompt template</summary>
@@ -104,18 +112,12 @@ export default function AdminToolsPage() {
                   )}
                 </div>
                 <div className="flex gap-2 shrink-0">
-                  <button
-                    onClick={() => handleAction(idea.id, "approve")}
-                    disabled={actingId === idea.id}
-                    className="text-xs bg-green-600 text-white px-3 py-1.5 rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
-                  >
+                  <button onClick={() => handleAction(idea.id, "approve")} disabled={actingId === idea.id}
+                    className="text-xs bg-green-600 text-white px-3 py-1.5 rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors">
                     Approve
                   </button>
-                  <button
-                    onClick={() => handleAction(idea.id, "reject")}
-                    disabled={actingId === idea.id}
-                    className="text-xs border border-gray-200 text-gray-600 px-3 py-1.5 rounded-lg hover:border-gray-400 disabled:opacity-50 transition-colors"
-                  >
+                  <button onClick={() => handleAction(idea.id, "reject")} disabled={actingId === idea.id}
+                    className="text-xs border border-gray-200 text-gray-600 px-3 py-1.5 rounded-lg hover:border-gray-400 disabled:opacity-50 transition-colors">
                     Reject
                   </button>
                 </div>

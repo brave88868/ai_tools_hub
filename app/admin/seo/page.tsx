@@ -9,6 +9,14 @@ interface Stats {
   useCasePages: number;
 }
 
+async function authHeader() {
+  const { data: { session } } = await supabase.auth.getSession();
+  return {
+    "Authorization": `Bearer ${session?.access_token ?? ""}`,
+    "Content-Type": "application/json",
+  };
+}
+
 export default function AdminSeoPage() {
   const [stats, setStats] = useState<Stats>({ keywords: 0, pendingKeywords: 0, useCasePages: 0 });
   const [msg, setMsg] = useState("");
@@ -29,9 +37,10 @@ export default function AdminSeoPage() {
     setLoading(action);
     setMsg("");
     try {
+      const headers = await authHeader();
       const res = await fetch(endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify(body ?? {}),
       });
       const data = await res.json();
@@ -62,7 +71,6 @@ export default function AdminSeoPage() {
     <div>
       <h1 className="text-xl font-bold text-gray-900 mb-6">SEO Engine</h1>
 
-      {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-8">
         {[
           { label: "Total Keywords", value: stats.keywords },
@@ -78,7 +86,6 @@ export default function AdminSeoPage() {
 
       {msg && <p className="text-sm text-gray-600 mb-4 bg-gray-50 rounded-lg px-3 py-2">{msg}</p>}
 
-      {/* Actions */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {actions.map(({ label, key, onClick, desc }) => (
           <div key={key} className="bg-white border border-gray-200 rounded-xl p-5">

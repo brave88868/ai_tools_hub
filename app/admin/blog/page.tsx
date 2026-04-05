@@ -12,6 +12,14 @@ interface Post {
   created_at: string;
 }
 
+async function authHeader() {
+  const { data: { session } } = await supabase.auth.getSession();
+  return {
+    "Authorization": `Bearer ${session?.access_token ?? ""}`,
+    "Content-Type": "application/json",
+  };
+}
+
 export default function AdminBlogPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,9 +42,10 @@ export default function AdminBlogPage() {
   async function handleGenerate() {
     setGenerating(true);
     setMsg("");
+    const headers = await authHeader();
     const res = await fetch("/api/operator/generate-blog", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({ count: 5 }),
     });
     const data = await res.json();
@@ -62,11 +71,8 @@ export default function AdminBlogPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-gray-900">Blog Engine</h1>
-        <button
-          onClick={handleGenerate}
-          disabled={generating}
-          className="bg-black text-white text-sm px-4 py-2 rounded-lg hover:bg-gray-800 disabled:opacity-50 transition-colors"
-        >
+        <button onClick={handleGenerate} disabled={generating}
+          className="bg-black text-white text-sm px-4 py-2 rounded-lg hover:bg-gray-800 disabled:opacity-50 transition-colors">
           {generating ? "Generating…" : "Generate 5 Articles"}
         </button>
       </div>
@@ -94,25 +100,16 @@ export default function AdminBlogPage() {
                 <tr key={post.id}>
                   <td className="px-4 py-3 text-gray-900 max-w-xs truncate">{post.title}</td>
                   <td className="px-3 py-3 text-center">
-                    <button
-                      onClick={() => handleTogglePublish(post)}
-                      className={`text-xs px-2 py-0.5 rounded-full ${post.published ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}
-                    >
+                    <button onClick={() => handleTogglePublish(post)}
+                      className={`text-xs px-2 py-0.5 rounded-full ${post.published ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
                       {post.published ? "Live" : "Draft"}
                     </button>
                   </td>
                   <td className="px-3 py-3 text-center text-xs text-gray-400">{post.auto_generated ? "AI" : "—"}</td>
-                  <td className="px-4 py-3 text-right text-xs text-gray-400">
-                    {new Date(post.created_at).toLocaleDateString()}
-                  </td>
+                  <td className="px-4 py-3 text-right text-xs text-gray-400">{new Date(post.created_at).toLocaleDateString()}</td>
                   <td className="px-4 py-3 text-right">
-                    <button
-                      onClick={() => handleDelete(post.id)}
-                      disabled={deleting === post.id}
-                      className="text-xs text-red-400 hover:text-red-600 disabled:opacity-50"
-                    >
-                      Delete
-                    </button>
+                    <button onClick={() => handleDelete(post.id)} disabled={deleting === post.id}
+                      className="text-xs text-red-400 hover:text-red-600 disabled:opacity-50">Delete</button>
                   </td>
                 </tr>
               ))}

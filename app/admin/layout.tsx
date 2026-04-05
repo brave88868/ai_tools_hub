@@ -6,7 +6,9 @@ import { createAdminClient } from "@/lib/supabase";
 const NAV = [
   { label: "Overview", href: "/admin" },
   { label: "Users", href: "/admin/users" },
-  { label: "Tools", href: "/admin/tools" },
+  { label: "Toolkits", href: "/admin/toolkits" },
+  { label: "Tools", href: "/admin/tools-manage" },
+  { label: "AI Tools", href: "/admin/tools" },
   { label: "SEO", href: "/admin/seo" },
   { label: "Blog", href: "/admin/blog" },
   { label: "Analytics", href: "/admin/analytics" },
