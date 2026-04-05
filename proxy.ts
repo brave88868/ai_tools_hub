@@ -3,7 +3,7 @@ import type { CookieOptions } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
 
   // ── Referral 追踪：?ref=CODE → cookie（30天有效期）──────────────
