@@ -403,6 +403,7 @@ Optimization Agent       →  自动优化产品
 - SPEC-ADMIN-03 ✅ 三级角色系统（user/pro/admin）+ admin无限制 + pro角色=付费权限 + set-role同步plan
 - SPEC-GROWTH-01 ✅ Growth Engine 8模块：关键词发现→工具机会→AI自动建工具→SEO页面→内链→流量分析→SEO优化→增长控制台
 - SPEC-REFERRAL-02 ✅ Referral 防作弊（同IP 24h限制 + signup_ip写入）+ stats API + ReferralBlock增强 + /admin/referrals
+- SPEC-UX-01 ✅ /roadmap 产品路线图（4列看板）+ /features 排序Tabs + Admin AI Analyze + /admin/revenue 收入面板
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
@@ -443,11 +444,16 @@ Optimization Agent       →  自动优化产品
 - /admin/referrals: 服务端组件，显示所有推荐记录 + 4个统计卡片
 - OG Meta: `app/layout.tsx` 默认 openGraph；`app/tools/[slug]/layout.tsx` 工具页 OG；`app/blog/[slug]/page.tsx` 文章 OG
 - Growth API: `/api/growth/discover-keywords|find-opportunities|auto-create-tool|traffic-report|optimize-seo`（全部 requireAdmin）
-- `/ai-tools-for/[profession]/page.tsx`：职业聚合页，11个预定义职业→toolkit 映射
+- `/ai-tools-for/[slug]/page.tsx`：职业聚合页，lib/seo/loaders getProfession(slug)；[profession] 路由已删除（冲突修复）
 - `/admin/growth`：增长控制台（关键词/机会/自动工具/流量报告 4区块）
+- `/roadmap`：服务端组件，4列看板（Planned/In Progress/Released/Open），从 features 表按 status 读取
+- `/features`：排序 Tabs（Most Votes/Newest/Trending，trending = votes*2 + 1/(days+1)）；admin 可见 AI Analyze 按钮
+- `/api/features/analyze`：POST，requireAdmin，GPT-4o-mini 分析 features（votes>5），返回 Top Needs/Pain Points/Suggested Tools
+- `/admin/revenue`：MRR/活跃订阅/本月收入/Top Toolkit KPI；toolkit 分布表；最近5笔 subscriptions；Stripe best-effort
+- `/api/admin/revenue`：GET，requireAdmin，返回完整收入 JSON
 - `InputForm` file fields: `name: "xyz_file", type: "file"` → extracts text → submits as `xyz`
 - Referral short code = `user.id.slice(0, 8)`；callback 用 UUID prefix range query 查找推荐人
-- Admin 路由: `/admin/*`（layout 校验 users.role='admin'），10 页面：overview/users/toolkits/tools-manage/tools(AI)/seo/blog/analytics/feedback/pricing
+- Admin 路由: `/admin/*`（layout 校验 users.role='admin'），11 页面：overview/users/toolkits/tools-manage/tools(AI)/seo/blog/analytics/feedback/pricing/revenue
 - Admin API 鉴权：统一用 Bearer token（`lib/auth-admin.ts` → `requireAdmin(req)`），客户端页面先 `supabase.auth.getSession()` 取 token
 - Cron: discover-keywords(2am) / generate-tools(3am) / generate-blog(4am)
 - 用户封禁：`users.banned=true` → /api/tools/run 返回 403；IP封禁：`banned_ips` 表，同入口检查

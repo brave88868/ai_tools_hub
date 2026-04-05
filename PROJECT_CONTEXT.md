@@ -92,9 +92,11 @@
 | Blog 页面（/blog/[slug]） | ✅ 完成 | 列表页 + 详情页 + ReactMarkdown + SEO metadata |
 | Referral System（推荐系统） | ✅ 完成 | ref cookie + auth callback + webhook 奖励 + Dashboard ReferralBlock；短码 = user.id.slice(0,8)；anti-abuse（signup_ip + 24h同IP封锁）；/api/referral/stats API；enhanced ReferralBlock client-side fetch；/admin/referrals 管理页 |
 | Feedback 模块 | ✅ 完成 | FeedbackModal 完整版 + /api/feedback/submit |
-| Feature Voting Board | ✅ 完成 | /features 页 + vote/submit API |
+| Feature Voting Board | ✅ 完成 | /features 页 + vote/submit API；排序 Tabs（Most Votes/Newest/Trending）；Admin AI Analyze 按钮（GPT-4o-mini 分析 Top Needs / Pain Points / Suggested Tools）|
 | Analytics Dashboard | ✅ 完成 | /api/admin/analytics（totalUsers/todayToolUses/weekToolUses + top10 tools）|
-| Admin Dashboard（/admin/*） | ✅ 完成 | 10页面：overview/users/toolkits/tools-manage/tools/seo/blog/analytics/feedback/pricing；所有 API 改用 Bearer token |
+| Admin Dashboard（/admin/*） | ✅ 完成 | 11页面：overview/users/toolkits/tools-manage/tools/seo/blog/analytics/feedback/pricing/revenue；所有 API 改用 Bearer token |
+| Product Roadmap（/roadmap） | ✅ 完成 | 服务端组件，4列看板（Planned/In Progress/Released/Open），读 features 表按 status 分组，Header + sitemap 已接入 |
+| Revenue Dashboard（/admin/revenue） | ✅ 完成 | MRR / 活跃订阅 / 本月收入 / Top Toolkit KPI 卡片；Toolkit 分布表格；最近 5 笔 subscriptions；Stripe best-effort 活跃数；/api/admin/revenue（Bearer token）|
 
 ### Phase 4 — 自动化运营
 
