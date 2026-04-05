@@ -136,7 +136,8 @@ export default async function PromptsCategoryPage({ params }: Props) {
             </Link>
           </div>
         ) : (
-        /* Prompts Grid */
+        <>
+        {/* Prompts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
           {prompts.map((prompt) => (
             <Link
@@ -187,6 +188,7 @@ export default async function PromptsCategoryPage({ params }: Props) {
             — they use these prompts automatically so you don&apos;t have to copy-paste.
           </p>
         </div>
+        </>
         )}
       </div>
     </div>
