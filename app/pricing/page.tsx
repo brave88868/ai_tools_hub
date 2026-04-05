@@ -50,14 +50,7 @@ export default function PricingPage() {
       }).catch(() => {});
     }
 
-    // getUser() 向 Supabase 服务器验证 token，比 getSession() 可靠
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      router.push("/login?next=/pricing");
-      return;
-    }
-
-    // 获取 access_token 用于 API 鉴权
+    // 尝试获取 access_token（可能为空，由服务端 cookie 兜底）
     const { data: { session } } = await supabase.auth.getSession();
     const accessToken = session?.access_token ?? "";
 
@@ -71,6 +64,13 @@ export default function PricingPage() {
         },
         body: JSON.stringify({ toolkit_slug: toolkitSlug }),
       });
+
+      // 服务端鉴权失败 → 引导登录
+      if (res.status === 401) {
+        router.push("/login?next=/pricing");
+        return;
+      }
+
       const data = await res.json();
       if (data.url) {
         window.location.href = data.url;
