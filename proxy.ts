@@ -4,10 +4,16 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // ── API 路由完全不拦截，直接 pass through ─────────────────────────
+  if (pathname.startsWith("/api/")) {
+    return NextResponse.next({ request });
+  }
+
   let supabaseResponse = NextResponse.next({ request });
 
   // ── 301 重定向：旧前缀路由 → 扁平根路径 ──────────────────────────
-  const { pathname } = request.nextUrl;
 
   // /compare/{slug} → /{slug}  (e.g. chatgpt-vs-jasper)
   if (pathname.startsWith("/compare/")) {
@@ -97,5 +103,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|api).*)"],
+  matcher: ["/((?!api/|_next/static|_next/image|favicon.ico).*)"],
 };
