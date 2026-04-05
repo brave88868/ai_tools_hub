@@ -41,6 +41,10 @@ export default function PricingPage() {
   }, []);
 
   async function handleSubscribe(toolkitSlug: string) {
+    // DEBUG — 临时诊断，确认 getUser() 返回值
+    const debugResult = await supabase.auth.getUser();
+    alert(`getUser result: ${JSON.stringify(debugResult)}`);
+
     // 记录定价实验转化
     if (experiment?.variant) {
       fetch("/api/revenue/pricing-convert", {
