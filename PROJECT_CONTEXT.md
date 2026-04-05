@@ -7,9 +7,9 @@
 
 ## 当前项目状态
 
-**项目阶段**: 🟢 SPEC-GROWTH-01 完成  
+**项目阶段**: 🟢 SPEC-REFERRAL-02 完成  
 **当前里程碑**: Stripe Live 切换（SPEC-11-C，手动）→ SPEC-09 Programmatic SEO  
-**最后更新**: 2026-04-05 — Growth Engine 8模块全自动增长飞轮
+**最后更新**: 2026-04-05 — Referral 防作弊 + stats API + /admin/referrals
 
 ### 已完成修复（Bug Fix Log）
 
@@ -90,7 +90,7 @@
 | Programmatic SEO Engine | ⬜ 未开始 | 关键词 → 页面自动生成 |
 | SEO 关键词数据库（1000+条） | ⬜ 未开始 | |
 | Blog 页面（/blog/[slug]） | ✅ 完成 | 列表页 + 详情页 + ReactMarkdown + SEO metadata |
-| Referral System（推荐系统） | ✅ 完成 | middleware ref cookie + auth callback + webhook 奖励 + Dashboard ReferralBlock；短码 = user.id.slice(0,8) |
+| Referral System（推荐系统） | ✅ 完成 | ref cookie + auth callback + webhook 奖励 + Dashboard ReferralBlock；短码 = user.id.slice(0,8)；anti-abuse（signup_ip + 24h同IP封锁）；/api/referral/stats API；enhanced ReferralBlock client-side fetch；/admin/referrals 管理页 |
 | Feedback 模块 | ✅ 完成 | FeedbackModal 完整版 + /api/feedback/submit |
 | Feature Voting Board | ✅ 完成 | /features 页 + vote/submit API |
 | Analytics Dashboard | ✅ 完成 | /api/admin/analytics（totalUsers/todayToolUses/weekToolUses + top10 tools）|
