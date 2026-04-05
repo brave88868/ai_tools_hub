@@ -12,9 +12,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { data: useCases },
     { data: blogPosts },
   ] = await Promise.all([
-    supabase.from("tools").select("slug, updated_at").eq("is_active", true),
-    supabase.from("toolkits").select("slug, updated_at").eq("is_active", true),
-    supabase.from("tool_use_cases").select("slug, created_at"),
+    supabase.from("tools").select("slug, created_at").eq("is_active", true),
+    supabase.from("toolkits").select("slug, created_at").eq("is_active", true),
+    supabase.from("tool_use_cases").select("slug, created_at").then(
+      (res) => res,
+      () => ({ data: null })  // table may not exist yet
+    ),
     supabase.from("blog_posts").select("slug, updated_at").eq("published", true),
   ]);
 
@@ -31,7 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Toolkit 页面
     ...(toolkits ?? []).map((kit) => ({
       url: `${SITE_URL}/toolkits/${kit.slug}`,
-      lastModified: kit.updated_at ?? now,
+      lastModified: kit.created_at ?? now,
       changeFrequency: "weekly" as const,
       priority: 0.9,
     })),
@@ -39,7 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // 工具页面
     ...(tools ?? []).map((tool) => ({
       url: `${SITE_URL}/tools/${tool.slug}`,
-      lastModified: tool.updated_at ?? now,
+      lastModified: tool.created_at ?? now,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
