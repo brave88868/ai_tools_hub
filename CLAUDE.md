@@ -398,6 +398,7 @@ Optimization Agent       →  自动优化产品
 - SPEC-FIX-07 ✅ Dashboard 订阅显示修复 + 退订功能 + Terms/Privacy 页面
 - SPEC-10 ✅ 完整自动化系统（Task 2-11）：SEO + Blog + Feedback + Feature Voting + Referral + Analytics + Operator Dashboard + Auto Tool Generator + Vercel Cron + Sitemap/robots
 - SPEC-FINAL ✅ Admin 路由重构 + 3 独立 Cron + Referral 短码修复 + Analytics 完整字段
+- SPEC-TEST-01 ✅ Task 2（72/72）+ Task 8（build 通过）；proxy.ts 函数名修复（middleware→proxy）
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
@@ -419,7 +420,7 @@ Optimization Agent       →  自动优化产品
 - `prompts/jobseeker/cover_letter.txt` — 5-paragraph STAR cover letter prompt
 - `prompts/` — all tool prompts organized by toolkit (all upgraded with STEP 1)
 - `scripts/test-all-tools.mjs` — validates all 72 tools (72/72 pass)
-- `middleware.ts` — Next.js session refresh + referral cookie + protect /dashboard + /admin
+- `proxy.ts` — Next.js 16 proxy（原 middleware）: session refresh + referral cookie + protect /dashboard + /admin；导出函数必须命名为 `proxy`
 
 ## Architecture Notes
 
@@ -432,6 +433,7 @@ Optimization Agent       →  自动优化产品
 - `InputForm` file fields: `name: "xyz_file", type: "file"` → extracts text → submits as `xyz`
 - Referral short code = `user.id.slice(0, 8)`；callback 用 UUID prefix range query 查找推荐人
 - Admin 路由: `/admin/*`（layout 校验 users.role='admin'），3 个 cron: discover-keywords(2am) / generate-tools(3am) / generate-blog(4am)
+- **proxy.ts**（Next.js 16 的 middleware 替代）：文件名固定 `proxy.ts`，导出函数必须命名为 `proxy`，不是 `middleware`
 
 ## SPEC-11-C — Stripe Live 切换（待手动操作）
 
