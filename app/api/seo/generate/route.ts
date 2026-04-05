@@ -42,6 +42,9 @@ export async function POST(req: NextRequest) {
         controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
       }
 
+      console.log("[seo/generate] CRON_SECRET available:", !!process.env.CRON_SECRET);
+      console.log("[seo/generate] sending auth:", `Bearer ${process.env.CRON_SECRET ?? "UNDEFINED"}`.substring(0, 30));
+
       let totalGenerated = 0;
       const results: Record<string, unknown> = {};
 
