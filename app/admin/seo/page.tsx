@@ -20,9 +20,6 @@ interface Stats {
   guides: number;
   intents: number;
   flat_use_cases: number;
-  flat_comparisons: number;
-  flat_alternatives: number;
-  flat_problems: number;
   // seo_pages 统一表
   sp_use_cases: number;
   sp_comparisons: number;
@@ -54,7 +51,7 @@ export default function AdminSeoPage() {
     keywords: 0, pendingKeywords: 0, useCasePages: 0, growthKeywords: 0, opportunities: 0,
     comparisons: 0, alternatives: 0, industries: 0, problems: 0, workflows: 0,
     keyword_pages: 0, templates: 0, examples: 0, guides: 0, intents: 0,
-    flat_use_cases: 0, flat_comparisons: 0, flat_alternatives: 0, flat_problems: 0,
+    flat_use_cases: 0,
     sp_use_cases: 0, sp_comparisons: 0, sp_alternatives: 0, sp_problems: 0,
     sp_templates: 0, sp_total: 0,
   });
@@ -68,7 +65,7 @@ export default function AdminSeoPage() {
       { count: kw }, { count: pending }, { count: uc }, { count: gkw }, { count: opps },
       { count: comps }, { count: alts }, { count: inds }, { count: probs }, { count: wfs },
       { count: kwPages }, { count: tmpl }, { count: exmp }, { count: gds }, { count: ints },
-      { count: flatUc }, { count: flatComps }, { count: flatAlts }, { count: flatProbs },
+      { count: flatUc },
       { count: spUc }, { count: spComps }, { count: spAlts }, { count: spProbs },
       { count: spTmpl }, { count: spTotal },
     ] = await Promise.all([
@@ -88,9 +85,6 @@ export default function AdminSeoPage() {
       supabase.from("seo_guides").select("*", { count: "exact", head: true }),
       supabase.from("seo_intents").select("*", { count: "exact", head: true }),
       supabase.from("seo_use_cases").select("*", { count: "exact", head: true }),
-      supabase.from("seo_comparisons").select("*", { count: "exact", head: true }).not("flat_slug", "is", null),
-      supabase.from("seo_alternatives").select("*", { count: "exact", head: true }).not("flat_slug", "is", null),
-      supabase.from("seo_problems").select("*", { count: "exact", head: true }).not("flat_slug", "is", null),
       supabase.from("seo_pages").select("*", { count: "exact", head: true }).eq("type", "use_case"),
       supabase.from("seo_pages").select("*", { count: "exact", head: true }).eq("type", "comparison"),
       supabase.from("seo_pages").select("*", { count: "exact", head: true }).eq("type", "alternative"),
@@ -110,8 +104,7 @@ export default function AdminSeoPage() {
       problems: probs ?? 0, workflows: wfs ?? 0,
       keyword_pages: kwPages ?? 0, templates: tmpl ?? 0, examples: exmp ?? 0,
       guides: gds ?? 0, intents: ints ?? 0,
-      flat_use_cases: flatUc ?? 0, flat_comparisons: flatComps ?? 0,
-      flat_alternatives: flatAlts ?? 0, flat_problems: flatProbs ?? 0,
+      flat_use_cases: flatUc ?? 0,
       sp_use_cases: spUcN, sp_comparisons: spCompsN, sp_alternatives: spAltsN,
       sp_problems: spProbsN, sp_templates: spTmplN,
       sp_total: spTotal ?? 0,
@@ -224,19 +217,12 @@ export default function AdminSeoPage() {
         ))}
       </div>
 
-      {/* Stats — Flat Routes */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-        {[
-          { label: "Use Cases (Flat)", value: stats.flat_use_cases },
-          { label: "Comparisons (Flat)", value: stats.flat_comparisons },
-          { label: "Alternatives (Flat)", value: stats.flat_alternatives },
-          { label: "Problems (Flat)", value: stats.flat_problems },
-        ].map(({ label, value }) => (
-          <div key={label} className="bg-emerald-50 border border-emerald-100 rounded-xl p-4">
-            <div className="text-2xl font-bold text-emerald-700">{value.toLocaleString()}</div>
-            <div className="text-xs text-emerald-500 mt-1">{label}</div>
-          </div>
-        ))}
+      {/* Stats — Flat Routes（仅保留 Use Cases Flat，URL 格式与青色版本不同） */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
+        <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-4">
+          <div className="text-2xl font-bold text-emerald-700">{stats.flat_use_cases.toLocaleString()}</div>
+          <div className="text-xs text-emerald-500 mt-1">Use Cases (Flat) /ai-*-for-*</div>
+        </div>
       </div>
 
       {/* Stats — SEO Multiplier */}
@@ -390,45 +376,20 @@ export default function AdminSeoPage() {
           </div>
         ))}
 
-        {/* Flat Route generation cards */}
-        {[
-          {
-            label: "Generate Use Cases (Flat)",
-            key: "gen-uc-flat",
-            onClick: () => runAction("gen-uc-flat", "/api/growth/generate-use-cases-flat", { count: 20 }),
-            desc: "Generate 20 use case pages: /ai-{tool}-for-{profession} (root path)",
-          },
-          {
-            label: "Generate Comparisons (Flat)",
-            key: "gen-comps-flat",
-            onClick: () => runAction("gen-comps-flat", "/api/growth/generate-comparisons-flat", { count: 10 }),
-            desc: "Generate 10 comparison pages: /{tool-a}-vs-{tool-b} (root path)",
-          },
-          {
-            label: "Generate Alternatives (Flat)",
-            key: "gen-alts-flat",
-            onClick: () => runAction("gen-alts-flat", "/api/growth/generate-alternatives-flat", { count: 5 }),
-            desc: "Generate 5 alternatives pages: /{tool}-alternatives (root path)",
-          },
-          {
-            label: "Generate Problems (Flat)",
-            key: "gen-probs-flat",
-            onClick: () => runAction("gen-probs-flat", "/api/growth/generate-problems-flat", { count: 10 }),
-            desc: "Generate 10 how-to problem guides: /how-to-{action} (root path)",
-          },
-        ].map(({ label, key, onClick, desc }) => (
-          <div key={key} className="bg-white border border-emerald-100 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-gray-900 mb-1">{label}</h3>
-            <p className="text-xs text-gray-400 mb-4">{desc}</p>
-            <button
-              onClick={onClick}
-              disabled={loading === key}
-              className="w-full bg-emerald-600 text-white text-sm py-2 rounded-lg hover:bg-emerald-700 disabled:opacity-50 transition-colors"
-            >
-              {loading === key ? "Running…" : "Run"}
-            </button>
-          </div>
-        ))}
+        {/* Flat Route generation card — 仅保留 Use Cases Flat（URL格式唯一：/ai-*-for-*） */}
+        <div className="bg-white border border-emerald-100 rounded-xl p-5">
+          <h3 className="text-sm font-semibold text-gray-900 mb-1">Generate Use Cases (Flat)</h3>
+          <p className="text-xs text-gray-400 mb-4">
+            20 use case pages → /ai-&#123;tool&#125;-for-&#123;profession&#125; (root path，与 /use-cases/* 不重复)
+          </p>
+          <button
+            onClick={() => runAction("gen-uc-flat", "/api/growth/generate-use-cases-flat", { count: 20 })}
+            disabled={loading === "gen-uc-flat"}
+            className="w-full bg-emerald-600 text-white text-sm py-2 rounded-lg hover:bg-emerald-700 disabled:opacity-50 transition-colors"
+          >
+            {loading === "gen-uc-flat" ? "Running…" : "Run"}
+          </button>
+        </div>
 
         {/* Unified SEO Generation cards */}
         {[
