@@ -1,27 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createAdminClient } from "@/lib/supabase";
-import { createServerClient } from "@/lib/supabase-server";
+import { requireAdmin, unauthorized } from "@/lib/auth-admin";
 
 export async function GET(req: NextRequest) {
-  // 仅 admin 可访问
-  const serverSupabase = await createServerClient();
-  const { data: { user } } = await serverSupabase.auth.getUser();
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await requireAdmin(req);
+  if (!auth) return unauthorized();
 
-  const admin = createAdminClient();
-
-  // 校验 admin role
-  const { data: userRecord } = await admin
-    .from("users")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  if (userRecord?.role !== "admin") {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  }
+  const { admin } = auth;
 
   const now = new Date();
   const todayStr = now.toISOString().slice(0, 10);

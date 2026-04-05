@@ -18,7 +18,13 @@ const TOOLKIT_COLORS: Record<string, string> = {
   bundle: "border-l-indigo-400",
 };
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const params = await searchParams;
+  const accessDenied = params?.error === "access_denied";
   const supabase = createAdminClient();
 
   const { data: popularTools } = await supabase
@@ -37,6 +43,12 @@ export default async function HomePage() {
 
   return (
     <main>
+      {/* Access Denied Banner */}
+      {accessDenied && (
+        <div className="bg-red-50 border-b border-red-200 px-4 py-3 text-center">
+          <p className="text-sm text-red-700 font-medium">Access denied — you do not have admin privileges.</p>
+        </div>
+      )}
       {/* Hero — compact */}
       <section className="pt-6 pb-3 px-4">
         <div className="max-w-4xl mx-auto text-center">

@@ -28,7 +28,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     .eq("id", user.id)
     .single();
 
-  if (userRecord?.role !== "admin") redirect("/");
+  if (userRecord?.role !== "admin") redirect("/?error=access_denied");
 
   return (
     <div className="min-h-screen bg-gray-50">
