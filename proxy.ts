@@ -83,12 +83,14 @@ export async function proxy(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  // 保护 /dashboard 和 /admin 路由，未登录重定向到 /login
+  // 保护 /dashboard 和 /admin 路由，未登录重定向到 /login?next=<原始路径>
   if (!user && (
     request.nextUrl.pathname.startsWith("/dashboard") ||
     request.nextUrl.pathname.startsWith("/admin")
   )) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("next", request.nextUrl.pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   return supabaseResponse;

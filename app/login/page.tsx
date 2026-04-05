@@ -9,15 +9,18 @@ export const metadata: Metadata = {
 };
 
 interface Props {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; next?: string }>;
 }
 
 export default async function LoginPage({ searchParams }: Props) {
   const supabase = await createServerClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (user) redirect("/dashboard");
 
-  const { error } = await searchParams;
+  const { error, next } = await searchParams;
+  const destination = next || "/dashboard";
+
+  // 已登录用户直接跳到目标页（保留 next 参数）
+  if (user) redirect(destination);
 
   return (
     <main className="min-h-[calc(100vh-56px)] flex items-center justify-center px-4 py-16">
@@ -27,7 +30,7 @@ export default async function LoginPage({ searchParams }: Props) {
             Email confirmation failed. Please try signing up again or contact support.
           </div>
         )}
-        <LoginForm />
+        <LoginForm next={destination} />
       </div>
     </main>
   );

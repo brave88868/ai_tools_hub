@@ -5,7 +5,11 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 
-export default function LoginForm() {
+interface LoginFormProps {
+  next?: string;
+}
+
+export default function LoginForm({ next = "/dashboard" }: LoginFormProps) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,10 +18,11 @@ export default function LoginForm() {
 
   async function handleGoogleLogin() {
     setLoading(true);
+    const callbackUrl = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: callbackUrl,
       },
     });
     if (error) setError(error.message);
@@ -35,7 +40,7 @@ export default function LoginForm() {
       setError(error.message);
       setLoading(false);
     } else {
-      router.push("/dashboard");
+      router.push(next);
     }
   }
 
