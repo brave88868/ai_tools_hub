@@ -18,6 +18,7 @@ function typeToUrl(type: string, slug: string): string {
     case "problem":      return `${SITE_URL}/${slug}`;
     case "template":     return `${SITE_URL}/templates/${slug}`;
     case "saas_page":    return `${SITE_URL}/saas/${slug}`;
+    case "ai-for":       return `${SITE_URL}/ai-for/${slug}`;
     default:             return `${SITE_URL}/${slug}`;
   }
 }

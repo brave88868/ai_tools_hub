@@ -13,5 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/sitemap-tools.xml` },
     { url: `${SITE_URL}/sitemap-seo.xml` },
     { url: `${SITE_URL}/sitemap-blog.xml` },
+    { url: `${SITE_URL}/sitemap-examples.xml` },
+    { url: `${SITE_URL}/sitemap-templates.xml` },
   ];
 }

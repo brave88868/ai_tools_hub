@@ -8,14 +8,16 @@ const STEP_TIMEOUT_MS = 90_000; // 90s per step max
  * 每日 6am UTC 自动运行全流水线
  * Auth: Bearer CRON_SECRET
  *
- * Step 1: Market Scan       → /api/intelligence/scan-market
- * Step 2: Opportunity Score → /api/intelligence/score-opportunities
- * Step 3: SEO Bulk Generate → /api/seo/generate
- * Step 4: Blog Generation   → /api/operator/generate-blog
- * Step 5: Startup Idea      → /api/operator/generate-startup (score >= 75)
- * Step 6: Page Optimize     → /api/intelligence/optimize-pages
- * Step 7: Record Metrics    → /api/intelligence/record-metrics
- * Step 8: Sitemap Ping      → /api/seo/ping
+ * Step 1:  Market Scan         → /api/intelligence/scan-market
+ * Step 2:  Opportunity Score   → /api/intelligence/score-opportunities
+ * Step 3:  SEO Bulk Generate   → /api/seo/generate (~27 pages)
+ * Step 4:  Blog Generation     → /api/operator/generate-blog
+ * Step 5:  Startup Idea        → /api/operator/generate-startup (score >= 75)
+ * Step 6:  Page Optimize       → /api/intelligence/optimize-pages
+ * Step 7:  Record Metrics      → /api/intelligence/record-metrics
+ * Step 8:  Sitemap Ping        → /api/seo/ping
+ * Step 9:  Template Generation → /api/templates/generate (Mondays only)
+ * Step 10: Examples Cleanup    → delete is_public=false older than 30d (1st of month)
  */
 export async function GET(req: NextRequest) {
   if (req.headers.get("authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -187,7 +189,51 @@ export async function GET(req: NextRequest) {
     console.error("[cron/daily] Step 8 failed:", err);
   }
 
-  console.log(`[cron/daily] Completed ${stepsCompleted}/8 steps`);
+  // ── Step 9: Weekly Template Generation (每周一) ────────────────────────
+  const isMonday = new Date().getDay() === 1;
+  if (isMonday) {
+    try {
+      const result = await callStep("/api/templates/generate", "POST", undefined, {
+        Authorization: `Bearer ${process.env.CRON_SECRET}`,
+      });
+      log.step9_template_generation = result;
+      stepsCompleted++;
+      console.log("[cron/daily] Step 9: Template generation", result);
+    } catch (err) {
+      log.step9_error = (err as Error).message;
+      console.error("[cron/daily] Step 9 failed:", err);
+    }
+  } else {
+    log.step9_template_generation = { skipped: "not Monday" };
+  }
+
+  // ── Step 10: Monthly Examples Cleanup (每月1日) ─────────────────────────
+  const isFirstOfMonth = new Date().getDate() === 1;
+  if (isFirstOfMonth) {
+    try {
+      const admin = createAdminClient();
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+      const { error } = await admin
+        .from("generated_examples")
+        .delete()
+        .eq("is_public", false)
+        .lt("created_at", thirtyDaysAgo.toISOString());
+
+      if (error) throw error;
+      log.step10_examples_cleanup = { ok: true };
+      stepsCompleted++;
+      console.log("[cron/daily] Step 10: Examples cleanup done");
+    } catch (err) {
+      log.step10_error = (err as Error).message;
+      console.error("[cron/daily] Step 10 failed:", err);
+    }
+  } else {
+    log.step10_examples_cleanup = { skipped: "not 1st of month" };
+  }
+
+  console.log(`[cron/daily] Completed ${stepsCompleted}/10 steps`);
 
   return NextResponse.json({
     success: true,

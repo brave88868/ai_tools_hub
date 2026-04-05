@@ -21,6 +21,8 @@ export async function GET() {
     urlEntry(`${SITE_URL}/roadmap`, "0.6", "weekly"),
     urlEntry(`${SITE_URL}/use-cases`, "0.8", "weekly"),
     urlEntry(`${SITE_URL}/saas`, "0.7", "weekly"),
+    urlEntry(`${SITE_URL}/examples`, "0.8", "daily"),
+    urlEntry(`${SITE_URL}/templates`, "0.8", "weekly"),
   ];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
