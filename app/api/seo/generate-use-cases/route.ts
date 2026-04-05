@@ -13,12 +13,7 @@ const TIMEOUT_MS = 25_000;
 
 export async function POST(req: NextRequest) {
   const authHeader = req.headers.get("authorization") ?? "";
-  const cronSecret = process.env.CRON_SECRET ?? "UNDEFINED";
-  const isCron = authHeader === `Bearer ${cronSecret}`;
-
-  console.log("[generate-use-cases] authHeader:", authHeader.substring(0, 30));
-  console.log("[generate-use-cases] CRON_SECRET length:", cronSecret.length);
-  console.log("[generate-use-cases] isCron:", isCron);
+  const isCron = authHeader === `Bearer ${process.env.CRON_SECRET}`;
 
   let admin: ReturnType<typeof createAdminClient>;
   if (isCron) {
