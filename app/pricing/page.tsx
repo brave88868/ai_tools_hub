@@ -118,7 +118,7 @@ export default function PricingPage() {
                   <span className="text-xs text-gray-400 ml-1">/month</span>
                 </div>
                 <button
-                  onClick={() => handleSubscribe(kit.slug)}
+                  onClick={() => { alert("clicked"); handleSubscribe(kit.slug); }}
                   disabled={subscribingSlug === kit.slug}
                   className="text-xs bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
