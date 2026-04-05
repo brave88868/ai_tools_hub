@@ -405,6 +405,7 @@ Optimization Agent       →  自动优化产品
 - SPEC-REFERRAL-02 ✅ Referral 防作弊（同IP 24h限制 + signup_ip写入）+ stats API + ReferralBlock增强 + /admin/referrals
 - SPEC-UX-01 ✅ /roadmap 产品路线图（4列看板）+ /features 排序Tabs + Admin AI Analyze + /admin/revenue 收入面板
 - SPEC-SEO-20 ✅ Programmatic SEO 2.0：5类页面矩阵（compare/alternatives/problems/workflows/industries）+ 5张DB表 + 5个admin API + 5个scripts + cron自动生成 + InternalLinks组件 + sitemap全覆盖
+- SPEC-SEO-MULTIPLIER ✅ SEO流量倍增：5新页面类型（templates/examples/guides/best-ai-tools/tools/keyword）+ 5张DB表 + 5个admin API + KEYWORD_MODIFIERS + INTENT_SLUGS + InternalLinks多表支持 + cron扩展 + admin第三行stats
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
@@ -476,5 +477,5 @@ Optimization Agent       →  自动优化产品
 ## Next Tasks
 
 1. SPEC-11-C: Stripe Live 切换（手动）
-2. SPEC-09: Programmatic SEO Engine（keyword data layer → use-case pages → sitemap）
+2. 运行 SEO Multiplier 内容生成脚本填充 5 张新 DB 表
 3. 考虑删除 /operator/* 页面（已被 /admin/* 完全替代）

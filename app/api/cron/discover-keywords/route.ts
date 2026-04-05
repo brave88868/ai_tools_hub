@@ -137,11 +137,84 @@ Return ONLY valid JSON: {"keywords":[{"keyword":"...","search_intent":"informati
   }
 
   console.log(`[cron/discover-keywords] toolkit=${selected} blog_added=${blogAdded} growth_added=${growthAdded} opportunities=${opportunitiesFound}`);
+
+  const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const cronAuth = `Bearer ${process.env.CRON_SECRET}`;
+
+  // ── Step 4: Google Autocomplete ──────────────────────────────────────────
+  let autocompleteFound = 0;
+  try {
+    const res = await fetch(`${APP_URL}/api/growth/google-autocomplete`, {
+      method: "POST",
+      headers: { "Authorization": cronAuth, "Content-Type": "application/json" },
+      body: JSON.stringify({ count: 5 }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      autocompleteFound = data.discovered ?? 0;
+    }
+  } catch (err) {
+    console.error("[cron/discover-keywords] autocomplete step failed", err);
+  }
+
+  // ── Step 5: Expand Keywords ───────────────────────────────────────────────
+  let expandedCount = 0;
+  try {
+    const res = await fetch(`${APP_URL}/api/growth/expand-keywords`, {
+      method: "POST",
+      headers: { "Authorization": cronAuth, "Content-Type": "application/json" },
+      body: JSON.stringify({ count: 20 }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      expandedCount = data.expanded ?? 0;
+    }
+  } catch (err) {
+    console.error("[cron/discover-keywords] expand step failed", err);
+  }
+
+  // ── Step 6: Detect Intent ─────────────────────────────────────────────────
+  let intentsClassified = 0;
+  try {
+    const res = await fetch(`${APP_URL}/api/growth/detect-intent`, {
+      method: "POST",
+      headers: { "Authorization": cronAuth, "Content-Type": "application/json" },
+      body: JSON.stringify({ limit: 20 }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      intentsClassified = data.classified ?? 0;
+    }
+  } catch (err) {
+    console.error("[cron/discover-keywords] detect-intent step failed", err);
+  }
+
+  // ── Step 7: Generate Pages from Intents ──────────────────────────────────
+  let pagesGenerated = 0;
+  try {
+    const res = await fetch(`${APP_URL}/api/growth/generate-from-intents`, {
+      method: "POST",
+      headers: { "Authorization": cronAuth, "Content-Type": "application/json" },
+      body: JSON.stringify({ limit: 5 }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      pagesGenerated = data.generated ?? 0;
+    }
+  } catch (err) {
+    console.error("[cron/discover-keywords] generate-from-intents step failed", err);
+  }
+
+  console.log(`[cron/discover-keywords] autocomplete=${autocompleteFound} expanded=${expandedCount} intents=${intentsClassified} pages=${pagesGenerated}`);
   return Response.json({
     success: true,
     toolkit: selected,
     blog_keywords_added: blogAdded,
     growth_keywords_added: growthAdded,
     opportunities_found: opportunitiesFound,
+    autocomplete_found: autocompleteFound,
+    expanded: expandedCount,
+    intents_classified: intentsClassified,
+    pages_generated: pagesGenerated,
   });
 }
