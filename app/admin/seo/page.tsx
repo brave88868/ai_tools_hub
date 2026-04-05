@@ -9,6 +9,11 @@ interface Stats {
   useCasePages: number;
   growthKeywords: number;
   opportunities: number;
+  comparisons: number;
+  alternatives: number;
+  industries: number;
+  problems: number;
+  workflows: number;
 }
 
 interface SeoSuggestion {
@@ -31,6 +36,7 @@ async function authHeader() {
 export default function AdminSeoPage() {
   const [stats, setStats] = useState<Stats>({
     keywords: 0, pendingKeywords: 0, useCasePages: 0, growthKeywords: 0, opportunities: 0,
+    comparisons: 0, alternatives: 0, industries: 0, problems: 0, workflows: 0,
   });
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState<string | null>(null);
@@ -38,20 +44,26 @@ export default function AdminSeoPage() {
   const [applyingSlug, setApplyingSlug] = useState<string | null>(null);
 
   async function loadStats() {
-    const [{ count: kw }, { count: pending }, { count: uc }, { count: gkw }, { count: opps }] =
-      await Promise.all([
-        supabase.from("seo_keywords").select("*", { count: "exact", head: true }),
-        supabase.from("seo_keywords").select("*", { count: "exact", head: true }).eq("status", "pending"),
-        supabase.from("tool_use_cases").select("*", { count: "exact", head: true }),
-        supabase.from("growth_keywords").select("*", { count: "exact", head: true }),
-        supabase.from("tool_opportunities").select("*", { count: "exact", head: true }),
-      ]);
+    const [
+      { count: kw }, { count: pending }, { count: uc }, { count: gkw }, { count: opps },
+      { count: comps }, { count: alts }, { count: inds }, { count: probs }, { count: wfs },
+    ] = await Promise.all([
+      supabase.from("seo_keywords").select("*", { count: "exact", head: true }),
+      supabase.from("seo_keywords").select("*", { count: "exact", head: true }).eq("status", "pending"),
+      supabase.from("tool_use_cases").select("*", { count: "exact", head: true }),
+      supabase.from("growth_keywords").select("*", { count: "exact", head: true }),
+      supabase.from("tool_opportunities").select("*", { count: "exact", head: true }),
+      supabase.from("seo_comparisons").select("*", { count: "exact", head: true }),
+      supabase.from("seo_alternatives").select("*", { count: "exact", head: true }),
+      supabase.from("seo_industries").select("*", { count: "exact", head: true }),
+      supabase.from("seo_problems").select("*", { count: "exact", head: true }),
+      supabase.from("seo_workflows").select("*", { count: "exact", head: true }),
+    ]);
     setStats({
-      keywords: kw ?? 0,
-      pendingKeywords: pending ?? 0,
-      useCasePages: uc ?? 0,
-      growthKeywords: gkw ?? 0,
-      opportunities: opps ?? 0,
+      keywords: kw ?? 0, pendingKeywords: pending ?? 0, useCasePages: uc ?? 0,
+      growthKeywords: gkw ?? 0, opportunities: opps ?? 0,
+      comparisons: comps ?? 0, alternatives: alts ?? 0, industries: inds ?? 0,
+      problems: probs ?? 0, workflows: wfs ?? 0,
     });
   }
 
@@ -112,8 +124,8 @@ export default function AdminSeoPage() {
     <div>
       <h1 className="text-xl font-bold text-gray-900 mb-6">SEO Engine</h1>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+      {/* Stats — existing */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
         {[
           { label: "SEO Keywords", value: stats.keywords },
           { label: "Pending Keywords", value: stats.pendingKeywords },
@@ -124,6 +136,22 @@ export default function AdminSeoPage() {
           <div key={label} className="bg-white border border-gray-200 rounded-xl p-4">
             <div className="text-2xl font-bold text-gray-900">{value.toLocaleString()}</div>
             <div className="text-xs text-gray-400 mt-1">{label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Stats — SEO 2.0 */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+        {[
+          { label: "Comparisons", value: stats.comparisons },
+          { label: "Alternatives", value: stats.alternatives },
+          { label: "Industries", value: stats.industries },
+          { label: "Problems", value: stats.problems },
+          { label: "Workflows", value: stats.workflows },
+        ].map(({ label, value }) => (
+          <div key={label} className="bg-indigo-50 border border-indigo-100 rounded-xl p-4">
+            <div className="text-2xl font-bold text-indigo-700">{value.toLocaleString()}</div>
+            <div className="text-xs text-indigo-400 mt-1">{label}</div>
           </div>
         ))}
       </div>
@@ -165,6 +193,52 @@ export default function AdminSeoPage() {
               onClick={onClick}
               disabled={loading === key}
               className="w-full bg-black text-white text-sm py-2 rounded-lg hover:bg-gray-800 disabled:opacity-50 transition-colors"
+            >
+              {loading === key ? "Running…" : "Run"}
+            </button>
+          </div>
+        ))}
+
+        {/* SEO 2.0 cards */}
+        {[
+          {
+            label: "Generate Comparisons",
+            key: "gen-comps",
+            onClick: () => runAction("gen-comps", "/api/growth/generate-comparisons", { limit: 10 }),
+            desc: "Generate 10 tool comparison articles (tool A vs tool B)",
+          },
+          {
+            label: "Generate Alternatives",
+            key: "gen-alts",
+            onClick: () => runAction("gen-alts", "/api/growth/generate-alternatives", { limit: 5 }),
+            desc: "Generate 5 '{tool} alternatives' articles from competitor list",
+          },
+          {
+            label: "Generate Industry Pages",
+            key: "gen-inds",
+            onClick: () => runAction("gen-inds", "/api/growth/generate-industries", { limit: 5 }),
+            desc: "Generate 5 'best AI tools for {industry}' pages",
+          },
+          {
+            label: "Generate Problem Pages",
+            key: "gen-probs",
+            onClick: () => runAction("gen-probs", "/api/growth/generate-problems", { limit: 5 }),
+            desc: "Generate 5 how-to problem solving guides",
+          },
+          {
+            label: "Generate Workflows",
+            key: "gen-wfs",
+            onClick: () => runAction("gen-wfs", "/api/growth/generate-workflows", { limit: 5 }),
+            desc: "Generate 5 AI workflow step-by-step guides",
+          },
+        ].map(({ label, key, onClick, desc }) => (
+          <div key={key} className="bg-white border border-indigo-100 rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-gray-900 mb-1">{label}</h3>
+            <p className="text-xs text-gray-400 mb-4">{desc}</p>
+            <button
+              onClick={onClick}
+              disabled={loading === key}
+              className="w-full bg-indigo-600 text-white text-sm py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition-colors"
             >
               {loading === key ? "Running…" : "Run"}
             </button>

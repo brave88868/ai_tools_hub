@@ -38,7 +38,8 @@
       "Bash(python -m json.tool)",
       "Bash(echo \"exit: $?\")",
       "Bash(ls -la \"E:\\\\Projects\\\\ai_tools_hub\"/*.ts)",
-      "Bash(dir \"E:\\\\Projects\\\\ai_tools_hub\\\\*.ts\")"
+      "Bash(dir \"E:\\\\Projects\\\\ai_tools_hub\\\\*.ts\")",
+      "Bash(rm:*)"
     ]
   }
 }

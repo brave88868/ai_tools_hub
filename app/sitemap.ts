@@ -11,14 +11,39 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { data: toolkits },
     { data: useCases },
     { data: blogPosts },
+    { data: comparisons },
+    { data: alternatives },
+    { data: industries },
+    { data: problems },
+    { data: workflows },
   ] = await Promise.all([
     supabase.from("tools").select("slug, created_at").eq("is_active", true),
     supabase.from("toolkits").select("slug, created_at").eq("is_active", true),
     supabase.from("tool_use_cases").select("slug, created_at").then(
       (res) => res,
-      () => ({ data: null })  // table may not exist yet
+      () => ({ data: null })
     ),
     supabase.from("blog_posts").select("slug, updated_at").eq("published", true),
+    supabase.from("seo_comparisons").select("slug, created_at").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_alternatives").select("slug, created_at").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_industries").select("slug, created_at").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_problems").select("slug, created_at").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_workflows").select("slug, created_at").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
   ]);
 
   const now = new Date().toISOString();
@@ -69,6 +94,46 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: post.updated_at ?? now,
       changeFrequency: "monthly" as const,
       priority: 0.6,
+    })),
+
+    // 对比页面
+    ...(comparisons ?? []).map((row) => ({
+      url: `${SITE_URL}/compare/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+    })),
+
+    // 替代品页面
+    ...(alternatives ?? []).map((row) => ({
+      url: `${SITE_URL}/alternatives/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+    })),
+
+    // 行业页面
+    ...(industries ?? []).map((row) => ({
+      url: `${SITE_URL}/ai-tools-for/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+
+    // 问题解决页面
+    ...(problems ?? []).map((row) => ({
+      url: `${SITE_URL}/problems/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+
+    // 工作流页面
+    ...(workflows ?? []).map((row) => ({
+      url: `${SITE_URL}/workflows/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
     })),
   ];
 }

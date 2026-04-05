@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
 import { createAdminClient } from "@/lib/supabase";
 import { getProfessions, getProfession } from "@/lib/seo/loaders";
 import { faqSchema, howToSchema, breadcrumbSchema } from "@/lib/seo/schemas";
@@ -11,12 +12,35 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
   return getProfessions().map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+
+  // DB-backed industry page takes priority
+  const supabase = createAdminClient();
+  const { data: industryRow } = await supabase
+    .from("seo_industries")
+    .select("seo_title, seo_description, industry")
+    .eq("slug", slug)
+    .single();
+
+  if (industryRow) {
+    const title = industryRow.seo_title ?? `Best AI Tools for ${industryRow.industry} | AI Tools Hub`;
+    const description = industryRow.seo_description ?? `Discover top AI tools for ${industryRow.industry}`;
+    const siteUrl = "https://aitoolsstation.com";
+    return {
+      title, description,
+      alternates: { canonical: `${siteUrl}/ai-tools-for/${slug}` },
+      openGraph: { title, description, type: "article", url: `${siteUrl}/ai-tools-for/${slug}` },
+      twitter: { card: "summary_large_image", title, description },
+    };
+  }
+
   const p = getProfession(slug);
   if (!p) return { title: "Not Found" };
 
@@ -36,11 +60,86 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProfessionPage({ params }: Props) {
   const { slug } = await params;
+  const supabase = createAdminClient();
+
+  // ── DB-backed industry page ───────────────────────────────────────────────
+  const { data: industryRow } = await supabase
+    .from("seo_industries")
+    .select("*")
+    .eq("slug", slug)
+    .single();
+
+  if (industryRow) {
+    const siteUrl = "https://aitoolsstation.com";
+    const title = industryRow.seo_title?.replace(" | AI Tools Hub", "") ?? industryRow.industry;
+    const { data: featuredTools } = await supabase
+      .from("tools")
+      .select("slug, name, description, toolkits(slug, name)")
+      .eq("is_active", true)
+      .order("sort_order")
+      .limit(6);
+
+    const breadcrumbJsonLd = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+        { "@type": "ListItem", position: 2, name: "AI Tools For", item: `${siteUrl}/ai-tools-for` },
+        { "@type": "ListItem", position: 3, name: title, item: `${siteUrl}/ai-tools-for/${slug}` },
+      ],
+    };
+
+    return (
+      <>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+        <main className="max-w-3xl mx-auto px-4 py-10">
+          <nav className="text-xs text-gray-400 mb-6 flex items-center gap-1.5">
+            <Link href="/" className="hover:text-gray-600">Home</Link>
+            <span>/</span>
+            <Link href="/toolkits" className="hover:text-gray-600">AI Tools</Link>
+            <span>/</span>
+            <span className="text-gray-600 capitalize truncate">{title}</span>
+          </nav>
+          <h1 className="text-2xl font-bold text-gray-900 mb-6 leading-snug">{industryRow.seo_title?.replace(" | AI Tools Hub", "") ?? `Best AI Tools for ${industryRow.industry}`}</h1>
+          {industryRow.content && (
+            <article className="prose prose-sm max-w-none text-gray-700 prose-headings:text-gray-900 prose-headings:font-semibold prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:underline prose-li:text-gray-700 mb-10">
+              <ReactMarkdown>{industryRow.content}</ReactMarkdown>
+            </article>
+          )}
+          {(featuredTools ?? []).length > 0 && (
+            <section className="mb-10">
+              <h2 className="text-base font-semibold text-gray-900 mb-4">Top AI Tools to Try</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {(featuredTools ?? []).map((tool) => {
+                  const toolkit = tool.toolkits as unknown as { slug: string; name: string } | null;
+                  return (
+                    <Link key={tool.slug} href={`/tools/${tool.slug}`} className="border border-gray-100 rounded-xl p-4 hover:border-indigo-200 transition-all group">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-sm font-medium text-gray-900 group-hover:text-indigo-600">{tool.name}</span>
+                        {toolkit && <span className="text-xs text-gray-400 capitalize">{toolkit.name}</span>}
+                      </div>
+                      <p className="text-xs text-gray-400 line-clamp-2">{tool.description}</p>
+                    </Link>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+          <div className="bg-black text-white rounded-2xl p-6 text-center">
+            <p className="font-semibold text-sm mb-1">Get unlimited access</p>
+            <p className="text-gray-400 text-xs mb-4">50+ AI tools · Free to start · Cancel anytime</p>
+            <Link href="/pricing" className="inline-block bg-white text-black px-5 py-2 rounded-xl text-sm font-medium hover:bg-gray-100 transition-colors">View Pricing →</Link>
+          </div>
+        </main>
+      </>
+    );
+  }
+
+  // ── Static profession fallback ────────────────────────────────────────────
   const p = getProfession(slug);
   if (!p) notFound();
 
   // Fetch recommended tools from Supabase
-  const supabase = createAdminClient();
   const { data: tools } = await supabase
     .from("tools")
     .select("slug, name, description, toolkits(slug)")
