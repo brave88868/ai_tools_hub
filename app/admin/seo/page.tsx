@@ -23,6 +23,13 @@ interface Stats {
   flat_comparisons: number;
   flat_alternatives: number;
   flat_problems: number;
+  // seo_pages 统一表
+  sp_use_cases: number;
+  sp_comparisons: number;
+  sp_alternatives: number;
+  sp_problems: number;
+  sp_templates: number;
+  sp_total: number;
 }
 
 interface SeoSuggestion {
@@ -48,6 +55,8 @@ export default function AdminSeoPage() {
     comparisons: 0, alternatives: 0, industries: 0, problems: 0, workflows: 0,
     keyword_pages: 0, templates: 0, examples: 0, guides: 0, intents: 0,
     flat_use_cases: 0, flat_comparisons: 0, flat_alternatives: 0, flat_problems: 0,
+    sp_use_cases: 0, sp_comparisons: 0, sp_alternatives: 0, sp_problems: 0,
+    sp_templates: 0, sp_total: 0,
   });
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState<string | null>(null);
@@ -60,6 +69,8 @@ export default function AdminSeoPage() {
       { count: comps }, { count: alts }, { count: inds }, { count: probs }, { count: wfs },
       { count: kwPages }, { count: tmpl }, { count: exmp }, { count: gds }, { count: ints },
       { count: flatUc }, { count: flatComps }, { count: flatAlts }, { count: flatProbs },
+      { count: spUc }, { count: spComps }, { count: spAlts }, { count: spProbs },
+      { count: spTmpl }, { count: spTotal },
     ] = await Promise.all([
       supabase.from("seo_keywords").select("*", { count: "exact", head: true }),
       supabase.from("seo_keywords").select("*", { count: "exact", head: true }).eq("status", "pending"),
@@ -80,7 +91,18 @@ export default function AdminSeoPage() {
       supabase.from("seo_comparisons").select("*", { count: "exact", head: true }).not("flat_slug", "is", null),
       supabase.from("seo_alternatives").select("*", { count: "exact", head: true }).not("flat_slug", "is", null),
       supabase.from("seo_problems").select("*", { count: "exact", head: true }).not("flat_slug", "is", null),
+      supabase.from("seo_pages").select("*", { count: "exact", head: true }).eq("type", "use_case"),
+      supabase.from("seo_pages").select("*", { count: "exact", head: true }).eq("type", "comparison"),
+      supabase.from("seo_pages").select("*", { count: "exact", head: true }).eq("type", "alternative"),
+      supabase.from("seo_pages").select("*", { count: "exact", head: true }).eq("type", "problem"),
+      supabase.from("seo_pages").select("*", { count: "exact", head: true }).eq("type", "template"),
+      supabase.from("seo_pages").select("*", { count: "exact", head: true }).neq("type", "legacy"),
     ]);
+    const spUcN = spUc ?? 0;
+    const spCompsN = spComps ?? 0;
+    const spAltsN = spAlts ?? 0;
+    const spProbsN = spProbs ?? 0;
+    const spTmplN = spTmpl ?? 0;
     setStats({
       keywords: kw ?? 0, pendingKeywords: pending ?? 0, useCasePages: uc ?? 0,
       growthKeywords: gkw ?? 0, opportunities: opps ?? 0,
@@ -90,6 +112,9 @@ export default function AdminSeoPage() {
       guides: gds ?? 0, intents: ints ?? 0,
       flat_use_cases: flatUc ?? 0, flat_comparisons: flatComps ?? 0,
       flat_alternatives: flatAlts ?? 0, flat_problems: flatProbs ?? 0,
+      sp_use_cases: spUcN, sp_comparisons: spCompsN, sp_alternatives: spAltsN,
+      sp_problems: spProbsN, sp_templates: spTmplN,
+      sp_total: spTotal ?? 0,
     });
   }
 
@@ -149,6 +174,23 @@ export default function AdminSeoPage() {
   return (
     <div>
       <h1 className="text-xl font-bold text-gray-900 mb-6">SEO Engine</h1>
+
+      {/* Stats — seo_pages 统一表（顶部汇总） */}
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6 p-4 bg-gradient-to-r from-indigo-50 to-violet-50 rounded-2xl border border-indigo-100">
+        {[
+          { label: "Use Cases", value: stats.sp_use_cases },
+          { label: "Comparisons", value: stats.sp_comparisons },
+          { label: "Alternatives", value: stats.sp_alternatives },
+          { label: "Problems", value: stats.sp_problems },
+          { label: "Templates", value: stats.sp_templates },
+          { label: "Total SEO Pages", value: stats.sp_total, highlight: true },
+        ].map(({ label, value, highlight }) => (
+          <div key={label} className={`rounded-xl p-4 text-center ${highlight ? "bg-indigo-600 text-white" : "bg-white border border-indigo-100"}`}>
+            <div className={`text-2xl font-bold ${highlight ? "text-white" : "text-indigo-700"}`}>{value.toLocaleString()}</div>
+            <div className={`text-xs mt-1 ${highlight ? "text-indigo-200" : "text-indigo-400"}`}>{label}</div>
+          </div>
+        ))}
+      </div>
 
       {/* Stats — existing */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
@@ -382,6 +424,64 @@ export default function AdminSeoPage() {
               onClick={onClick}
               disabled={loading === key}
               className="w-full bg-emerald-600 text-white text-sm py-2 rounded-lg hover:bg-emerald-700 disabled:opacity-50 transition-colors"
+            >
+              {loading === key ? "Running…" : "Run"}
+            </button>
+          </div>
+        ))}
+
+        {/* Unified SEO Generation cards */}
+        {[
+          {
+            label: "Generate Use Cases",
+            key: "gen-uc-unified",
+            endpoint: "/api/seo/generate-use-cases",
+            body: { count: 20 },
+            desc: "20 use-case pages → /use-cases/{tool}-for-{profession}",
+          },
+          {
+            label: "Generate Comparisons",
+            key: "gen-comps-unified",
+            endpoint: "/api/seo/generate-comparisons",
+            body: { count: 10 },
+            desc: "10 comparison pages → /{tool-a}-vs-{tool-b}",
+          },
+          {
+            label: "Generate Alternatives",
+            key: "gen-alts-unified",
+            endpoint: "/api/seo/generate-alternatives",
+            body: { count: 5 },
+            desc: "5 alternatives pages → /{competitor}-alternatives",
+          },
+          {
+            label: "Generate Problems",
+            key: "gen-probs-unified",
+            endpoint: "/api/seo/generate-problems",
+            body: { count: 10 },
+            desc: "10 how-to guides → /how-to-{action}",
+          },
+          {
+            label: "Generate Templates",
+            key: "gen-tmpl-unified",
+            endpoint: "/api/seo/generate-templates",
+            body: { count: 10 },
+            desc: "10 template pages → /templates/{tool}-template",
+          },
+          {
+            label: "⚡ Bulk Generate All",
+            key: "bulk-generate",
+            endpoint: "/api/seo/generate",
+            body: {},
+            desc: "Run all generators at once (~22 pages: 10+5+3+2+2)",
+          },
+        ].map(({ label, key, endpoint, body, desc }) => (
+          <div key={key} className="bg-white border border-teal-100 rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-gray-900 mb-1">{label}</h3>
+            <p className="text-xs text-gray-400 mb-4">{desc}</p>
+            <button
+              onClick={() => runAction(key, endpoint, body)}
+              disabled={loading === key}
+              className="w-full bg-teal-600 text-white text-sm py-2 rounded-lg hover:bg-teal-700 disabled:opacity-50 transition-colors"
             >
               {loading === key ? "Running…" : "Run"}
             </button>

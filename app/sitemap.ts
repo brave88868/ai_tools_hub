@@ -25,6 +25,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { data: flatComparisons },
     { data: flatAlternatives },
     { data: flatProblems },
+    // seo_pages 统一表（按 type 分组）
+    { data: seoPagesUseCases },
+    { data: seoPagesComparisons },
+    { data: seoPagesAlternatives },
+    { data: seoPagesProblems },
+    { data: seoPagesTemplates },
   ] = await Promise.all([
     supabase.from("tools").select("slug, created_at").eq("is_active", true),
     supabase.from("toolkits").select("slug, created_at").eq("is_active", true),
@@ -87,6 +93,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       () => ({ data: null })
     ),
     supabase.from("seo_problems").select("flat_slug, created_at").not("flat_slug", "is", null).then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    // seo_pages 统一表
+    supabase.from("seo_pages").select("slug, created_at").eq("type", "use_case").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_pages").select("slug, created_at").eq("type", "comparison").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_pages").select("slug, created_at").eq("type", "alternative").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_pages").select("slug, created_at").eq("type", "problem").then(
+      (res) => res,
+      () => ({ data: null })
+    ),
+    supabase.from("seo_pages").select("slug, created_at").eq("type", "template").then(
       (res) => res,
       () => ({ data: null })
     ),
@@ -253,6 +280,47 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: row.created_at ?? now,
       changeFrequency: "monthly" as const,
       priority: 0.72,
+    })),
+
+    // ── seo_pages 统一表（/use-cases/* 新路由）──────────────────────
+    // Use Case 页面（/use-cases/{slug}）
+    ...(seoPagesUseCases ?? []).map((row) => ({
+      url: `${SITE_URL}/use-cases/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+
+    // Comparison 页面（根路径，来自 seo_pages）
+    ...(seoPagesComparisons ?? []).map((row) => ({
+      url: `${SITE_URL}/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+    })),
+
+    // Alternatives 页面（根路径，来自 seo_pages）
+    ...(seoPagesAlternatives ?? []).map((row) => ({
+      url: `${SITE_URL}/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+    })),
+
+    // Problems 页面（根路径，来自 seo_pages）
+    ...(seoPagesProblems ?? []).map((row) => ({
+      url: `${SITE_URL}/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.72,
+    })),
+
+    // Templates 页面（/templates/{slug}，来自 seo_pages）
+    ...(seoPagesTemplates ?? []).map((row) => ({
+      url: `${SITE_URL}/templates/${row.slug}`,
+      lastModified: row.created_at ?? now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
     })),
   ];
 }
