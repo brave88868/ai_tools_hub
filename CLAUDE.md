@@ -406,6 +406,8 @@ Optimization Agent       →  自动优化产品
 - SPEC-UX-01 ✅ /roadmap 产品路线图（4列看板）+ /features 排序Tabs + Admin AI Analyze + /admin/revenue 收入面板
 - SPEC-SEO-20 ✅ Programmatic SEO 2.0：5类页面矩阵（compare/alternatives/problems/workflows/industries）+ 5张DB表 + 5个admin API + 5个scripts + cron自动生成 + InternalLinks组件 + sitemap全覆盖
 - SPEC-SEO-MULTIPLIER ✅ SEO流量倍增：5新页面类型（templates/examples/guides/best-ai-tools/tools/keyword）+ 5张DB表 + 5个admin API + KEYWORD_MODIFIERS + INTENT_SLUGS + InternalLinks多表支持 + cron扩展 + admin第三行stats
+- SPEC-GROWTH-CAPTURE ✅ 7模块流量捕获飞轮：google-autocomplete + extract-paa + expand-keywords + detect-intent + generate-from-intents + ranking-monitor/import-rankings + optimize-content；3张新表（growth_questions/keyword_intents/seo_rankings）；/admin/growth Section 5 + cron Step 4-7
+- SPEC-REVENUE-ENGINE ✅ 7模块收入引擎：UpgradeCTA（动态文案+7天抑制）+ EmailCapture（匿名线索）+ upgrade-prompt/track-upgrade-view API + leads capture/list + affiliate/stats（30%佣金）+ pricing-experiment（IP哈希A/B）+ pricing-convert + send-welcome（Resend）+ webhook自动affiliate_commissions + auth/callback欢迎邮件 + /admin/revenue全量重构（6区块）
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
@@ -465,6 +467,8 @@ Optimization Agent       →  自动优化产品
 - Cron: discover-keywords(2am) / generate-tools(3am) / generate-blog(4am)
 - 用户封禁：`users.banned=true` → /api/tools/run 返回 403；IP封禁：`banned_ips` 表，同入口检查
 - **proxy.ts**（Next.js 16 的 middleware 替代）：文件名固定 `proxy.ts`，导出函数必须命名为 `proxy`，不是 `middleware`
+- Revenue Engine: `UpgradeCTA` 7天localStorage抑制（key: `upgrade_cta_hidden_{trigger}`）；`EmailCapture` 一次性提交（key: `email_capture_submitted`）；`upgrade_prompts` 表存动态文案，DEFAULTS兜底；`leads` 表存邮件线索；`affiliate_commissions` 表存佣金（30%，单位分）；`pricing_experiments` 表做A/B实验（IP哈希分组）；欢迎邮件用 Resend REST API（无SDK），RESEND_API_KEY未设置时静默跳过
+- Revenue Engine 触发点: tool页结果后（未登录→EmailCapture，已登录free→UpgradeCTA trigger=result_page）；dashboard（7天内>5次tool_use→UpgradeCTA trigger=heavy_user）；pricing页（A/B实验标签展示）；UpgradeModal（动态文案by errorType）；ReferralBlock（显示联盟佣金）
 
 ## SPEC-11-C — Stripe Live 切换（待手动操作）
 
@@ -478,4 +482,6 @@ Optimization Agent       →  自动优化产品
 
 1. SPEC-11-C: Stripe Live 切换（手动）
 2. 运行 SEO Multiplier 内容生成脚本填充 5 张新 DB 表
-3. 考虑删除 /operator/* 页面（已被 /admin/* 完全替代）
+3. 在 /admin/growth → Traffic Capture 启动飞轮（顺序：Autocomplete → PAA → Expand → Detect → Generate）
+4. 当有 GSC 数据后，用 POST /api/growth/import-rankings 导入排名数据，再运行 Content Optimizer
+5. 考虑删除 /operator/* 页面（已被 /admin/* 完全替代）

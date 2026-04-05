@@ -7,9 +7,9 @@
 
 ## 当前项目状态
 
-**项目阶段**: 🟢 SPEC-REFERRAL-02 完成  
-**当前里程碑**: Stripe Live 切换（SPEC-11-C，手动）→ SPEC-09 Programmatic SEO  
-**最后更新**: 2026-04-05 — Referral 防作弊 + stats API + /admin/referrals
+**项目阶段**: 🟢 SPEC-REVENUE-ENGINE 完成  
+**当前里程碑**: Stripe Live 切换（SPEC-11-C，手动）→ 运行 SEO Multiplier 内容生成脚本  
+**最后更新**: 2026-04-05 — Revenue Engine 7模块：UpgradeCTA + EmailCapture + A/B定价实验 + 线索捕获 + 联盟佣金 + 欢迎邮件 + 收入仪表盘
 
 ### 已完成修复（Bug Fix Log）
 
@@ -97,6 +97,9 @@
 | Admin Dashboard（/admin/*） | ✅ 完成 | 11页面：overview/users/toolkits/tools-manage/tools/seo/blog/analytics/feedback/pricing/revenue；所有 API 改用 Bearer token |
 | Product Roadmap（/roadmap） | ✅ 完成 | 服务端组件，4列看板（Planned/In Progress/Released/Open），读 features 表按 status 分组，Header + sitemap 已接入 |
 | Revenue Dashboard（/admin/revenue） | ✅ 完成 | MRR / 活跃订阅 / 本月收入 / Top Toolkit KPI 卡片；Toolkit 分布表格；最近 5 笔 subscriptions；Stripe best-effort 活跃数；/api/admin/revenue（Bearer token）|
+| Revenue Engine（SPEC-REVENUE-ENGINE） | ✅ 完成 | UpgradeCTA（动态文案+7天抑制）+ EmailCapture（匿名用户线索捕获）+ upgrade-prompt API + leads capture/list API + affiliate/stats（30%佣金）+ pricing-experiment（IP哈希A/B）+ pricing-convert + send-welcome（Resend）+ webhook自动写affiliate_commissions + auth/callback新用户触发欢迎邮件 + tool页/dashboard页 CTA注入 + /admin/revenue完整收入仪表盘重构（6区块）|
+| Google Traffic Capture（SPEC-GROWTH-CAPTURE） | ✅ 完成 | google-autocomplete + extract-paa（GPT-4o-mini）+ expand-keywords + detect-intent + generate-from-intents + ranking-monitor + import-rankings + optimize-content；/admin/growth Section 5 增加7个操作卡片；discover-keywords cron扩展4步 |
+| SEO Multiplier（SPEC-SEO-MULTIPLIER） | ✅ 完成 | 5类新页面（/templates /examples /guides /best-ai-tools /tools/keyword）+ 5张DB表 + 5个API + KEYWORD_MODIFIERS + INTENT_SLUGS + InternalLinks多表支持 + sitemap全覆盖 + cron每次+26页 + admin/seo第三行stats |
 
 ### Phase 4 — 自动化运营
 
