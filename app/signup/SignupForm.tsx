@@ -50,11 +50,14 @@ export default function SignupForm() {
     if (error) {
       setError(error.message);
     } else {
-      // Supabase auto-creates an unverified session after signUp().
-      // Sign out immediately so the user is not treated as logged in
-      // while waiting for email confirmation.
+      // Supabase may create an unverified session after signUp().
+      // Sign out so the header shows Sign In / Sign Up, not Dashboard.
       await supabase.auth.signOut();
       setSuccess(true);
+      // Explicitly refresh once so the server component picks up the
+      // cleared session. This is safe because we call it once here,
+      // not inside onAuthStateChange (which caused an infinite loop).
+      router.refresh();
     }
     setLoading(false);
   }

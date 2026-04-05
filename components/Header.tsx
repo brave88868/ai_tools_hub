@@ -13,13 +13,19 @@ export default function Header() {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUser(data.user));
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+    // Initial state: verify with server
+    supabase.auth.getUser().then(({ data }) => setUser(data.user ?? null));
+
+    // Listen for auth changes.
+    // Do NOT call router.refresh() here — it causes router reference to
+    // change, re-runs this effect, and creates a race between getUser() and
+    // the just-completed signOut(), leaving the user appearing logged-in.
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
-      router.refresh();
     });
     return () => subscription.unsubscribe();
-  }, [router]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleSignOut() {
     await supabase.auth.signOut();
