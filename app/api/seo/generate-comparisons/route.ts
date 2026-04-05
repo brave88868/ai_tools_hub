@@ -1,14 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin, unauthorized } from "@/lib/auth-admin";
+import { createAdminClient } from "@/lib/supabase";
 import { openai } from "@/lib/openai";
 import { COMPETITORS, competitorDisplayName } from "@/lib/seo-keywords";
 
 const CONCURRENCY = 5;
 
 export async function POST(req: NextRequest) {
-  const auth = await requireAdmin(req);
-  if (!auth) return unauthorized();
-  const { admin } = auth;
+  const authHeader = req.headers.get("authorization") ?? "";
+  const isCron = authHeader === `Bearer ${process.env.CRON_SECRET}`;
+
+  let admin: ReturnType<typeof createAdminClient>;
+  if (isCron) {
+    admin = createAdminClient();
+  } else {
+    const auth = await requireAdmin(req);
+    if (!auth) return unauthorized();
+    admin = auth.admin;
+  }
 
   const body = await req.json().catch(() => ({}));
   const count = Math.min(Number(body.count ?? 10), 30);
@@ -62,6 +71,7 @@ export async function POST(req: NextRequest) {
 
   let generated = 0;
   let skipped = 0;
+  let lastError: string | undefined;
 
   async function generateOne(pair: Pair): Promise<void> {
     const { slugA, nameA, slugB, nameB } = pair;
@@ -125,9 +135,11 @@ Return JSON: { "title": "string", "seo_title": "max 60 chars", "seo_description"
           content: parsed.content ?? "",
         }, { onConflict: "slug", ignoreDuplicates: true });
       } else {
+        lastError = error.message;
         skipped++;
       }
-    } catch {
+    } catch (err) {
+      lastError = (err as Error).message;
       skipped++;
     }
   }
@@ -138,5 +150,5 @@ Return JSON: { "title": "string", "seo_title": "max 60 chars", "seo_description"
 
   if (generated > 0) fetch("https://aitoolsstation.com/api/seo/ping").catch(() => {});
 
-  return NextResponse.json({ generated, skipped });
+  return NextResponse.json({ generated, skipped, lastError });
 }

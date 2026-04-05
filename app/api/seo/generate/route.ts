@@ -57,11 +57,33 @@ export async function POST(req: NextRequest) {
             },
             body: JSON.stringify(task.body),
           });
-          const data = await res.json().catch(() => ({}));
-          const generated = (data as { generated?: number }).generated ?? 0;
+          const data = await res.json().catch(() => ({})) as {
+            generated?: number;
+            skipped?: number;
+            lastError?: string;
+            error?: string;
+            message?: string;
+          };
+
+          if (!res.ok) {
+            const errMsg = data.error ?? `HTTP ${res.status}`;
+            results[task.path] = data;
+            send({ message: `✗ ${task.label.replace("…", "")} — ${errMsg}`, step: tasks.indexOf(task) + 1 });
+            continue;
+          }
+
+          const generated = data.generated ?? 0;
+          const skipped = data.skipped ?? 0;
+          const lastError = data.lastError;
           totalGenerated += generated;
           results[task.path] = data;
-          send({ message: `✓ ${task.label.replace("…", "")} — ${generated} generated`, step: tasks.indexOf(task) + 1 });
+
+          let detail = `${generated} generated`;
+          if (skipped > 0) detail += `, ${skipped} skipped`;
+          if (generated === 0 && lastError) detail += ` (err: ${lastError.slice(0, 80)})`;
+          else if (generated === 0 && data.message) detail += ` (${data.message})`;
+
+          send({ message: `✓ ${task.label.replace("…", "")} — ${detail}`, step: tasks.indexOf(task) + 1 });
         } catch (err) {
           const errMsg = (err as Error).message;
           results[task.path] = { error: errMsg };

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin, unauthorized } from "@/lib/auth-admin";
+import { createAdminClient } from "@/lib/supabase";
 import { openai } from "@/lib/openai";
 import {
   PROFESSIONS,
@@ -11,9 +12,17 @@ const CONCURRENCY = 5;
 const TIMEOUT_MS = 25_000;
 
 export async function POST(req: NextRequest) {
-  const auth = await requireAdmin(req);
-  if (!auth) return unauthorized();
-  const { admin } = auth;
+  const authHeader = req.headers.get("authorization") ?? "";
+  const isCron = authHeader === `Bearer ${process.env.CRON_SECRET}`;
+
+  let admin: ReturnType<typeof createAdminClient>;
+  if (isCron) {
+    admin = createAdminClient();
+  } else {
+    const auth = await requireAdmin(req);
+    if (!auth) return unauthorized();
+    admin = auth.admin;
+  }
 
   const body = await req.json().catch(() => ({}));
   const count = Math.min(Number(body.count ?? 20), 50);
@@ -57,6 +66,7 @@ export async function POST(req: NextRequest) {
   // 4. 并发生成（最多 CONCURRENCY 个并发）
   let generated = 0;
   let skipped = 0;
+  let lastError: string | undefined;
 
   async function generateOne(item: typeof batch[0]): Promise<void> {
     const { tool, profession, slug } = item;
@@ -137,8 +147,12 @@ Return JSON:
 
       const { error } = await admin.from("seo_pages").insert(row);
       if (!error) generated++;
-      else skipped++;
-    } catch {
+      else {
+        lastError = error.message;
+        skipped++;
+      }
+    } catch (err) {
+      lastError = (err as Error).message;
       skipped++;
     }
   }
@@ -155,5 +169,5 @@ Return JSON:
     fetch(reqUrl.toString()).catch(() => {});
   }
 
-  return NextResponse.json({ generated, skipped, total_existing: totalExisting });
+  return NextResponse.json({ generated, skipped, total_existing: totalExisting, lastError });
 }
