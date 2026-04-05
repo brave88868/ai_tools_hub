@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin, unauthorized } from "@/lib/auth-admin";
+import { createAdminClient } from "@/lib/supabase";
 import { openai } from "@/lib/openai";
 
 export async function POST(req: NextRequest) {
