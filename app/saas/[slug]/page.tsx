@@ -18,7 +18,6 @@ interface SaasProject {
   primary_tool_slug: string | null;
   seo_pages_count: number;
   status: string;
-  meta: Record<string, unknown> | null;
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -102,7 +101,7 @@ export default async function SaasLandingPage({ params }: Props) {
   const [{ data: project }, { data: toolkits }, { data: seoPages }] = await Promise.all([
     supabase
       .from("saas_projects")
-      .select("id, name, slug, domain, tagline, description, keyword, primary_tool_slug, seo_pages_count, status, meta")
+      .select("id, name, slug, domain, tagline, description, keyword, primary_tool_slug, seo_pages_count, status")
       .eq("slug", slug)
       .single(),
     supabase
@@ -146,27 +145,21 @@ export default async function SaasLandingPage({ params }: Props) {
     { title: "Professional Results", body: sentences[1] ?? `Optimized outputs that save you hours of manual work every week.` },
   ];
 
-  // How It Works
-  const metaHowItWorks = (p.meta?.how_it_works as Array<{ title: string; desc: string }> | undefined);
-  const steps = metaHowItWorks && metaHowItWorks.length >= 3
-    ? metaHowItWorks.slice(0, 3)
-    : [
-        { title: "Enter Your Details", desc: "Fill in the simple form with your specific needs" },
-        { title: "AI Generates Content", desc: "Our AI instantly creates professional results" },
-        { title: "Copy & Use", desc: "Copy the output and use it immediately" },
-      ];
+  // How It Works (default steps — meta column not in DB)
+  const steps = [
+    { title: "Enter Your Details", desc: "Fill in the simple form with your specific needs" },
+    { title: "AI Generates Content", desc: "Our AI instantly creates professional results" },
+    { title: "Copy & Use", desc: "Copy the output and use it immediately" },
+  ];
 
-  // FAQ
-  const metaFaq = (p.meta?.faq as Array<{ q: string; a: string }> | undefined);
-  const faqs = metaFaq && metaFaq.length >= 3
-    ? metaFaq
-    : [
-        { q: "Is it free to use?", a: "Yes! Start for free with 3 uses per day. No credit card required." },
-        { q: "How accurate is the AI output?", a: "Our AI is trained on professional templates and produces high-quality results instantly." },
-        { q: "Can I use the output commercially?", a: "Yes, all content generated is yours to use for any purpose." },
-        { q: "Do I need technical skills?", a: "No. Just fill in the form and get results in seconds." },
-        { q: "How do I upgrade to Pro?", a: "Visit our pricing page to unlock unlimited generations." },
-      ];
+  // FAQ (defaults)
+  const faqs = [
+    { q: "Is it free to use?", a: "Yes! Start for free with 3 uses per day. No credit card required." },
+    { q: "How accurate is the AI output?", a: "Our AI is trained on professional templates and produces high-quality results instantly." },
+    { q: "Can I use the output commercially?", a: "Yes, all content generated is yours to use for any purpose." },
+    { q: "Do I need technical skills?", a: "No. Just fill in the form and get results in seconds." },
+    { q: "How do I upgrade to Pro?", a: "Visit our pricing page to unlock unlimited generations." },
+  ];
 
   // Testimonials
   const testimonials = getTestimonials(p.name, p.keyword);
