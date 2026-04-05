@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+// notFound() 仅用于 generateMetadata 中未知分类，列表为空时显示空状态
+
 interface Props {
   params: Promise<{ category: string }>;
 }
@@ -53,7 +55,7 @@ const CATEGORY_META: Record<string, { title: string; description: string; h1: st
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params;
   const meta = CATEGORY_META[category];
-  if (!meta) return { title: "AI Prompts | AI Tools Hub" };
+  if (!meta) notFound();
   return {
     title: meta.title,
     description: meta.description,
@@ -73,8 +75,7 @@ export default async function PromptsCategoryPage({ params }: Props) {
     .order("copy_count", { ascending: false })
     .limit(50);
 
-  if (!prompts || prompts.length === 0) notFound();
-
+  // 未知分类才 404，已知分类空数据显示空状态
   const meta = CATEGORY_META[category] || {
     h1: `AI ${category.replace(/-/g, " ")} Prompts`,
     description: "",
@@ -87,14 +88,18 @@ export default async function PromptsCategoryPage({ params }: Props) {
     advanced: "bg-red-50 text-red-700",
   };
 
+  const isEmpty = !prompts || prompts.length === 0;
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <div className="bg-gradient-to-b from-indigo-50 to-white border-b border-indigo-100">
         <div className="max-w-5xl mx-auto px-4 py-12 text-center">
-          <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 text-xs font-medium px-3 py-1 rounded-full mb-4">
-            {prompts.length} Free Prompts
-          </div>
+          {!isEmpty && (
+            <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 text-xs font-medium px-3 py-1 rounded-full mb-4">
+              {prompts.length} Free Prompts
+            </div>
+          )}
           <h1 className="text-4xl font-bold text-gray-900 mb-3">{meta.h1}</h1>
           <p className="text-gray-500 text-lg max-w-xl mx-auto">
             Copy and paste into ChatGPT or Claude. Ready to use, no setup needed.
@@ -120,7 +125,21 @@ export default async function PromptsCategoryPage({ params }: Props) {
           ))}
         </div>
 
-        {/* Prompts Grid */}
+        {/* Empty State */}
+        {isEmpty ? (
+          <div className="text-center py-20">
+            <div className="text-5xl mb-4">📝</div>
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">{meta.h1}</h2>
+            <p className="text-gray-500">No prompts yet — check back soon.</p>
+            <Link
+              href="/prompts"
+              className="mt-6 inline-block text-sm text-indigo-600 hover:underline"
+            >
+              ← Browse all categories
+            </Link>
+          </div>
+        ) : (
+        /* Prompts Grid */
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
           {prompts.map((prompt) => (
             <Link
@@ -171,6 +190,7 @@ export default async function PromptsCategoryPage({ params }: Props) {
             — they use these prompts automatically so you don&apos;t have to copy-paste.
           </p>
         </div>
+        )}
       </div>
     </div>
   );
