@@ -18,7 +18,7 @@ export default function SignupForm() {
     setLoading(true);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: { redirectTo: "https://www.aitoolsstation.com/auth/callback" },
     });
     if (error) setError(error.message);
     setLoading(false);
@@ -44,7 +44,7 @@ export default function SignupForm() {
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+      options: { emailRedirectTo: "https://www.aitoolsstation.com/auth/callback" },
     });
 
     if (error) {

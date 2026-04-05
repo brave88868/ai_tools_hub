@@ -18,7 +18,7 @@ export default function LoginForm({ next = "/dashboard" }: LoginFormProps) {
 
   async function handleGoogleLogin() {
     setLoading(true);
-    const callbackUrl = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
+    const callbackUrl = `https://www.aitoolsstation.com/auth/callback?next=${encodeURIComponent(next)}`;
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
