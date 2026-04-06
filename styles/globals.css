@@ -22,4 +22,35 @@ body {
 .prose p { color: #374151; line-height: 1.7; }
 .prose ul { list-style: disc; padding-left: 1.5rem; }
 .prose strong { color: #111827; }
-.prose code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-size: 0.875em; }
+
+/* Inline code — purple highlight */
+.prose :not(pre) > code {
+  color: #7c3aed;
+  background-color: #f3f0ff;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.875em;
+}
+
+/* ── Code block readability fix ─────────────────── */
+.prose pre {
+  background-color: #f4f4f5 !important;
+  color: #18181b !important;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.prose pre code {
+  color: #18181b !important;
+  background: transparent !important;
+  padding: 0 !important;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* Ensure all tokens inside pre inherit visible color */
+.prose pre * {
+  color: inherit !important;
+}

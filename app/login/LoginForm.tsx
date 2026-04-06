@@ -60,7 +60,7 @@ export default function LoginForm({ next = "/dashboard" }: LoginFormProps) {
         </div>
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Welcome back</h2>
         <p className="text-gray-500 text-sm leading-relaxed mb-6">
-          Access 150+ professional AI tools for your workflow.
+          Access 400+ professional AI tools for your workflow.
         </p>
         <div className="space-y-3">
           {[
