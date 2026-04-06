@@ -3,19 +3,17 @@
 import { useState } from "react";
 
 const CATEGORIES = [
-  "Writing & Content",
-  "Image & Design",
-  "Video & Audio",
-  "Code & Development",
-  "Data & Analytics",
+  "Writing",
+  "Image",
+  "Video",
+  "Coding",
   "Productivity",
   "Marketing",
-  "Customer Support",
-  "Education",
+  "Research",
   "Other",
 ];
 
-const PRICING_OPTIONS = ["Free", "Freemium", "Paid", "Free Trial", "Open Source"];
+const PRICING_OPTIONS = ["Free", "Freemium", "Paid"];
 
 export default function SubmitToolPage() {
   const [form, setForm] = useState({
