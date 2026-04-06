@@ -418,12 +418,13 @@ Optimization Agent       →  自动优化产品
 - SPEC-AUTONOMOUS-COMPANY-SYSTEM ✅ 自循环闭环：market_signals/opportunity_scores/revenue_metrics 3张新表 + seo_pages.view_count列 + scan-market/score-opportunities/record-metrics/optimize-pages 4个 intelligence API + /api/seo/ping（Google+Bing sitemap ping）+ /api/cron/daily 重写为8步全自动流水线（市场扫描→机会评分→SEO生成→博客→Startup→页面优化→收入记录→sitemap ping，每步90s timeout+独立try-catch）+ vercel.json 新增每日6am UTC cron + /admin/intelligence仪表盘（4统计+5手动按钮+流水线进度+信号列表+MRR折线图）+ admin导航"Intelligence"
 - SPEC-SEO-INDEXING-ACCELERATOR ✅ 加速收录：app/sitemap.ts简化为4个子sitemap入口 + app/sitemap-index.xml（真正<sitemapindex>格式，提交给GSC）+ sitemap-main/tools/seo/blog.xml 4个Route Handler子sitemap + /api/seo/ping改为无鉴权GET（pings sitemap-index.xml）+ 5个SEO生成API末尾追加fire-and-forget ping + tools/[slug]页面底部新增"Use Cases for This Tool"区块（6条，client-side fetch）+ 首页sr-only导航（Google crawl discovery）
 - SPEC-APR07 ✅ Admin增强+Compliance+Auth修复（2026-04-07）：Admin Add User（Toolkit下拉+写入subscriptions）+ Admin Users表新增Toolkits badge列+Expiry到期日列 + Dashboard plan实时从subscriptions查询（含canceling）+ Cancel订阅跳过Stripe（manual_/referral_reward_前缀）+ Webhook补全invoice.payment_succeeded/failed事件 + Referral奖励5邀=Bundle1月写subscriptions（移除旧20邀Pro逻辑）+ Compliance Toolkit免责声明三处覆盖（toolkit页+tool页+API输出）+ robots.txt移除/auth/屏蔽+sitemap指向www+sitemap-index.xml + 首页150+数字统一+hero badge隐私说明 + Google OAuth session丢失修复（proxy.ts 3个bug）+ Google Cloud Console加生产域名
+- SPEC-APR08-TOOLS ✅ 全平台工具扩展（2026-04-08）：文件上传改造（InputForm所有textarea加Upload file按钮，支持PDF/DOCX/PPTX/TXT）+ Mode A双区显示（template-engine.ts结构化输出格式，page.tsx双区渲染）+ A类工具DOC_TOOL_CONFIG注册（12个：resume-optimizer/linkedin-profile-optimizer + 10个新工具）+ 字体调整（InputForm text-sm→text-base，globals.css .prose font-size: 1rem）+ 新增6个Toolkit（data-analytics/sales/social-media/document/productivity/ai-prompts，各20工具）+ 15个现有Toolkit各新增10个工具全部达到20个 + lib/stripe.ts加入6个新Price ID映射（STRIPE_Data_Analytics_PRICE_ID等）+ Admin Users TOOLKIT_COLORS新增6个颜色映射 + 首页400+数字更新
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
 ## Tool Display Modes
 
-- **Mode A (dual-view)**: `resume-optimizer`, `linkedin-profile-optimizer`
+- **Mode A (dual-view)**: `resume-optimizer`, `linkedin-profile-optimizer`, `essay-writing-feedback-generator`, `meta-title-description-optimizer`, `blog-post-seo-optimizer`, `meeting-notes-optimizer`, `reading-notes-to-action-items-converter`, `board-meeting-minutes-generator`, `meeting-notes-to-project-plan-converter`, `email-copywriting-optimizer`, `job-posting-optimizer`, `customer-feedback-response-optimizer`
   → Summary section (what changed + why) + collapsible document preview + Download .docx
 - **Mode B (single-view + download)**: all other tools
   → Full result rendered as Markdown + Download .docx button
@@ -508,10 +509,9 @@ Optimization Agent       →  自动优化产品
 ## Next Tasks
 
 1. SPEC-11-C: Stripe Live 切换（手动）
-2. 文件上传/下载改造（所有工具）— 调研已完成（见 SPEC-PLATFORM-AUDIT.md），只需改3个文件
-3. Compliance Toolkit 页面 banner 显示问题确认（prod环境实际渲染验证）
-4. 字体大小调整（InputForm text-sm→text-base）
-5. 运行 SEO Multiplier 内容生成脚本填充 5 张新 DB 表
-6. 在 /admin/growth → Traffic Capture 启动飞轮（顺序：Autocomplete → PAA → Expand → Detect → Generate）
-7. 当有 GSC 数据后，用 POST /api/growth/import-rankings 导入排名数据，再运行 Content Optimizer
-8. 考虑删除 /operator/* 页面（已被 /admin/* 完全替代）
+2. Compliance Toolkit banner 显示确认（prod环境实际渲染验证）
+3. Product Hunt 发布（Apr 9 17:01 Sydney）
+4. 运行 SEO Multiplier 内容生成脚本填充 5 张新 DB 表
+5. 在 /admin/growth → Traffic Capture 启动飞轮（顺序：Autocomplete → PAA → Expand → Detect → Generate）
+6. 当有 GSC 数据后，用 POST /api/growth/import-rankings 导入排名数据，再运行 Content Optimizer
+7. 考虑删除 /operator/* 页面（已被 /admin/* 完全替代）

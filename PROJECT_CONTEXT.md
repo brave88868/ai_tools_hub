@@ -7,9 +7,9 @@
 
 ## 当前项目状态
 
-**项目阶段**: 🟢 SPEC-APR07 完成  
-**当前里程碑**: Admin增强（Add User Toolkit下拉+Toolkits badge+Expiry列）+ Compliance Toolkit三处免责声明 + Google OAuth proxy.ts修复 + Referral 5邀=Bundle1月 + Webhook invoice事件完整。下一步：文件上传改造 + Stripe Live切换  
-**最后更新**: 2026-04-07 — SPEC-APR07：Admin/Compliance/Referral/Auth/Webhook全部完成
+**项目阶段**: 🟢 SPEC-APR08-TOOLS 完成  
+**当前里程碑**: 全平台工具扩展完成（21个toolkit × 20工具 = 420工具）+ 文件上传改造 + Mode A双区显示（12工具）+ 6个新Toolkit上线。下一步：Stripe Live切换 + Product Hunt发布  
+**最后更新**: 2026-04-08 — SPEC-APR08-TOOLS：工具扩展/文件上传/Mode A/字体/数字全部完成
 
 ### 已完成修复（Bug Fix Log）
 
@@ -40,33 +40,42 @@
 
 ### 当前技术状态
 
-- 72 active tools（6 toolkits，每个 10 tools，+ 12 额外工具）
-- All tools: tool_type=template, inputs_schema 已填充, prompt_file 已验证
-- File upload: PDF/DOCX/PPTX/TXT，Vercel nodejs runtime（FileUploadInput → /api/tools/extract-text）
+- **420 active tools**（21 toolkits × 20 tools）
+- Toolkits: 21个（15个原有 + 6个新增：data-analytics/sales/social-media/document/productivity/ai-prompts）
+- All tools: tool_type=template, inputs_schema 已填充, prompt_template inline（auto_generated=true）
+- File upload: **所有工具 textarea 字段均有 Upload file 按钮**，支持 PDF/DOCX/PPTX/TXT（InputForm.tsx）
+- Mode A 双区显示（12个工具已注册）：
+  - resume-optimizer, linkedin-profile-optimizer
+  - essay-writing-feedback-generator, meta-title-description-optimizer
+  - blog-post-seo-optimizer, meeting-notes-optimizer
+  - reading-notes-to-action-items-converter, board-meeting-minutes-generator
+  - meeting-notes-to-project-plan-converter, email-copywriting-optimizer
+  - job-posting-optimizer, customer-feedback-response-optimizer
 - Download: 所有工具输出 .docx 格式
 - Auth: Supabase email + Google OAuth，sign-out 正常；**Google OAuth session丢失已修复（proxy.ts 3 bugs）**
 - Billing: Stripe checkout + webhook (price.updated/subscription.updated/deleted/invoice.*) + Supabase 同步（**仍在 Test 模式**）
+- Stripe Price ID 映射：21个toolkit均已配置（6新增：STRIPE_Data_Analytics_PRICE_ID等）
 - subscriptions表：cancel_at_period_end列已存在；manual_/referral_reward_前缀记录为手动插入，cancel时跳过Stripe；users.plan实时从subscriptions同步
 - Prompt 质量: 所有工具含 STEP 1 内部分析 + 结构化输出
 - Rate limiting: 匿名1次/天（IP+UA fingerprint）/ 登录免费3次/天+30次终身 / 付费/pro角色100次/天 / admin无限制
 - 权限层级（已验证）: admin > pro role > bundle > single-toolkit > free，toolkit隔离无漏洞
 - 角色系统: users.role = user(默认)/pro(付费，可手动授予)/admin；users.plan = free/pro（set-role API同步）
-- Admin Users页: Toolkits badge列（显示订阅toolkit名称）+ Expiry到期日列；Add User支持Toolkit下拉+写subscriptions表
-- Compliance Toolkit: /toolkits/compliance-toolkit 顶部banner + /tools/[slug] 工具页banner + API输出末尾自动追加免责声明
+- Admin Users页: Toolkits badge列（21个toolkit颜色映射）+ Expiry到期日列；Add User支持Toolkit下拉+写subscriptions表
+- Compliance Toolkit: /toolkits/compliance-toolkit 顶部banner + /tools/[slug] 工具页banner（条件：tool.toolkits?.slug==='compliance-toolkit'）+ API输出末尾自动追加免责声明
 - Referral里程碑: 5邀=Bundle 1month（写subscriptions，prefix=referral_reward_）；移除旧20邀Pro逻辑
-- Growth Engine: growth_keywords/tool_opportunities 两张新表；tools 表新增 auto_generated/seo_title/seo_description/prompt_template 列；tool_use_cases 表新增
+- Growth Engine: growth_keywords/tool_opportunities 两张新表；tools 表新增 auto_generated/seo_title/seo_description/prompt_template 列
 - SEO页面: /tools/[slug]/[usecase] (use-case落地页), /ai-tools-for/[profession] (职业聚合页)
 - 内链系统: lib/internal-linking.ts 自动在博客文章注入工具链接
 - 增长控制台: /admin/growth（4模块：关键词/机会/自动工具/流量报告）
-- Cron 增强: discover-keywords 同时生成 growth_keywords + 发现机会；generate-tools 同时自动创建 score≥80 的工具
-- Cover Letter: 6字段（cv_text_file/job_description/name/hiring_manager/company/job_title），Supabase inputs_schema已更新
+- 首页数字: 400+（SocialProof/Hero/PopularTools/PricingPreview/HowItWorks/metadata 已全部更新）
 
-### 待完成 TODO（2026-04-07 更新）
+### 待完成 TODO（2026-04-08 更新）
 
-- 🔲 文件上传/下载改造（全部工具）— 调研已完成（见 SPEC-PLATFORM-AUDIT.md），只需改3个文件：FileUploadInput.tsx + extract-text/route.ts + 可选 InputForm.tsx
-- 🔲 Compliance Toolkit banner 显示确认（prod环境实际渲染验证）
-- 🔲 字体大小调整（InputForm text-sm→text-base）
 - 🔲 SPEC-11-C: Stripe Live 切换（手动）
+- 🔲 Compliance Toolkit banner 显示确认（prod环境实际渲染验证）
+- 🔲 Product Hunt 发布（Apr 9 17:01 Sydney）
+- 🔲 运行 SEO Multiplier 内容生成脚本填充 5 张新 DB 表
+- 🔲 在 /admin/growth → Traffic Capture 启动飞轮
 
 ---
 

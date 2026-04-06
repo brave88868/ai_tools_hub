@@ -72,7 +72,7 @@ export default async function PopularTools() {
           <p className="text-gray-400 text-sm">Popular across our community</p>
         </div>
         <Link href="/toolkits" className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
-          View all 150+ →
+          View all 400+ →
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
