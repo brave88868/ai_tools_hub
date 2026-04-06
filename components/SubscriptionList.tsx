@@ -12,7 +12,10 @@ interface Subscription {
 
 function formatDate(iso: string | null): string {
   if (!iso) return "—";
-  return new Date(iso).toLocaleDateString("en-US", {
+  const d = new Date(iso);
+  // Treat missing/epoch data (before 2000) as unset
+  if (isNaN(d.getTime()) || d.getFullYear() < 2000) return "—";
+  return d.toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
     year: "numeric",
