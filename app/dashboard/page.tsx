@@ -65,16 +65,17 @@ export default async function DashboardPage({
     .select("*", { count: "exact", head: true })
     .eq("user_id", user.id);
 
-  const activeCount = subs.filter((s) => s.status === "active").length;
+  // Count includes canceling — user retains access until period ends
+  const activeCount = subs.length;
 
   // (Referral stats are fetched client-side by ReferralBlock via /api/referral/stats)
 
-  // Plan 标签：显示实际 toolkit 名称
+  // Plan 标签：有任何 active/canceling 订阅 → 显示 toolkit 名称（不依赖 users.plan）
   let planLabel = "Free";
-  if (activeCount > 0) {
-    const names = subs
-      .filter((s) => s.status === "active")
-      .map((s) => s.toolkit_slug.charAt(0).toUpperCase() + s.toolkit_slug.slice(1));
+  if (subs.length > 0) {
+    const names = subs.map(
+      (s) => s.toolkit_slug.charAt(0).toUpperCase() + s.toolkit_slug.slice(1)
+    );
     planLabel = names.length === 1 ? names[0] : `${names.length} Toolkits`;
   }
 

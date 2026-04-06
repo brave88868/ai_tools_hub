@@ -192,14 +192,16 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "DB update failed" }, { status: 500 });
       }
 
-      // Downgrade plan if no active subscriptions remain
+      // Downgrade plan only if no active OR canceling subscriptions remain.
+      // A canceling subscription still grants access until period_end —
+      // only downgrade once all subscriptions are truly gone.
       if (status === "canceled" && updatedSubs && updatedSubs.length > 0) {
         const userId = updatedSubs[0].user_id;
         const { count } = await supabase
           .from("subscriptions")
           .select("*", { count: "exact", head: true })
           .eq("user_id", userId)
-          .eq("status", "active");
+          .in("status", ["active", "canceling"]);
         if ((count ?? 0) === 0) {
           await supabase.from("users").update({ plan: "free" }).eq("id", userId);
           console.log("[webhook] user downgraded to free:", userId);
