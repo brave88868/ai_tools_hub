@@ -19,6 +19,7 @@ const STEP_TIMEOUT_MS = 90_000; // 90s per step max
  * Step 9:  Template Generation → /api/templates/generate (Mondays only)
  * Step 10: Examples Cleanup    → delete is_public=false older than 30d (1st of month)
  * Step 11: Prompts Generation  → /api/prompts/generate (Tuesdays only)
+ * Step 12: Internal Links      → Claude Haiku injects 2-3 links into new seo_pages (Wednesdays only)
  */
 export async function GET(req: NextRequest) {
   if (req.headers.get("authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -252,7 +253,90 @@ export async function GET(req: NextRequest) {
     log.step11_prompts_generation = { skipped: "not Tuesday" };
   }
 
-  console.log(`[cron/daily] Completed ${stepsCompleted}/11 steps`);
+  // ── Step 12: Internal Link Injection for new SEO pages (每周三) ───────────
+  const isWednesday = new Date().getDay() === 3;
+  if (isWednesday) {
+    try {
+      const admin = createAdminClient();
+      const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+      // 取最近 24h 生成的 seo_pages（有 content 的）
+      const { data: newPages } = await admin
+        .from("seo_pages")
+        .select("id, slug, content, tool_slug, type")
+        .gte("created_at", since)
+        .not("content", "is", null)
+        .limit(10);
+
+      if (!newPages?.length) {
+        log.step12_internal_links = { skipped: "no new pages in last 24h" };
+      } else {
+        // 取全部 active 工具做锚文本候选
+        const { data: allTools } = await admin
+          .from("tools")
+          .select("slug, name")
+          .eq("is_active", true)
+          .limit(100);
+
+        const toolList = (allTools ?? [])
+          .map((t: { slug: string; name: string }) => `- ${t.name}: /tools/${t.slug}`)
+          .join("\n");
+
+        let injected = 0;
+        const Anthropic = (await import("@anthropic-ai/sdk")).default;
+        const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+        for (const page of newPages) {
+          if (!page.content) continue;
+          try {
+            const msg = await anthropic.messages.create({
+              model: "claude-haiku-4-5-20251001",
+              max_tokens: 4000,
+              messages: [{
+                role: "user",
+                content: `You are an SEO editor. Inject 2-3 natural internal links into the following content.
+
+Available tools to link to:
+${toolList}
+
+Rules:
+- Only link tool names that appear naturally in the text context
+- Use markdown link format: [tool name](/tools/slug)
+- Do NOT add links in headings
+- Do NOT add duplicate links
+- Return ONLY the updated content, no explanation
+
+Content:
+${page.content.substring(0, 3000)}`,
+              }],
+            });
+
+            const updatedContent = (msg.content[0] as { type: string; text: string }).text?.trim();
+            if (updatedContent && updatedContent.length > 100) {
+              await admin
+                .from("seo_pages")
+                .update({ content: updatedContent })
+                .eq("id", page.id);
+              injected++;
+            }
+          } catch (innerErr) {
+            console.error(`[cron/daily] Step 12 page ${page.slug} failed:`, innerErr);
+          }
+        }
+
+        log.step12_internal_links = { pages_processed: newPages.length, links_injected: injected };
+        stepsCompleted++;
+        console.log("[cron/daily] Step 12: Internal link injection", log.step12_internal_links);
+      }
+    } catch (err) {
+      log.step12_error = (err as Error).message;
+      console.error("[cron/daily] Step 12 failed:", err);
+    }
+  } else {
+    log.step12_internal_links = { skipped: "not Wednesday" };
+  }
+
+  console.log(`[cron/daily] Completed ${stepsCompleted}/12 steps`);
 
   return NextResponse.json({
     success: true,

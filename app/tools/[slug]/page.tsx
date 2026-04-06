@@ -128,6 +128,7 @@ export default function ToolPage() {
   const [copied, setCopied] = useState(false);
   const [userRole, setUserRole] = useState<string>("");
   const [toolUseCases, setToolUseCases] = useState<Array<{ slug: string; title: string | null; meta: Record<string, string> | null }>>([]);
+  const [relatedTools, setRelatedTools] = useState<Array<{ slug: string; name: string }>>([]);
 
   useEffect(() => {
     async function loadTool() {
@@ -171,6 +172,18 @@ export default function ToolPage() {
           .eq("type", "use_case")
           .limit(6)
           .then(({ data: ucs }) => { if (ucs) setToolUseCases(ucs as typeof toolUseCases); });
+        // 加载同 toolkit 的相关工具（最多 5 个，排除当前工具）
+        if (data.toolkit_id) {
+          supabase
+            .from("tools")
+            .select("slug, name")
+            .eq("toolkit_id", data.toolkit_id)
+            .eq("is_active", true)
+            .neq("slug", slug)
+            .order("sort_order", { ascending: true })
+            .limit(5)
+            .then(({ data: rt }) => { if (rt) setRelatedTools(rt); });
+        }
       }
       setPageLoading(false);
     }
@@ -432,6 +445,46 @@ export default function ToolPage() {
             </div>
           </div>
         )}
+
+        {/* Related tools in same category */}
+        {relatedTools.length > 0 && tool.toolkits && (
+          <div className="mt-8 pt-6 border-t border-gray-100">
+            <h2 className="text-sm font-semibold text-gray-900 mb-3">
+              More {tool.toolkits.name} Tools
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {relatedTools.map((rt) => (
+                <a
+                  key={rt.slug}
+                  href={`/tools/${rt.slug}`}
+                  className="border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-600 hover:border-indigo-300 hover:text-indigo-600 transition-all"
+                >
+                  {rt.name}
+                </a>
+              ))}
+              <a
+                href={`/toolkits/${tool.toolkits.slug}`}
+                className="border border-indigo-100 bg-indigo-50 rounded-lg px-3 py-1.5 text-xs text-indigo-600 hover:bg-indigo-100 transition-all"
+              >
+                View all →
+              </a>
+            </div>
+          </div>
+        )}
+
+        {/* Alternatives */}
+        <div className="mt-6 flex items-center justify-between px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl">
+          <div>
+            <p className="text-xs font-medium text-gray-700">Looking for alternatives?</p>
+            <p className="text-xs text-gray-400 mt-0.5">Compare {tool.name} with similar AI tools</p>
+          </div>
+          <a
+            href={`/${slug}-alternatives`}
+            className="shrink-0 text-xs text-indigo-600 border border-indigo-200 rounded-lg px-3 py-1.5 hover:bg-indigo-50 transition-all"
+          >
+            See alternatives →
+          </a>
+        </div>
 
         {/* Embed Section */}
         <details className="mt-8 rounded-xl border border-gray-200 overflow-hidden">
