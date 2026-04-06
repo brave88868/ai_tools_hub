@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | AI Tools Hub",
+  title: "Privacy Policy | AI Tools Station",
 };
 
 export default function PrivacyPage() {

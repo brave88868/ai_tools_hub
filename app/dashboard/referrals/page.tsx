@@ -5,9 +5,12 @@ import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 
 interface RewardRow {
+  id: string;
   uses_granted: number;
   type: string;
+  reward_type: string | null;
   milestone: string | null;
+  applied: boolean;
   created_at: string;
 }
 
@@ -192,6 +195,58 @@ export default function ReferralsDashboard() {
               </table>
             )}
           </div>
+
+          {/* Rewards Status */}
+          {!!detail?.rewards.length && (
+            <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+              <div className="px-5 py-3 border-b border-gray-100">
+                <h2 className="text-sm font-semibold text-gray-900">Reward Status</h2>
+              </div>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-gray-50 border-b border-gray-100 text-xs text-gray-400">
+                    <th className="text-left px-5 py-3 font-medium">Reward</th>
+                    <th className="text-left px-5 py-3 font-medium">Earned</th>
+                    <th className="text-right px-5 py-3 font-medium">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  {detail.rewards.map((rw, i) => {
+                    const rewardLabel =
+                      rw.reward_type === "free_month_bundle"
+                        ? "Free Bundle Month"
+                        : rw.uses_granted
+                        ? `+${rw.uses_granted} uses`
+                        : rw.milestone ?? "Bonus";
+                    return (
+                      <tr key={rw.id ?? i} className="hover:bg-gray-50">
+                        <td className="px-5 py-3 text-xs text-gray-800 font-medium">{rewardLabel}</td>
+                        <td className="px-5 py-3 text-xs text-gray-500">
+                          {new Date(rw.created_at).toLocaleDateString("en-US", {
+                            year: "numeric", month: "short", day: "numeric",
+                          })}
+                        </td>
+                        <td className="px-5 py-3 text-right">
+                          {rw.applied ? (
+                            <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                              ✓ Applied
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
+                              Pending
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+              <p className="text-xs text-gray-400 px-5 py-3 border-t border-gray-100">
+                Free month rewards are applied every Sunday. Pending rewards will be active within 7 days.
+              </p>
+            </div>
+          )}
         </div>
       )}
     </main>

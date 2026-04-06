@@ -86,7 +86,7 @@ Return JSON: { "title": "string", "seo_title": "max 60 chars", "seo_description"
       };
 
       const title = parsed.title ?? `Best AI Tools for ${audienceName} in 2025`;
-      const seoTitle = parsed.seo_title ?? `Best AI Tools for ${audienceName} 2025 | AI Tools Hub`;
+      const seoTitle = parsed.seo_title ?? `Best AI Tools for ${audienceName} 2025 | AI Tools Station`;
       const seoDesc =
         parsed.seo_description ??
         `Discover the best AI tools for ${audienceName}. Save time and boost productivity.`;

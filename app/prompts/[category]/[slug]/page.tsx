@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!data) return { title: "Prompt Not Found" };
 
   return {
-    title: `${data.title} — Free AI Prompt | AI Tools Hub`,
+    title: `${data.title} — Free AI Prompt | AI Tools Station`,
     description:
       data.use_case ||
       `Copy this AI prompt for ${data.title}. Free to use with ChatGPT or Claude.`,

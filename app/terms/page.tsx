@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | AI Tools Hub",
+  title: "Terms of Service | AI Tools Station",
 };
 
 export default function TermsPage() {
@@ -14,7 +14,7 @@ export default function TermsPage() {
         <section>
           <h2 className="text-base font-semibold text-gray-800 mb-2">1. Acceptance of Terms</h2>
           <p>
-            By accessing or using AI Tools Hub (&quot;the Service&quot;), you agree to be bound by these
+            By accessing or using AI Tools Station (&quot;the Service&quot;), you agree to be bound by these
             Terms of Service. If you do not agree, please do not use the Service.
           </p>
         </section>
@@ -22,7 +22,7 @@ export default function TermsPage() {
         <section>
           <h2 className="text-base font-semibold text-gray-800 mb-2">2. Description of Service</h2>
           <p>
-            AI Tools Hub provides AI-powered productivity tools via subscription. We reserve the
+            AI Tools Station provides AI-powered productivity tools via subscription. We reserve the
             right to modify, suspend, or discontinue any part of the Service at any time.
           </p>
         </section>
@@ -56,7 +56,7 @@ export default function TermsPage() {
         <section>
           <h2 className="text-base font-semibold text-gray-800 mb-2">6. Limitation of Liability</h2>
           <p>
-            To the maximum extent permitted by law, AI Tools Hub shall not be liable for any
+            To the maximum extent permitted by law, AI Tools Station shall not be liable for any
             indirect, incidental, or consequential damages arising from your use of the Service.
           </p>
         </section>

@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq("published", true)
     .single();
 
-  if (!data) return { title: "Blog | AI Tools Hub" };
+  if (!data) return { title: "Blog | AI Tools Station" };
 
   const title = data.seo_title ?? data.title;
   const description = data.seo_description ?? data.excerpt ?? undefined;
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       url: `https://aitoolsstation.com/blog/${slug}`,
-      siteName: "AI Tools Hub",
+      siteName: "AI Tools Station",
       type: "article",
     },
     twitter: { card: "summary_large_image", title, description },
@@ -77,10 +77,10 @@ export default async function BlogPostPage({ params }: Props) {
     description: post.seo_description ?? post.excerpt ?? "",
     datePublished: post.created_at,
     dateModified: post.updated_at ?? post.created_at,
-    author: { "@type": "Organization", name: "AI Tools Hub" },
+    author: { "@type": "Organization", name: "AI Tools Station" },
     publisher: {
       "@type": "Organization",
-      name: "AI Tools Hub",
+      name: "AI Tools Station",
       url: "https://aitoolsstation.com",
     },
     url: `https://aitoolsstation.com/blog/${slug}`,

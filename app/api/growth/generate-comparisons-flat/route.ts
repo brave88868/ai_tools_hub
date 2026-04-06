@@ -117,7 +117,7 @@ Return JSON: { "seo_title": "string (max 60 chars)", "seo_description": "string 
         tool_a: nameA,
         tool_b: nameB,
         title: `${nameA} vs ${nameB}: Which AI Tool is Better?`,
-        seo_title: parsed.seo_title ?? `${nameA} vs ${nameB} | AI Tools Hub`,
+        seo_title: parsed.seo_title ?? `${nameA} vs ${nameB} | AI Tools Station`,
         seo_description: parsed.seo_description ?? `Compare ${nameA} and ${nameB}. Features, pricing, pros and cons.`,
         content: parsed.content ?? "",
       });

@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq("slug", slug)
     .single();
   return {
-    title: kit ? `${kit.name} — AI Tools Hub` : "Toolkit",
+    title: kit ? `${kit.name} — AI Tools Station` : "Toolkit",
     description: kit?.description ?? "",
   };
 }

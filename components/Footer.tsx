@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">AI Tools Hub</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">AI Tools Station</h3>
             <p className="text-xs text-gray-400 leading-relaxed">
               100+ AI tools for job seekers, creators, marketers, and businesses.
             </p>
@@ -27,6 +27,8 @@ export default function Footer() {
               <li><Link href="/pricing" className="hover:text-gray-600">Pricing</Link></li>
               <li><Link href="/blog" className="hover:text-gray-600">Blog</Link></li>
               <li><Link href="/features" className="hover:text-gray-600">Feature Requests</Link></li>
+              <li><Link href="/submit" className="hover:text-gray-600">Submit a Tool</Link></li>
+              <li><Link href="/partners" className="hover:text-gray-600">Partner Program</Link></li>
             </ul>
           </div>
           <div>
@@ -38,7 +40,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-100 pt-6 text-xs text-gray-400 text-center">
-          © {new Date().getFullYear()} AI Tools Hub. All rights reserved.
+          © {new Date().getFullYear()} AI Tools Station. All rights reserved.
         </div>
       </div>
     </footer>

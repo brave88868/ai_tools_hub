@@ -16,10 +16,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     .eq("slug", slug)
     .single();
 
-  if (!tool) return { title: "AI Tool | AI Tools Hub" };
+  if (!tool) return { title: "AI Tool | AI Tools Station" };
 
   const toolkit = tool.toolkits as unknown as { name: string } | null;
-  const title = tool.seo_title ?? `${tool.name}${toolkit ? ` — ${toolkit.name}` : ""} | AI Tools Hub`;
+  const title = tool.seo_title ?? `${tool.name}${toolkit ? ` — ${toolkit.name}` : ""} | AI Tools Station`;
   const description =
     tool.seo_description ?? tool.description ?? `Use ${tool.name} free — AI-powered tool for instant results.`;
 
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title,
       description,
       url: `https://aitoolsstation.com/tools/${slug}`,
-      siteName: "AI Tools Hub",
+      siteName: "AI Tools Station",
       type: "website",
     },
     twitter: {

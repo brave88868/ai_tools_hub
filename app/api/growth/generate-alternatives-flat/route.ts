@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
 
 Include:
 1. Why users look for ${toolName} alternatives
-2. Top 8 alternatives (include AI Tools Hub — aitoolsstation.com — as a free option where relevant)
+2. Top 8 alternatives (include AI Tools Station — aitoolsstation.com — as a free option where relevant)
 3. Comparison table (tool, best for, pricing)
 4. How to choose the right alternative
 5. Conclusion
@@ -78,7 +78,7 @@ Return JSON: { "seo_title": "string (max 60 chars)", "seo_description": "string 
         flat_slug: flatSlug,
         tool_name: toolName,
         title: `Best ${toolName} Alternatives in 2025`,
-        seo_title: parsed.seo_title ?? `Best ${toolName} Alternatives in 2025 | AI Tools Hub`,
+        seo_title: parsed.seo_title ?? `Best ${toolName} Alternatives in 2025 | AI Tools Station`,
         seo_description: parsed.seo_description ?? `Looking for ${toolName} alternatives? Compare the best options by features and pricing.`,
         content: parsed.content ?? "",
       });

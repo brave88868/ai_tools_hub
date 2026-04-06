@@ -110,7 +110,7 @@ Include natural keyword variations.
 
 Return JSON:
 {
-  "title": "AI ${tool.name} for ${profession}s | AI Tools Hub",
+  "title": "AI ${tool.name} for ${profession}s | AI Tools Station",
   "seo_title": "max 60 chars",
   "seo_description": "max 155 chars",
   "content": "full markdown content"
@@ -136,7 +136,7 @@ Return JSON:
         slug,
         type: "use_case",
         title: parsed.title ?? `AI ${tool.name} for ${profession}s`,
-        seo_title: parsed.seo_title ?? `AI ${tool.name} for ${profession}s | AI Tools Hub`,
+        seo_title: parsed.seo_title ?? `AI ${tool.name} for ${profession}s | AI Tools Station`,
         seo_description:
           parsed.seo_description ??
           `How ${profession}s use ${tool.name} to work smarter and faster.`,

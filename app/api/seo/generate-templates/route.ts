@@ -82,7 +82,7 @@ Return JSON: { "title": "string", "seo_title": "max 60 chars", "seo_description"
       };
 
       const title = parsed.title ?? `${tool.name} Template — Free AI Template`;
-      const seoTitle = parsed.seo_title ?? `Free ${tool.name} Template | AI Tools Hub`;
+      const seoTitle = parsed.seo_title ?? `Free ${tool.name} Template | AI Tools Station`;
       const seoDesc = parsed.seo_description ?? `Download a free ${tool.name} template. Edit with AI in seconds.`;
 
       const { error } = await admin.from("seo_pages").insert({

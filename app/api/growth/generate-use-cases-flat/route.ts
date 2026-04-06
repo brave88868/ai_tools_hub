@@ -107,7 +107,7 @@ Return JSON: { "title": "string", "seo_title": "string (max 60 chars)", "seo_des
         tool_slug: tool.slug,
         profession,
         title: parsed.title ?? `AI ${tool.name} for ${profDisplay}s`,
-        seo_title: parsed.seo_title ?? `AI ${tool.name} for ${profDisplay}s | AI Tools Hub`,
+        seo_title: parsed.seo_title ?? `AI ${tool.name} for ${profDisplay}s | AI Tools Station`,
         seo_description: parsed.seo_description ?? `Use AI-powered ${tool.name} as a ${profDisplay}. Save time, improve results.`,
         content: parsed.content ?? "",
       });

@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const siteUrl = "https://aitoolsstation.com";
   return {
-    title: `${uc.title} | AI Tools Hub`,
+    title: `${uc.title} | AI Tools Station`,
     description: uc.metaDescription,
     alternates: { canonical: `${siteUrl}/use-case/${slug}` },
     openGraph: {

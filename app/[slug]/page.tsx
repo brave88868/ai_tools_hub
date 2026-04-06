@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       .eq("flat_slug", slug)
       .maybeSingle();
     if (!data) return { title: "Not Found" };
-    const title = data.seo_title ?? `${data.tool_a} vs ${data.tool_b} | AI Tools Hub`;
+    const title = data.seo_title ?? `${data.tool_a} vs ${data.tool_b} | AI Tools Station`;
     const description = data.seo_description ?? `Compare ${data.tool_a} and ${data.tool_b}`;
     return {
       title, description,
@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       .eq("flat_slug", slug)
       .maybeSingle();
     if (!data) return { title: "Not Found" };
-    const title = data.seo_title ?? `Best ${data.tool_name} Alternatives | AI Tools Hub`;
+    const title = data.seo_title ?? `Best ${data.tool_name} Alternatives | AI Tools Station`;
     const description = data.seo_description ?? `Find the best ${data.tool_name} alternatives.`;
     return {
       title, description,
@@ -70,7 +70,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       .eq("flat_slug", slug)
       .maybeSingle();
     if (!data) return { title: "Not Found" };
-    const title = data.seo_title ?? `${data.problem} | AI Tools Hub`;
+    const title = data.seo_title ?? `${data.problem} | AI Tools Station`;
     const description = data.seo_description ?? `A step-by-step AI guide: ${data.problem}`;
     return {
       title, description,
@@ -87,7 +87,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq("slug", slug)
     .maybeSingle();
   if (!data) return { title: "Not Found" };
-  const title = data.seo_title ?? `${data.title} | AI Tools Hub`;
+  const title = data.seo_title ?? `${data.title} | AI Tools Station`;
   const description = data.seo_description ?? data.title ?? "";
   return {
     title, description,
@@ -153,7 +153,7 @@ export default async function SlugPage({ params }: Props) {
           </h1>
           <div className="flex flex-wrap gap-3 mb-8 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
             <p className="text-sm text-gray-700 w-full font-medium">
-              Try AI Tools Hub — a powerful alternative, free to start
+              Try AI Tools Station — a powerful alternative, free to start
             </p>
             <Link href="/toolkits" className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
               Browse AI Tools →
@@ -216,8 +216,8 @@ export default async function SlugPage({ params }: Props) {
       "@type": "Article",
       headline: data.title ?? `Best Alternatives to ${data.tool_name} in 2025`,
       description: data.seo_description ?? "",
-      author: { "@type": "Organization", name: "AI Tools Hub" },
-      publisher: { "@type": "Organization", name: "AI Tools Hub", url: SITE_URL },
+      author: { "@type": "Organization", name: "AI Tools Station" },
+      publisher: { "@type": "Organization", name: "AI Tools Station", url: SITE_URL },
       url: `${SITE_URL}/${slug}`,
       datePublished: data.created_at,
     };
@@ -240,7 +240,7 @@ export default async function SlugPage({ params }: Props) {
             </article>
           )}
           <section className="mb-10">
-            <h2 className="text-base font-semibold text-gray-900 mb-4">Try AI Tools Hub — Free to Start</h2>
+            <h2 className="text-base font-semibold text-gray-900 mb-4">Try AI Tools Station — Free to Start</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {toolkits.map((tk) => (
                 <Link
@@ -323,7 +323,7 @@ export default async function SlugPage({ params }: Props) {
             <span className="text-gray-600 truncate">{data.problem}</span>
           </nav>
           <h1 className="text-2xl font-bold text-gray-900 mb-6 leading-snug capitalize">
-            {data.seo_title?.replace(" | AI Tools Hub", "") ?? data.problem}
+            {data.seo_title?.replace(" | AI Tools Station", "") ?? data.problem}
           </h1>
           {data.content && (
             <article className="prose prose-sm max-w-none text-gray-700 prose-headings:text-gray-900 prose-headings:font-semibold prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:underline prose-li:text-gray-700 mb-10">

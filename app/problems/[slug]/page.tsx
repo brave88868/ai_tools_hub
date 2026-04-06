@@ -25,14 +25,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data) return { title: "Not Found" };
 
-  const title = data.seo_title ?? `${data.problem} | AI Tools Hub`;
+  const title = data.seo_title ?? `${data.problem} | AI Tools Station`;
   const description = data.seo_description ?? `A step-by-step AI-powered guide: ${data.problem}`;
 
   return {
     title,
     description,
     alternates: { canonical: `${SITE_URL}/problems/${slug}` },
-    openGraph: { title, description, type: "article", url: `${SITE_URL}/problems/${slug}`, siteName: "AI Tools Hub" },
+    openGraph: { title, description, type: "article", url: `${SITE_URL}/problems/${slug}`, siteName: "AI Tools Station" },
     twitter: { card: "summary_large_image", title, description },
   };
 }
@@ -87,7 +87,7 @@ export default async function ProblemPage({ params }: Props) {
         </nav>
 
         <h1 className="text-2xl font-bold text-gray-900 mb-6 leading-snug capitalize">
-          {data.seo_title?.replace(" | AI Tools Hub", "") ?? data.problem}
+          {data.seo_title?.replace(" | AI Tools Station", "") ?? data.problem}
         </h1>
 
         {/* Article content */}

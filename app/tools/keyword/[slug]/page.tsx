@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data) return { title: "Not Found" };
 
-  const title = data.seo_title ?? `${data.keyword} | AI Tools Hub`;
+  const title = data.seo_title ?? `${data.keyword} | AI Tools Station`;
   const description = data.seo_description ?? `Find the best AI tool for ${data.keyword}.`;
   return {
     title, description,

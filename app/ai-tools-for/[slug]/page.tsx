@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .single();
 
   if (industryRow) {
-    const title = industryRow.seo_title ?? `Best AI Tools for ${industryRow.industry} | AI Tools Hub`;
+    const title = industryRow.seo_title ?? `Best AI Tools for ${industryRow.industry} | AI Tools Station`;
     const description = industryRow.seo_description ?? `Discover top AI tools for ${industryRow.industry}`;
     const siteUrl = "https://aitoolsstation.com";
     return {
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const siteUrl = "https://aitoolsstation.com";
   return {
-    title: `${p.title} | AI Tools Hub`,
+    title: `${p.title} | AI Tools Station`,
     description: p.metaDescription,
     alternates: { canonical: `${siteUrl}/ai-tools-for/${slug}` },
     openGraph: {
@@ -71,7 +71,7 @@ export default async function ProfessionPage({ params }: Props) {
 
   if (industryRow) {
     const siteUrl = "https://aitoolsstation.com";
-    const title = industryRow.seo_title?.replace(" | AI Tools Hub", "") ?? industryRow.industry;
+    const title = industryRow.seo_title?.replace(" | AI Tools Station", "") ?? industryRow.industry;
     const { data: featuredTools } = await supabase
       .from("tools")
       .select("slug, name, description, toolkits(slug, name)")
@@ -100,7 +100,7 @@ export default async function ProfessionPage({ params }: Props) {
             <span>/</span>
             <span className="text-gray-600 capitalize truncate">{title}</span>
           </nav>
-          <h1 className="text-2xl font-bold text-gray-900 mb-6 leading-snug">{industryRow.seo_title?.replace(" | AI Tools Hub", "") ?? `Best AI Tools for ${industryRow.industry}`}</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-6 leading-snug">{industryRow.seo_title?.replace(" | AI Tools Station", "") ?? `Best AI Tools for ${industryRow.industry}`}</h1>
           {industryRow.content && (
             <article className="prose prose-sm max-w-none text-gray-700 prose-headings:text-gray-900 prose-headings:font-semibold prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:underline prose-li:text-gray-700 mb-10">
               <ReactMarkdown>{industryRow.content}</ReactMarkdown>

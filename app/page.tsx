@@ -11,7 +11,7 @@ import FAQ from "@/components/home/FAQ";
 import FinalCTA from "@/components/home/FinalCTA";
 
 export const metadata: Metadata = {
-  title: "AI Tools Hub — 50+ Free AI Tools for Real Workflows",
+  title: "AI Tools Station — 50+ Free AI Tools for Real Workflows",
   description:
     "Generate resumes, marketing copy, YouTube scripts, business plans and more with 50+ free AI tools. Start free, no credit card required.",
 };

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { createServerClient } from "@/lib/supabase-server";
 
 export const metadata: Metadata = {
-  title: "Pricing | AI Tools Hub",
+  title: "Pricing | AI Tools Station",
   description: "Subscribe to the AI toolkit you need. Start free, upgrade anytime.",
 };
 

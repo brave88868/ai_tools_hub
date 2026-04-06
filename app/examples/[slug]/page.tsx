@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data) return { title: "Not Found" };
 
-  const title = data.seo_title ?? `${data.example_type} Examples | AI Tools Hub`;
+  const title = data.seo_title ?? `${data.example_type} Examples | AI Tools Station`;
   const description = data.seo_description ?? `Real AI-generated examples: ${data.example_type}.`;
   return {
     title, description,
@@ -207,7 +207,7 @@ export default async function ExamplePage({ params }: Props) {
     headline: data.seo_title ?? data.example_type,
     description: data.seo_description,
     url: `${SITE_URL}/examples/${slug}`,
-    publisher: { "@type": "Organization", name: "AI Tools Hub", url: SITE_URL },
+    publisher: { "@type": "Organization", name: "AI Tools Station", url: SITE_URL },
   };
 
   const breadcrumb = breadcrumbSchema([

@@ -5,12 +5,12 @@ import { createAdminClient } from "@/lib/supabase";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "AI Tool Use Cases | AI Tools Hub",
+  title: "AI Tool Use Cases | AI Tools Station",
   description: "Browse 1000+ AI tool use cases for every profession. Find how AI tools help software engineers, marketers, designers, lawyers, and more.",
   openGraph: {
-    title: "AI Tool Use Cases | AI Tools Hub",
+    title: "AI Tool Use Cases | AI Tools Station",
     description: "Browse 1000+ AI tool use cases for every profession.",
-    siteName: "AI Tools Hub",
+    siteName: "AI Tools Station",
     type: "website",
   },
 };

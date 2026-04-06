@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
       const prompt = `Write an SEO article: "Top 10 Alternatives to ${toolName} in 2025"
 
 For each alternative include: overview, key features, pricing, pros and cons.
-Focus on how AI Tools Hub tools compare as strong alternatives.
+Focus on how AI Tools Station tools compare as strong alternatives.
 Include a comparison summary at the end.
 
 Return ONLY valid JSON:

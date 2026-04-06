@@ -72,7 +72,7 @@ export default function LoginForm({ next = "/dashboard" }: LoginFormProps) {
 
       {/* Right — form */}
       <div className="border border-gray-200 rounded-2xl p-7 bg-white shadow-sm">
-        <h1 className="text-xl font-bold text-gray-900 mb-1">Sign in to AI Tools Hub</h1>
+        <h1 className="text-xl font-bold text-gray-900 mb-1">Sign in to AI Tools Station</h1>
         <p className="text-sm text-gray-400 mb-6">Subscribe to any toolkit and unlock unlimited generations.</p>
 
         <button

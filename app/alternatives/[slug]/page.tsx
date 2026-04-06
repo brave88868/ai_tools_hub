@@ -25,14 +25,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data) return { title: "Not Found" };
 
-  const title = data.seo_title ?? `Best Alternatives to ${data.tool_name} | AI Tools Hub`;
+  const title = data.seo_title ?? `Best Alternatives to ${data.tool_name} | AI Tools Station`;
   const description = data.seo_description ?? `Find the best ${data.tool_name} alternatives. Compare features, pricing and use cases.`;
 
   return {
     title,
     description,
     alternates: { canonical: `${SITE_URL}/alternatives/${slug}` },
-    openGraph: { title, description, type: "article", url: `${SITE_URL}/alternatives/${slug}`, siteName: "AI Tools Hub" },
+    openGraph: { title, description, type: "article", url: `${SITE_URL}/alternatives/${slug}`, siteName: "AI Tools Station" },
     twitter: { card: "summary_large_image", title, description },
   };
 }
@@ -54,8 +54,8 @@ export default async function AlternativesPage({ params }: Props) {
     "@type": "Article",
     headline: data.title ?? `Best Alternatives to ${data.tool_name}`,
     description: data.seo_description ?? "",
-    author: { "@type": "Organization", name: "AI Tools Hub" },
-    publisher: { "@type": "Organization", name: "AI Tools Hub", url: SITE_URL },
+    author: { "@type": "Organization", name: "AI Tools Station" },
+    publisher: { "@type": "Organization", name: "AI Tools Station", url: SITE_URL },
     url: `${SITE_URL}/alternatives/${slug}`,
     datePublished: data.created_at,
   };
@@ -102,7 +102,7 @@ export default async function AlternativesPage({ params }: Props) {
 
         {/* CTA — toolkit cards */}
         <section className="mb-10">
-          <h2 className="text-base font-semibold text-gray-900 mb-4">Try AI Tools Hub — Free to Start</h2>
+          <h2 className="text-base font-semibold text-gray-900 mb-4">Try AI Tools Station — Free to Start</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {toolkits.map((tk) => (
               <Link

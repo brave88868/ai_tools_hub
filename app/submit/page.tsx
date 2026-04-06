@@ -23,6 +23,7 @@ export default function SubmitToolPage() {
     category: "",
     pricing: "",
     submitter_email: "",
+    affiliate_link: "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -189,6 +190,25 @@ export default function SubmitToolPage() {
             />
             <p className="text-xs text-gray-400 mt-1">
               We&apos;ll notify you when your tool goes live. Never shared.
+            </p>
+          </div>
+
+          {/* Affiliate Link */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Affiliate / Partner Link{" "}
+              <span className="text-gray-400 font-normal">(optional)</span>
+            </label>
+            <input
+              name="affiliate_link"
+              value={form.affiliate_link}
+              onChange={handleChange}
+              type="url"
+              placeholder="https://yourtool.com?ref=aitoolsstation"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+            <p className="text-xs text-gray-400 mt-1">
+              If you have a partner or affiliate link, we&apos;ll use it when linking to your tool.
             </p>
           </div>
 

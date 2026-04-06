@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         from: fromEmail,
         to: email,
-        subject: "Welcome to AI Tools Hub — Your free tools are ready",
+        subject: "Welcome to AI Tools Station — Your free tools are ready",
         text: `${greeting},
 
 You now have access to 72+ free AI tools.
@@ -37,13 +37,13 @@ Get started: https://aitoolsstation.com/toolkits
 You have 3 free uses per day, or upgrade to Pro for 100/day.
 
 Best,
-AI Tools Hub Team`,
+AI Tools Station Team`,
         html: `<p>${greeting},</p>
 <p>You now have access to <strong>72+ free AI tools</strong>.</p>
 <p><a href="https://aitoolsstation.com/toolkits">Get started →</a></p>
 <p>You have <strong>3 free uses per day</strong>, or <a href="https://aitoolsstation.com/pricing">upgrade to Pro</a> for 100/day.</p>
 <br>
-<p>Best,<br>AI Tools Hub Team</p>`,
+<p>Best,<br>AI Tools Station Team</p>`,
       }),
     });
 

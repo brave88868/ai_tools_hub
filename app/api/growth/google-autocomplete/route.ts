@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
       const url = `https://suggestqueries.google.com/complete/search?client=firefox&q=${encodeURIComponent(seed)}`;
       const res = await fetch(url, {
         headers: {
-          "User-Agent": "Mozilla/5.0 (compatible; AI Tools Hub Bot)",
+          "User-Agent": "Mozilla/5.0 (compatible; AI Tools Station Bot)",
           "Accept": "application/json",
         },
         signal: AbortSignal.timeout(8000),

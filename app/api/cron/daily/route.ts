@@ -20,6 +20,7 @@ const STEP_TIMEOUT_MS = 90_000; // 90s per step max
  * Step 10: Examples Cleanup    → delete is_public=false older than 30d (1st of month)
  * Step 11: Prompts Generation  → /api/prompts/generate (Tuesdays only)
  * Step 12: Internal Links      → Claude Haiku injects 2-3 links into new seo_pages (Wednesdays only)
+ * Step 13: Apply Referral Rewards → free_month_bundle → bundle subscription (Sundays only)
  */
 export async function GET(req: NextRequest) {
   if (req.headers.get("authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -336,7 +337,23 @@ ${page.content.substring(0, 3000)}`,
     log.step12_internal_links = { skipped: "not Wednesday" };
   }
 
-  console.log(`[cron/daily] Completed ${stepsCompleted}/12 steps`);
+  // ── Step 13: Apply Referral Rewards (每周日) ────────────────────────────
+  const isSunday = new Date().getDay() === 0;
+  if (isSunday) {
+    try {
+      const result = await callStep("/api/admin/apply-referral-rewards", "POST");
+      log.step13_referral_rewards = result;
+      stepsCompleted++;
+      console.log("[cron/daily] Step 13: Apply referral rewards", result);
+    } catch (err) {
+      log.step13_error = (err as Error).message;
+      console.error("[cron/daily] Step 13 failed:", err);
+    }
+  } else {
+    log.step13_referral_rewards = { skipped: "not Sunday" };
+  }
+
+  console.log(`[cron/daily] Completed ${stepsCompleted}/13 steps`);
 
   return NextResponse.json({
     success: true,

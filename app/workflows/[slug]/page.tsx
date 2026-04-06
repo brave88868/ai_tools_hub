@@ -25,14 +25,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data) return { title: "Not Found" };
 
-  const title = data.seo_title ?? `${data.workflow} | AI Tools Hub`;
+  const title = data.seo_title ?? `${data.workflow} | AI Tools Station`;
   const description = data.seo_description ?? `A complete AI-powered workflow guide for ${data.workflow}`;
 
   return {
     title,
     description,
     alternates: { canonical: `${SITE_URL}/workflows/${slug}` },
-    openGraph: { title, description, type: "article", url: `${SITE_URL}/workflows/${slug}`, siteName: "AI Tools Hub" },
+    openGraph: { title, description, type: "article", url: `${SITE_URL}/workflows/${slug}`, siteName: "AI Tools Station" },
     twitter: { card: "summary_large_image", title, description },
   };
 }
@@ -53,7 +53,7 @@ export default async function WorkflowPage({ params }: Props) {
 
   if (!data) notFound();
 
-  const workflowTitle = data.seo_title?.replace(" | AI Tools Hub", "") ?? data.workflow;
+  const workflowTitle = data.seo_title?.replace(" | AI Tools Station", "") ?? data.workflow;
 
   const howToJsonLd = {
     "@context": "https://schema.org",
@@ -131,7 +131,7 @@ export default async function WorkflowPage({ params }: Props) {
 
         {/* CTA */}
         <div className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-2xl p-6 text-center mb-8">
-          <p className="font-semibold text-sm mb-1">Run this workflow with AI Tools Hub</p>
+          <p className="font-semibold text-sm mb-1">Run this workflow with AI Tools Station</p>
           <p className="text-indigo-100 text-xs mb-4">100+ AI tools · Free to start · No credit card</p>
           <Link href="/toolkits" className="inline-block bg-white text-indigo-700 px-5 py-2 rounded-xl text-sm font-medium hover:bg-indigo-50 transition-colors">
             Get Started Free →

@@ -72,7 +72,7 @@ Return JSON: { "title": "string", "seo_title": "max 60 chars", "seo_description"
       };
 
       const pageTitle = parsed.title ?? title;
-      const seoTitle = parsed.seo_title ?? `${title} | AI Tools Hub`;
+      const seoTitle = parsed.seo_title ?? `${title} | AI Tools Station`;
       const seoDesc = parsed.seo_description ?? `A complete guide: ${title}. Step-by-step with AI tools.`;
 
       const { error } = await admin.from("seo_pages").insert({

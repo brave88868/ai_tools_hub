@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .single();
 
   if (dbRow) {
-    const title = dbRow.seo_title ?? `${dbRow.tool_a} vs ${dbRow.tool_b} | AI Tools Hub`;
+    const title = dbRow.seo_title ?? `${dbRow.tool_a} vs ${dbRow.tool_b} | AI Tools Station`;
     const description = dbRow.seo_description ?? `Compare ${dbRow.tool_a} and ${dbRow.tool_b}`;
     return {
       title, description,
@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const c = getCompare(slug);
   if (!c) return { title: "Not Found" };
   return {
-    title: `${c.title} | AI Tools Hub`,
+    title: `${c.title} | AI Tools Station`,
     description: c.metaDescription,
     alternates: { canonical: `${SITE_URL}/compare/${slug}` },
     openGraph: { title: c.title, description: c.metaDescription, type: "article", url: `${SITE_URL}/compare/${slug}` },
@@ -113,7 +113,7 @@ export default async function ComparePage({ params }: Props) {
 
           {/* CTA */}
           <div className="flex flex-wrap gap-3 mb-8 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
-            <p className="text-sm text-gray-700 w-full font-medium">Try AI Tools Hub — a powerful alternative, free to start</p>
+            <p className="text-sm text-gray-700 w-full font-medium">Try AI Tools Station — a powerful alternative, free to start</p>
             <Link href="/toolkits" className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
               Browse AI Tools →
             </Link>
@@ -217,7 +217,7 @@ export default async function ComparePage({ params }: Props) {
         <section className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
           {[{ tool: c.toolA, isOurs: false }, { tool: c.toolB, isOurs: !!c.toolB.slug }].map(({ tool, isOurs }) => (
             <div key={tool.name} className={`border rounded-2xl p-5 ${isOurs ? "border-indigo-200 bg-indigo-50/30" : "border-gray-200"}`}>
-              {isOurs && <div className="text-xs font-semibold text-indigo-500 uppercase tracking-wide mb-2">AI Tools Hub</div>}
+              {isOurs && <div className="text-xs font-semibold text-indigo-500 uppercase tracking-wide mb-2">AI Tools Station</div>}
               <h3 className="text-base font-bold text-gray-900 mb-1">{tool.name}</h3>
               <p className="text-xs text-gray-500 mb-3 leading-relaxed">{tool.tagline}</p>
               <div className="mb-3">

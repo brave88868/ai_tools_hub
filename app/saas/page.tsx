@@ -6,7 +6,7 @@ import { createAdminClient } from "@/lib/supabase";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "AI SaaS Products | AI Tools Hub",
+  title: "AI SaaS Products | AI Tools Station",
   description: "Discover our collection of AI-powered micro-SaaS products",
 };
 

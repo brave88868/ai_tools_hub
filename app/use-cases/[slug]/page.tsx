@@ -36,10 +36,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .maybeSingle();
 
   if (!data) {
-    return { title: "AI Tool Use Case | AI Tools Hub" };
+    return { title: "AI Tool Use Case | AI Tools Station" };
   }
 
-  const title = data.seo_title ?? `${data.title} | AI Tools Hub`;
+  const title = data.seo_title ?? `${data.title} | AI Tools Station`;
   const description = data.seo_description ?? "Discover how AI tools help professionals work smarter.";
 
   return {
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       url: `${SITE_URL}/use-cases/${slug}`,
-      siteName: "AI Tools Hub",
+      siteName: "AI Tools Station",
       type: "website",
     },
     twitter: { card: "summary_large_image", title, description },

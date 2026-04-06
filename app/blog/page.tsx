@@ -3,7 +3,7 @@ import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase";
 
 export const metadata: Metadata = {
-  title: "Blog | AI Tools Hub",
+  title: "Blog | AI Tools Station",
   description:
     "AI tool guides, tips, and tutorials. Learn how to use AI tools for resume optimization, content creation, marketing, and more.",
 };

@@ -378,7 +378,7 @@ export default async function SaasLandingPage({ params }: Props) {
               href="/"
               className="text-white text-sm font-medium underline underline-offset-4 hover:text-indigo-200 transition-colors self-center"
             >
-              Powered by AI Tools Hub
+              Powered by AI Tools Station
             </Link>
           </div>
         </div>

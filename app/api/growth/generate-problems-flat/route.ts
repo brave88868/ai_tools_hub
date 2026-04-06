@@ -99,7 +99,7 @@ Return JSON: { "seo_title": "string (max 60 chars)", "seo_description": "string 
         slug: flatSlug,
         flat_slug: flatSlug,
         problem: title,
-        seo_title: parsed.seo_title ?? `${title} | AI Tools Hub`,
+        seo_title: parsed.seo_title ?? `${title} | AI Tools Station`,
         seo_description: parsed.seo_description ?? `A complete guide: ${title}. Step-by-step with AI tools.`,
         content: parsed.content ?? "",
       });

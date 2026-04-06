@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title =
     uc?.title ??
-    `${tool?.name ?? slug} for ${profession} | AI Tools Hub`;
+    `${tool?.name ?? slug} for ${profession} | AI Tools Station`;
   const description =
     uc?.meta_description ??
     `AI-powered ${tool?.name ?? slug} optimised for ${profession}s. Get professional results in seconds — free to try.`;
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       url: `https://aitoolsstation.com/tools/${slug}/${usecase}`,
-      siteName: "AI Tools Hub",
+      siteName: "AI Tools Station",
       type: "website",
     },
     twitter: { card: "summary_large_image", title, description },

@@ -4,8 +4,8 @@ import { createServerClient } from "@/lib/supabase-server";
 import SignupForm from "./SignupForm";
 
 export const metadata: Metadata = {
-  title: "Create Account | AI Tools Hub",
-  description: "Create your AI Tools Hub account. Subscribe to any AI toolkit and start generating with unlimited access.",
+  title: "Create Account | AI Tools Station",
+  description: "Create your AI Tools Station account. Subscribe to any AI toolkit and start generating with unlimited access.",
 };
 
 export default async function SignupPage() {

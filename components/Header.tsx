@@ -38,7 +38,7 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
         <div className="flex flex-col">
           <Link href="/" className="text-base font-bold text-gray-900 tracking-tight">
-            AI Tools Hub
+            AI Tools Station
           </Link>
           <p className="text-xs text-gray-400 mt-0.5">100+ AI tools · Free to start</p>
         </div>

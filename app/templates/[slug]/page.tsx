@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const catMeta = TEMPLATE_CATEGORIES[slug];
   if (catMeta) {
     return {
-      title: `${catMeta.h1} | AI Tools Hub`,
+      title: `${catMeta.h1} | AI Tools Station`,
       description: catMeta.description,
       alternates: { canonical: `${SITE_URL}/templates/${slug}` },
     };
@@ -75,7 +75,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data) return { title: "Not Found" };
 
-  const title = data.seo_title ?? `${data.template_name} Template | AI Tools Hub`;
+  const title = data.seo_title ?? `${data.template_name} Template | AI Tools Station`;
   const description = data.seo_description ?? `Download and use the ${data.template_name} template.`;
   return {
     title, description,
@@ -324,7 +324,7 @@ export default async function TemplatePage({ params }: Props) {
     headline: data.seo_title ?? data.template_name,
     description: data.seo_description,
     url: `${SITE_URL}/templates/${slug}`,
-    publisher: { "@type": "Organization", name: "AI Tools Hub", url: SITE_URL },
+    publisher: { "@type": "Organization", name: "AI Tools Station", url: SITE_URL },
   };
 
   const breadcrumb = breadcrumbSchema([

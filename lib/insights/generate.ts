@@ -139,7 +139,7 @@ export async function generateWeeklyInsights(
   };
 
   // 6. OpenAI 生成报告
-  const prompt = `AI Tools Hub 本周运营数据（${week_start} 至 ${week_end}）：
+  const prompt = `AI Tools Station 本周运营数据（${week_start} 至 ${week_end}）：
 
 - 页面浏览：${stats.page_views} 次
 - 工具使用：${stats.tool_uses} 次
@@ -190,8 +190,8 @@ export async function generateWeeklyInsights(
         body: JSON.stringify({
           from: "onboarding@resend.dev",
           to: adminEmail,
-          subject: `AI Tools Hub 周报 ${week_start} ~ ${week_end}`,
-          text: `AI Tools Hub 本周周报\n\n时间：${week_start} 至 ${week_end}\n\n${report}\n\n---\n数据摘要\n页面浏览：${stats.page_views} 次\n工具使用：${stats.tool_uses} 次\n新注册：${stats.signups} 人\n新订阅：${stats.new_subs} 笔\n新线索：${stats.new_leads} 条\nTop 工具：${stats.top_tools}`,
+          subject: `AI Tools Station 周报 ${week_start} ~ ${week_end}`,
+          text: `AI Tools Station 本周周报\n\n时间：${week_start} 至 ${week_end}\n\n${report}\n\n---\n数据摘要\n页面浏览：${stats.page_views} 次\n工具使用：${stats.tool_uses} 次\n新注册：${stats.signups} 人\n新订阅：${stats.new_subs} 笔\n新线索：${stats.new_leads} 条\nTop 工具：${stats.top_tools}`,
         }),
       });
       email_sent = emailRes.ok;
