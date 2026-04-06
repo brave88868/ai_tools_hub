@@ -11,7 +11,19 @@ interface UserRow {
   usage_count: number | null;
   banned: boolean | null;
   created_at: string;
+  toolkits?: string[];
 }
+
+const TOOLKIT_COLORS: Record<string, string> = {
+  bundle: "bg-purple-100 text-purple-700",
+  jobseeker: "bg-blue-100 text-blue-700",
+  creator: "bg-pink-100 text-pink-700",
+  marketing: "bg-green-100 text-green-700",
+  business: "bg-orange-100 text-orange-700",
+  legal: "bg-yellow-100 text-yellow-700",
+  exam: "bg-cyan-100 text-cyan-700",
+};
+const TOOLKIT_DEFAULT_COLOR = "bg-gray-100 text-gray-600";
 
 interface BannedIp {
   id: string;
@@ -190,6 +202,7 @@ export default function AdminUsersPage() {
         usage_count: 0,
         banned: false,
         created_at: new Date().toISOString(),
+        toolkits: newToolkit !== "free" ? [newToolkit] : [],
       };
       setUsers((prev) => [created, ...prev]);
       setMsg("✓ User created");
@@ -322,6 +335,7 @@ export default function AdminUsersPage() {
                     <th className="text-left px-4 py-3 font-medium">Email</th>
                     <th className="text-center px-3 py-3 font-medium">Role</th>
                     <th className="text-center px-3 py-3 font-medium">Plan</th>
+                    <th className="text-left px-3 py-3 font-medium">Toolkits</th>
                     <th className="text-center px-3 py-3 font-medium">Uses</th>
                     <th className="text-center px-3 py-3 font-medium">Status</th>
                     <th className="text-right px-4 py-3 font-medium">Joined</th>
@@ -366,6 +380,22 @@ export default function AdminUsersPage() {
                           <option value="free">free</option>
                           <option value="pro">pro</option>
                         </select>
+                      </td>
+                      <td className="px-3 py-2.5">
+                        {(u.toolkits ?? []).length === 0 ? (
+                          <span className="text-xs text-gray-300">—</span>
+                        ) : (
+                          <div className="flex flex-wrap gap-1">
+                            {(u.toolkits ?? []).map((slug) => (
+                              <span
+                                key={slug}
+                                className={`text-xs px-1.5 py-0.5 rounded-full font-medium ${TOOLKIT_COLORS[slug] ?? TOOLKIT_DEFAULT_COLOR}`}
+                              >
+                                {slug === "bundle" ? "Bundle" : slug}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </td>
                       <td className="px-3 py-2.5 text-center text-xs text-gray-500">{u.usage_count ?? 0}</td>
                       <td className="px-3 py-2.5 text-center">
