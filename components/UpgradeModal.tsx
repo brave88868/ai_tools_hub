@@ -94,7 +94,7 @@ export default function UpgradeModal({ onClose, toolkitSlug, isLoggedIn = false,
             </button>
           </div>
 
-          <p className="text-center text-xs text-gray-400 mt-4">⭐ Trusted by 1,000+ professionals</p>
+          <p className="text-center text-xs text-gray-400 mt-4">⭐ Trusted by 4,000+ professionals</p>
         </div>
       </div>
     );
@@ -150,7 +150,7 @@ export default function UpgradeModal({ onClose, toolkitSlug, isLoggedIn = false,
           </p>
         </div>
 
-        <p className="text-center text-xs text-gray-400 mt-3">⭐ Trusted by 1,000+ professionals</p>
+        <p className="text-center text-xs text-gray-400 mt-3">⭐ Trusted by 4,000+ professionals</p>
       </div>
     </div>
   );

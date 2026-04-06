@@ -128,7 +128,7 @@ export default async function AiForPage({ params }: Props) {
             {[
               {
                 q: `What are the best AI tools for ${audience.toLowerCase()}?`,
-                a: `Our platform offers 100+ AI tools specifically useful for ${audience.toLowerCase()}, including generators for content, analysis, planning, and communication.`,
+                a: `Our platform offers 150+ AI tools specifically useful for ${audience.toLowerCase()}, including generators for content, analysis, planning, and communication.`,
               },
               {
                 q: "Are these tools free to use?",

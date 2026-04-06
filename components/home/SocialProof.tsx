@@ -24,7 +24,7 @@ export default async function SocialProof() {
   const stats = [
     { value: "50+", label: "AI Tools" },
     { value: toolUses >= 100 ? fmt(toolUses) : "10,000+", label: "AI Generations" },
-    { value: users >= 100 ? fmt(users) : "1,000+", label: "Users" },
+    { value: users >= 100 ? fmt(users) : "4,000+", label: "Users" },
   ];
 
   return (

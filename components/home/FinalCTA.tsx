@@ -9,7 +9,7 @@ export default function FinalCTA() {
           Start Using AI Tools Today
         </h2>
         <p className="text-gray-400 text-lg mb-8">
-          Join 1,000+ professionals saving hours every week.
+          Join 4,000+ professionals saving hours every week.
           <br />No credit card required.
         </p>
         <div className="flex flex-wrap gap-3 justify-center">

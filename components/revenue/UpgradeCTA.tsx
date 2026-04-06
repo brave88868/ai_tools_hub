@@ -79,7 +79,7 @@ export default function UpgradeCTA({ trigger, toolName, className = "" }: Props)
           >
             {prompt.cta_label}
           </Link>
-          <p className="text-xs text-white/60">⭐ Trusted by 1,000+ professionals</p>
+          <p className="text-xs text-white/60">⭐ Trusted by 4,000+ professionals</p>
         </div>
       </div>
     </div>
