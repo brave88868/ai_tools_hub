@@ -176,9 +176,14 @@ export async function POST(req: NextRequest) {
 
       const periodEnd = toIso(sub.current_period_end as number | undefined);
 
+      const cancelAtPeriodEnd =
+        event.type === "customer.subscription.deleted"
+          ? false
+          : (sub.cancel_at_period_end ?? false);
+
       const { error, data: updatedSubs } = await supabase
         .from("subscriptions")
-        .update({ status, current_period_end: periodEnd })
+        .update({ status, current_period_end: periodEnd, cancel_at_period_end: cancelAtPeriodEnd })
         .eq("stripe_subscription_id", sub.id)
         .select("user_id");
 
