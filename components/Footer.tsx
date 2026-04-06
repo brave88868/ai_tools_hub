@@ -19,6 +19,7 @@ export default function Footer() {
               <li><Link href="/toolkits/marketing" className="hover:text-gray-600">Marketing</Link></li>
               <li><Link href="/toolkits/business" className="hover:text-gray-600">Business</Link></li>
               <li><Link href="/toolkits/legal" className="hover:text-gray-600">Legal</Link></li>
+              <li className="text-gray-400">+ many more</li>
             </ul>
           </div>
           <div>
