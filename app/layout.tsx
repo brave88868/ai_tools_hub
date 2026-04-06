@@ -12,7 +12,7 @@ const SITE_URL = "https://aitoolsstation.com";
 
 export const metadata: Metadata = {
   title: {
-    default: "AI Tools Hub — 50+ AI tools to boost productivity",
+    default: "AI Tools Hub — 100+ AI tools to boost productivity",
     template: "%s | AI Tools Hub",
   },
   description:
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "AI Tools Hub",
-    title: "AI Tools Hub — 50+ AI tools to boost productivity",
+    title: "AI Tools Hub — 100+ AI tools to boost productivity",
     description:
       "Free AI tools for resume optimization, content creation, marketing copy, business analysis, and legal documents.",
     url: SITE_URL,
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     site: "@aitoolsstation",
-    title: "AI Tools Hub — 50+ AI tools to boost productivity",
+    title: "AI Tools Hub — 100+ AI tools to boost productivity",
     description:
       "Free AI tools for resume optimization, content creation, marketing copy, business analysis, and legal documents.",
     images: [`${SITE_URL}/og-image.png`],

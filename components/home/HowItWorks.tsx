@@ -3,7 +3,7 @@ const STEPS = [
     number: "01",
     icon: "🎯",
     title: "Choose a Tool",
-    desc: "Browse 50+ AI tools across 6 professional toolkits — for job seekers, creators, marketers, and more.",
+    desc: "Browse 100+ AI tools across 6 professional toolkits — for job seekers, creators, marketers, and more.",
   },
   {
     number: "02",
