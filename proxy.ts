@@ -106,16 +106,39 @@ export async function proxy(request: NextRequest) {
   // ─────────────────────────────────────────────────────────────────
 
   // 保护 /dashboard 和 /admin：
-  // Only redirect when Supabase CONFIRMED no user (no network error).
-  // If getUserError is set (network/timeout), allow through — the page will
-  // handle auth, preventing false logouts on transient Supabase outages.
+  // Google OAuth sessions produce larger JWTs (with identities/provider_token/
+  // user_metadata) that get split into chunked cookies (.0, .1, ...).
+  // If any chunk is temporarily missing, getUser() returns {user:null, error:null}
+  // — indistinguishable from a real "not logged in" state.
+  //
+  // Strategy:
+  //   1. If user is found → no redirect ✓
+  //   2. If getUserError is set (network/timeout) → allow through ✓
+  //   3. If user is null but session token cookie exists → allow through ✓
+  //      (page-level auth check will handle the final decision)
+  //   4. If user is null AND no session cookie at all → definitely not logged in → redirect
   const isProtected =
     pathname.startsWith("/dashboard") || pathname.startsWith("/admin");
 
-  if (isProtected && !user && !getUserError) {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("next", pathname);
-    return NextResponse.redirect(loginUrl);
+  if (isProtected && !user) {
+    if (getUserError) {
+      // Transient Supabase error — let the page handle auth
+    } else {
+      // Check if any session token cookie exists (non-code-verifier, non-empty).
+      // Supabase stores tokens as sb-<ref>-auth-token or sb-<ref>-auth-token.N
+      const hasSessionCookie = request.cookies.getAll().some(
+        (c) =>
+          /^sb-[^-]+-auth-token(\.0)?$/.test(c.name) &&
+          c.value.length > 50
+      );
+      if (!hasSessionCookie) {
+        const loginUrl = new URL("/login", request.url);
+        loginUrl.searchParams.set("next", pathname);
+        return NextResponse.redirect(loginUrl);
+      }
+      // Session cookie exists but getUser() returned null — could be a transient
+      // chunked-cookie issue (common with Google OAuth). Let the page validate.
+    }
   }
 
   return supabaseResponse;

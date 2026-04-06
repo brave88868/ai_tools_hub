@@ -34,6 +34,11 @@ export default async function LoginPage({ searchParams }: Props) {
             Email confirmation failed. Please try signing up again or contact support.
           </div>
         )}
+        {error === "oauth_retry" && (
+          <div className="max-w-md mx-auto mb-4 bg-amber-50 border border-amber-200 text-amber-700 text-sm rounded-xl px-4 py-3 text-center">
+            Google sign-in session expired. Please click <strong>Continue with Google</strong> again to sign in.
+          </div>
+        )}
         <LoginForm next={destination} />
       </div>
     </main>

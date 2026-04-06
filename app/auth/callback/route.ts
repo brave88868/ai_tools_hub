@@ -53,8 +53,11 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       const msg = error.message.toLowerCase();
+      // PKCE flow errors (common with Google OAuth when code verifier cookie is missing
+      // — e.g. Safari ITP, cross-browser link opening, strict privacy settings).
+      const isPkce = msg.includes("pkce") || msg.includes("code verifier") || msg.includes("code_verifier");
       const isExpired = msg.includes("expired") || msg.includes("invalid") || msg.includes("otp");
-      const errorParam = isExpired ? "confirmation_expired" : "confirmation_failed";
+      const errorParam = isPkce ? "oauth_retry" : isExpired ? "confirmation_expired" : "confirmation_failed";
       return NextResponse.redirect(`${origin}/login?error=${errorParam}`);
     }
 
