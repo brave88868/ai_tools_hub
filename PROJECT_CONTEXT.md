@@ -7,9 +7,9 @@
 
 ## 当前项目状态
 
-**项目阶段**: 🟢 SPEC-APR08-TOOLS 完成  
-**当前里程碑**: 全平台工具扩展完成（21个toolkit × 20工具 = 420工具）+ 文件上传改造 + Mode A双区显示（12工具）+ 6个新Toolkit上线。下一步：Stripe Live切换 + Product Hunt发布  
-**最后更新**: 2026-04-08 — SPEC-APR08-TOOLS：工具扩展/文件上传/Mode A/字体/数字全部完成
+**项目阶段**: 🟢 SPEC-100TOOLS 完成  
+**当前里程碑**: 100工具扩展计划完成（50净新增工具）+ 2个新Toolkit（finance/ai-workflow）上线。总计 582 active tools, 24 toolkits。下一步：Stripe Live切换 + Product Hunt发布  
+**最后更新**: 2026-04-08 — SPEC-100TOOLS：50新工具/2新toolkit/550+首页数字/Stripe映射/TOOLKIT_COLORS全部完成
 
 ### 已完成修复（Bug Fix Log）
 
@@ -40,8 +40,8 @@
 
 ### 当前技术状态
 
-- **420 active tools**（21 toolkits × 20 tools）
-- Toolkits: 21个（15个原有 + 6个新增：data-analytics/sales/social-media/document/productivity/ai-prompts）
+- **582 active tools**（24 toolkits；50 net-new tools added in SPEC-100TOOLS）
+- Toolkits: 24个（21个原有 + work-life-templates(109工具) + finance(10工具) + ai-workflow(10工具)）
 - All tools: tool_type=template, inputs_schema 已填充, prompt_template inline（auto_generated=true）
 - File upload: **所有工具 textarea 字段均有 Upload file 按钮**，支持 PDF/DOCX/PPTX/TXT（InputForm.tsx）
 - Mode A 双区显示（12个工具已注册）：
@@ -54,20 +54,20 @@
 - Download: 所有工具输出 .docx 格式
 - Auth: Supabase email + Google OAuth，sign-out 正常；**Google OAuth session丢失已修复（proxy.ts 3 bugs）**
 - Billing: Stripe checkout + webhook (price.updated/subscription.updated/deleted/invoice.*) + Supabase 同步（**仍在 Test 模式**）
-- Stripe Price ID 映射：21个toolkit均已配置（6新增：STRIPE_Data_Analytics_PRICE_ID等）
+- Stripe Price ID 映射：23个toolkit已配置；新增 STRIPE_Finance_PRICE_ID / STRIPE_AI_Workflow_PRICE_ID（需在Stripe创建产品后写入Vercel env）
 - subscriptions表：cancel_at_period_end列已存在；manual_/referral_reward_前缀记录为手动插入，cancel时跳过Stripe；users.plan实时从subscriptions同步
 - Prompt 质量: 所有工具含 STEP 1 内部分析 + 结构化输出
 - Rate limiting: 匿名1次/天（IP+UA fingerprint）/ 登录免费3次/天+30次终身 / 付费/pro角色100次/天 / admin无限制
 - 权限层级（已验证）: admin > pro role > bundle > single-toolkit > free，toolkit隔离无漏洞
 - 角色系统: users.role = user(默认)/pro(付费，可手动授予)/admin；users.plan = free/pro（set-role API同步）
-- Admin Users页: Toolkits badge列（21个toolkit颜色映射）+ Expiry到期日列；Add User支持Toolkit下拉+写subscriptions表
+- Admin Users页: Toolkits badge列（23个toolkit颜色映射，新增 finance=emerald, ai-workflow=cyan）+ Expiry到期日列；Add User支持Toolkit下拉+写subscriptions表
 - Compliance Toolkit: /toolkits/compliance-toolkit 顶部banner + /tools/[slug] 工具页banner（条件：tool.toolkits?.slug==='compliance-toolkit'）+ API输出末尾自动追加免责声明
 - Referral里程碑: 5邀=Bundle 1month（写subscriptions，prefix=referral_reward_）；移除旧20邀Pro逻辑
 - Growth Engine: growth_keywords/tool_opportunities 两张新表；tools 表新增 auto_generated/seo_title/seo_description/prompt_template 列
 - SEO页面: /tools/[slug]/[usecase] (use-case落地页), /ai-tools-for/[profession] (职业聚合页)
 - 内链系统: lib/internal-linking.ts 自动在博客文章注入工具链接
 - 增长控制台: /admin/growth（4模块：关键词/机会/自动工具/流量报告）
-- 首页数字: 400+（SocialProof/Hero/PopularTools/PricingPreview/HowItWorks/metadata 已全部更新）
+- 首页数字: 550+（SocialProof/Hero/PopularTools/PricingPreview/HowItWorks/metadata 已全部更新）
 
 ### 待完成 TODO（2026-04-08 更新）
 

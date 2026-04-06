@@ -419,6 +419,7 @@ Optimization Agent       →  自动优化产品
 - SPEC-SEO-INDEXING-ACCELERATOR ✅ 加速收录：app/sitemap.ts简化为4个子sitemap入口 + app/sitemap-index.xml（真正<sitemapindex>格式，提交给GSC）+ sitemap-main/tools/seo/blog.xml 4个Route Handler子sitemap + /api/seo/ping改为无鉴权GET（pings sitemap-index.xml）+ 5个SEO生成API末尾追加fire-and-forget ping + tools/[slug]页面底部新增"Use Cases for This Tool"区块（6条，client-side fetch）+ 首页sr-only导航（Google crawl discovery）
 - SPEC-APR07 ✅ Admin增强+Compliance+Auth修复（2026-04-07）：Admin Add User（Toolkit下拉+写入subscriptions）+ Admin Users表新增Toolkits badge列+Expiry到期日列 + Dashboard plan实时从subscriptions查询（含canceling）+ Cancel订阅跳过Stripe（manual_/referral_reward_前缀）+ Webhook补全invoice.payment_succeeded/failed事件 + Referral奖励5邀=Bundle1月写subscriptions（移除旧20邀Pro逻辑）+ Compliance Toolkit免责声明三处覆盖（toolkit页+tool页+API输出）+ robots.txt移除/auth/屏蔽+sitemap指向www+sitemap-index.xml + 首页150+数字统一+hero badge隐私说明 + Google OAuth session丢失修复（proxy.ts 3个bug）+ Google Cloud Console加生产域名
 - SPEC-APR08-TOOLS ✅ 全平台工具扩展（2026-04-08）：文件上传改造（InputForm所有textarea加Upload file按钮，支持PDF/DOCX/PPTX/TXT）+ Mode A双区显示（template-engine.ts结构化输出格式，page.tsx双区渲染）+ A类工具DOC_TOOL_CONFIG注册（12个：resume-optimizer/linkedin-profile-optimizer + 10个新工具）+ 字体调整（InputForm text-sm→text-base，globals.css .prose font-size: 1rem）+ 新增6个Toolkit（data-analytics/sales/social-media/document/productivity/ai-prompts，各20工具）+ 15个现有Toolkit各新增10个工具全部达到20个 + lib/stripe.ts加入6个新Price ID映射（STRIPE_Data_Analytics_PRICE_ID等）+ Admin Users TOOLKIT_COLORS新增6个颜色映射 + 首页400+数字更新
+- SPEC-100TOOLS ✅ 100工具扩展计划（2026-04-08）：50净新增工具（30补充至8个现有toolkit + 20用于2个新toolkit）+ finance toolkit（10工具, $19/mo, 💰）+ ai-workflow toolkit（10工具, $9/mo, 🔄）+ lib/stripe.ts加入STRIPE_Finance_PRICE_ID/STRIPE_AI_Workflow_PRICE_ID + TOOLKIT_COLORS新增finance=emerald/ai-workflow=cyan + 首页550+数字全站更新 + 总计582 active tools / 24 toolkits
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
@@ -508,7 +509,7 @@ Optimization Agent       →  自动优化产品
 
 ## Next Tasks
 
-1. SPEC-11-C: Stripe Live 切换（手动）
+1. SPEC-11-C: Stripe Live 切换（手动）— 新增 finance/ai-workflow 两个产品
 2. Compliance Toolkit banner 显示确认（prod环境实际渲染验证）
 3. Product Hunt 发布（Apr 9 17:01 Sydney）
 4. 运行 SEO Multiplier 内容生成脚本填充 5 张新 DB 表
