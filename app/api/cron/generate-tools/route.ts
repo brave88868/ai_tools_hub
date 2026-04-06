@@ -84,7 +84,7 @@ Return ONLY valid JSON:
         const config = JSON.parse(genRes.choices[0].message.content ?? "{}");
         const finalSlug = opp.tool_slug || slugify(opp.tool_name);
 
-        const { error } = await admin.from("tools").insert({
+        const { error } = await admin.from("tools").upsert({
           toolkit_id: toolkitId,
           slug: finalSlug,
           name: opp.tool_name,
@@ -98,7 +98,7 @@ Return ONLY valid JSON:
           auto_generated: true,
           is_active: false,
           sort_order: 999,
-        });
+        }, { onConflict: "slug", ignoreDuplicates: true });
 
         if (!error) {
           await admin.from("tool_opportunities").update({ status: "created" }).eq("id", opp.id);

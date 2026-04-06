@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
       .eq("slug", idea.toolkit_slug)
       .single();
 
-    const { error: insertError } = await admin.from("tools").insert({
+    const { error: insertError } = await admin.from("tools").upsert({
       slug: idea.tool_slug,
       name: idea.tool_name,
       description: idea.description,
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
       prompt_template: idea.prompt_template ?? null,
       inputs_schema,
       is_active: true,
-    });
+    }, { onConflict: "slug", ignoreDuplicates: true });
 
     if (insertError) {
       console.error("[approve-tool]", insertError);
