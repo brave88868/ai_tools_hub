@@ -15,6 +15,7 @@ interface Tool {
   output_format: string | null;
   sort_order: number;
   is_active: boolean;
+  auto_generated: boolean | null;
   toolkit_id: string | null;
   toolkits: ToolkitRef | null;
 }
@@ -269,6 +270,7 @@ export default function AdminToolsManagePage() {
                   <th className="text-left px-3 py-3 font-medium">Slug</th>
                   <th className="text-left px-3 py-3 font-medium">Toolkit</th>
                   <th className="text-center px-3 py-3 font-medium">Type</th>
+                  <th className="text-center px-3 py-3 font-medium">Source</th>
                   <th className="text-center px-3 py-3 font-medium">Status</th>
                   <th className="text-right px-4 py-3 font-medium">Actions</th>
                 </tr>
@@ -285,6 +287,11 @@ export default function AdminToolsManagePage() {
                     </td>
                     <td className="px-3 py-2.5 text-center">
                       <span className="text-xs bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded">{tool.tool_type}</span>
+                    </td>
+                    <td className="px-3 py-2.5 text-center">
+                      {tool.auto_generated
+                        ? <span className="text-xs bg-purple-50 text-purple-600 px-1.5 py-0.5 rounded">Auto</span>
+                        : <span className="text-xs text-gray-300">Manual</span>}
                     </td>
                     <td className="px-3 py-2.5 text-center">
                       <span className={`text-xs px-1.5 py-0.5 rounded-full ${tool.is_active ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
