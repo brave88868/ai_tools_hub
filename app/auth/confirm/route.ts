@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const token_hash = searchParams.get("token_hash");
   const type = searchParams.get("type") as "signup" | "recovery" | "email" | null;
-  const next = searchParams.get("next") ?? "/dashboard";
+  const next = searchParams.get("next") ?? "/auth/confirmed";
 
   console.log("[confirm] token_hash exists:", !!token_hash, "type:", type);
 
