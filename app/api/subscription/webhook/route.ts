@@ -207,6 +207,58 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // ── invoice.payment_succeeded ─────────────────────────────────────
+    // Fires on every successful charge (initial + renewals).
+    // Reset status to 'active' and extend period_end so the DB stays in sync
+    // even if customer.subscription.updated was missed.
+    if (event.type === "invoice.payment_succeeded") {
+      const invoice = event.data.object as Stripe.Invoice;
+      const subscriptionId = invoice.subscription as string | null;
+      if (subscriptionId) {
+        let renewedSub: Stripe.Subscription | null = null;
+        try {
+          renewedSub = await stripe.subscriptions.retrieve(subscriptionId);
+        } catch (e) {
+          console.warn("[webhook] invoice.payment_succeeded: could not retrieve sub", subscriptionId, e);
+        }
+        if (renewedSub) {
+          const periodEnd = toIso(renewedSub.current_period_end as number | undefined);
+          const { error, data: updated } = await supabase
+            .from("subscriptions")
+            .update({ status: "active", current_period_end: periodEnd })
+            .eq("stripe_subscription_id", subscriptionId)
+            .select("user_id");
+          if (error) {
+            console.error("[webhook] invoice.payment_succeeded DB update failed:", error.message);
+          } else {
+            console.log("[webhook] ✅ invoice.payment_succeeded: renewed", subscriptionId, "until", periodEnd);
+            // Ensure plan is pro
+            if (updated && updated.length > 0) {
+              await supabase.from("users").update({ plan: "pro" }).eq("id", updated[0].user_id);
+            }
+          }
+        }
+      }
+    }
+
+    // ── invoice.payment_failed ─────────────────────────────────────────
+    // Fires when a charge attempt fails. Mark subscription as past_due.
+    if (event.type === "invoice.payment_failed") {
+      const invoice = event.data.object as Stripe.Invoice;
+      const subscriptionId = invoice.subscription as string | null;
+      if (subscriptionId) {
+        const { error } = await supabase
+          .from("subscriptions")
+          .update({ status: "past_due" })
+          .eq("stripe_subscription_id", subscriptionId);
+        if (error) {
+          console.error("[webhook] invoice.payment_failed DB update failed:", error.message);
+        } else {
+          console.log("[webhook] ✅ invoice.payment_failed: marked past_due", subscriptionId);
+        }
+      }
+    }
+
     // ── price.updated ──────────────────────────────────────────────────
     if (event.type === "price.updated") {
       const price = event.data.object as Stripe.Price;

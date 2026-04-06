@@ -31,33 +31,61 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Subscription not found" }, { status: 404 });
     }
 
-    const isManual = stripe_subscription_id.startsWith("manual_");
+    const isManual =
+      stripe_subscription_id.startsWith("manual_") ||
+      stripe_subscription_id.startsWith("referral_reward_");
+
     let periodEnd = dbSub.current_period_end;
+    let newStatus: "canceling" | "canceled" = "canceling";
 
     if (isManual) {
-      // Manual subscriptions (created by admin) have no real Stripe record.
-      // Skip Stripe entirely — just mark as canceling in DB.
-      console.log("[cancel] manual subscription — skipping Stripe call");
+      // Manual / referral subscriptions have no real Stripe record — skip Stripe.
+      console.log("[cancel] manual/referral subscription — skipping Stripe call");
     } else {
-      // Cancel at period end in Stripe (no immediate refund)
-      const stripeSub = await stripe.subscriptions.update(stripe_subscription_id, {
+      // Defensive retrieve: check Stripe state before acting.
+      // Handles cases where the subscription was already canceled or never synced.
+      let current: import("stripe").Stripe.Subscription | null = null;
+      try {
+        current = await stripe.subscriptions.retrieve(stripe_subscription_id);
+      } catch (retrieveErr: unknown) {
+        const msg = retrieveErr instanceof Error ? retrieveErr.message : String(retrieveErr);
+        if (msg.includes("No such subscription")) {
+          // Subscription doesn't exist in Stripe — auto-fix DB and succeed
+          console.warn("[cancel] subscription not found in Stripe, marking canceled in DB:", stripe_subscription_id);
+          await admin
+            .from("subscriptions")
+            .update({ status: "canceled" })
+            .eq("stripe_subscription_id", stripe_subscription_id);
+          return NextResponse.json({ success: true, cancel_at: periodEnd });
+        }
+        throw retrieveErr; // Re-throw unexpected Stripe errors
+      }
+
+      if (current.status === "canceled") {
+        // Already canceled in Stripe — sync DB and succeed
+        console.log("[cancel] already canceled in Stripe, syncing DB:", stripe_subscription_id);
+        await admin
+          .from("subscriptions")
+          .update({ status: "canceled" })
+          .eq("stripe_subscription_id", stripe_subscription_id);
+        return NextResponse.json({ success: true, cancel_at: periodEnd });
+      }
+
+      // Normal case: request cancel-at-period-end
+      const updated = await stripe.subscriptions.update(stripe_subscription_id, {
         cancel_at_period_end: true,
       });
-
-      // Sync the real current_period_end from Stripe
-      const periodEndTs = stripeSub.current_period_end as number | undefined;
+      const periodEndTs = updated.current_period_end as number | undefined;
       if (periodEndTs && periodEndTs > 0) {
         periodEnd = new Date(periodEndTs * 1000).toISOString();
       }
+      newStatus = "canceling";
     }
 
     // Update DB — only columns that exist in the schema
     const { error: updateError } = await admin
       .from("subscriptions")
-      .update({
-        status: "canceling",
-        current_period_end: periodEnd,
-      })
+      .update({ status: newStatus, current_period_end: periodEnd })
       .eq("stripe_subscription_id", stripe_subscription_id);
 
     if (updateError) {
