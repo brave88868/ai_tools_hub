@@ -16,11 +16,12 @@ import { CopyButton } from "@/components/ui/CopyButton";
 
 // ── Doc tool config — only slugs that actually exist in the DB ────────────
 const DOC_TOOL_CONFIG: Record<string, {
-  splitMarker: string;
-  endMarker?: string;
+  splitMarker: string;   // legacy fallback marker
+  endMarker?: string;    // legacy fallback marker
   label1: string;
   label2: string;
   downloadName: string;
+  primaryField: string;  // input field name containing the original document
 }> = {
   "resume-optimizer": {
     splitMarker: "## OPTIMIZED RESUME",
@@ -28,14 +29,32 @@ const DOC_TOOL_CONFIG: Record<string, {
     label1: "✏️ What Changed & Why",
     label2: "📄 Optimized Resume Preview",
     downloadName: "optimized-resume",
+    primaryField: "resume",
   },
   "linkedin-profile-optimizer": {
     splitMarker: "## OPTIMIZED PROFILE",
     label1: "✏️ What Changed & Why",
     label2: "📄 Optimized LinkedIn Profile",
     downloadName: "optimized-linkedin-profile",
+    primaryField: "current_summary",
   },
 };
+
+// ── New structured output markers (produced by template-engine for Mode A tools) ──
+const OPTIMIZED_MARKER = "=== OPTIMIZED CONTENT ===";
+const CHANGES_MARKER = "=== CHANGES MADE ===";
+
+function parseNewFormat(output: string): { optimized: string; changes: string } | null {
+  const optimizedIdx = output.indexOf(OPTIMIZED_MARKER);
+  if (optimizedIdx === -1) return null;
+  const contentStart = optimizedIdx + OPTIMIZED_MARKER.length;
+  const changesIdx = output.indexOf(CHANGES_MARKER);
+  const optimized = changesIdx > optimizedIdx
+    ? output.slice(contentStart, changesIdx).trim()
+    : output.slice(contentStart).trim();
+  const changes = changesIdx !== -1 ? output.slice(changesIdx + CHANGES_MARKER.length).trim() : "";
+  return { optimized, changes };
+}
 
 function getSessionId(): string {
   if (typeof window === "undefined") return "";
@@ -127,6 +146,7 @@ export default function ToolPage() {
   const [docExpanded, setDocExpanded] = useState(false);
   const [copied, setCopied] = useState(false);
   const [userRole, setUserRole] = useState<string>("");
+  const [submittedInputs, setSubmittedInputs] = useState<Record<string, string>>({});
   const [toolUseCases, setToolUseCases] = useState<Array<{ slug: string; title: string | null; meta: Record<string, string> | null }>>([]);
   const [relatedTools, setRelatedTools] = useState<Array<{ slug: string; name: string }>>([]);
 
@@ -195,6 +215,7 @@ export default function ToolPage() {
     setResult("");
     setError("");
     setDocExpanded(false);
+    setSubmittedInputs(inputs);
 
     try {
       const sessionId = getSessionId();
@@ -275,7 +296,12 @@ export default function ToolPage() {
 
   const docConfig = DOC_TOOL_CONFIG[slug];
   const isDocTool = !!docConfig && !!result;
-  const docParts = isDocTool ? parseDocToolOutput(result, docConfig.splitMarker, docConfig.endMarker) : null;
+  // Try new structured format first; fallback to legacy markers if not present
+  const newFormatParts = isDocTool ? parseNewFormat(result) : null;
+  const docParts = isDocTool && !newFormatParts
+    ? parseDocToolOutput(result, docConfig.splitMarker, docConfig.endMarker)
+    : null;
+  const originalContent = isDocTool ? (submittedInputs[docConfig.primaryField] ?? "") : "";
 
   return (
     <div className="min-h-screen bg-white">
@@ -341,7 +367,63 @@ export default function ToolPage() {
           </div>
         )}
 
-        {/* Doc tools — dual view (summary + collapsible document) */}
+        {/* Doc tools — NEW format: side-by-side dual panel */}
+        {isDocTool && newFormatParts && docConfig && (
+          <div className="mt-6 space-y-4">
+            {/* Dual panel */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Left: original */}
+              <div className="border border-gray-200 rounded-xl p-4">
+                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Original Content</h3>
+                <div className="text-sm text-gray-600 whitespace-pre-wrap leading-relaxed max-h-96 overflow-y-auto">
+                  {originalContent || <span className="italic text-gray-400">Original not available</span>}
+                </div>
+              </div>
+              {/* Right: optimized */}
+              <div className="border border-indigo-100 rounded-xl p-4 bg-indigo-50/30">
+                <h3 className="text-xs font-semibold text-indigo-600 uppercase tracking-wide mb-2">{docConfig.label2}</h3>
+                <div className="text-sm text-gray-800 whitespace-pre-wrap leading-relaxed max-h-96 overflow-y-auto">
+                  {newFormatParts.optimized}
+                </div>
+              </div>
+            </div>
+
+            {/* Changes made */}
+            {newFormatParts.changes && (
+              <div className="border border-gray-100 rounded-xl p-4 bg-gray-50">
+                <h4 className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">📋 {docConfig.label1}</h4>
+                <div className="text-sm text-gray-600 whitespace-pre-wrap leading-relaxed">
+                  {newFormatParts.changes}
+                </div>
+              </div>
+            )}
+
+            {/* Footer */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(newFormatParts.optimized);
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 2000);
+                }}
+                className="flex-1 text-xs text-gray-600 border border-gray-200 rounded-lg py-2 hover:border-gray-400 transition-colors"
+              >
+                {copied ? "✓ Copied" : "Copy Optimized Text"}
+              </button>
+              <button
+                onClick={() => downloadDocx(newFormatParts.optimized, docConfig.downloadName)}
+                className="flex items-center justify-center gap-1.5 flex-1 text-xs text-indigo-600 border border-indigo-200 rounded-lg py-2 hover:bg-indigo-50 transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download Optimized (.docx)
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Doc tools — LEGACY format fallback (old splitMarker output) */}
         {isDocTool && docParts && docConfig && (
           <div className="mt-6 border border-gray-100 rounded-2xl overflow-hidden">
             {/* Section 1: Analysis / summary */}
@@ -384,9 +466,12 @@ export default function ToolPage() {
               </button>
               <button
                 onClick={() => downloadDocx(docParts.document || result, docConfig.downloadName)}
-                className="flex-1 text-xs bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-lg py-2 hover:opacity-90 transition-opacity"
+                className="flex items-center justify-center gap-1.5 flex-1 text-xs text-indigo-600 border border-indigo-200 rounded-lg py-2 hover:bg-indigo-50 transition-colors"
               >
-                ↓ Download .docx
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download .docx
               </button>
             </div>
           </div>

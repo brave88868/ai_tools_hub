@@ -6,6 +6,23 @@ import fs from "fs/promises";
 import path from "path";
 import { openai, OPENAI_MODEL } from "@/lib/openai";
 
+// Mode A: text-processing tools that need structured dual-panel output
+const TEXT_PROCESSING_SLUGS = ["resume-optimizer", "linkedin-profile-optimizer"];
+
+const TEXT_PROCESSING_FORMAT = `
+
+IMPORTANT: Structure your entire response using EXACTLY these markers (no other format):
+
+=== OPTIMIZED CONTENT ===
+[Insert the complete optimized document here — full text, no truncation]
+
+=== CHANGES MADE ===
+• [Change 1 heading]: [Specific reason this improves the document]
+• [Change 2 heading]: [Specific reason this improves the document]
+• [Change 3 heading]: [Specific reason this improves the document]
+• [Change 4 heading]: [Specific reason this improves the document]
+• [Change 5 heading]: [Specific reason this improves the document]`;
+
 export async function runTemplateTool(
   tool: { slug: string; prompt_file?: string; prompt_template?: string; name?: string; description?: string },
   inputs: Record<string, string>
@@ -39,6 +56,11 @@ User inputs:
 ${inputSummary}
 
 Please provide a helpful, detailed, and well-structured response.`;
+  }
+
+  // Mode A: append structured output format instructions
+  if (TEXT_PROCESSING_SLUGS.includes(tool.slug ?? "")) {
+    promptTemplate += TEXT_PROCESSING_FORMAT;
   }
 
   // 替换所有 {variable} 占位符
