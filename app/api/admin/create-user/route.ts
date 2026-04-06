@@ -7,7 +7,12 @@ export async function POST(req: NextRequest) {
 
   const { admin } = auth;
   const body = await req.json();
-  const { email, password, role } = body as { email: string; password: string; role: string };
+  const { email, password, role, toolkit_slug } = body as {
+    email: string;
+    password: string;
+    role: string;
+    toolkit_slug?: string;
+  };
 
   if (!email || !password || !role) {
     return NextResponse.json({ error: "email, password, role are required" }, { status: 400 });
@@ -24,12 +29,14 @@ export async function POST(req: NextRequest) {
   }
 
   const newUser = authData.user;
-  const plan = role === "pro" || role === "admin" ? "pro" : "free";
+  const hasToolkit = toolkit_slug && toolkit_slug !== "free";
+  const plan = role === "pro" || role === "admin" || hasToolkit ? "pro" : "free";
+  const effectiveRole = hasToolkit && role === "user" ? "pro" : role;
 
   // upsert instead of insert — handles the case where a public.users row
   // already exists (e.g. from a previous partial creation).
   const { error: dbError } = await admin.from("users").upsert(
-    { id: newUser.id, email: newUser.email, role, plan, usage_count: 0, banned: false },
+    { id: newUser.id, email: newUser.email, role: effectiveRole, plan, usage_count: 0, banned: false },
     { onConflict: "id" }
   );
 
@@ -39,5 +46,23 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: dbError.message }, { status: 500 });
   }
 
-  return NextResponse.json({ success: true, user: { id: newUser.id, email: newUser.email, role, plan } });
+  // Create subscription if a toolkit was selected
+  if (hasToolkit) {
+    const oneYearFromNow = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
+    const { error: subError } = await admin.from("subscriptions").insert({
+      user_id: newUser.id,
+      toolkit_slug,
+      status: "active",
+      stripe_subscription_id: `manual_${newUser.id}`,
+      current_period_end: oneYearFromNow,
+    });
+    if (subError) {
+      console.error("[create-user] subscription insert failed:", subError.message);
+    }
+  }
+
+  return NextResponse.json({
+    success: true,
+    user: { id: newUser.id, email: newUser.email, role: effectiveRole, plan },
+  });
 }

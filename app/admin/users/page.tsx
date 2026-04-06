@@ -20,6 +20,11 @@ interface BannedIp {
   created_at: string;
 }
 
+interface ToolkitOption {
+  slug: string;
+  name: string;
+}
+
 function randomPassword() {
   const chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
   return Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
@@ -46,6 +51,8 @@ export default function AdminUsersPage() {
   const [newEmail, setNewEmail] = useState("");
   const [newRole, setNewRole] = useState("user");
   const [newPassword, setNewPassword] = useState(randomPassword());
+  const [newToolkit, setNewToolkit] = useState("free");
+  const [toolkitOptions, setToolkitOptions] = useState<ToolkitOption[]>([]);
   const [addLoading, setAddLoading] = useState(false);
 
   // IP ban
@@ -74,6 +81,12 @@ export default function AdminUsersPage() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setCurrentUserId(session?.user?.id ?? null);
     });
+    supabase
+      .from("toolkits")
+      .select("slug, name")
+      .eq("is_active", true)
+      .order("sort_order")
+      .then(({ data }) => setToolkitOptions(data ?? []));
   }, []);
 
   async function handleRoleChange(userId: string, newRole: string) {
@@ -160,7 +173,12 @@ export default function AdminUsersPage() {
     const headers = await authHeader();
     const res = await fetch("/api/admin/create-user", {
       method: "POST", headers,
-      body: JSON.stringify({ email: newEmail.trim(), password: newPassword, role: newRole }),
+      body: JSON.stringify({
+        email: newEmail.trim(),
+        password: newPassword,
+        role: newRole,
+        toolkit_slug: newToolkit !== "free" ? newToolkit : undefined,
+      }),
     });
     const data = await res.json();
     if (res.ok) {
@@ -179,6 +197,7 @@ export default function AdminUsersPage() {
       setNewEmail("");
       setNewRole("user");
       setNewPassword(randomPassword());
+      setNewToolkit("free");
     } else {
       setMsg(`✗ ${data.error}`);
     }
@@ -254,6 +273,18 @@ export default function AdminUsersPage() {
                   <option value="user">user</option>
                   <option value="pro">pro</option>
                   <option value="admin">admin</option>
+                </select>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs text-gray-500">Toolkit</label>
+                <select
+                  value={newToolkit} onChange={(e) => setNewToolkit(e.target.value)}
+                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                >
+                  <option value="free">No Toolkit (free)</option>
+                  {toolkitOptions.map((t) => (
+                    <option key={t.slug} value={t.slug}>{t.name}</option>
+                  ))}
                 </select>
               </div>
               <div className="flex flex-col gap-1">
