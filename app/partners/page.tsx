@@ -60,7 +60,7 @@ function CopyButton({ text }: { text: string }) {
 
 export default function PartnersPage() {
   const badgeSrc = `${SITE_URL}/badge.svg`;
-  const badgeHtml = `<a href="${SITE_URL}" target="_blank" rel="noopener noreferrer"><img src="${badgeSrc}" alt="Featured on AI Tools Station" width="200" height="54" /></a>`;
+  const badgeHtml = `<a href="${SITE_URL}" target="_blank"><img src="${badgeSrc}" alt="Featured on AI Tools Station" width="200" height="54" /></a>`;
 
   return (
     <div className="min-h-screen bg-white">
