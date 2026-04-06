@@ -29,10 +29,10 @@ export const TOOLKIT_PRICE_IDS: Record<string, string | undefined> = {
   "seo-content":                 process.env.STRIPE_SEO_CONTENT_PRICE_ID,
 
   // ── 6 new toolkits (2026-04-07) ───────────────────────────────────────────
-  "data-analytics":              process.env.STRIPE_PRICE_DATA_ANALYTICS,
-  "sales":                       process.env.STRIPE_PRICE_SALES,
-  "social-media":                process.env.STRIPE_PRICE_SOCIAL_MEDIA,
-  "document":                    process.env.STRIPE_PRICE_DOCUMENT,
-  "productivity":                process.env.STRIPE_PRICE_PRODUCTIVITY,
-  "ai-prompts":                  process.env.STRIPE_PRICE_AI_PROMPTS,
+  "data-analytics":              process.env.STRIPE_Data_Analytics_PRICE_ID,
+  "sales":                       process.env.STRIPE_Sales_PRICE_ID,
+  "social-media":                process.env.STRIPE_Social_Media_PRICE_ID,
+  "document":                    process.env.STRIPE_Document_PRICE_ID,
+  "productivity":                process.env.STRIPE_Productivity_PRICE_ID,
+  "ai-prompts":                  process.env.STRIPE_AI_Prompts_PRICE_ID,
 };
