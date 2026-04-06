@@ -31,25 +31,32 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Subscription not found" }, { status: 404 });
     }
 
-    // Cancel at period end in Stripe (no immediate refund)
-    const stripeSub = await stripe.subscriptions.update(stripe_subscription_id, {
-      cancel_at_period_end: true,
-    });
+    const isManual = stripe_subscription_id.startsWith("manual_");
+    let periodEnd = dbSub.current_period_end;
 
-    // Sync the real current_period_end from Stripe
-    const periodEndTs = stripeSub.current_period_end as number | undefined;
-    const periodEnd =
-      periodEndTs && periodEndTs > 0
-        ? new Date(periodEndTs * 1000).toISOString()
-        : dbSub.current_period_end;
+    if (isManual) {
+      // Manual subscriptions (created by admin) have no real Stripe record.
+      // Skip Stripe entirely — just mark as canceling in DB.
+      console.log("[cancel] manual subscription — skipping Stripe call");
+    } else {
+      // Cancel at period end in Stripe (no immediate refund)
+      const stripeSub = await stripe.subscriptions.update(stripe_subscription_id, {
+        cancel_at_period_end: true,
+      });
 
-    // Write all three fields to DB
+      // Sync the real current_period_end from Stripe
+      const periodEndTs = stripeSub.current_period_end as number | undefined;
+      if (periodEndTs && periodEndTs > 0) {
+        periodEnd = new Date(periodEndTs * 1000).toISOString();
+      }
+    }
+
+    // Update DB — only columns that exist in the schema
     const { error: updateError } = await admin
       .from("subscriptions")
       .update({
         status: "canceling",
         current_period_end: periodEnd,
-        cancel_at_period_end: true,
       })
       .eq("stripe_subscription_id", stripe_subscription_id);
 
@@ -58,38 +65,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "DB update failed" }, { status: 500 });
     }
 
-    // ── Post-write verification ───────────────────────────────────────────
-    const { data: verified } = await admin
-      .from("subscriptions")
-      .select("status, cancel_at_period_end, current_period_end")
-      .eq("stripe_subscription_id", stripe_subscription_id)
-      .single();
-
-    const verifyOk =
-      verified?.status === "canceling" &&
-      verified?.cancel_at_period_end === true &&
-      !!verified?.current_period_end;
-
-    if (!verifyOk) {
-      console.error("[cancel] DB verification failed — forcing retry:", verified);
-      // Force retry: update individually to avoid column-level failures
-      await admin
-        .from("subscriptions")
-        .update({ status: "canceling" })
-        .eq("stripe_subscription_id", stripe_subscription_id);
-      await admin
-        .from("subscriptions")
-        .update({ current_period_end: periodEnd })
-        .eq("stripe_subscription_id", stripe_subscription_id);
-      await admin
-        .from("subscriptions")
-        .update({ cancel_at_period_end: true })
-        .eq("stripe_subscription_id", stripe_subscription_id);
-      console.log("[cancel] forced retry complete");
-    } else {
-      console.log("[cancel] ✅ DB verified:", verified);
-    }
-
+    console.log("[cancel] ✅ cancelled:", stripe_subscription_id);
     return NextResponse.json({ success: true, cancel_at: periodEnd });
   } catch (err) {
     console.error("[cancel]", err);
