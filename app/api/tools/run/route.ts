@@ -100,6 +100,7 @@ export async function POST(req: NextRequest) {
         const isPro = userRecord?.role === "pro";
 
         let hasPaidAccess = isPro;
+        let earlyToolkitSlug = "";
 
         if (!isPro) {
           const { data: toolCheck } = await supabase
@@ -108,7 +109,7 @@ export async function POST(req: NextRequest) {
             .eq("slug", tool_slug)
             .single();
 
-          const earlyToolkitSlug =
+          earlyToolkitSlug =
             (toolCheck?.toolkits as unknown as { slug: string } | null)?.slug ?? "";
 
           const { data: sub } = await supabase
@@ -158,6 +159,7 @@ export async function POST(req: NextRequest) {
                 error: "free_limit_reached",
                 message: "You have used your 3 free uses today. Upgrade to continue.",
                 upgrade_required: true,
+                toolkit_slug: earlyToolkitSlug || null,
               },
               { status: 403 }
             );
@@ -176,6 +178,7 @@ export async function POST(req: NextRequest) {
                 error: "lifetime_limit_reached",
                 message: "You have used all 30 lifetime free uses. Please subscribe to continue.",
                 upgrade_required: true,
+                toolkit_slug: earlyToolkitSlug || null,
               },
               { status: 403 }
             );
