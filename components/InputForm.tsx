@@ -83,7 +83,7 @@ export default function InputForm({ fields, onSubmit, loading = false, supportsF
               placeholder={field.placeholder ?? ""}
               required={field.required}
               rows={5}
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent resize-none transition-all"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent resize-none transition-all"
               value={values[field.name] ?? ""}
               onChange={(e) => handleChange(field.name, e.target.value)}
             />
@@ -91,7 +91,7 @@ export default function InputForm({ fields, onSubmit, loading = false, supportsF
             <select
               name={field.name}
               required={field.required}
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
               value={values[field.name] ?? ""}
               onChange={(e) => handleChange(field.name, e.target.value)}
             >
@@ -115,7 +115,7 @@ export default function InputForm({ fields, onSubmit, loading = false, supportsF
               name={field.name}
               placeholder={field.placeholder ?? ""}
               required={field.required}
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent transition-all"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent transition-all"
               value={values[field.name] ?? ""}
               onChange={(e) => handleChange(field.name, e.target.value)}
             />
@@ -126,7 +126,7 @@ export default function InputForm({ fields, onSubmit, loading = false, supportsF
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-xl py-3 text-sm font-semibold hover:opacity-90 disabled:opacity-50 transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-2"
+        className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-xl py-3 text-base font-semibold hover:opacity-90 disabled:opacity-50 transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-2"
       >
         {loading ? (
           <>
