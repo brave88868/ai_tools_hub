@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import InputForm from "@/components/InputForm";
 import ResultPanel from "@/components/ResultPanel";
@@ -110,7 +110,9 @@ async function downloadDocx(content: string, filename: string) {
 
 export default function ToolPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const slug = params.slug as string;
+  const isPreview = searchParams.get("preview") === "true";
 
   const [tool, setTool] = useState<Tool | null>(null);
   const [loading, setLoading] = useState(false);
@@ -129,20 +131,27 @@ export default function ToolPage() {
 
   useEffect(() => {
     async function loadTool() {
-      const { data, error } = await supabase
-        .from("tools")
-        .select("*, toolkits(slug, name)")
-        .eq("slug", slug)
-        .eq("is_active", true)
-        .single();
-
-      // 检查登录状态和角色（getUser 向服务器验证，不会返回过期 session）
+      // Resolve auth + role first so we can decide the query filter
       const { data: { user: currentUser } } = await supabase.auth.getUser();
       setIsLoggedIn(!!currentUser);
+
+      let resolvedRole = "";
       if (currentUser) {
-        supabase.from("users").select("role").eq("id", currentUser.id).single()
-          .then(({ data: ur }) => { if (ur?.role) setUserRole(ur.role); });
+        const { data: ur } = await supabase.from("users").select("role").eq("id", currentUser.id).single();
+        resolvedRole = ur?.role ?? "";
+        setUserRole(resolvedRole);
       }
+
+      // Admin + ?preview=true → allow inactive tools; everyone else must see active only
+      const allowInactive = isPreview && resolvedRole === "admin";
+
+      const query = supabase
+        .from("tools")
+        .select("*, toolkits(slug, name)")
+        .eq("slug", slug);
+      if (!allowInactive) query.eq("is_active", true);
+
+      const { data, error } = await query.single();
 
       if (error || !data) {
         setError("Tool not found");

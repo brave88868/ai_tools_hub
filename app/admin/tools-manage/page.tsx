@@ -278,7 +278,16 @@ export default function AdminToolsManagePage() {
               <tbody className="divide-y divide-gray-100">
                 {filtered.map((tool) => (
                   <tr key={tool.id} className={tool.is_active ? "hover:bg-gray-50" : "bg-gray-50 opacity-60 hover:opacity-100"}>
-                    <td className="px-4 py-2.5 font-medium text-gray-900 text-sm">{tool.name}</td>
+                    <td className="px-4 py-2.5 font-medium text-gray-900 text-sm">
+                      <a
+                        href={`/tools/${tool.slug}?preview=true`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline hover:text-indigo-600 transition-colors"
+                      >
+                        {tool.name}
+                      </a>
+                    </td>
                     <td className="px-3 py-2.5">
                       <code className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">{tool.slug}</code>
                     </td>
