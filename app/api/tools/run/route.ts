@@ -266,7 +266,7 @@ export async function POST(req: NextRequest) {
 
     // Legal / Compliance Toolkit disclaimer
     const toolkitSlug = (tool.toolkits as unknown as { slug: string } | null)?.slug;
-    if (toolkitSlug === "legal" || toolkitSlug === "compliance") {
+    if (toolkitSlug === "legal" || toolkitSlug === "compliance-toolkit") {
       output +=
         "\n\n---\n⚠️ **Disclaimer**: This tool provides general informational analysis only. It does not constitute legal, compliance, or regulatory advice. Please consult a qualified compliance professional or attorney for your specific situation.";
     }

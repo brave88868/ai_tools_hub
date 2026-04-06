@@ -13,7 +13,6 @@ import FeedbackModal from "@/components/FeedbackModal";
 import UpgradeCTA from "@/components/revenue/UpgradeCTA";
 import EmailCapture from "@/components/revenue/EmailCapture";
 import { CopyButton } from "@/components/ui/CopyButton";
-import ComplianceDisclaimer from "@/components/ComplianceDisclaimer";
 
 // ── Doc tool config — only slugs that actually exist in the DB ────────────
 const DOC_TOOL_CONFIG: Record<string, {
@@ -308,9 +307,9 @@ export default function ToolPage() {
         </div>
 
         {/* Compliance disclaimer — above form */}
-        {tool.toolkits?.slug === "compliance" && (
-          <div className="mb-4">
-            <ComplianceDisclaimer />
+        {tool.toolkits?.slug === "compliance-toolkit" && (
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4 text-xs text-amber-700">
+            ⚠️ These tools provide general informational analysis only. They do not constitute legal, compliance, or regulatory advice. Please consult a qualified compliance professional or attorney.
           </div>
         )}
 
@@ -432,9 +431,9 @@ export default function ToolPage() {
         )}
 
         {/* Compliance disclaimer — below result */}
-        {tool.toolkits?.slug === "compliance" && result && (
-          <div className="mt-4">
-            <ComplianceDisclaimer />
+        {tool.toolkits?.slug === "compliance-toolkit" && result && (
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mt-4 text-xs text-amber-700">
+            ⚠️ These tools provide general informational analysis only. They do not constitute legal, compliance, or regulatory advice. Please consult a qualified compliance professional or attorney.
           </div>
         )}
 

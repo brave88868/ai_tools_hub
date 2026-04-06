@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase";
 import { notFound } from "next/navigation";
-import ComplianceDisclaimer from "@/components/ComplianceDisclaimer";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -68,9 +67,9 @@ export default async function ToolkitPage({ params }: Props) {
         </div>
       )}
 
-      {slug === "compliance" && (
-        <div className="mb-8">
-          <ComplianceDisclaimer />
+      {slug === "compliance-toolkit" && (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 text-xs text-amber-700">
+          ⚠️ These tools provide general informational analysis only. They do not constitute legal, compliance, or regulatory advice. Please consult a qualified compliance professional or attorney.
         </div>
       )}
 
