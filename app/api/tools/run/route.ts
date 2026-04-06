@@ -264,11 +264,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Legal Toolkit disclaimer
+    // Legal / Compliance Toolkit disclaimer
     const toolkitSlug = (tool.toolkits as unknown as { slug: string } | null)?.slug;
-    if (toolkitSlug === "legal") {
+    if (toolkitSlug === "legal" || toolkitSlug === "compliance") {
       output +=
-        "\n\n---\n⚠️ **Disclaimer**: This tool provides general informational analysis only. It does not constitute legal advice. Please consult a qualified attorney for legal matters.";
+        "\n\n---\n⚠️ **Disclaimer**: This tool provides general informational analysis only. It does not constitute legal, compliance, or regulatory advice. Please consult a qualified compliance professional or attorney for your specific situation.";
     }
 
     // ── Log usage ─────────────────────────────────────────────────
