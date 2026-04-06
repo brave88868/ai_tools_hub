@@ -12,6 +12,7 @@ interface UserRow {
   banned: boolean | null;
   created_at: string;
   toolkits?: string[];
+  expiry?: string | null; // 'continuing' | ISO date string | null
 }
 
 const TOOLKIT_COLORS: Record<string, string> = {
@@ -336,6 +337,7 @@ export default function AdminUsersPage() {
                     <th className="text-center px-3 py-3 font-medium">Role</th>
                     <th className="text-center px-3 py-3 font-medium">Plan</th>
                     <th className="text-left px-3 py-3 font-medium">Toolkits</th>
+                    <th className="text-left px-3 py-3 font-medium">Expiry</th>
                     <th className="text-center px-3 py-3 font-medium">Uses</th>
                     <th className="text-center px-3 py-3 font-medium">Status</th>
                     <th className="text-right px-4 py-3 font-medium">Joined</th>
@@ -395,6 +397,17 @@ export default function AdminUsersPage() {
                               </span>
                             ))}
                           </div>
+                        )}
+                      </td>
+                      <td className="px-3 py-2.5 text-xs">
+                        {!u.expiry ? (
+                          <span className="text-gray-300">N/A</span>
+                        ) : u.expiry === "continuing" ? (
+                          <span className="text-green-600 font-medium">Continuing</span>
+                        ) : (
+                          <span className="text-orange-500">
+                            {new Date(u.expiry).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                          </span>
                         )}
                       </td>
                       <td className="px-3 py-2.5 text-center text-xs text-gray-500">{u.usage_count ?? 0}</td>
