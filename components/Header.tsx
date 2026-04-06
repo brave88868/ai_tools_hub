@@ -48,7 +48,7 @@ export default function Header() {
           <Link href="/pricing" className={`relative text-[15px] font-medium transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-200 ${pathname === "/pricing" ? "text-indigo-600 after:w-full" : "text-gray-700 hover:text-indigo-600 after:w-0 hover:after:w-full"}`}>Pricing</Link>
           <Link href="/blog" className={`relative text-[15px] font-medium transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-200 ${pathname.startsWith("/blog") ? "text-indigo-600 after:w-full" : "text-gray-700 hover:text-indigo-600 after:w-0 hover:after:w-full"}`}>Blog</Link>
           <Link href="/features" className={`relative text-[15px] font-medium transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-200 ${pathname.startsWith("/features") ? "text-indigo-600 after:w-full" : "text-gray-700 hover:text-indigo-600 after:w-0 hover:after:w-full"}`}>Features</Link>
-          <Link href="/roadmap" className={`relative text-[15px] font-medium transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-200 ${pathname.startsWith("/roadmap") ? "text-indigo-600 after:w-full" : "text-gray-700 hover:text-indigo-600 after:w-0 hover:after:w-full"}`}>Roadmap</Link>
+          <Link href="/submit" className={`relative text-[15px] font-medium transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-200 ${pathname.startsWith("/submit") ? "text-indigo-600 after:w-full" : "text-gray-700 hover:text-indigo-600 after:w-0 hover:after:w-full"}`}>Submit Tool</Link>
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
@@ -88,7 +88,7 @@ export default function Header() {
           <Link href="/toolkits" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Toolkits</Link>
           <Link href="/pricing" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Pricing</Link>
           <Link href="/blog" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Blog</Link>
-          <Link href="/roadmap" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Roadmap</Link>
+          <Link href="/submit" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Submit Tool</Link>
           {user ? (
             <>
               <Link href="/dashboard" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Dashboard</Link>

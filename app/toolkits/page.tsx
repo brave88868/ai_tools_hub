@@ -63,6 +63,7 @@ export default function ToolkitsPage() {
     }
   }
 
+  const bundle = toolkits.find((k) => k.slug === "bundle");
   const regular = toolkits.filter((k) => k.slug !== "bundle");
 
   return (
@@ -74,11 +75,11 @@ export default function ToolkitsPage() {
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
             <div className="text-2xl mb-1">⚡</div>
-            <h3 className="text-white font-bold text-lg mb-0.5">All Toolkits Bundle</h3>
-            <p className="text-white/70 text-sm">Get unlimited access to all 6 toolkits — best value</p>
+            <h3 className="text-white font-bold text-lg mb-0.5">{bundle?.name ?? "All Toolkits Bundle"}</h3>
+            <p className="text-white/70 text-sm">{bundle?.description ?? "Get unlimited access to all toolkits — best value"}</p>
           </div>
           <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
-            <span className="text-white font-bold text-2xl">$39<span className="text-base font-normal text-white/70">/mo</span></span>
+            <span className="text-white font-bold text-2xl">${bundle?.price_monthly ?? 49}<span className="text-base font-normal text-white/70">/mo</span></span>
             <button
               onClick={() => handleSubscribe("bundle")}
               disabled={subscribingSlug === "bundle"}
