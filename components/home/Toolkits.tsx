@@ -13,18 +13,28 @@ const TOOLKIT_COLORS: Record<string, string> = {
 export default async function Toolkits() {
   const supabase = createAdminClient();
 
-  const { data: toolkits } = await supabase
-    .from("toolkits")
-    .select("slug, name, description, price_monthly, icon")
-    .eq("is_active", true)
-    .neq("slug", "bundle")
-    .order("sort_order");
+  const [{ data: toolkits }, { data: bundle }] = await Promise.all([
+    supabase
+      .from("toolkits")
+      .select("slug, name, description, price_monthly, icon")
+      .eq("is_active", true)
+      .neq("slug", "bundle")
+      .order("sort_order"),
+    supabase
+      .from("toolkits")
+      .select("price_monthly, description")
+      .eq("slug", "bundle")
+      .single(),
+  ]);
+
+  const bundlePrice = bundle?.price_monthly ?? 49;
+  const toolkitCount = (toolkits ?? []).length;
 
   return (
     <section className="bg-gray-50 py-14 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">6 Professional Toolkits</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">{toolkitCount} Professional Toolkits</h2>
           <p className="text-gray-500">Every toolkit includes 10+ AI tools built for your workflow</p>
         </div>
 
@@ -34,10 +44,10 @@ export default async function Toolkits() {
             <div>
               <div className="text-2xl mb-1">⚡</div>
               <h3 className="text-white font-bold text-lg mb-0.5">All Toolkits Bundle</h3>
-              <p className="text-white/70 text-sm">Get unlimited access to all 6 toolkits — best value</p>
+              <p className="text-white/70 text-sm">{bundle?.description ?? `Get unlimited access to all ${toolkitCount} toolkits — best value`}</p>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-white font-bold text-2xl">$39<span className="text-base font-normal text-white/70">/mo</span></span>
+              <span className="text-white font-bold text-2xl">${bundlePrice}<span className="text-base font-normal text-white/70">/mo</span></span>
               <Link
                 href="/pricing"
                 className="bg-white text-indigo-600 font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-indigo-50 transition-colors"
