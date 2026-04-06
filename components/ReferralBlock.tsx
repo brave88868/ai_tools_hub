@@ -57,7 +57,7 @@ export default function ReferralBlock({ userId }: Props) {
   return (
     <div className="border border-gray-200 rounded-xl p-5 space-y-4">
       <p className="text-xs text-gray-500">
-        Share your link. When a friend subscribes, you earn 1 free month.
+        Share your link. When a friend subscribes, you earn 1 free month of All Toolkits Bundle ($49 value).
       </p>
 
       {/* Referral link */}
@@ -93,7 +93,7 @@ export default function ReferralBlock({ userId }: Props) {
         <p className="text-xs font-medium text-gray-700 mb-1">
           Affiliate Commission{" "}
           <span className="text-gray-400 font-normal">
-            (Earn {affiliate ? `${Math.round((affiliate.commission_rate ?? 0.30) * 100)}%` : "30%"} per paying referral)
+            (Earn {affiliate ? `${Math.round((affiliate.commission_rate ?? 0.20) * 100)}%` : "20%"} per paying referral)
           </span>
         </p>
         {affiliate ? (

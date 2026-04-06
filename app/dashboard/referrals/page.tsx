@@ -88,9 +88,9 @@ export default function ReferralsDashboard() {
         <div className="space-y-6">
           {/* Invite link */}
           <div className="bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 rounded-2xl p-6">
-            <h2 className="text-base font-semibold text-gray-900 mb-1">Your Invite Link</h2>
+            <h2 className="text-base font-semibold text-gray-900 mb-1">Invite friends → earn free Bundle access</h2>
             <p className="text-sm text-gray-500 mb-4">
-              Share this link. Each friend who signs up gives you <strong>+20 free uses</strong>.
+              Each successful referral = <strong>1 free month of All Toolkits Bundle ($49 value)</strong> for you.
             </p>
             <div className="flex items-center gap-2">
               <input

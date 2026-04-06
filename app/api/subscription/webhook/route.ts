@@ -135,7 +135,7 @@ export async function POST(req: NextRequest) {
       if (referral) {
         await supabase.from("referral_rewards").insert({
           user_id: referral.referrer_id,
-          reward_type: "free_month",
+          reward_type: "free_month_bundle",
           reward_value: "1",
           applied: false,
         });
@@ -147,12 +147,12 @@ export async function POST(req: NextRequest) {
         // Affiliate commission (30%)
         try {
           const unitAmount = sub.items?.data[0]?.price?.unit_amount ?? 0;
-          const commissionAmount = Math.round(unitAmount * 0.30);
+          const commissionAmount = Math.round(unitAmount * 0.20);
           await supabase.from("affiliate_commissions").insert({
             referrer_id: referral.referrer_id,
             referred_user_id: user_id,
             amount: commissionAmount,
-            rate: 0.30,
+            rate: 0.20,
             status: "pending",
             stripe_payment_id: subscription_id,
           });
