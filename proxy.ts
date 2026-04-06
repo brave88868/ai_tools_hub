@@ -18,8 +18,6 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next({ request });
   }
 
-  let supabaseResponse = NextResponse.next({ request });
-
   // ── 301 重定向：旧前缀路由 → 扁平根路径 ──────────────────────────
 
   // /compare/{slug} → /{slug}  (e.g. chatgpt-vs-jasper)
@@ -31,7 +29,6 @@ export async function proxy(request: NextRequest) {
   }
 
   // /alternatives/{slug} → /{slug}-alternatives
-  // 已有 -alternatives 后缀的直接重定向到根路径
   if (pathname.startsWith("/alternatives/")) {
     const inner = pathname.replace(/^\/alternatives\//, "");
     if (inner && !inner.includes("/")) {
@@ -59,20 +56,11 @@ export async function proxy(request: NextRequest) {
   }
   // ─────────────────────────────────────────────────────────────────
 
-  // ── Referral 追踪：?ref=CODE → cookie（30天有效期）──────────────
-  const refCode = request.nextUrl.searchParams.get("ref");
-  if (refCode && !request.cookies.get("referrer_code")) {
-    supabaseResponse = NextResponse.next({ request });
-    supabaseResponse.cookies.set("referrer_code", refCode, {
-      httpOnly: false,
-      maxAge: 60 * 60 * 24 * 30, // 30 days
-      path: "/",
-      sameSite: "lax",
-    });
-  }
-  // ─────────────────────────────────────────────────────────────────
-
   // ── Supabase session refresh ──────────────────────────────────────
+  // IMPORTANT: create supabaseResponse BEFORE the Supabase client so that
+  // setAll() can safely reassign it without losing prior cookie mutations.
+  let supabaseResponse = NextResponse.next({ request });
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -82,10 +70,14 @@ export async function proxy(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet: Array<{ name: string; value: string; options: CookieOptions }>) {
+          // 1. Mutate the request cookies so Server Components see the refreshed token.
+          // request.cookies.set only accepts (name, value) — options are not supported here.
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           );
+          // 2. Create a new response that carries the mutated request through.
           supabaseResponse = NextResponse.next({ request });
+          // 3. Set the cookies on the response so the browser receives them.
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options as Parameters<typeof supabaseResponse.cookies.set>[2])
           );
@@ -94,15 +86,35 @@ export async function proxy(request: NextRequest) {
     }
   );
 
-  const { data: { user } } = await supabase.auth.getUser();
+  // IMPORTANT: getUser() is called here for its SESSION REFRESH side effect.
+  // Do NOT rely solely on user===null to block access — a network error also
+  // returns user=null. Only redirect when we are certain (user=null, error=null).
+  const { data: { user }, error: getUserError } = await supabase.auth.getUser();
 
-  // 保护 /dashboard 和 /admin 路由，未登录重定向到 /login?next=<原始路径>
-  if (!user && (
-    request.nextUrl.pathname.startsWith("/dashboard") ||
-    request.nextUrl.pathname.startsWith("/admin")
-  )) {
+  // ── Referral 追踪：?ref=CODE → cookie（30天有效期）──────────────
+  // Must be set AFTER the Supabase client section to avoid being overwritten
+  // by setAll() recreating supabaseResponse.
+  const refCode = request.nextUrl.searchParams.get("ref");
+  if (refCode && !request.cookies.get("referrer_code")) {
+    supabaseResponse.cookies.set("referrer_code", refCode, {
+      httpOnly: false,
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+      path: "/",
+      sameSite: "lax",
+    });
+  }
+  // ─────────────────────────────────────────────────────────────────
+
+  // 保护 /dashboard 和 /admin：
+  // Only redirect when Supabase CONFIRMED no user (no network error).
+  // If getUserError is set (network/timeout), allow through — the page will
+  // handle auth, preventing false logouts on transient Supabase outages.
+  const isProtected =
+    pathname.startsWith("/dashboard") || pathname.startsWith("/admin");
+
+  if (isProtected && !user && !getUserError) {
     const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("next", request.nextUrl.pathname);
+    loginUrl.searchParams.set("next", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
