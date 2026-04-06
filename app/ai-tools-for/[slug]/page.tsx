@@ -127,7 +127,7 @@ export default async function ProfessionPage({ params }: Props) {
           )}
           <div className="bg-black text-white rounded-2xl p-6 text-center">
             <p className="font-semibold text-sm mb-1">Get unlimited access</p>
-            <p className="text-gray-400 text-xs mb-4">400+ AI tools · Free to start · Cancel anytime</p>
+            <p className="text-gray-400 text-xs mb-4">600+ AI tools · Free to start · Cancel anytime</p>
             <Link href="/pricing" className="inline-block bg-white text-black px-5 py-2 rounded-xl text-sm font-medium hover:bg-gray-100 transition-colors">View Pricing →</Link>
           </div>
         </main>

@@ -40,7 +40,7 @@ export default function Header() {
           <Link href="/" className="text-base font-bold text-gray-900 tracking-tight">
             AI Tools Station
           </Link>
-          <p className="text-xs text-gray-400 mt-0.5">400+ AI tools · Free to start</p>
+          <p className="text-xs text-gray-400 mt-0.5">600+ AI tools · Free to start</p>
         </div>
 
         <nav className="hidden md:flex items-center gap-8">

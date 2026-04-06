@@ -132,7 +132,7 @@ export default async function WorkflowPage({ params }: Props) {
         {/* CTA */}
         <div className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-2xl p-6 text-center mb-8">
           <p className="font-semibold text-sm mb-1">Run this workflow with AI Tools Station</p>
-          <p className="text-indigo-100 text-xs mb-4">400+ AI tools · Free to start · No credit card</p>
+          <p className="text-indigo-100 text-xs mb-4">600+ AI tools · Free to start · No credit card</p>
           <Link href="/toolkits" className="inline-block bg-white text-indigo-700 px-5 py-2 rounded-xl text-sm font-medium hover:bg-indigo-50 transition-colors">
             Get Started Free →
           </Link>
