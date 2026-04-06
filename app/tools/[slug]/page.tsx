@@ -13,6 +13,7 @@ import FeedbackModal from "@/components/FeedbackModal";
 import UpgradeCTA from "@/components/revenue/UpgradeCTA";
 import EmailCapture from "@/components/revenue/EmailCapture";
 import { CopyButton } from "@/components/ui/CopyButton";
+import ComplianceDisclaimer from "@/components/ComplianceDisclaimer";
 
 // ── Doc tool config — only slugs that actually exist in the DB ────────────
 const DOC_TOOL_CONFIG: Record<string, {
@@ -306,6 +307,13 @@ export default function ToolPage() {
           )}
         </div>
 
+        {/* Compliance disclaimer — above form */}
+        {tool.toolkits?.slug === "compliance" && (
+          <div className="mb-4">
+            <ComplianceDisclaimer />
+          </div>
+        )}
+
         {/* Input Form */}
         <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
           {inputFields.length > 0 ? (
@@ -421,6 +429,13 @@ export default function ToolPage() {
           <p className="mt-6 text-xs text-gray-400 text-center">
             ⚠️ This tool provides general informational analysis only. It does not constitute legal advice.
           </p>
+        )}
+
+        {/* Compliance disclaimer — below result */}
+        {tool.toolkits?.slug === "compliance" && result && (
+          <div className="mt-4">
+            <ComplianceDisclaimer />
+          </div>
         )}
 
         {/* Use Cases for This Tool — internal linking for SEO */}
