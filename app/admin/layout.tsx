@@ -20,6 +20,7 @@ const NAV = [
   { label: "SaaS Factory", href: "/admin/saas" },
   { label: "Startup Gen", href: "/admin/startup" },
   { label: "Intelligence", href: "/admin/intelligence" },
+  { label: "Submissions", href: "/admin/submissions" },
   { label: "🩺 Health", href: "/admin/health" },
 ];
 

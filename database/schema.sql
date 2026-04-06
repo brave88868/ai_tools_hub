@@ -166,3 +166,16 @@ CREATE INDEX IF NOT EXISTS idx_usage_logs_session_date ON usage_logs(session_id,
 CREATE INDEX IF NOT EXISTS idx_usage_logs_user_date ON usage_logs(user_id, usage_date);
 CREATE INDEX IF NOT EXISTS idx_usage_logs_user_total ON usage_logs(user_id);
 CREATE INDEX IF NOT EXISTS idx_subscriptions_user_toolkit ON subscriptions(user_id, toolkit_slug, status);
+
+-- tool_submissions: developer-submitted external AI tools (reviewed by admin)
+CREATE TABLE IF NOT EXISTS tool_submissions (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  name text NOT NULL,
+  website text NOT NULL,
+  description text,
+  category text,
+  pricing text,
+  submitter_email text,
+  status text DEFAULT 'pending',
+  created_at timestamptz DEFAULT now()
+);
