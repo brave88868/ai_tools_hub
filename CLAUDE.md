@@ -417,6 +417,7 @@ Optimization Agent       →  自动优化产品
 - SPEC-SAAS-FACTORY ✅ AI SaaS工厂：saas_projects表 + /api/operator/generate-saas（GPT-4o-mini生成name/slug/domain/tagline→DB→异步触发SEO页面）+ /api/operator/generate-saas-pages（20关键词变体→seo_pages type=saas_page）+ /saas/[slug]落地页（Hero渐变+Features+Pricing Free/Pro+SEO Pages+Footer CTA，SoftwareApplication JSON-LD）+ /saas列表页（status=active）+ /admin/saas管理页（统计4卡片+生成表单+项目表格，Gen SEO/Activate/Archive/Delete操作）+ 3辅助API（saas-list/saas-update-status/saas-delete）+ admin导航"SaaS Factory" + sitemap /saas/* priority 0.8 + cron Step 8自动生成SaaS草稿
 - SPEC-AUTONOMOUS-COMPANY-SYSTEM ✅ 自循环闭环：market_signals/opportunity_scores/revenue_metrics 3张新表 + seo_pages.view_count列 + scan-market/score-opportunities/record-metrics/optimize-pages 4个 intelligence API + /api/seo/ping（Google+Bing sitemap ping）+ /api/cron/daily 重写为8步全自动流水线（市场扫描→机会评分→SEO生成→博客→Startup→页面优化→收入记录→sitemap ping，每步90s timeout+独立try-catch）+ vercel.json 新增每日6am UTC cron + /admin/intelligence仪表盘（4统计+5手动按钮+流水线进度+信号列表+MRR折线图）+ admin导航"Intelligence"
 - SPEC-SEO-INDEXING-ACCELERATOR ✅ 加速收录：app/sitemap.ts简化为4个子sitemap入口 + app/sitemap-index.xml（真正<sitemapindex>格式，提交给GSC）+ sitemap-main/tools/seo/blog.xml 4个Route Handler子sitemap + /api/seo/ping改为无鉴权GET（pings sitemap-index.xml）+ 5个SEO生成API末尾追加fire-and-forget ping + tools/[slug]页面底部新增"Use Cases for This Tool"区块（6条，client-side fetch）+ 首页sr-only导航（Google crawl discovery）
+- SPEC-APR07 ✅ Admin增强+Compliance+Auth修复（2026-04-07）：Admin Add User（Toolkit下拉+写入subscriptions）+ Admin Users表新增Toolkits badge列+Expiry到期日列 + Dashboard plan实时从subscriptions查询（含canceling）+ Cancel订阅跳过Stripe（manual_/referral_reward_前缀）+ Webhook补全invoice.payment_succeeded/failed事件 + Referral奖励5邀=Bundle1月写subscriptions（移除旧20邀Pro逻辑）+ Compliance Toolkit免责声明三处覆盖（toolkit页+tool页+API输出）+ robots.txt移除/auth/屏蔽+sitemap指向www+sitemap-index.xml + 首页150+数字统一+hero badge隐私说明 + Google OAuth session丢失修复（proxy.ts 3个bug）+ Google Cloud Console加生产域名
 - SPEC-11-C 🔲 Stripe Live 切换（手动操作，见下方步骤）
 - SPEC-09 🔲 Programmatic SEO Engine
 
@@ -487,6 +488,14 @@ Optimization Agent       →  自动优化产品
 - Programmatic SEO: `lib/seo-keywords.ts` 导出PROFESSIONS/COMPETITORS/PROBLEMS/MODIFIERS常量；`/use-cases/[slug]` 服务端页面从seo_pages(type=use_case)读取；`/api/seo/generate-*` 5个统一生成API（写seo_pages主表 + 同步各分散表）；`/api/seo/generate` 批量入口顺序调用5个API；seo_pages表新增type/seo_title/seo_description/tool_slug/meta字段
 - Weekly Insights: `lib/insights/generate.ts` 聚合analytics_events/subscriptions/leads→GPT-4o-mini周报→weekly_insights表→Resend邮件（from: onboarding@resend.dev, to: ADMIN_EMAIL）；force=false跳过重复；vercel.json cron每周一6am UTC；admin/analytics底部WeeklyInsightsBlock客户端组件（Generate按钮+最近5条报告）
 - SaaS Factory: `saas_projects`表（id/name/slug/domain/template/keyword/description/tagline/primary_tool_slug/status/seo_pages_count）；/saas/[slug]落地页 SoftwareApplication JSON-LD；/api/operator/generate-saas POST requireAdmin；/api/operator/generate-saas-pages POST requireAdmin（type='saas_page'写seo_pages）；cron discover-keywords Step 8自动生成草稿SaaS（score≥70的done关键词）
+- subscriptions表手动记录：stripe_subscription_id以`manual_`或`referral_reward_`为前缀的记录为手动插入（无Stripe实体）；cancel时直接DB软删除（status='canceled'），跳过Stripe API；cancel_at_period_end列已存在并正常工作
+- users.plan与subscriptions实时同步：有任何active/canceling订阅→plan='pro'；Admin Add User时同时写subscriptions表（toolkit_slug+status='active'+stripe_subscription_id='manual_{uuid}'）
+- 权限层级（已验证无漏洞）：admin（无限制）> pro role > bundle订阅（所有toolkit）> 单toolkit订阅 > free（3次/天+30终身）
+- Webhook事件：`price.updated`→同步toolkits.price_monthly；`customer.subscription.updated/deleted`→更新subscriptions状态；`invoice.payment_succeeded`→续费时重置/延长current_period_end+确认active；`invoice.payment_failed`→标记past_due
+- Referral里程碑：5 invites → Bundle 1 month（写subscriptions，prefix=referral_reward_，toolkit_slug='bundle'，无Stripe）；移除旧20邀Pro 1月逻辑；10/+20 bonus_uses奖励保留
+- Compliance Toolkit免责声明：/toolkits/compliance-toolkit页面顶部banner + /tools/[slug]页面（toolkit.slug==='compliance-toolkit'时）+ /api/tools/run engine输出末尾自动追加disclaimer文字
+- robots.txt：已移除`/auth/`屏蔽（防止Google OAuth callback被拦截）；sitemap指向`https://www.aitoolsstation.com/sitemap-index.xml`
+- Google OAuth修复（proxy.ts）：3个bug：①session refresh时序错误 ②cookie未正确转发到Supabase ③OAuth callback redirect逻辑覆盖了session；修复后OAuth登录session正常持久化
 
 ## SPEC-11-C — Stripe Live 切换（待手动操作）
 
@@ -499,7 +508,10 @@ Optimization Agent       →  自动优化产品
 ## Next Tasks
 
 1. SPEC-11-C: Stripe Live 切换（手动）
-2. 运行 SEO Multiplier 内容生成脚本填充 5 张新 DB 表
-3. 在 /admin/growth → Traffic Capture 启动飞轮（顺序：Autocomplete → PAA → Expand → Detect → Generate）
-4. 当有 GSC 数据后，用 POST /api/growth/import-rankings 导入排名数据，再运行 Content Optimizer
-5. 考虑删除 /operator/* 页面（已被 /admin/* 完全替代）
+2. 文件上传/下载改造（所有工具）— 调研已完成（见 SPEC-PLATFORM-AUDIT.md），只需改3个文件
+3. Compliance Toolkit 页面 banner 显示问题确认（prod环境实际渲染验证）
+4. 字体大小调整（InputForm text-sm→text-base）
+5. 运行 SEO Multiplier 内容生成脚本填充 5 张新 DB 表
+6. 在 /admin/growth → Traffic Capture 启动飞轮（顺序：Autocomplete → PAA → Expand → Detect → Generate）
+7. 当有 GSC 数据后，用 POST /api/growth/import-rankings 导入排名数据，再运行 Content Optimizer
+8. 考虑删除 /operator/* 页面（已被 /admin/* 完全替代）

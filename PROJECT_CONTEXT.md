@@ -7,9 +7,9 @@
 
 ## 当前项目状态
 
-**项目阶段**: 🟢 SPEC-AUTONOMOUS-COMPANY-SYSTEM 完成  
-**当前里程碑**: 系统已可完全自循环。可在 /admin/intelligence 手动触发各步骤验证，或等每日 6am UTC cron 自动运行。下一步：Stripe Live 切换（SPEC-11-C）  
-**最后更新**: 2026-04-05 — Autonomous Company System：8步全自动流水线 + Intelligence仪表盘
+**项目阶段**: 🟢 SPEC-APR07 完成  
+**当前里程碑**: Admin增强（Add User Toolkit下拉+Toolkits badge+Expiry列）+ Compliance Toolkit三处免责声明 + Google OAuth proxy.ts修复 + Referral 5邀=Bundle1月 + Webhook invoice事件完整。下一步：文件上传改造 + Stripe Live切换  
+**最后更新**: 2026-04-07 — SPEC-APR07：Admin/Compliance/Referral/Auth/Webhook全部完成
 
 ### 已完成修复（Bug Fix Log）
 
@@ -31,6 +31,12 @@
 18. **SPEC-FINAL** — /admin/* 完整 Admin Dashboard（layout 校验 users.role='admin' + 6页面：overview/tools/seo/blog/analytics/feedback）；3 独立 Cron 路由（discover-keywords 2am / generate-tools 3am / generate-blog 4am）；vercel.json 更新为 3 条 cron；Header 加 Features 链接；ReferralBlock 短码 = userId.slice(0,8)；auth/callback 用 UUID prefix range query 查找推荐人；analytics API 补全 totalUsers/todayToolUses/weekToolUses；middleware.ts 保护 /admin；robots.ts disallow /admin
 14. **Checkout Invalid toolkit 修复（SPEC-FIX-06）** — `TOOLKIT_PRICE_IDS` 类型改为 `string | undefined`（移除 `!` 断言）；失败时打印完整诊断日志（received slug + 每个 env var 是否已设置）到 Vercel 函数日志
 15. **Dashboard 订阅显示修复 + 退订（SPEC-FIX-07）** — 新增 `SubscriptionList` 客户端组件（Cancel 按钮 + window.confirm 确认）；Dashboard 查询新增 `stripe_subscription_id`，status 扩展为 `['active','canceling']`，Plan 字段显示实际 toolkit 名；新建 `POST /api/subscription/cancel`（cancel_at_period_end=true）；新建 `/terms` 和 `/privacy` 占位页面
+19. **Google OAuth session 丢失** — proxy.ts 3个bug修复：session refresh时序错误 + cookie未正确转发 + OAuth callback redirect覆盖session；修复后Google OAuth登录session正常持久化；Google Cloud Console已加生产域名
+20. **Cancel订阅 Stripe API 报错** — `manual_` 和 `referral_reward_` 前缀的stripe_subscription_id跳过Stripe retrieve/cancel，直接DB软删除（status='canceled'）；防御性retrieve处理Stripe数据不一致
+21. **Webhook invoice 事件缺失** — 补全 `invoice.payment_succeeded`（续费延长current_period_end+active）和 `invoice.payment_failed`（标记past_due）两个事件处理
+22. **Referral 奖励逻辑重构** — 移除旧20邀Pro1月逻辑；5 invites → Bundle 1 month（写subscriptions表，prefix=referral_reward_，toolkit_slug='bundle'，无Stripe）；10/+20 bonus_uses奖励保留
+23. **robots.txt 屏蔽 /auth/** — 移除`/auth/`屏蔽（防止Google OAuth callback无法被处理）；sitemap URL改为www域名指向sitemap-index.xml
+24. **首页数字不统一** — 全站150+数字统一；hero badge新增隐私说明文字
 
 ### 当前技术状态
 
@@ -38,17 +44,29 @@
 - All tools: tool_type=template, inputs_schema 已填充, prompt_file 已验证
 - File upload: PDF/DOCX/PPTX/TXT，Vercel nodejs runtime（FileUploadInput → /api/tools/extract-text）
 - Download: 所有工具输出 .docx 格式
-- Auth: Supabase email + Google OAuth，sign-out 正常
-- Billing: Stripe checkout + webhook (price.updated) + Supabase 同步（**仍在 Test 模式**）
+- Auth: Supabase email + Google OAuth，sign-out 正常；**Google OAuth session丢失已修复（proxy.ts 3 bugs）**
+- Billing: Stripe checkout + webhook (price.updated/subscription.updated/deleted/invoice.*) + Supabase 同步（**仍在 Test 模式**）
+- subscriptions表：cancel_at_period_end列已存在；manual_/referral_reward_前缀记录为手动插入，cancel时跳过Stripe；users.plan实时从subscriptions同步
 - Prompt 质量: 所有工具含 STEP 1 内部分析 + 结构化输出
 - Rate limiting: 匿名1次/天（IP+UA fingerprint）/ 登录免费3次/天+30次终身 / 付费/pro角色100次/天 / admin无限制
+- 权限层级（已验证）: admin > pro role > bundle > single-toolkit > free，toolkit隔离无漏洞
 - 角色系统: users.role = user(默认)/pro(付费，可手动授予)/admin；users.plan = free/pro（set-role API同步）
+- Admin Users页: Toolkits badge列（显示订阅toolkit名称）+ Expiry到期日列；Add User支持Toolkit下拉+写subscriptions表
+- Compliance Toolkit: /toolkits/compliance-toolkit 顶部banner + /tools/[slug] 工具页banner + API输出末尾自动追加免责声明
+- Referral里程碑: 5邀=Bundle 1month（写subscriptions，prefix=referral_reward_）；移除旧20邀Pro逻辑
 - Growth Engine: growth_keywords/tool_opportunities 两张新表；tools 表新增 auto_generated/seo_title/seo_description/prompt_template 列；tool_use_cases 表新增
 - SEO页面: /tools/[slug]/[usecase] (use-case落地页), /ai-tools-for/[profession] (职业聚合页)
 - 内链系统: lib/internal-linking.ts 自动在博客文章注入工具链接
 - 增长控制台: /admin/growth（4模块：关键词/机会/自动工具/流量报告）
 - Cron 增强: discover-keywords 同时生成 growth_keywords + 发现机会；generate-tools 同时自动创建 score≥80 的工具
 - Cover Letter: 6字段（cv_text_file/job_description/name/hiring_manager/company/job_title），Supabase inputs_schema已更新
+
+### 待完成 TODO（2026-04-07 更新）
+
+- 🔲 文件上传/下载改造（全部工具）— 调研已完成（见 SPEC-PLATFORM-AUDIT.md），只需改3个文件：FileUploadInput.tsx + extract-text/route.ts + 可选 InputForm.tsx
+- 🔲 Compliance Toolkit banner 显示确认（prod环境实际渲染验证）
+- 🔲 字体大小调整（InputForm text-sm→text-base）
+- 🔲 SPEC-11-C: Stripe Live 切换（手动）
 
 ---
 
@@ -107,6 +125,14 @@
 | SEO Flat Routes（SPEC-SEO-FLAT-ROUTES） | ✅ 完成 | app/[slug]/page.tsx根路径统一分发（-vs-/alternatives/how-to-/ai-for-）+ seo_use_cases表 + 4个生成API + proxy.ts 301重定向 + sitemap 4类扁平路径 + admin/seo 绿色统计+按钮 |
 | Google Traffic Capture（SPEC-GROWTH-CAPTURE） | ✅ 完成 | google-autocomplete + extract-paa（GPT-4o-mini）+ expand-keywords + detect-intent + generate-from-intents + ranking-monitor + import-rankings + optimize-content；/admin/growth Section 5 增加7个操作卡片；discover-keywords cron扩展4步 |
 | SEO Multiplier（SPEC-SEO-MULTIPLIER） | ✅ 完成 | 5类新页面（/templates /examples /guides /best-ai-tools /tools/keyword）+ 5张DB表 + 5个API + KEYWORD_MODIFIERS + INTENT_SLUGS + InternalLinks多表支持 + sitemap全覆盖 + cron每次+26页 + admin/seo第三行stats |
+| SEO Indexing Accelerator（SPEC-SEO-INDEXING-ACCELERATOR） | ✅ 完成 | sitemap拆分为7个子sitemap（main/tools/seo/blog/examples/templates/prompts）+ /sitemap-index.xml提交GSC格式 + /api/seo/ping无鉴权GET + 5个生成API末尾fire-and-forget ping + tools页Use Cases内链区块 + 首页sr-only crawl nav |
+| Traffic Flywheel（SPEC-TRAFFIC-FLYWHEEL） | ✅ 完成 | Module A: UGC Examples系统（generated_examples表+RLS+/examples/[slug]+/api/examples/*）；Module B: Templates distribution（tool_templates表+/templates/[slug]+download API）；Module C: SEO页面扩展（sitemap-examples/templates子sitemap）；Module D: Embed工具（/tools/[slug]/embed+oembed+/embed/[slug]）；Module E: Cron updates（daily Step 9/10）；Module F: Sitemap全量覆盖 |
+| Admin Login Bug Fix | ✅ 完成 | ?next= param流程修复 + ADMIN_EMAIL env fallback + auto-upsert users表（admin角色） |
+| AI Prompts System（SPEC-FIVE-TASKS Module P） | ✅ 完成 | ai_prompts表（category/difficulty/keywords/view_count/copy_count）+ /api/prompts/generate（Claude Haiku，8类共~72条）+ /api/prompts/copy（RPC increment_prompt_copies）+ /prompts列表页（8类卡片）+ /prompts/[category]（50条按copy_count排序）+ /prompts/[category]/[slug]（详情页+FAQ+侧边栏+CopyButton onCopy回调）+ types/prompts.ts |
+| System Health Dashboard（SPEC-FIVE-TASKS Task 2） | ✅ 完成 | /api/admin/health（7项检查：DB连通/7张表数量/24h活动/6个env vars/cron日志/系统信息）+ /admin/health客户端组件（STATUS_CONFIG ok/warn/error + Run Daily Cron按钮）+ admin导航增加🩺 Health |
+| Bulk Generate Fix（SPEC-FIVE-TASKS Task 1） | ✅ 完成 | 6个sub-API（generate-use-cases/comparisons/alternatives/problems/templates/ai-for）增加CRON_SECRET双auth模式；lastError字段捕获并返回；SSE主路由显示HTTP状态+skipped数+lastError摘要 |
+| Templates Category Pages（SPEC-FIVE-TASKS Module T） | ✅ 完成 | /templates/[slug]增加TEMPLATE_CATEGORIES常量（10类）；slug匹配类名时渲染分类列表页（绿色主题+grid）；个人模板逻辑不变 |
+| Prompts Sitemap + Cron Step 11（SPEC-FIVE-TASKS Module S+C） | ✅ 完成 | /sitemap-prompts.xml Route Handler（/prompts + /prompts/{category} + /prompts/{category}/{slug}）；sitemap.ts + sitemap-index.xml + sitemap-main.xml全部更新；/api/cron/daily Step 11（每周二生成prompts）；/api/templates/generate增加双auth；/admin/seo新增2个青色按钮（Generate Prompts + Generate Templates）|
 
 ### Phase 4 — 自动化运营
 
@@ -138,9 +164,10 @@ CREATE TABLE subscriptions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES users(id),
   toolkit_slug TEXT NOT NULL,
-  stripe_subscription_id TEXT,
+  stripe_subscription_id TEXT,    -- manual_* 或 referral_reward_* 前缀 = 手动记录，cancel时跳过Stripe
   stripe_customer_id TEXT,
-  status TEXT DEFAULT 'active',   -- active | canceled | past_due
+  status TEXT DEFAULT 'active',   -- active | canceled | past_due | canceling
+  cancel_at_period_end BOOLEAN DEFAULT false,
   current_period_end TIMESTAMP,
   created_at TIMESTAMP DEFAULT NOW()
 );
