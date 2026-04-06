@@ -37,7 +37,14 @@ export default function LoginForm({ next = "/dashboard" }: LoginFormProps) {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-      setError(error.message);
+      const msg = error.message.toLowerCase();
+      if (msg.includes("invalid login credentials") || msg.includes("invalid credentials")) {
+        setError("Incorrect email or password. If you don't have an account, please sign up first.");
+      } else if (msg.includes("email not confirmed")) {
+        setError("Please confirm your email before signing in.");
+      } else {
+        setError("Sign in failed. Please check your email and password.");
+      }
       setLoading(false);
     } else {
       router.push(next);
@@ -53,7 +60,7 @@ export default function LoginForm({ next = "/dashboard" }: LoginFormProps) {
         </div>
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Welcome back</h2>
         <p className="text-gray-500 text-sm leading-relaxed mb-6">
-          Access 50+ professional AI tools for your workflow.
+          Access 150+ professional AI tools for your workflow.
         </p>
         <div className="space-y-3">
           {[
