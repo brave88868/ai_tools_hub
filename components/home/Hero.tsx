@@ -5,9 +5,9 @@ export default function Hero() {
     <section className="bg-gradient-to-b from-indigo-50 to-white pt-16 pb-12 px-4">
       <div className="max-w-4xl mx-auto text-center">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
+        <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-3">
           <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full" />
-          Free to start · No credit card required
+          🔒 Free to start · No credit card required · Your data is never stored
         </div>
 
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight mb-5 leading-tight">
