@@ -69,6 +69,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, cancel_at: periodEnd });
   } catch (err) {
     console.error("[cancel]", err);
-    return NextResponse.json({ error: "Cancel failed" }, { status: 500 });
+    return NextResponse.json({
+      error: "Cancel failed",
+      detail: err instanceof Error ? err.message : String(err),
+    }, { status: 500 });
   }
 }
