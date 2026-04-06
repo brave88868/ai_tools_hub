@@ -31,7 +31,7 @@ export default async function PricingPreview() {
               {[
                 "3 AI generations per day",
                 "30 lifetime uses",
-                "All 50+ tools available",
+                "All 150+ tools available",
                 "No credit card required",
               ].map((f) => (
                 <li key={f} className="flex items-center gap-2">
