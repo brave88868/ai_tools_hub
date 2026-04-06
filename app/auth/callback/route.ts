@@ -167,33 +167,53 @@ export async function GET(request: NextRequest) {
               const inviteCount = totalInvites ?? 0;
 
               if (inviteCount === 5) {
+                const oneMonth = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+
+                // Check for existing referral_reward bundle subscription (idempotency)
+                const { data: existingReward } = await admin
+                  .from("subscriptions")
+                  .select("id, current_period_end")
+                  .eq("user_id", referrer.id)
+                  .eq("toolkit_slug", "bundle")
+                  .like("stripe_subscription_id", "referral_reward_%")
+                  .maybeSingle();
+
+                if (existingReward) {
+                  // Extend existing subscription by 1 month from its current end (or now if expired)
+                  const base = existingReward.current_period_end
+                    ? Math.max(Date.now(), new Date(existingReward.current_period_end).getTime())
+                    : Date.now();
+                  const newEnd = new Date(base + 30 * 24 * 60 * 60 * 1000).toISOString();
+                  await admin
+                    .from("subscriptions")
+                    .update({ status: "active", current_period_end: newEnd })
+                    .eq("id", existingReward.id);
+                  console.log(`[auth/callback] Milestone 5_invites: extended bundle for ${referrer.id} to ${newEnd}`);
+                } else {
+                  // Grant new bundle subscription
+                  await admin.from("subscriptions").insert({
+                    user_id: referrer.id,
+                    toolkit_slug: "bundle",
+                    status: "active",
+                    stripe_subscription_id: `referral_reward_${referrer.id}`,
+                    current_period_end: oneMonth,
+                  });
+                  console.log(`[auth/callback] Milestone 5_invites: granted bundle to ${referrer.id} until ${oneMonth}`);
+                }
+
                 await Promise.all([
                   admin.from("referral_rewards").insert({
                     user_id: referrer.id,
                     type: "milestone",
-                    uses_granted: 100,
-                    milestone: "5_invites",
-                  }),
-                  admin
-                    .from("users")
-                    .update({ bonus_uses: referrerBonusNow + 100 })
-                    .eq("id", referrer.id),
-                ]);
-              } else if (inviteCount === 20) {
-                const proExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-                await Promise.all([
-                  admin.from("referral_rewards").insert({
-                    user_id: referrer.id,
-                    type: "milestone",
+                    reward_type: "free_month_bundle",
                     uses_granted: 0,
-                    milestone: "20_invites",
+                    milestone: "5_invites",
                   }),
                   admin
                     .from("users")
                     .update({ plan: "pro", role: "pro" })
                     .eq("id", referrer.id),
                 ]);
-                console.log(`[auth/callback] Milestone 20_invites: granted Pro to ${referrer.id} until ${proExpiry}`);
               }
             }
           }

@@ -28,8 +28,7 @@ interface ReferralDetail {
 
 const MILESTONES = [
   { invites: 1, reward: "+20 uses", label: "First Invite" },
-  { invites: 5, reward: "+100 uses", label: "5 Invites" },
-  { invites: 20, reward: "Pro 1 Month", label: "20 Invites" },
+  { invites: 5, reward: "Bundle 1 Month", label: "5 Invites" },
 ];
 
 export default function ReferralsDashboard() {
