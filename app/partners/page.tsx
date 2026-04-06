@@ -173,6 +173,9 @@ export default function PartnersPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Partner Terms</h2>
           <div className="bg-white border border-gray-200 rounded-xl p-6 text-sm text-gray-600 space-y-4">
             <p>
+              <strong className="text-gray-800">Commission:</strong> 20% of first payment via your affiliate program.
+            </p>
+            <p>
               <strong className="text-gray-800">Listing:</strong> Approved tools are listed in our
               directory at no cost. AI Tools Station reserves the right to remove any listing at any
               time for quality or policy reasons.
