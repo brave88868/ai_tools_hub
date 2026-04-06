@@ -7,7 +7,20 @@ import path from "path";
 import { openai, OPENAI_MODEL } from "@/lib/openai";
 
 // Mode A: text-processing tools that need structured dual-panel output
-const TEXT_PROCESSING_SLUGS = ["resume-optimizer", "linkedin-profile-optimizer"];
+const TEXT_PROCESSING_SLUGS = [
+  "resume-optimizer",
+  "linkedin-profile-optimizer",
+  "essay-writing-feedback-generator",
+  "meta-title-description-optimizer",
+  "blog-post-seo-optimizer",
+  "meeting-notes-optimizer",
+  "reading-notes-to-action-items-converter",
+  "board-meeting-minutes-generator",
+  "meeting-notes-to-project-plan-converter",
+  "email-copywriting-optimizer",
+  "job-posting-optimizer",
+  "customer-feedback-response-optimizer",
+];
 
 const TEXT_PROCESSING_FORMAT = `
 
