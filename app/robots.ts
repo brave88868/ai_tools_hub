@@ -6,9 +6,9 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/dashboard", "/auth/", "/admin"],
+        disallow: ["/api/", "/dashboard", "/admin"],
       },
     ],
-    sitemap: "https://aitoolsstation.com/sitemap.xml",
+    sitemap: "https://www.aitoolsstation.com/sitemap-index.xml",
   };
 }
