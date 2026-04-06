@@ -30,6 +30,7 @@ const TOOLKIT_COLORS: Record<string, string> = {
   "document": "bg-slate-100 text-slate-700",
   "productivity": "bg-amber-100 text-amber-700",
   "ai-prompts": "bg-violet-100 text-violet-700",
+  "work-life-templates": "bg-teal-100 text-teal-700",
 };
 const TOOLKIT_DEFAULT_COLOR = "bg-gray-100 text-gray-600";
 

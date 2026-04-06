@@ -35,4 +35,5 @@ export const TOOLKIT_PRICE_IDS: Record<string, string | undefined> = {
   "document":                    process.env.STRIPE_Document_PRICE_ID,
   "productivity":                process.env.STRIPE_Productivity_PRICE_ID,
   "ai-prompts":                  process.env.STRIPE_AI_Prompts_PRICE_ID,
+  "work-life-templates":         process.env.STRIPE_Work_Life_Template_PRICE_ID,
 };
