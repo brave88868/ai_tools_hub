@@ -20,6 +20,14 @@ const TEXT_PROCESSING_SLUGS = [
   "email-copywriting-optimizer",
   "job-posting-optimizer",
   "customer-feedback-response-optimizer",
+  // Finance toolkit A-class
+  "financial-report-optimizer",
+  "investment-proposal-optimizer",
+  "financial-summary-rewriter",
+  // AI Workflow toolkit A-class
+  "ai-prompt-optimizer-pro",
+  "ai-workflow-doc-optimizer",
+  "ai-use-case-doc-optimizer",
 ];
 
 const TEXT_PROCESSING_FORMAT = `

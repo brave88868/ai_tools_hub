@@ -11,7 +11,7 @@ export default function Hero() {
         </div>
 
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight mb-5 leading-tight">
-          550+ AI Tools That{" "}
+          600+ AI Tools That{" "}
           <span className="bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent">
             Actually Save You Hours
           </span>

@@ -108,6 +108,50 @@ const DOC_TOOL_CONFIG: Record<string, {
     downloadName: "optimized-customer-response",
     primaryField: "customer_feedback",
   },
+  // ── Finance toolkit A-class ────────────────────────────────────────────────
+  "financial-report-optimizer": {
+    splitMarker: "## OPTIMIZED FINANCIAL REPORT",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Financial Report",
+    downloadName: "optimized-financial-report",
+    primaryField: "financial_report",
+  },
+  "investment-proposal-optimizer": {
+    splitMarker: "## OPTIMIZED INVESTMENT PROPOSAL",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Investment Proposal",
+    downloadName: "optimized-investment-proposal",
+    primaryField: "proposal_content",
+  },
+  "financial-summary-rewriter": {
+    splitMarker: "## OPTIMIZED FINANCIAL SUMMARY",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Financial Summary",
+    downloadName: "optimized-financial-summary",
+    primaryField: "original_summary",
+  },
+  // ── AI Workflow toolkit A-class ────────────────────────────────────────────
+  "ai-prompt-optimizer-pro": {
+    splitMarker: "## OPTIMIZED PROMPT",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Prompt",
+    downloadName: "optimized-prompt",
+    primaryField: "original_prompt",
+  },
+  "ai-workflow-doc-optimizer": {
+    splitMarker: "## OPTIMIZED WORKFLOW DOCUMENT",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Workflow Document",
+    downloadName: "optimized-workflow-document",
+    primaryField: "workflow_document",
+  },
+  "ai-use-case-doc-optimizer": {
+    splitMarker: "## OPTIMIZED USE CASE DOCUMENT",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Use Case Document",
+    downloadName: "optimized-use-case-document",
+    primaryField: "use_case_document",
+  },
 };
 
 // ── New structured output markers (produced by template-engine for Mode A tools) ──
