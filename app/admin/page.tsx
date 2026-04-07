@@ -1,4 +1,5 @@
 import { createAdminClient } from "@/lib/supabase";
+import ToolIdeasPanel from "@/components/admin/ToolIdeasPanel";
 
 export default async function AdminOverviewPage() {
   const supabase = createAdminClient();
@@ -42,6 +43,7 @@ export default async function AdminOverviewPage() {
           </div>
         ))}
       </div>
+      <ToolIdeasPanel />
     </div>
   );
 }
