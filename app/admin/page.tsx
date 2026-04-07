@@ -13,12 +13,12 @@ export default async function AdminOverviewPage() {
     { count: keywordCount },
   ] = await Promise.all([
     supabase.from("tools").select("*", { count: "exact", head: true }).eq("is_active", true),
-    supabase.from("tool_use_cases").select("*", { count: "exact", head: true }),
+    supabase.from("seo_pages").select("*", { count: "exact", head: true }).eq("type", "use_case"),
     supabase.from("blog_posts").select("*", { count: "exact", head: true }).eq("published", true),
     supabase.from("users").select("*", { count: "exact", head: true }),
     supabase.from("subscriptions").select("*", { count: "exact", head: true }).eq("status", "active"),
     supabase.from("tool_ideas").select("*", { count: "exact", head: true }).eq("status", "pending"),
-    supabase.from("seo_keywords").select("*", { count: "exact", head: true }).eq("status", "pending"),
+    supabase.from("growth_keywords").select("*", { count: "exact", head: true }).eq("status", "pending"),
   ]);
 
   const stats = [
