@@ -49,6 +49,24 @@ interface OptimizeSuggestion {
   internal_links: string[];
 }
 
+interface GrowthKeyword {
+  id: string;
+  keyword: string;
+  toolkit_slug: string;
+  difficulty: string | null;
+  volume: number | null;
+  status: string;
+}
+
+interface ToolOpportunity {
+  id: string;
+  tool_name: string;
+  keyword: string;
+  toolkit_slug: string;
+  score: number | null;
+  status: string;
+}
+
 async function authHeader() {
   const { data: { session } } = await supabase.auth.getSession();
   return {
@@ -69,6 +87,10 @@ export default function AdminGrowthPage() {
   const [optimizeSuggestions, setOptimizeSuggestions] = useState<OptimizeSuggestion[]>([]);
   const [loading, setLoading] = useState<string | null>(null);
   const [msg, setMsg] = useState("");
+  const [keywords, setKeywords] = useState<GrowthKeyword[]>([]);
+  const [opportunities, setOpportunities] = useState<ToolOpportunity[]>([]);
+  const [kwRowLoading, setKwRowLoading] = useState<string | null>(null);
+  const [oppRowLoading, setOppRowLoading] = useState<string | null>(null);
 
   async function loadStats() {
     const todayStr = new Date().toISOString().slice(0, 10);
@@ -106,6 +128,70 @@ export default function AdminGrowthPage() {
     });
   }
 
+  async function loadKeywords() {
+    const { data } = await supabase
+      .from("growth_keywords")
+      .select("id,keyword,toolkit_slug,difficulty,volume,status")
+      .eq("status", "pending")
+      .order("created_at", { ascending: false })
+      .limit(50);
+    setKeywords(data ?? []);
+  }
+
+  async function loadOpportunities() {
+    const { data } = await supabase
+      .from("tool_opportunities")
+      .select("id,tool_name,keyword,toolkit_slug,score,status")
+      .eq("status", "pending")
+      .order("score", { ascending: false })
+      .limit(50);
+    setOpportunities(data ?? []);
+  }
+
+  async function approveKeyword(id: string, action: "approve" | "reject") {
+    setKwRowLoading(id);
+    const headers = await authHeader();
+    await fetch("/api/admin/growth/approve-keyword", {
+      method: "POST", headers, body: JSON.stringify({ id, action }),
+    });
+    setKeywords((prev) => prev.filter((k) => k.id !== id));
+    setKwRowLoading(null);
+    loadStats();
+  }
+
+  async function approveAllKeywords() {
+    setLoading("approve-all-kw");
+    const headers = await authHeader();
+    const res = await fetch("/api/admin/growth/approve-all-keywords", { method: "POST", headers });
+    const data = await res.json();
+    setMsg(res.ok ? `✓ Approved ${data.updated} keywords` : `✗ ${data.error}`);
+    setKeywords([]);
+    setLoading(null);
+    loadStats();
+  }
+
+  async function approveOpportunity(id: string, action: "approve" | "reject") {
+    setOppRowLoading(id);
+    const headers = await authHeader();
+    await fetch("/api/admin/growth/approve-opportunity", {
+      method: "POST", headers, body: JSON.stringify({ id, action }),
+    });
+    setOpportunities((prev) => prev.filter((o) => o.id !== id));
+    setOppRowLoading(null);
+    loadStats();
+  }
+
+  async function approveAllOpportunities() {
+    setLoading("approve-all-opp");
+    const headers = await authHeader();
+    const res = await fetch("/api/admin/growth/approve-all-opportunities", { method: "POST", headers });
+    const data = await res.json();
+    setMsg(res.ok ? `✓ Approved ${data.updated} opportunities` : `✗ ${data.error}`);
+    setOpportunities([]);
+    setLoading(null);
+    loadStats();
+  }
+
   async function loadTraffic() {
     try {
       const headers = await authHeader();
@@ -117,6 +203,8 @@ export default function AdminGrowthPage() {
   useEffect(() => {
     loadStats();
     loadTraffic();
+    loadKeywords();
+    loadOpportunities();
   }, []);
 
   async function runAction(key: string, endpoint: string, method: "POST" | "GET", body?: object) {
@@ -218,6 +306,59 @@ export default function AdminGrowthPage() {
             </div>
           ))}
         </div>
+
+        {/* Pending Keywords List */}
+        {keywords.length > 0 && (
+          <div className="mt-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-medium text-gray-500">Pending Keywords ({keywords.length})</span>
+              <button
+                onClick={approveAllKeywords}
+                disabled={loading === "approve-all-kw"}
+                className="bg-green-600 text-white text-xs px-3 py-1 rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
+              >
+                {loading === "approve-all-kw" ? "Approving…" : "Approve All"}
+              </button>
+            </div>
+            <div className="border border-gray-100 rounded-lg overflow-hidden">
+              <div className="grid grid-cols-[1fr_100px_80px_120px] text-xs font-medium text-gray-400 bg-gray-50 px-3 py-2 border-b border-gray-100">
+                <span>Keyword</span>
+                <span>Toolkit</span>
+                <span>Difficulty</span>
+                <span></span>
+              </div>
+              <div className="divide-y divide-gray-50 max-h-72 overflow-y-auto">
+                {keywords.map((kw) => (
+                  <div key={kw.id} className="grid grid-cols-[1fr_100px_80px_120px] items-center px-3 py-2 text-xs hover:bg-gray-50">
+                    <span className="text-gray-700 truncate pr-2">{kw.keyword}</span>
+                    <span className="text-gray-400">{kw.toolkit_slug}</span>
+                    <span className={
+                      kw.difficulty === "high" ? "text-red-500" :
+                      kw.difficulty === "medium" ? "text-amber-500" :
+                      "text-green-500"
+                    }>{kw.difficulty ?? "—"}</span>
+                    <div className="flex gap-1 justify-end">
+                      <button
+                        onClick={() => approveKeyword(kw.id, "approve")}
+                        disabled={kwRowLoading === kw.id}
+                        className="bg-green-100 text-green-700 px-2 py-0.5 rounded hover:bg-green-200 disabled:opacity-50 transition-colors"
+                      >
+                        {kwRowLoading === kw.id ? "…" : "Approve"}
+                      </button>
+                      <button
+                        onClick={() => approveKeyword(kw.id, "reject")}
+                        disabled={kwRowLoading === kw.id}
+                        className="bg-red-50 text-red-500 px-2 py-0.5 rounded hover:bg-red-100 disabled:opacity-50 transition-colors"
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Section 2: Tool Opportunities */}
@@ -245,6 +386,62 @@ export default function AdminGrowthPage() {
             </div>
           ))}
         </div>
+
+        {/* Pending Opportunities List */}
+        {opportunities.length > 0 && (
+          <div className="mt-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-medium text-gray-500">Pending Opportunities ({opportunities.length})</span>
+              <button
+                onClick={approveAllOpportunities}
+                disabled={loading === "approve-all-opp"}
+                className="bg-green-600 text-white text-xs px-3 py-1 rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
+              >
+                {loading === "approve-all-opp" ? "Approving…" : "Approve All"}
+              </button>
+            </div>
+            <div className="border border-gray-100 rounded-lg overflow-hidden">
+              <div className="grid grid-cols-[1fr_100px_60px_120px] text-xs font-medium text-gray-400 bg-gray-50 px-3 py-2 border-b border-gray-100">
+                <span>Tool Name</span>
+                <span>Toolkit</span>
+                <span>Score</span>
+                <span></span>
+              </div>
+              <div className="divide-y divide-gray-50 max-h-72 overflow-y-auto">
+                {opportunities.map((opp) => (
+                  <div key={opp.id} className="grid grid-cols-[1fr_100px_60px_120px] items-center px-3 py-2 text-xs hover:bg-gray-50">
+                    <div className="min-w-0 pr-2">
+                      <div className="text-gray-700 truncate">{opp.tool_name}</div>
+                      <div className="text-gray-300 truncate">{opp.keyword}</div>
+                    </div>
+                    <span className="text-gray-400">{opp.toolkit_slug}</span>
+                    <span className={
+                      (opp.score ?? 0) >= 80 ? "font-bold text-green-600" :
+                      (opp.score ?? 0) >= 60 ? "text-amber-500" :
+                      "text-gray-400"
+                    }>{opp.score ?? "—"}</span>
+                    <div className="flex gap-1 justify-end">
+                      <button
+                        onClick={() => approveOpportunity(opp.id, "approve")}
+                        disabled={oppRowLoading === opp.id}
+                        className="bg-green-100 text-green-700 px-2 py-0.5 rounded hover:bg-green-200 disabled:opacity-50 transition-colors"
+                      >
+                        {oppRowLoading === opp.id ? "…" : "Approve"}
+                      </button>
+                      <button
+                        onClick={() => approveOpportunity(opp.id, "reject")}
+                        disabled={oppRowLoading === opp.id}
+                        className="bg-red-50 text-red-500 px-2 py-0.5 rounded hover:bg-red-100 disabled:opacity-50 transition-colors"
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Section 3: Auto Tool Generator */}
