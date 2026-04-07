@@ -39,44 +39,63 @@ export default function ToolIdeasPanel() {
   }, [loadIdeas]);
 
   async function handleRow(id: string, action: "approve" | "reject") {
+    const toolName = ideas.find((i) => i.id === id)?.tool_name ?? id;
     setRowLoading(id);
-    setMsg("");
-    const headers = await authHeader();
-    const res = await fetch("/api/admin/tool-ideas/approve", {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ id, action }),
-    });
-    const data = await res.json();
-    if (res.ok) {
-      setIdeas((prev) => prev.filter((i) => i.id !== id));
-      setMsg(
-        action === "approve"
-          ? `✓ "${ideas.find((i) => i.id === id)?.tool_name}" approved and added to tools`
-          : `✓ Rejected`
-      );
-    } else {
-      setMsg(`✗ ${data.error ?? "Error"}`);
+    setMsg(`${action === "approve" ? "Approving" : "Rejecting"} "${toolName}"…`);
+    try {
+      const headers = await authHeader();
+      const res = await fetch("/api/admin/tool-ideas/approve", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ id, action }),
+      });
+      const data = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+      if (res.ok) {
+        setIdeas((prev) => prev.filter((i) => i.id !== id));
+        setMsg(
+          action === "approve"
+            ? `✓ "${toolName}" approved and added to tools`
+            : `✓ "${toolName}" rejected`
+        );
+      } else {
+        const errMsg = data.error ?? data.message ?? `HTTP ${res.status}`;
+        console.error("[ToolIdeasPanel] approve failed:", errMsg, data);
+        setMsg(`✗ ${errMsg}`);
+      }
+    } catch (err) {
+      const errMsg = (err as Error).message ?? "Network error";
+      console.error("[ToolIdeasPanel] handleRow threw:", err);
+      setMsg(`✗ ${errMsg}`);
+    } finally {
+      setRowLoading(null);
     }
-    setRowLoading(null);
   }
 
   async function handleApproveAll() {
     setBulkLoading(true);
-    setMsg("");
-    const headers = await authHeader();
-    const res = await fetch("/api/admin/tool-ideas/approve-all", {
-      method: "POST",
-      headers,
-    });
-    const data = await res.json();
-    if (res.ok) {
-      setMsg(`✓ Approved ${data.approved} tools${data.failed > 0 ? `, ${data.failed} failed` : ""}`);
-      setIdeas([]);
-    } else {
-      setMsg(`✗ ${data.error ?? "Error"}`);
+    setMsg(`Approving all ${ideas.length} ideas…`);
+    try {
+      const headers = await authHeader();
+      const res = await fetch("/api/admin/tool-ideas/approve-all", {
+        method: "POST",
+        headers,
+      });
+      const data = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+      if (res.ok) {
+        setMsg(`✓ Approved ${data.approved} tools${data.failed > 0 ? `, ${data.failed} failed` : ""}`);
+        setIdeas([]);
+      } else {
+        const errMsg = data.error ?? data.message ?? `HTTP ${res.status}`;
+        console.error("[ToolIdeasPanel] approve-all failed:", errMsg, data);
+        setMsg(`✗ ${errMsg}`);
+      }
+    } catch (err) {
+      const errMsg = (err as Error).message ?? "Network error";
+      console.error("[ToolIdeasPanel] handleApproveAll threw:", err);
+      setMsg(`✗ ${errMsg}`);
+    } finally {
+      setBulkLoading(false);
     }
-    setBulkLoading(false);
   }
 
   if (ideas.length === 0 && !msg) return null;
