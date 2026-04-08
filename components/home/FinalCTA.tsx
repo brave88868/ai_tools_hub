@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function FinalCTA() {
   return (
-    <section className="bg-black text-white py-16 px-4">
+    <section className="bg-black text-white py-10 px-4 max-w-3xl mx-auto rounded-2xl">
       <div className="max-w-2xl mx-auto text-center">
         <div className="text-4xl mb-4">⚡</div>
         <h2 className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight">
@@ -26,7 +26,7 @@ export default function FinalCTA() {
             See Pricing
           </Link>
         </div>
-        <p className="text-gray-600 text-xs mt-6">Free forever · No spam · SSL secured</p>
+        <p className="text-gray-600 text-xs mt-6">3 free uses/day · No credit card · SSL secured</p>
       </div>
     </section>
   );
