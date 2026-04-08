@@ -155,7 +155,7 @@ export default function FeaturesPage() {
   const paginatedFeatures = features.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-10">
+    <main className="max-w-3xl mx-auto px-4 py-6">
       <div className="mb-8 flex items-start justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 mb-1">Feature Requests</h1>

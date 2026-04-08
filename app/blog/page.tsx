@@ -33,7 +33,7 @@ export default async function BlogPage({ searchParams }: Props) {
   const hasArticles = articles && articles.length > 0;
 
   return (
-    <main className="max-w-4xl mx-auto px-4 pt-3 pb-12">
+    <main className="max-w-4xl mx-auto px-4 pt-6 pb-12">
       <div className="mb-6">
         <h1 className="text-xl font-bold text-gray-900 mb-1">Blog</h1>
         <p className="text-gray-500 text-sm">AI tool guides, tips, and tutorials.</p>
