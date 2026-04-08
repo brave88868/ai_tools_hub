@@ -32,7 +32,7 @@ export default function FAQ() {
     <section className="max-w-3xl mx-auto px-4 py-14">
       <div className="text-center mb-10">
         <h2 className="text-3xl font-bold text-gray-900 mb-3">Frequently Asked Questions</h2>
-        <p className="text-gray-500">Everything you need to know before getting started</p>
+        <p className="text-gray-700">Everything you need to know before getting started</p>
       </div>
       <div className="space-y-2">
         {FAQS.map((faq, i) => (
@@ -50,7 +50,7 @@ export default function FAQ() {
             </button>
             {open === i && (
               <div className="px-6 pb-5">
-                <p className="text-sm text-gray-500 leading-relaxed">{faq.a}</p>
+                <p className="text-sm text-gray-700 leading-relaxed">{faq.a}</p>
               </div>
             )}
           </div>

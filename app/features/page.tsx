@@ -159,7 +159,7 @@ export default function FeaturesPage() {
       <div className="mb-8 flex items-start justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 mb-1">Feature Requests</h1>
-          <p className="text-gray-500 text-sm">Vote for features you want most. We build what you need.</p>
+          <p className="text-gray-700 text-sm">Vote for features you want most. We build what you need.</p>
         </div>
         {isAdmin && (
           <button
@@ -234,16 +234,16 @@ export default function FeaturesPage() {
               {submitting ? "Submitting…" : "Submit"}
             </button>
           </div>
-          {submitMsg && <p className="text-xs text-gray-500">{submitMsg}</p>}
+          {submitMsg && <p className="text-xs text-gray-700">{submitMsg}</p>}
         </form>
       </div>
 
       {/* Feature list */}
       {loading ? (
-        <div className="text-center py-8 text-gray-400 text-sm">Loading...</div>
+        <div className="text-center py-8 text-gray-700 text-sm">Loading...</div>
       ) : features.length === 0 ? (
         <div className="text-center py-8 border border-dashed border-gray-200 rounded-2xl">
-          <p className="text-gray-400 text-sm">No feature requests yet. Be the first!</p>
+          <p className="text-gray-700 text-sm">No feature requests yet. Be the first!</p>
         </div>
       ) : (
         <>
@@ -284,7 +284,7 @@ export default function FeaturesPage() {
                       )}
                     </div>
                     {feature.description && (
-                      <p className="text-xs text-gray-400 leading-relaxed mb-1">{feature.description}</p>
+                      <p className="text-xs text-gray-700 leading-relaxed mb-1">{feature.description}</p>
                     )}
                     <p className="text-xs text-gray-300">
                       {new Date(feature.created_at).toLocaleDateString("en-US", {
@@ -307,7 +307,7 @@ export default function FeaturesPage() {
               >
                 ← Previous
               </button>
-              <span className="text-xs text-gray-400">
+              <span className="text-xs text-gray-700">
                 Page {page + 1} of {totalPages}
               </span>
               <button
@@ -323,8 +323,8 @@ export default function FeaturesPage() {
       )}
 
       {!userId && (
-        <p className="mt-6 text-center text-xs text-gray-400">
-          <a href="/login" className="underline hover:text-gray-600">
+        <p className="mt-6 text-center text-xs text-gray-700">
+          <a href="/login" className="underline hover:text-gray-900">
             Log in
           </a>{" "}
           to vote or submit feature requests.

@@ -18,7 +18,7 @@ export default async function PricingPreview() {
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">Simple, Transparent Pricing</h2>
-          <p className="text-gray-500">Start free. Upgrade when you need more power.</p>
+          <p className="text-gray-700">Start free. Upgrade when you need more power.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -26,8 +26,8 @@ export default async function PricingPreview() {
           <div className="bg-white border border-gray-200 rounded-2xl p-7">
             <div className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-2">Free</div>
             <div className="text-4xl font-extrabold text-gray-900 mb-1">$0</div>
-            <p className="text-sm text-gray-400 mb-6">Forever free, no credit card</p>
-            <ul className="space-y-2.5 text-sm text-gray-600 mb-7">
+            <p className="text-sm text-gray-700 mb-6">Forever free, no credit card</p>
+            <ul className="space-y-2.5 text-sm text-gray-800 mb-7">
               {[
                 "3 AI generations per day",
                 "30 lifetime uses",
@@ -77,7 +77,7 @@ export default async function PricingPreview() {
           </div>
         </div>
 
-        <p className="text-center text-xs text-gray-400 mt-5">
+        <p className="text-center text-xs text-gray-700 mt-5">
           No credit card required · Cancel anytime · SSL secured
         </p>
       </div>

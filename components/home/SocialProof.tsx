@@ -34,7 +34,7 @@ export default async function SocialProof() {
           {stats.map(({ value, label }) => (
             <div key={label} className="text-center">
               <div className="text-3xl font-extrabold text-gray-900">{value}</div>
-              <div className="text-lg text-gray-400 mt-1">{label}</div>
+              <div className="text-lg text-gray-700 mt-1">{label}</div>
             </div>
           ))}
         </div>

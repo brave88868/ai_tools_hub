@@ -68,7 +68,7 @@ export default function ToolkitsPage() {
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-6">
-      <p className="text-sm text-gray-500 mb-4">Each toolkit contains 10 AI tools built for a specific workflow.</p>
+      <p className="text-sm text-gray-700 mb-4">Each toolkit contains 10 AI tools built for a specific workflow.</p>
 
       {/* Bundle Banner */}
       <div className="bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl p-5 mb-6">
@@ -101,7 +101,7 @@ export default function ToolkitsPage() {
           >
             <div className="text-3xl mb-3">{kit.icon}</div>
             <h2 className="text-base font-semibold text-gray-900 mb-1">{kit.name}</h2>
-            <p className="text-xs text-gray-400 leading-relaxed mb-5">{kit.description}</p>
+            <p className="text-xs text-gray-700 leading-relaxed mb-5">{kit.description}</p>
             <div className="flex items-center justify-between">
               <span className="text-sm font-semibold text-gray-900">
                 ${kit.price_monthly}<span className="text-xs font-medium text-gray-700">/month</span>

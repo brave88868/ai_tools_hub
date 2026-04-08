@@ -35,7 +35,7 @@ export default async function Toolkits() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">{toolkitCount} Professional Toolkits</h2>
-          <p className="text-lg text-gray-500">Every toolkit includes 10+ AI tools built for your workflow</p>
+          <p className="text-lg text-gray-700">Every toolkit includes 10+ AI tools built for your workflow</p>
         </div>
 
         {/* Bundle Banner */}
@@ -67,7 +67,7 @@ export default async function Toolkits() {
             >
               <div className="text-2xl mb-3">{kit.icon}</div>
               <h3 className="text-base font-semibold text-gray-900 mb-1">{kit.name}</h3>
-              <p className="text-xs text-gray-400 leading-relaxed mb-4">{kit.description}</p>
+              <p className="text-xs text-gray-700 leading-relaxed mb-4">{kit.description}</p>
               <div className="flex items-center justify-between">
                 <span className="text-xs font-medium text-gray-700">${kit.price_monthly}/month</span>
                 <span className="text-xs text-indigo-500 group-hover:text-indigo-700 transition-colors">Explore →</span>

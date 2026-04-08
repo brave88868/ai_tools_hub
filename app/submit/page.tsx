@@ -62,7 +62,7 @@ export default function SubmitToolPage() {
         <div className="text-center max-w-md">
           <div className="text-5xl mb-4">🎉</div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Thanks for submitting!</h1>
-          <p className="text-gray-500 text-sm mb-6">
+          <p className="text-gray-700 text-sm mb-6">
             We&apos;ll review your tool and get back to you shortly. Most reviews are completed
             within 2–3 business days.
           </p>
@@ -86,7 +86,7 @@ export default function SubmitToolPage() {
             ← Back to AI Tools Station
           </a>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Submit Your AI Tool</h1>
-          <p className="text-gray-500 text-sm">
+          <p className="text-gray-700 text-sm">
             Share your AI tool with our community. We review every submission and publish tools
             that match our quality standards.
           </p>
@@ -188,7 +188,7 @@ export default function SubmitToolPage() {
               placeholder="you@example.com"
               className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-gray-700 mt-1">
               We&apos;ll notify you when your tool goes live. Never shared.
             </p>
           </div>
@@ -197,7 +197,7 @@ export default function SubmitToolPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Affiliate / Partner Link{" "}
-              <span className="text-gray-400 font-normal">(optional)</span>
+              <span className="text-gray-600 font-normal">(optional)</span>
             </label>
             <input
               name="affiliate_link"
@@ -207,7 +207,7 @@ export default function SubmitToolPage() {
               placeholder="https://yourtool.com?ref=aitoolsstation"
               className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-gray-700 mt-1">
               If you have a partner or affiliate link, we&apos;ll use it when linking to your tool.
             </p>
           </div>
@@ -221,7 +221,7 @@ export default function SubmitToolPage() {
           </button>
         </form>
 
-        <p className="text-xs text-gray-400 text-center mt-6">
+        <p className="text-xs text-gray-700 text-center mt-6">
           By submitting, you confirm this tool is legitimate and you have the right to submit it.
         </p>
       </div>

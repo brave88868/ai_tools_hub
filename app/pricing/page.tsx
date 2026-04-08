@@ -20,7 +20,7 @@ export default async function PricingPage() {
       {/* Hero */}
       <div className="text-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-3">Choose Your AI Toolkit</h1>
-        <p className="text-gray-500 text-base max-w-xl mx-auto">
+        <p className="text-gray-700 text-base max-w-xl mx-auto">
           Subscribe to the toolkit you need. Start free, upgrade anytime.
         </p>
       </div>
@@ -35,12 +35,12 @@ export default async function PricingPage() {
             >
               <div className="text-3xl mb-3">{kit.icon}</div>
               <h3 className="text-base font-semibold text-gray-900 mb-1">{kit.name}</h3>
-              <p className="text-xs text-gray-400 leading-relaxed mb-5">{kit.description}</p>
+              <p className="text-xs text-gray-700 leading-relaxed mb-5">{kit.description}</p>
 
               <div className="flex items-center justify-between">
                 <div>
                   <span className="text-2xl font-bold text-gray-900">${kit.price_monthly}</span>
-                  <span className="text-xs text-gray-400 ml-1">/month</span>
+                  <span className="text-xs text-gray-700 ml-1">/month</span>
                 </div>
                 <a
                   href={`/api/subscription/checkout?toolkit_slug=${kit.slug}`}
@@ -50,7 +50,7 @@ export default async function PricingPage() {
                 </a>
               </div>
 
-              <ul className="mt-4 space-y-1.5 text-xs text-gray-500">
+              <ul className="mt-4 space-y-1.5 text-xs text-gray-700">
                 <li className="flex items-center gap-2"><span className="text-green-500">✓</span> All tools in this toolkit</li>
                 <li className="flex items-center gap-2"><span className="text-green-500">✓</span> All future tools included</li>
                 <li className="flex items-center gap-2"><span className="text-green-500">✓</span> Cancel anytime</li>
@@ -64,9 +64,9 @@ export default async function PricingPage() {
       <div className="mt-6 mb-14 border border-gray-100 rounded-xl px-6 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <span className="text-sm font-semibold text-gray-900">Free Plan</span>
-          <span className="ml-2 text-xs text-gray-400">No account required · No credit card needed</span>
+          <span className="ml-2 text-xs text-gray-700">No account required · No credit card needed</span>
         </div>
-        <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500">
+        <div className="flex flex-wrap items-center gap-4 text-xs text-gray-700">
           <span><strong className="text-gray-800">3/day</strong> generations</span>
           <span><strong className="text-gray-800">30</strong> lifetime uses</span>
           <span><strong className="text-gray-800">50+</strong> tools</span>
@@ -85,8 +85,8 @@ export default async function PricingPage() {
             <table className="w-full text-sm min-w-[400px]">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
-                  <th className="text-left px-6 py-4 text-gray-600 font-medium">Feature</th>
-                  <th className="text-center px-6 py-4 text-gray-600 font-medium">Free</th>
+                  <th className="text-left px-6 py-4 text-gray-800 font-medium">Feature</th>
+                  <th className="text-center px-6 py-4 text-gray-800 font-medium">Free</th>
                   <th className="text-center px-6 py-4 text-gray-900 font-semibold">Subscribed</th>
                 </tr>
               </thead>
@@ -101,8 +101,8 @@ export default async function PricingPage() {
                   ["Cancel anytime", "—", "✓"],
                 ].map(([feature, free, pro]) => (
                   <tr key={feature}>
-                    <td className="px-6 py-4 text-gray-600">{feature}</td>
-                    <td className="px-6 py-4 text-center text-gray-500">{free}</td>
+                    <td className="px-6 py-4 text-gray-800">{feature}</td>
+                    <td className="px-6 py-4 text-center text-gray-700">{free}</td>
                     <td className="px-6 py-4 text-center font-medium text-gray-900">{pro}</td>
                   </tr>
                 ))}
@@ -126,7 +126,7 @@ export default async function PricingPage() {
           ].map(({ q, a }) => (
             <div key={q} className="border-b border-gray-100 pb-6">
               <h3 className="text-sm font-semibold text-gray-900 mb-2">{q}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">{a}</p>
+              <p className="text-sm text-gray-700 leading-relaxed">{a}</p>
             </div>
           ))}
         </div>

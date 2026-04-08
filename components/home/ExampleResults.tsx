@@ -51,7 +51,7 @@ export default function ExampleResults() {
     <section className="max-w-6xl mx-auto px-4 py-14">
       <div className="text-center mb-10">
         <h2 className="text-3xl font-bold text-gray-900 mb-3">See What AI Can Do</h2>
-        <p className="text-gray-500">Real examples — input on the left, AI output on the right</p>
+        <p className="text-gray-700">Real examples — input on the left, AI output on the right</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {EXAMPLES.map((ex) => (
@@ -67,7 +67,7 @@ export default function ExampleResults() {
             {/* Before */}
             <div className="bg-white/70 rounded-xl p-3">
               <div className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1.5">{ex.before.label}</div>
-              <p className="text-xs text-gray-500 leading-relaxed">{ex.before.text}</p>
+              <p className="text-xs text-gray-700 leading-relaxed">{ex.before.text}</p>
             </div>
 
             {/* Arrow */}

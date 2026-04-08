@@ -68,7 +68,7 @@ export default function UpgradeModal({ onClose, toolkitSlug, isLoggedIn = false,
             <h2 className="text-xl font-semibold text-gray-900 mb-2">
               Create a Free Account
             </h2>
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-700 text-sm">
               Get 3 free uses per day — no credit card required
             </p>
           </div>
@@ -94,7 +94,7 @@ export default function UpgradeModal({ onClose, toolkitSlug, isLoggedIn = false,
             </button>
           </div>
 
-          <p className="text-center text-xs text-gray-400 mt-4">⭐ Trusted by 4,000+ professionals</p>
+          <p className="text-center text-xs text-gray-700 mt-4">⭐ Trusted by 4,000+ professionals</p>
         </div>
       </div>
     );
@@ -108,16 +108,16 @@ export default function UpgradeModal({ onClose, toolkitSlug, isLoggedIn = false,
           <h2 className="text-xl font-semibold text-gray-900 mb-2">
             {copy?.headline ?? "You've used your free generations"}
           </h2>
-          <p className="text-gray-500 text-sm">
+          <p className="text-gray-700 text-sm">
             {copy?.subtext ?? "Subscribe to continue using AI tools with unlimited generations."}
           </p>
         </div>
 
         <div className="bg-gray-50 rounded-xl p-4 mb-6 text-center">
           <div className="text-2xl font-bold text-gray-900">
-            $9<span className="text-sm font-normal text-gray-500">/month</span>
+            $9<span className="text-sm font-normal text-gray-700">/month</span>
           </div>
-          <div className="text-sm text-gray-500 mt-1">Unlimited generations · Cancel anytime</div>
+          <div className="text-sm text-gray-700 mt-1">Unlimited generations · Cancel anytime</div>
         </div>
 
         <div className="space-y-3">
@@ -138,7 +138,7 @@ export default function UpgradeModal({ onClose, toolkitSlug, isLoggedIn = false,
 
         {/* Viral referral prompt */}
         <div className="mt-4 pt-4 border-t border-gray-100 text-center">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-700">
             Not ready to upgrade?{" "}
             <a
               href="/dashboard/referrals"

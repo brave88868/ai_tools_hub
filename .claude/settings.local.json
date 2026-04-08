@@ -39,7 +39,26 @@
       "Bash(echo \"exit: $?\")",
       "Bash(ls -la \"E:\\\\Projects\\\\ai_tools_hub\"/*.ts)",
       "Bash(dir \"E:\\\\Projects\\\\ai_tools_hub\\\\*.ts\")",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(ls E:/Projects/ai_tools_hub/next.config*)",
+      "Bash(ls E:/Projects/ai_tools_hub/*.ts E:/Projects/ai_tools_hub/*.js)",
+      "Bash([ -f \"E:/Projects/ai_tools_hub/app/submit/page.tsx\" ])",
+      "Bash([ -f \"E:/Projects/ai_tools_hub/app/api/submit-tool/route.ts\" ])",
+      "Bash([ -f \"E:/Projects/ai_tools_hub/app/api/admin/submissions/route.ts\" ])",
+      "Bash([ -f \"E:/Projects/ai_tools_hub/app/admin/submissions/page.tsx\" ])",
+      "Bash([ -d \"E:/Projects/ai_tools_hub/app/api/admin/submissions\" ])",
+      "Bash([ -f \"E:/Projects/ai_tools_hub/app/api/subscription/cancel/route.ts\" ])",
+      "Bash([ -f \"E:/Projects/ai_tools_hub/app/auth/confirmed/page.tsx\" ])",
+      "Bash([ -f \"app/admin/submissions/page.tsx\" ])",
+      "Bash([ -f \"app/submit/page.tsx\" ])",
+      "Bash(sed:*)",
+      "Bash(sed -i 's/100+ AI tools/150+ AI tools/g' 'app/ai-for/[slug]/page.tsx' 'app/ai-tools-for/[slug]/page.tsx' app/layout.tsx 'app/workflows/[slug]/page.tsx' components/Footer.tsx components/Header.tsx components/home/HowItWorks.tsx)",
+      "Bash(sed -i 's/50+ AI Tools/150+ AI Tools/g; s/50+ AI tools/150+ AI tools/g' components/home/Hero.tsx components/home/HowItWorks.tsx)",
+      "Bash(sed -i 's/1,000+ professionals/4,000+ professionals/g; s/1,000+ Users/4,000+ Users/g' components/home/FinalCTA.tsx components/home/Hero.tsx components/revenue/UpgradeCTA.tsx components/UpgradeModal.tsx)",
+      "Bash(sed -i 's/\"1,000+\"/\"4,000+\"/g' components/home/SocialProof.tsx)",
+      "Bash(grep:*)",
+      "Bash(tasklist)",
+      "Bash(echo \"EXIT:$?\")"
     ]
   }
 }

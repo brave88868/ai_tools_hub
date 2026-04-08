@@ -69,7 +69,7 @@ export default function FeedbackModal({ toolSlug }: Props) {
               <div className="text-center py-6">
                 <div className="text-3xl mb-3">🙏</div>
                 <h3 className="text-base font-semibold text-gray-900 mb-1">Thank you!</h3>
-                <p className="text-sm text-gray-400 mb-4">Your feedback helps us improve.</p>
+                <p className="text-sm text-gray-700 mb-4">Your feedback helps us improve.</p>
                 <button onClick={reset} className="text-xs text-gray-500 underline">Close</button>
               </div>
             ) : (
@@ -82,7 +82,7 @@ export default function FeedbackModal({ toolSlug }: Props) {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {/* Type */}
                   <div>
-                    <p className="text-xs font-medium text-gray-600 mb-2">Type</p>
+                    <p className="text-xs font-medium text-gray-800 mb-2">Type</p>
                     <div className="flex flex-wrap gap-3">
                       {(["bug", "feature", "improvement", "general"] as FeedbackType[]).map((t) => (
                         <label key={t} className="flex items-center gap-1.5 cursor-pointer">
@@ -94,7 +94,7 @@ export default function FeedbackModal({ toolSlug }: Props) {
                             onChange={() => setFeedbackType(t)}
                             className="accent-black"
                           />
-                          <span className="text-xs text-gray-600 capitalize">{t}</span>
+                          <span className="text-xs text-gray-800 capitalize">{t}</span>
                         </label>
                       ))}
                     </div>
@@ -102,7 +102,7 @@ export default function FeedbackModal({ toolSlug }: Props) {
 
                   {/* Rating */}
                   <div>
-                    <p className="text-xs font-medium text-gray-600 mb-2">Rating <span className="text-gray-400">(optional)</span></p>
+                    <p className="text-xs font-medium text-gray-800 mb-2">Rating <span className="text-gray-600">(optional)</span></p>
                     <div className="flex gap-1">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
@@ -121,8 +121,8 @@ export default function FeedbackModal({ toolSlug }: Props) {
 
                   {/* Message */}
                   <div>
-                    <label className="text-xs font-medium text-gray-600 block mb-1">
-                      Message <span className="text-gray-400">(optional)</span>
+                    <label className="text-xs font-medium text-gray-800 block mb-1">
+                      Message <span className="text-gray-600">(optional)</span>
                     </label>
                     <textarea
                       value={message}
@@ -135,8 +135,8 @@ export default function FeedbackModal({ toolSlug }: Props) {
 
                   {/* Email */}
                   <div>
-                    <label className="text-xs font-medium text-gray-600 block mb-1">
-                      Email <span className="text-gray-400">(optional, for follow-up)</span>
+                    <label className="text-xs font-medium text-gray-800 block mb-1">
+                      Email <span className="text-gray-600">(optional, for follow-up)</span>
                     </label>
                     <input
                       type="email"

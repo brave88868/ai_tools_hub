@@ -69,7 +69,7 @@ export default async function PopularTools() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h2 className="text-3xl font-bold text-gray-900 mb-1">Most Used Tools</h2>
-          <p className="text-gray-400 text-sm">Popular across our community</p>
+          <p className="text-gray-700 text-sm">Popular across our community</p>
         </div>
         <Link href="/toolkits" className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
           View all 600+ →
@@ -90,7 +90,7 @@ export default async function PopularTools() {
             <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors">
               {tool.name}
             </h3>
-            <p className="text-xs text-gray-400 leading-relaxed mb-3 line-clamp-2">{tool.description}</p>
+            <p className="text-xs text-gray-700 leading-relaxed mb-3 line-clamp-2">{tool.description}</p>
             <Link href={`/tools/${tool.slug}`} className="text-xs font-medium text-indigo-500 hover:text-indigo-700 transition-colors">
               Use Tool →
             </Link>

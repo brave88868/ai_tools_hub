@@ -26,7 +26,7 @@ export default function Hero() {
           </span>
         </h1>
 
-        <p className="text-lg md:text-xl text-gray-500 max-w-none mx-auto mb-8 leading-relaxed whitespace-nowrap">
+        <p className="text-lg md:text-xl text-gray-700 max-w-none mx-auto mb-8 leading-relaxed whitespace-nowrap">
           Generate resumes, marketing copy, business plans and more. Professional AI tools built for real workflows.
         </p>
 
@@ -45,7 +45,7 @@ export default function Hero() {
           </Link>
         </div>
 
-        <p className="text-lg text-gray-400">
+        <p className="text-lg text-gray-700">
           Join 4,000+ professionals · 3 free uses/day · Upgrade anytime
         </p>
       </div>
