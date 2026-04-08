@@ -151,7 +151,7 @@ A real-world example of a ${profession} using this tool.
 **Getting Started**
 How to begin using the tool immediately.
 
-Target length: 900-1100 words.
+Target length: 400-500 words.
 Include natural keyword variations.
 
 Return JSON:
@@ -160,10 +160,12 @@ Return JSON:
   "seo_title": "string (max 60 chars)",
   "seo_description": "string (max 155 chars)",
   "content": "string (full markdown content)"
-}`,
+}
+
+Keep each field under 100 words. Return ONLY valid JSON, no extra text.`,
           },
         ],
-        max_tokens: 1600,
+        max_tokens: 900,
       },
       { signal: controller.signal }
     );
