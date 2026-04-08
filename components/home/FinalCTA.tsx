@@ -2,10 +2,10 @@ import Link from "next/link";
 
 export default function FinalCTA() {
   return (
-    <section className="bg-black text-white pt-6 pb-6 w-full rounded-2xl">
-      <div className="max-w-2xl mx-auto text-center">
+    <section className="bg-black w-full">
+      <div className="max-w-2xl mx-auto text-center py-16 px-6">
         <div className="text-4xl mb-4">⚡</div>
-        <h2 className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight">
+        <h2 className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight text-white">
           Start Using AI Tools Today
         </h2>
         <p className="text-white text-lg mb-8">
@@ -26,7 +26,7 @@ export default function FinalCTA() {
             See Pricing
           </Link>
         </div>
-        <p className="text-white text-xs mt-6">3 free uses/day · No credit card · SSL secured</p>
+        <p className="text-white opacity-70 text-xs mt-6">3 free uses/day · No credit card · SSL secured</p>
       </div>
     </section>
   );
