@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (industryRow) {
     const title = industryRow.seo_title ?? `Best AI Tools for ${industryRow.industry} | AI Tools Station`;
     const description = industryRow.seo_description ?? `Discover top AI tools for ${industryRow.industry}`;
-    const siteUrl = "https://aitoolsstation.com";
+    const siteUrl = "https://www.aitoolsstation.com";
     return {
       title, description,
       alternates: { canonical: `${siteUrl}/ai-tools-for/${slug}` },
@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = getProfession(slug);
   if (!p) return { title: "Not Found" };
 
-  const siteUrl = "https://aitoolsstation.com";
+  const siteUrl = "https://www.aitoolsstation.com";
   return {
     title: `${p.title} | AI Tools Station`,
     description: p.metaDescription,
@@ -70,7 +70,7 @@ export default async function ProfessionPage({ params }: Props) {
     .single();
 
   if (industryRow) {
-    const siteUrl = "https://aitoolsstation.com";
+    const siteUrl = "https://www.aitoolsstation.com";
     const title = industryRow.seo_title?.replace(" | AI Tools Station", "") ?? industryRow.industry;
     const { data: featuredTools } = await supabase
       .from("tools")
@@ -154,7 +154,7 @@ export default async function ProfessionPage({ params }: Props) {
   const allProfessions = getProfessions();
   const related = allProfessions.filter((r) => r.slug !== slug).slice(0, 6);
 
-  const siteUrl = "https://aitoolsstation.com";
+  const siteUrl = "https://www.aitoolsstation.com";
   const schemas = [
     howToSchema(p.h1, p.steps),
     faqSchema(p.faqs),

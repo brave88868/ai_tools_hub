@@ -81,7 +81,7 @@ export default async function BlogPostPage({ params }: Props) {
     publisher: {
       "@type": "Organization",
       name: "AI Tools Station",
-      url: "https://aitoolsstation.com",
+      url: "https://www.aitoolsstation.com",
     },
     url: `https://aitoolsstation.com/blog/${slug}`,
   };

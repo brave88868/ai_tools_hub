@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 
-const SITE_URL = "https://aitoolsstation.com";
+const SITE_URL = "https://www.aitoolsstation.com";
 
 export const dynamic = "force-dynamic";
 

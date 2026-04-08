@@ -16,7 +16,7 @@ import { dirname, join } from "path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 config({ path: join(__dirname, "../.env.local") });
 
-const CONCURRENCY = 5;
+const CONCURRENCY = 20;
 const PROFESSIONS_PER_TOOL = 3;
 const TIMEOUT_MS = 30_000;
 const MAX_RETRIES = 3;

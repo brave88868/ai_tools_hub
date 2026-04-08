@@ -153,7 +153,7 @@ export default function EmbedPage() {
       {/* Attribution */}
       <div className="border-t border-gray-100 py-2 px-4 bg-gray-50 flex items-center justify-center">
         <a
-          href="https://aitoolsstation.com"
+          href="https://www.aitoolsstation.com"
           target="_blank"
           rel="noopener noreferrer"
           className="text-xs text-gray-400 hover:text-gray-700 transition-colors"

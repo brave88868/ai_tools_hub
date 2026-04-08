@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase";
@@ -118,7 +118,7 @@ export default async function SaasLandingPage({ params }: Props) {
       .limit(12),
   ]);
 
-  if (!project) notFound();
+  if (!project) permanentRedirect("/saas");
   const p = project as SaasProject;
 
   // Fetch SEO pages with the correct tool slug

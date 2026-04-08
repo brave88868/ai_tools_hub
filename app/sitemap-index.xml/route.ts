@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const SITE_URL = "https://aitoolsstation.com";
+const SITE_URL = "https://www.aitoolsstation.com";
 
 /**
  * GET /sitemap-index.xml

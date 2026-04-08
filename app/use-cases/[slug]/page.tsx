@@ -6,7 +6,7 @@ import { createAdminClient } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
-const SITE_URL = "https://aitoolsstation.com";
+const SITE_URL = "https://www.aitoolsstation.com";
 
 interface Props {
   params: Promise<{ slug: string }>;

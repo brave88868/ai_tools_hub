@@ -8,7 +8,7 @@ import ReferralCapture from "@/components/ReferralCapture";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
-const SITE_URL = "https://aitoolsstation.com";
+const SITE_URL = "https://www.aitoolsstation.com";
 
 export const metadata: Metadata = {
   title: {

@@ -1,6 +1,6 @@
 import { createAdminClient } from "@/lib/supabase";
 
-const SITE_URL = "https://aitoolsstation.com";
+const SITE_URL = "https://www.aitoolsstation.com";
 
 export default async function AdminRevenuePage() {
   const admin = createAdminClient();

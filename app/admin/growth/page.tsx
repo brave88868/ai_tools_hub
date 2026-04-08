@@ -699,7 +699,7 @@ export default function AdminGrowthPage() {
                 {rankings.top_pages.slice(0, 10).map((p, i) => (
                   <div key={p.page_url} className="flex items-center gap-2 text-xs">
                     <span className="text-gray-300 w-4 shrink-0">{i + 1}</span>
-                    <span className="text-gray-600 flex-1 truncate" title={p.page_url}>{p.page_url.replace("https://aitoolsstation.com", "")}</span>
+                    <span className="text-gray-600 flex-1 truncate" title={p.page_url}>{p.page_url.replace("https://www.aitoolsstation.com", "")}</span>
                     <span className="font-medium text-gray-800 shrink-0">{p.clicks}</span>
                   </div>
                 ))}
@@ -713,7 +713,7 @@ export default function AdminGrowthPage() {
                   {rankings.improving.slice(0, 10).map((p) => (
                     <div key={p.page_url} className="flex items-center gap-2 text-xs">
                       <span className="text-green-500 shrink-0">↑{p.improvement}</span>
-                      <span className="text-gray-600 flex-1 truncate">{p.page_url.replace("https://aitoolsstation.com", "")}</span>
+                      <span className="text-gray-600 flex-1 truncate">{p.page_url.replace("https://www.aitoolsstation.com", "")}</span>
                       <span className="text-gray-400 shrink-0">#{p.position}</span>
                     </div>
                   ))}
@@ -728,7 +728,7 @@ export default function AdminGrowthPage() {
                   {rankings.new_rankings.slice(0, 10).map((p) => (
                     <div key={p.page_url} className="flex items-center gap-2 text-xs">
                       <span className="text-blue-400 shrink-0">new</span>
-                      <span className="text-gray-600 flex-1 truncate">{p.page_url.replace("https://aitoolsstation.com", "")}</span>
+                      <span className="text-gray-600 flex-1 truncate">{p.page_url.replace("https://www.aitoolsstation.com", "")}</span>
                       <span className="text-gray-400 shrink-0">#{p.position}</span>
                     </div>
                   ))}
@@ -755,7 +755,7 @@ export default function AdminGrowthPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
                       <code className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded truncate max-w-xs">
-                        {s.page_url.replace("https://aitoolsstation.com", "")}
+                        {s.page_url.replace("https://www.aitoolsstation.com", "")}
                       </code>
                       <span className="text-xs text-gray-400">pos #{s.position} · kw: {s.keyword}</span>
                     </div>

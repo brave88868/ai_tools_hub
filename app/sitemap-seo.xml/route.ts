@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 
-const SITE_URL = "https://aitoolsstation.com";
+const SITE_URL = "https://www.aitoolsstation.com";
 const MAX_PER_SITEMAP = 5000;
 
 export const dynamic = "force-dynamic";
@@ -17,7 +17,7 @@ function typeToUrl(type: string, slug: string): string {
     case "alternative":  return `${SITE_URL}/${slug}`;
     case "problem":      return `${SITE_URL}/${slug}`;
     case "template":     return `${SITE_URL}/templates/${slug}`;
-    case "saas_page":    return `${SITE_URL}/saas/${slug}`;
+    case "saas_page":    return `${SITE_URL}/use-cases/${slug}`;
     case "ai-for":       return `${SITE_URL}/ai-for/${slug}`;
     default:             return `${SITE_URL}/${slug}`;
   }

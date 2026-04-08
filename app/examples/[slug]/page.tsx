@@ -11,7 +11,7 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-const SITE_URL = "https://aitoolsstation.com";
+const SITE_URL = "https://www.aitoolsstation.com";
 
 export const dynamicParams = true;
 

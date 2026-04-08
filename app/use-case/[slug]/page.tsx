@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const uc = getUseCase(slug);
   if (!uc) return { title: "Not Found" };
 
-  const siteUrl = "https://aitoolsstation.com";
+  const siteUrl = "https://www.aitoolsstation.com";
   return {
     title: `${uc.title} | AI Tools Station`,
     description: uc.metaDescription,
@@ -58,7 +58,7 @@ export default async function UseCasePage({ params }: Props) {
   const related = allUseCases.filter((u) => u.slug !== slug).slice(0, 6);
 
   // Structured data
-  const siteUrl = "https://aitoolsstation.com";
+  const siteUrl = "https://www.aitoolsstation.com";
   const schemas = [
     howToSchema(uc.h1, uc.steps),
     faqSchema(uc.faqs),

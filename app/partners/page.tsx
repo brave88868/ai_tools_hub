@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
-const SITE_URL = "https://aitoolsstation.com";
+const SITE_URL = "https://www.aitoolsstation.com";
 
 const REQUIREMENTS = [
   "Your tool must be a genuine AI-powered product",

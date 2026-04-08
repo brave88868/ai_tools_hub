@@ -11,7 +11,7 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-const SITE_URL = "https://aitoolsstation.com";
+const SITE_URL = "https://www.aitoolsstation.com";
 
 // 已知的模板分类名（与 tool_templates.category 字段匹配）
 const TEMPLATE_CATEGORIES: Record<string, { h1: string; description: string }> = {
