@@ -5,17 +5,17 @@ export default function Hero() {
     <section className="bg-gradient-to-b from-indigo-50 to-white pt-8 pb-12 px-4">
       <div className="max-w-4xl mx-auto text-center">
         {/* Powered by OpenAI */}
-        <p className="text-base font-medium text-gray-700 mb-1">
+        <p className="text-lg font-medium text-indigo-600 text-center mb-1">
           ⚡ Powered by OpenAI — enterprise-grade AI for professional results
         </p>
 
         {/* Badge — plain text, no background */}
-        <p className="text-base font-medium text-indigo-600 mb-1">
+        <p className="text-lg font-medium text-indigo-600 text-center mb-1">
           🔒 Free to start · No credit card required · Your data is never stored
         </p>
 
         {/* Trust signals */}
-        <p className="text-base font-medium text-gray-500 mb-4">
+        <p className="text-lg font-medium text-indigo-600 text-center mb-4">
           🔒 SSL Encrypted &nbsp;·&nbsp; ✓ 4,000+ Professionals &nbsp;·&nbsp; ⭐ No Login Required to Try
         </p>
 
