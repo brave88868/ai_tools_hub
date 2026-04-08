@@ -26,9 +26,8 @@ export default function Hero() {
           </span>
         </h1>
 
-        <p className="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto mb-8 leading-relaxed">
-          Generate resumes, marketing copy, business plans and more.
-          Professional AI tools built for real workflows.
+        <p className="text-lg md:text-xl text-gray-500 max-w-none mx-auto mb-8 leading-relaxed whitespace-nowrap">
+          Generate resumes, marketing copy, business plans and more. Professional AI tools built for real workflows.
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
