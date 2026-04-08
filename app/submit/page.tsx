@@ -79,7 +79,7 @@ export default function SubmitToolPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-xl mx-auto px-4 py-12 md:py-20">
+      <div className="max-w-xl mx-auto px-4 py-6 md:py-10">
         {/* Header */}
         <div className="mb-8">
           <a href="/" className="text-xs text-gray-400 hover:text-gray-600 mb-4 inline-block">
