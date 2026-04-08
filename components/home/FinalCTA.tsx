@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function FinalCTA() {
   return (
-    <section className="bg-black w-full">
-      <div className="max-w-2xl mx-auto text-center py-16 px-6">
+    <section className="w-full py-8 px-4">
+      <div className="bg-black text-white rounded-2xl max-w-3xl mx-auto px-8 py-10 text-center">
         <div className="text-4xl mb-4">⚡</div>
         <h2 className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight text-white">
           Start Using AI Tools Today
