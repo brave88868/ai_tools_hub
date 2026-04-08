@@ -208,21 +208,21 @@ export default async function ToolkitPage({ params }: Props) {
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-12">
-      <div className="text-sm text-gray-400 mb-6">
-        <Link href="/toolkits" className="hover:text-gray-600">Toolkits</Link>
+      <div className="text-sm text-gray-600 mb-6">
+        <Link href="/toolkits" className="hover:text-gray-900">Toolkits</Link>
         <span className="mx-2">›</span>
-        <span className="text-gray-600">{kit.name}</span>
+        <span className="text-gray-800">{kit.name}</span>
       </div>
 
       <div className="mb-10">
         <div className="text-4xl mb-3">{kit.icon}</div>
         <h1 className="text-3xl font-bold text-gray-900 mb-2">{kit.name}</h1>
-        <p className="text-gray-500 mb-4">{kit.description}</p>
+        <p className="text-gray-700 mb-4">{kit.description}</p>
         <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-gray-700">
             <strong className="text-gray-900">${kit.price_monthly}</strong>/month
           </span>
-          <span className="text-sm text-gray-400">{toolList.length} tools included</span>
+          <span className="text-sm text-gray-600">{toolList.length} tools included</span>
         </div>
       </div>
 
@@ -260,7 +260,7 @@ export default async function ToolkitPage({ params }: Props) {
                     className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 hover:border-indigo-300 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
                   >
                     {WLT_CATEGORY_ICONS[cat]} {cat}
-                    <span className="text-gray-400">({count})</span>
+                    <span className="text-gray-600">({count})</span>
                   </a>
                 );
               })}
@@ -291,8 +291,8 @@ export default async function ToolkitPage({ params }: Props) {
                         className="border border-gray-200 rounded-xl p-5 hover:border-gray-400 hover:shadow-sm transition-all group"
                       >
                         <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-black">{tool.name}</h3>
-                        <p className="text-xs text-gray-400 leading-relaxed line-clamp-2 mb-3">{tool.description}</p>
-                        <span className="text-xs text-gray-400 group-hover:text-gray-600 transition-colors">Use template →</span>
+                        <p className="text-xs text-gray-600 leading-relaxed line-clamp-2 mb-3">{tool.description}</p>
+                        <span className="text-xs text-gray-600 group-hover:text-gray-800 transition-colors">Use template →</span>
                       </Link>
                     ))}
                   </div>
@@ -311,8 +311,8 @@ export default async function ToolkitPage({ params }: Props) {
               className="border border-gray-200 rounded-xl p-5 hover:border-gray-400 hover:shadow-sm transition-all group"
             >
               <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-black">{tool.name}</h3>
-              <p className="text-xs text-gray-400 leading-relaxed line-clamp-2 mb-3">{tool.description}</p>
-              <span className="text-xs text-gray-400 group-hover:text-gray-600 transition-colors">Try tool →</span>
+              <p className="text-xs text-gray-600 leading-relaxed line-clamp-2 mb-3">{tool.description}</p>
+              <span className="text-xs text-gray-600 group-hover:text-gray-800 transition-colors">Try tool →</span>
             </Link>
           ))}
         </div>

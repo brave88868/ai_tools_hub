@@ -27,7 +27,7 @@ export default function InviteBanner() {
           <p className="text-sm font-semibold text-gray-900">
             Invite friends → earn free AI uses
           </p>
-          <p className="text-xs text-gray-500 mt-0.5">
+          <p className="text-xs text-gray-700 mt-0.5">
             Each invite = <strong>+20 uses</strong> for you · 5 invites = Bundle Pro 1 month
           </p>
         </div>

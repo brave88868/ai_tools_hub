@@ -32,7 +32,7 @@ export default function FAQSection({ faqs }: { faqs: FAQ[] }) {
               </svg>
             </button>
             {open === i && (
-              <div className="px-5 pb-4 text-sm text-gray-500 leading-relaxed border-t border-gray-100 pt-3">
+              <div className="px-5 pb-4 text-sm text-gray-700 leading-relaxed border-t border-gray-100 pt-3">
                 {faq.r}
               </div>
             )}

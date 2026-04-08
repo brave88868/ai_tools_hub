@@ -56,7 +56,7 @@ export default async function BlogPage({ searchParams }: Props) {
                     {article.excerpt ?? article.seo_description}
                   </p>
                 )}
-                <span className="text-xs text-gray-300">
+                <span className="text-xs text-gray-600">
                   {new Date(article.created_at).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",

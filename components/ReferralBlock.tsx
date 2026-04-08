@@ -56,7 +56,7 @@ export default function ReferralBlock({ userId }: Props) {
 
   return (
     <div className="border border-gray-200 rounded-xl p-5 space-y-4">
-      <p className="text-xs text-gray-500">
+      <p className="text-xs text-gray-700">
         Share your link. When a friend subscribes, you earn 1 free month of All Toolkits Bundle ($49 value).
       </p>
 
@@ -76,7 +76,7 @@ export default function ReferralBlock({ userId }: Props) {
       </div>
 
       {/* Referral stats */}
-      <div className="flex flex-wrap gap-4 text-xs text-gray-500">
+      <div className="flex flex-wrap gap-4 text-xs text-gray-700">
         <span>
           Invited: <strong className="text-gray-900">{stats.invited_count}</strong>{" "}
           {stats.invited_count === 1 ? "user" : "users"}
@@ -92,12 +92,12 @@ export default function ReferralBlock({ userId }: Props) {
       <div className="pt-3 border-t border-gray-100">
         <p className="text-xs font-medium text-gray-700 mb-1">
           Affiliate Commission{" "}
-          <span className="text-gray-400 font-normal">
+          <span className="text-gray-600 font-normal">
             (Earn {affiliate ? `${Math.round((affiliate.commission_rate ?? 0.20) * 100)}%` : "20%"} per paying referral)
           </span>
         </p>
         {affiliate ? (
-          <div className="flex flex-wrap gap-4 text-xs text-gray-500">
+          <div className="flex flex-wrap gap-4 text-xs text-gray-700">
             <span>
               Pending:{" "}
               <strong className="text-amber-600">
@@ -118,7 +118,7 @@ export default function ReferralBlock({ userId }: Props) {
             </span>
           </div>
         ) : (
-          <p className="text-xs text-gray-400">No commissions yet. Start referring to earn!</p>
+          <p className="text-xs text-gray-600">No commissions yet. Start referring to earn!</p>
         )}
       </div>
     </div>

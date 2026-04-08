@@ -431,18 +431,18 @@ export default function ToolPage() {
       <div className="max-w-3xl mx-auto px-4 py-6 md:py-12">
         {/* Tool Header */}
         <div className="border-b border-gray-100 pb-6 mb-6">
-          <div className="flex items-center gap-2 text-xs text-gray-400 mb-3">
-            <a href="/toolkits" className="hover:text-gray-600">Toolkits</a>
+          <div className="flex items-center gap-2 text-xs text-gray-600 mb-3">
+            <a href="/toolkits" className="hover:text-gray-900">Toolkits</a>
             <span>›</span>
-            <a href={`/toolkits/${tool.toolkits?.slug}`} className="hover:text-gray-600 capitalize">
+            <a href={`/toolkits/${tool.toolkits?.slug}`} className="hover:text-gray-900 capitalize">
               {tool.toolkits?.name}
             </a>
             <span>›</span>
-            <span className="text-gray-600">{tool.name}</span>
+            <span className="text-gray-800">{tool.name}</span>
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-1">{tool.name}</h1>
           {tool.description && (
-            <p className="text-gray-500 text-sm">{tool.description}</p>
+            <p className="text-gray-700 text-sm">{tool.description}</p>
           )}
         </div>
 
@@ -463,13 +463,13 @@ export default function ToolPage() {
               supportsFileUpload={tool.supports_file_upload ?? false}
             />
           ) : (
-            <p className="text-gray-400 text-sm">This tool has no input fields configured.</p>
+            <p className="text-gray-600 text-sm">This tool has no input fields configured.</p>
           )}
         </div>
 
         {/* Loading state */}
         {loading && (
-          <div className="mt-6 text-center text-sm text-gray-400 animate-pulse">
+          <div className="mt-6 text-center text-sm text-gray-600 animate-pulse">
             Generating AI output...
           </div>
         )}
@@ -488,9 +488,9 @@ export default function ToolPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Left: original */}
               <div className="border border-gray-200 rounded-xl p-4">
-                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Original Content</h3>
-                <div className="text-sm text-gray-600 whitespace-pre-wrap leading-relaxed max-h-96 overflow-y-auto">
-                  {originalContent || <span className="italic text-gray-400">Original not available</span>}
+                <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wide mb-2">Original Content</h3>
+                <div className="text-sm text-gray-800 whitespace-pre-wrap leading-relaxed max-h-96 overflow-y-auto">
+                  {originalContent || <span className="italic text-gray-600">Original not available</span>}
                 </div>
               </div>
               {/* Right: optimized */}
@@ -505,8 +505,8 @@ export default function ToolPage() {
             {/* Changes made */}
             {newFormatParts.changes && (
               <div className="border border-gray-100 rounded-xl p-4 bg-gray-50">
-                <h4 className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">📋 {docConfig.label1}</h4>
-                <div className="text-sm text-gray-600 whitespace-pre-wrap leading-relaxed">
+                <h4 className="text-xs font-semibold text-gray-800 uppercase tracking-wide mb-2">📋 {docConfig.label1}</h4>
+                <div className="text-sm text-gray-800 whitespace-pre-wrap leading-relaxed">
                   {newFormatParts.changes}
                 </div>
               </div>
@@ -542,7 +542,7 @@ export default function ToolPage() {
           <div className="mt-6 border border-gray-100 rounded-2xl overflow-hidden">
             {/* Section 1: Analysis / summary */}
             <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
-              <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+              <span className="text-xs font-semibold text-gray-800 uppercase tracking-wide">
                 {docConfig.label1}
               </span>
             </div>
@@ -554,7 +554,7 @@ export default function ToolPage() {
             <div className="border-t border-gray-100">
               <button
                 onClick={() => setDocExpanded((v) => !v)}
-                className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors text-xs font-semibold text-gray-600 uppercase tracking-wide"
+                className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors text-xs font-semibold text-gray-800 uppercase tracking-wide"
               >
                 <span>{docConfig.label2}</span>
                 <span>{docExpanded ? "▲ Collapse" : "▼ Expand"}</span>
@@ -612,7 +612,7 @@ export default function ToolPage() {
         {result && isLoggedIn && userRole === "user" && (
           <div className="mt-3 flex items-center gap-3 bg-indigo-50 border border-indigo-100 rounded-xl px-4 py-3">
             <span className="text-base">💡</span>
-            <p className="text-xs text-gray-600 flex-1">
+            <p className="text-xs text-gray-800 flex-1">
               Loving the results?{" "}
               <a href="/dashboard/referrals" className="font-semibold text-indigo-600 hover:text-indigo-800 underline">
                 Share with friends and earn +20 free uses
@@ -624,7 +624,7 @@ export default function ToolPage() {
 
         {/* Legal disclaimer */}
         {tool.toolkits?.slug === "legal" && (
-          <p className="mt-6 text-xs text-gray-400 text-center">
+          <p className="mt-6 text-xs text-gray-600 text-center">
             ⚠️ This tool provides general informational analysis only. It does not constitute legal advice.
           </p>
         )}
@@ -689,7 +689,7 @@ export default function ToolPage() {
         <div className="mt-6 flex items-center justify-between px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl">
           <div>
             <p className="text-xs font-medium text-gray-700">Looking for alternatives?</p>
-            <p className="text-xs text-gray-400 mt-0.5">Compare {tool.name} with similar AI tools</p>
+            <p className="text-xs text-gray-600 mt-0.5">Compare {tool.name} with similar AI tools</p>
           </div>
           <a
             href={`/${slug}-alternatives`}
@@ -703,10 +703,10 @@ export default function ToolPage() {
         <details className="mt-8 rounded-xl border border-gray-200 overflow-hidden">
           <summary className="flex items-center justify-between px-5 py-4 cursor-pointer hover:bg-gray-50 transition-colors list-none">
             <span className="text-sm font-medium text-gray-700">Embed this tool on your website</span>
-            <span className="text-xs text-gray-400">Show embed code ▼</span>
+            <span className="text-xs text-gray-600">Show embed code ▼</span>
           </summary>
           <div className="px-5 pb-5 border-t border-gray-100 bg-gray-50">
-            <p className="text-xs text-gray-500 my-3">
+            <p className="text-xs text-gray-700 my-3">
               Add this AI tool to your website for free. Your visitors get the tool, you get the traffic.
             </p>
             <div className="bg-gray-900 rounded-lg p-3 font-mono text-xs text-gray-300 select-all break-all">

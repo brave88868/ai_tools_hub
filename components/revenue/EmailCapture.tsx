@@ -64,7 +64,7 @@ export default function EmailCapture({ toolSlug, onSuccess }: Props) {
   return (
     <div className="mt-4 border border-gray-200 rounded-xl p-4">
       <p className="text-sm font-medium text-gray-900 mb-1">Save your results — enter your email</p>
-      <p className="text-xs text-gray-400 mb-3">Free forever · No spam · Unsubscribe anytime</p>
+      <p className="text-xs text-gray-600 mb-3">Free forever · No spam · Unsubscribe anytime</p>
       <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           type="email"
