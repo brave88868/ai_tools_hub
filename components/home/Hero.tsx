@@ -4,11 +4,21 @@ export default function Hero() {
   return (
     <section className="bg-gradient-to-b from-indigo-50 to-white pt-16 pb-12 px-4">
       <div className="max-w-4xl mx-auto text-center">
+        {/* Powered by OpenAI */}
+        <p className="text-sm font-semibold text-gray-700 mb-2">
+          ⚡ Powered by OpenAI — enterprise-grade AI for professional results
+        </p>
+
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-3">
+        <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 text-sm font-semibold px-3 py-1.5 rounded-full mb-2">
           <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full" />
           🔒 Free to start · No credit card required · Your data is never stored
         </div>
+
+        {/* Trust signals */}
+        <p className="text-xs text-gray-400 mb-4">
+          🔒 SSL Encrypted &nbsp;·&nbsp; ✓ 4,000+ Professionals &nbsp;·&nbsp; ⭐ No Login Required to Try
+        </p>
 
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight mb-5 leading-tight">
           600+ AI Tools That{" "}
