@@ -2,21 +2,20 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="bg-gradient-to-b from-indigo-50 to-white pt-16 pb-12 px-4">
+    <section className="bg-gradient-to-b from-indigo-50 to-white pt-8 pb-12 px-4">
       <div className="max-w-4xl mx-auto text-center">
         {/* Powered by OpenAI */}
-        <p className="text-sm font-semibold text-gray-700 mb-2">
+        <p className="text-base font-medium text-gray-700 mb-1">
           ⚡ Powered by OpenAI — enterprise-grade AI for professional results
         </p>
 
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 text-sm font-semibold px-3 py-1.5 rounded-full mb-2">
-          <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full" />
+        {/* Badge — plain text, no background */}
+        <p className="text-base font-medium text-indigo-600 mb-1">
           🔒 Free to start · No credit card required · Your data is never stored
-        </div>
+        </p>
 
         {/* Trust signals */}
-        <p className="text-xs text-gray-400 mb-4">
+        <p className="text-base font-medium text-gray-500 mb-4">
           🔒 SSL Encrypted &nbsp;·&nbsp; ✓ 4,000+ Professionals &nbsp;·&nbsp; ⭐ No Login Required to Try
         </p>
 
