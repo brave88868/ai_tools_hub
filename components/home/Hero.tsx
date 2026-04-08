@@ -46,7 +46,7 @@ export default function Hero() {
           </Link>
         </div>
 
-        <p className="text-sm text-gray-400">
+        <p className="text-lg text-gray-400">
           Join 4,000+ professionals · 3 free uses/day · Upgrade anytime
         </p>
       </div>
