@@ -28,7 +28,7 @@ export default async function SocialProof() {
   ];
 
   return (
-    <section className="border-y border-gray-100 bg-white py-6">
+    <section className="border-y border-gray-100 bg-white pt-16 pb-16">
       <div className="max-w-3xl mx-auto px-4">
         <div className="grid grid-cols-3 gap-4 mb-4">
           {stats.map(({ value, label }) => (

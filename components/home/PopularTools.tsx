@@ -65,7 +65,7 @@ export default async function PopularTools() {
   }
 
   return (
-    <section className="max-w-6xl mx-auto px-4 py-14">
+    <section className="max-w-6xl mx-auto px-4 pt-16 pb-16">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h2 className="text-3xl font-bold text-gray-900 mb-1">Popular AI Tools</h2>

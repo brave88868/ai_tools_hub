@@ -48,7 +48,7 @@ const EXAMPLES = [
 
 export default function ExampleResults() {
   return (
-    <section className="max-w-6xl mx-auto px-4 py-14">
+    <section className="max-w-6xl mx-auto px-4 pt-16 pb-16">
       <div className="text-center mb-10">
         <h2 className="text-3xl font-bold text-gray-900 mb-3">See What AI Can Do</h2>
         <p className="text-gray-700">Real examples — input on the left, AI output on the right</p>
