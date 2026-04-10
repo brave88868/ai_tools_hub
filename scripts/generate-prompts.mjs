@@ -40,8 +40,8 @@ async function sbGet(path) {
   return res.json();
 }
 
-async function sbUpsert(table, rows) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+async function sbUpsert(path, rows) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
     method: "POST",
     headers: { ...sbHeaders, Prefer: "resolution=ignore-duplicates,return=minimal" },
     body: JSON.stringify(rows),
@@ -108,7 +108,7 @@ for (const gen of generators) {
 }
 
 for (let i = 0; i < seedRows.length; i += 50) {
-  await sbUpsert("prompt_pages", seedRows.slice(i, i + 50));
+  await sbUpsert("prompt_pages?on_conflict=slug", seedRows.slice(i, i + 50));
 }
 console.log(`✓ Seeded ${seedRows.length} prompt_pages records\n`);
 
