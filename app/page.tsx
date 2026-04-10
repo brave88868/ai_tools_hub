@@ -4,6 +4,7 @@ import Hero from "@/components/home/Hero";
 import SocialProof from "@/components/home/SocialProof";
 import ValuePillars from "@/components/home/ValuePillars";
 import PopularTools from "@/components/home/PopularTools";
+import PopularGenerators from "@/components/home/PopularGenerators";
 import ToolkitsByGroup from "@/components/home/ToolkitsByGroup";
 import ExampleResults from "@/components/home/ExampleResults";
 
@@ -35,6 +36,7 @@ export default async function HomePage({
       <ToolkitsByGroup />
       <ValuePillars />
       <ExampleResults />
+      <PopularGenerators />
       <PopularTools />
 
       {/* Hidden nav for Google crawl discovery — not visible to users */}

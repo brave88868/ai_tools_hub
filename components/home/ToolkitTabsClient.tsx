@@ -47,6 +47,7 @@ export default function ToolkitTabsClient({ groups, toolkitMap }: Props) {
       {/* Desktop Panel */}
       <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-4">
         {groups[activeGroup].slugs
+          .slice(0, 6)
           .filter((slug) => toolkitMap[slug])
           .map((slug) => {
             const kit = toolkitMap[slug];
