@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase";
+import Pagination from "@/components/Pagination";
 
 export const metadata: Metadata = {
   title: "Blog | AI Tools Station",
@@ -8,40 +9,78 @@ export const metadata: Metadata = {
     "AI tool guides, tips, and tutorials. Learn how to use AI tools for resume optimization, content creation, marketing, and more.",
 };
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 9;
+
+const CATEGORIES = [
+  { label: "All", value: "all" },
+  { label: "For Creators & Marketers", value: "creators" },
+  { label: "For Business", value: "business" },
+  { label: "For Job Seekers", value: "job-seekers" },
+  { label: "For Legal & Compliance", value: "legal" },
+];
+
+function buildUrl(cat: string, pg: number) {
+  const params = new URLSearchParams();
+  if (cat !== "all") params.set("category", cat);
+  if (pg > 1) params.set("page", String(pg));
+  const qs = params.toString();
+  return `/blog${qs ? `?${qs}` : ""}`;
+}
 
 interface Props {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ category?: string; page?: string }>;
 }
 
 export default async function BlogPage({ searchParams }: Props) {
-  const { page: pageParam } = await searchParams;
+  const { category: categoryParam, page: pageParam } = await searchParams;
+  const category = CATEGORIES.some((c) => c.value === categoryParam) ? (categoryParam ?? "all") : "all";
   const page = Math.max(1, parseInt(pageParam ?? "1", 10));
-  const from = (page - 1) * PAGE_SIZE;
-  const to = from + PAGE_SIZE - 1;
+  const offset = (page - 1) * PAGE_SIZE;
 
   const supabase = createAdminClient();
 
-  const { data: articles, count } = await supabase
+  let query = supabase
     .from("blog_posts")
     .select("slug, title, excerpt, seo_description, created_at", { count: "exact" })
     .eq("published", true)
-    .order("created_at", { ascending: false })
-    .range(from, to);
+    .order("created_at", { ascending: false });
+
+  if (category !== "all") {
+    query = query.eq("category", category);
+  }
+
+  const { data: articles, count } = await query.range(offset, offset + PAGE_SIZE - 1);
 
   const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE);
   const hasArticles = articles && articles.length > 0;
 
   return (
-    <main className="max-w-4xl mx-auto px-4 pt-6 pb-12">
+    <main className="max-w-6xl mx-auto px-4 pt-8 pb-12">
       <div className="mb-6">
-        <h1 className="text-xl font-bold text-gray-900 mb-1">Blog</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-1">Blog</h1>
         <p className="text-gray-700 text-sm">AI tool guides, tips, and tutorials.</p>
+      </div>
+
+      {/* 分类 Tab */}
+      <div className="flex flex-wrap gap-2 mb-8">
+        {CATEGORIES.map((cat) => (
+          <Link
+            key={cat.value}
+            href={buildUrl(cat.value, 1)}
+            className={`px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
+              category === cat.value
+                ? "bg-indigo-600 text-white border-indigo-600"
+                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+            }`}
+          >
+            {cat.label}
+          </Link>
+        ))}
       </div>
 
       {hasArticles ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-4">
             {articles.map((article) => (
               <Link
                 key={article.slug}
@@ -67,42 +106,11 @@ export default async function BlogPage({ searchParams }: Props) {
             ))}
           </div>
 
-          {/* 分页 */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2">
-              {page > 1 && (
-                <Link
-                  href={`/blog?page=${page - 1}`}
-                  className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg hover:border-gray-400 transition-colors"
-                >
-                  ← Prev
-                </Link>
-              )}
-              {Array.from({ length: totalPages }, (_, i) => i + 1)
-                .filter((p) => Math.abs(p - page) <= 2)
-                .map((p) => (
-                  <Link
-                    key={p}
-                    href={`/blog?page=${p}`}
-                    className={`px-3 py-1.5 text-xs border rounded-lg transition-colors ${
-                      p === page
-                        ? "bg-black text-white border-black"
-                        : "border-gray-200 hover:border-gray-400"
-                    }`}
-                  >
-                    {p}
-                  </Link>
-                ))}
-              {page < totalPages && (
-                <Link
-                  href={`/blog?page=${page + 1}`}
-                  className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg hover:border-gray-400 transition-colors"
-                >
-                  Next →
-                </Link>
-              )}
-            </div>
-          )}
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            basePath={category !== "all" ? `/blog?category=${category}` : "/blog"}
+          />
         </>
       ) : (
         <div className="text-center py-8 border border-dashed border-gray-200 rounded-2xl">
