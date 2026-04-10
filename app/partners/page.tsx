@@ -63,7 +63,7 @@ export default function PartnersPage() {
   const badgeHtml = `<a href="${SITE_URL}" target="_blank"><img src="${badgeSrc}" alt="Featured on AI Tools Station" width="200" height="54" /></a>`;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-white">
       {/* Hero */}
       <section className="bg-gradient-to-br from-indigo-50 to-white border-b border-gray-100 py-16 px-4">
         <div className="max-w-3xl mx-auto text-center">

@@ -91,7 +91,7 @@ export default async function ExamplePage({ params }: Props) {
       .replace(/\b\w/g, (l: string) => l.toUpperCase());
 
     return (
-      <div className="min-h-screen bg-white">
+      <div className="bg-white">
         {/* Breadcrumb */}
         <div className="border-b border-gray-100 bg-gray-50">
           <div className="max-w-5xl mx-auto px-4 py-3">

@@ -399,7 +399,7 @@ export default function ToolPage() {
 
   if (pageLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="py-20 flex items-center justify-center">
         <div className="animate-spin h-8 w-8 border-2 border-black border-t-transparent rounded-full" />
       </div>
     );
@@ -407,7 +407,7 @@ export default function ToolPage() {
 
   if (error === "Tool not found" || !tool) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="py-20 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-semibold text-gray-900 mb-2">Tool not found</h1>
           <p className="text-gray-500">The tool you&apos;re looking for doesn&apos;t exist.</p>
@@ -428,7 +428,7 @@ export default function ToolPage() {
   const originalContent = isDocTool ? (submittedInputs[docConfig.primaryField] ?? "") : "";
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-white">
       {showUpgrade && (
         <UpgradeModal
           onClose={() => setShowUpgrade(false)}

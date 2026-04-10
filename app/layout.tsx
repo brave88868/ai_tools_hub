@@ -71,8 +71,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ReferralCapture />
         </Suspense>
         <Header />
-        <div className="pt-14">{children}</div>
-        <Footer />
+        <div className="pt-14 flex flex-col min-h-screen">
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

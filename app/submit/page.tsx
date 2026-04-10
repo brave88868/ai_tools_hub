@@ -58,7 +58,7 @@ export default function SubmitToolPage() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center px-4">
+      <div className="py-20 bg-white flex items-center justify-center px-4">
         <div className="text-center max-w-md">
           <div className="text-5xl mb-4">🎉</div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Thanks for submitting!</h1>
@@ -78,7 +78,7 @@ export default function SubmitToolPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-white">
       <div className="max-w-xl mx-auto px-4 py-6">
         {/* Header */}
         <div className="mb-8">

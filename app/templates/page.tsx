@@ -42,7 +42,7 @@ export default async function TemplatesPage({ searchParams }: Props) {
     cat.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-white">
       <div className="max-w-6xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-10">

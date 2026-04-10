@@ -35,7 +35,7 @@ export default async function PromptsPage() {
   const total = Object.values(countMap).reduce((a, b) => a + b, 0);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-white">
       {/* Hero */}
       <div className="bg-gradient-to-b from-indigo-50 to-white border-b border-indigo-100">
         <div className="max-w-5xl mx-auto px-4 py-14 text-center">

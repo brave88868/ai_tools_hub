@@ -111,7 +111,7 @@ export default async function TemplatePage({ params }: Props) {
       cat.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase());
 
     return (
-      <div className="min-h-screen bg-white">
+      <div className="bg-white">
         <div className="bg-gradient-to-b from-green-50 to-white border-b border-green-100">
           <div className="max-w-5xl mx-auto px-4 py-12 text-center">
             <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 text-xs font-medium px-3 py-1 rounded-full mb-4">
@@ -209,7 +209,7 @@ export default async function TemplatePage({ params }: Props) {
       cat.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase());
 
     return (
-      <div className="min-h-screen bg-white">
+      <div className="bg-white">
         {/* Breadcrumb */}
         <div className="border-b border-gray-100 bg-gray-50">
           <div className="max-w-4xl mx-auto px-4 py-3">

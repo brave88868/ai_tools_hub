@@ -62,7 +62,7 @@ export default async function AiForPage({ params }: Props) {
   const title = page?.title || `Best AI Tools for ${audience}`;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-white">
       <div className="max-w-5xl mx-auto px-4 py-12">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-gray-400 mb-8 flex-wrap">

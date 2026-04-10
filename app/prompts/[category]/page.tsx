@@ -88,7 +88,7 @@ export default async function PromptsCategoryPage({ params }: Props) {
   const isEmpty = !prompts || prompts.length === 0;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-white">
       {/* Hero */}
       <div className="bg-gradient-to-b from-indigo-50 to-white border-b border-indigo-100">
         <div className="max-w-5xl mx-auto px-4 py-12 text-center">
