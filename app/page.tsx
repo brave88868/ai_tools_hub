@@ -34,8 +34,8 @@ export default async function HomePage({
       <SocialProof />
       <ToolkitsByGroup />
       <ValuePillars />
-      <PopularTools />
       <ExampleResults />
+      <PopularTools />
 
       {/* Hidden nav for Google crawl discovery — not visible to users */}
       <nav aria-label="Site sections" className="sr-only">
