@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
@@ -36,12 +37,19 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-100">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <div className="flex flex-col">
-          <Link href="/" className="text-base font-bold text-gray-900 tracking-tight">
-            AI Tools Station
-          </Link>
-          <p className="text-xs text-gray-400 mt-0.5">600+ AI tools · Free to start</p>
-        </div>
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/logo.png"
+            alt="AI Tools Station"
+            width={36}
+            height={36}
+            className="object-contain"
+          />
+          <div>
+            <div className="font-bold text-gray-900 text-sm">AI Tools Station</div>
+            <div className="text-xs text-gray-500">600+ AI tools · Free to start</div>
+          </div>
+        </Link>
 
         <nav className="hidden md:flex items-center gap-8">
           <Link href="/toolkits" className={`relative text-[15px] font-medium transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-200 ${pathname.startsWith("/toolkits") ? "text-indigo-600 after:w-full" : "text-gray-700 hover:text-indigo-600 after:w-0 hover:after:w-full"}`}>Toolkits</Link>
