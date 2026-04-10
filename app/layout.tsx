@@ -72,8 +72,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </Suspense>
         <Header />
         <div className="flex flex-col min-h-screen">
-          <div className="pt-14 flex-1 flex flex-col">
-            <main className="flex-1">{children}</main>
+          <div className="pt-14 flex-1">
+            {children}
           </div>
           <Footer />
         </div>
