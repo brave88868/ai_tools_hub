@@ -6,7 +6,6 @@ import ValuePillars from "@/components/home/ValuePillars";
 import PopularTools from "@/components/home/PopularTools";
 import ToolkitsByGroup from "@/components/home/ToolkitsByGroup";
 import ExampleResults from "@/components/home/ExampleResults";
-import FinalCTA from "@/components/home/FinalCTA";
 
 export const metadata: Metadata = {
   title: "AI Tools Station — 600+ Free AI Tools for Real Workflows",
@@ -37,7 +36,6 @@ export default async function HomePage({
       <ToolkitsByGroup />
       <ValuePillars />
       <ExampleResults />
-      <FinalCTA />
 
       {/* Hidden nav for Google crawl discovery — not visible to users */}
       <nav aria-label="Site sections" className="sr-only">
