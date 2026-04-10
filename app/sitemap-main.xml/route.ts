@@ -25,6 +25,7 @@ export async function GET() {
     urlEntry(`${SITE_URL}/examples`, "0.8", "daily"),
     urlEntry(`${SITE_URL}/templates`, "0.8", "weekly"),
     urlEntry(`${SITE_URL}/prompts`, "0.85", "daily"),
+    urlEntry(`${SITE_URL}/ai-generators`, "0.85", "weekly"),
   ];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

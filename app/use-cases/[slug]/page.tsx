@@ -61,6 +61,7 @@ export default async function UseCasePage({ params }: Props) {
   const { slug } = await params;
   const supabase = createAdminClient();
 
+  // Check seo_pages first (legacy use cases), then use_case_pages (generator persona pages)
   const { data: page } = await supabase
     .from("seo_pages")
     .select("*")
@@ -68,7 +69,63 @@ export default async function UseCasePage({ params }: Props) {
     .eq("type", "use_case")
     .maybeSingle();
 
-  if (!page) notFound();
+  // If not in seo_pages, check use_case_pages (generator-based use cases)
+  if (!page) {
+    const { data: ucPage } = await supabase
+      .from("use_case_pages")
+      .select("*")
+      .eq("slug", slug)
+      .eq("is_active", true)
+      .maybeSingle();
+
+    if (!ucPage) notFound();
+
+    // Render use_case_pages format
+    const { data: gen } = await supabase
+      .from("generators")
+      .select("slug, title, tool_slug")
+      .eq("slug", ucPage.generator_slug ?? "")
+      .maybeSingle();
+
+    return (
+      <main className="max-w-3xl mx-auto px-4 py-10">
+        <nav className="text-xs text-gray-400 mb-6 flex items-center gap-1.5 flex-wrap">
+          <a href="/" className="hover:text-gray-600">Home</a>
+          <span>/</span>
+          <a href="/use-cases" className="hover:text-gray-600">Use Cases</a>
+          {gen && (
+            <>
+              <span>/</span>
+              <a href={`/ai-generators/${gen.slug}`} className="hover:text-gray-600">{gen.title}</a>
+            </>
+          )}
+          <span>/</span>
+          <span className="text-gray-600 truncate">{ucPage.title}</span>
+        </nav>
+        <h1 className="text-2xl font-bold text-gray-900 mb-3 leading-snug">{ucPage.title}</h1>
+        {ucPage.meta_description && (
+          <p className="text-gray-500 text-sm mb-6 leading-relaxed">{ucPage.meta_description}</p>
+        )}
+        {ucPage.content && (
+          <article className="prose prose-sm max-w-none text-gray-700 prose-headings:text-gray-900 prose-headings:font-semibold prose-a:text-indigo-600 prose-li:text-gray-700 mb-10">
+            <ReactMarkdown>{ucPage.content}</ReactMarkdown>
+          </article>
+        )}
+        {gen?.tool_slug && (
+          <div className="bg-gradient-to-r from-indigo-500 to-violet-500 rounded-2xl p-6 text-center text-white">
+            <p className="font-semibold text-base mb-1">Try {gen.title} Free</p>
+            <p className="text-indigo-100 text-xs mb-4">No account required · 3 free uses per day</p>
+            <a
+              href={`/tools/${gen.tool_slug}`}
+              className="inline-block bg-white text-indigo-600 px-5 py-2 rounded-xl text-sm font-semibold hover:bg-indigo-50 transition-colors"
+            >
+              Start Free →
+            </a>
+          </div>
+        )}
+      </main>
+    );
+  }
 
   const row = page as unknown as SeoPagesRow;
   const profession = row.meta?.profession ?? "";

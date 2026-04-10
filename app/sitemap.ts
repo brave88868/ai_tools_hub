@@ -16,5 +16,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/sitemap-examples.xml` },
     { url: `${SITE_URL}/sitemap-templates.xml` },
     { url: `${SITE_URL}/sitemap-prompts.xml` },
+    { url: `${SITE_URL}/sitemap-generators.xml` },
   ];
 }
