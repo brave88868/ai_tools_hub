@@ -63,6 +63,22 @@ export default async function BlogPage({ searchParams }: Props) {
         <p className="text-gray-700 text-sm">AI tool guides, tips, and tutorials.</p>
       </div>
 
+      {/* Compare & Alternatives entry cards */}
+      <div className="flex flex-wrap gap-3 mb-6">
+        <Link
+          href="/compare/ai-resume-generator-vs-chatgpt"
+          className="inline-flex items-center gap-2 border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-sm transition-all bg-white"
+        >
+          ⚖️ AI Tool Comparisons →
+        </Link>
+        <Link
+          href="/alternatives/jasper-ai-alternatives"
+          className="inline-flex items-center gap-2 border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-sm transition-all bg-white"
+        >
+          🔄 AI Alternatives →
+        </Link>
+      </div>
+
       {/* 分类 Tab */}
       <div className="flex flex-wrap gap-2 mb-8">
         {CATEGORIES.map((cat) => (

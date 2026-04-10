@@ -118,6 +118,22 @@ export default async function AIGeneratorsPage() {
         </section>
       ))}
 
+      {/* Compare & Alternatives links */}
+      <div className="flex flex-wrap gap-3 mb-6">
+        <Link
+          href="/compare/ai-resume-generator-vs-chatgpt"
+          className="inline-flex items-center gap-2 border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-sm transition-all bg-white"
+        >
+          ⚖️ Compare AI Tools →
+        </Link>
+        <Link
+          href="/alternatives/jasper-ai-alternatives"
+          className="inline-flex items-center gap-2 border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-sm transition-all bg-white"
+        >
+          🔄 Find Alternatives →
+        </Link>
+      </div>
+
       {/* Bottom CTA */}
       <section className="bg-gradient-to-br from-indigo-600 to-violet-600 rounded-2xl p-8 text-center text-white mt-4">
         <h2 className="text-2xl font-bold mb-2">Want 600+ AI Tools?</h2>

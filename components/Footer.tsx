@@ -47,6 +47,8 @@ export default function Footer() {
             <h3 className="text-sm font-semibold text-gray-900 mb-3">Resources</h3>
             <ul className="space-y-2 text-xs text-gray-600">
               <li><Link href="/ai-generators" className="hover:text-gray-900">AI Generators</Link></li>
+              <li><Link href="/compare/ai-resume-generator-vs-chatgpt" className="hover:text-gray-900">AI Tool Comparisons</Link></li>
+              <li><Link href="/alternatives/jasper-ai-alternatives" className="hover:text-gray-900">AI Alternatives</Link></li>
               <li><Link href="/blog" className="hover:text-gray-900">Blog</Link></li>
               <li><Link href="/submit" className="hover:text-gray-900">Submit Tool</Link></li>
               <li><Link href="/privacy" className="hover:text-gray-900">Privacy Policy</Link></li>
