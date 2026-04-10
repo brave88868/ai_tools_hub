@@ -80,7 +80,7 @@ async function openaiChat(prompt) {
 console.log("\n🚀 Prompt Pages generator\n");
 
 const generators = await sbGet(
-  "/generators?select=slug,title,keywords,category&is_active=eq.true&limit=100"
+  "/generators?select=id,slug,title,keywords,category&is_active=eq.true&limit=100"
 );
 
 if (!generators.length) {
@@ -98,7 +98,7 @@ for (const gen of generators) {
     const title = `${v.label} ${gen.title} Prompt`;
     seedRows.push({
       slug,
-      generator_slug: gen.slug,
+      generator_id: gen.id,
       title,
       meta_title: `${title} — Copy & Use Free | AI Tools Station`,
       meta_description: `Copy this ${v.modifier} prompt for ${gen.title.toLowerCase()}. Works with ChatGPT and Claude. Free.`.slice(0, 160),
@@ -119,17 +119,17 @@ if (SEED_ONLY) {
 
 // Step 2: Generate prompt_text + example_output for pages without content
 const pending = await sbGet(
-  "/prompt_pages?select=id,slug,title,generator_slug&prompt_text=is.null&is_active=eq.true&limit=200"
+  "/prompt_pages?select=id,slug,title,generator_id&prompt_text=is.null&is_active=eq.true&limit=200"
 );
 
 console.log(`Generating prompts for ${pending.length} pages...\n`);
 
-const genMap = Object.fromEntries(generators.map((g) => [g.slug, g]));
+const genMap = Object.fromEntries(generators.map((g) => [g.id, g]));
 
 const results = { ok: 0, fail: 0 };
 
 async function generatePrompt(page) {
-  const gen = genMap[page.generator_slug] ?? {};
+  const gen = genMap[page.generator_id] ?? {};
   const isAdvanced = page.slug.includes("-advanced-");
   const isQuick = page.slug.includes("-quick-");
 

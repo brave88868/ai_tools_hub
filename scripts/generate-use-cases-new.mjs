@@ -85,7 +85,7 @@ async function openaiChat(prompt) {
 console.log("\n🚀 Use Case Pages generator\n");
 
 const generators = await sbGet(
-  "/generators?select=slug,title,keywords,meta_description&is_active=eq.true&limit=100"
+  "/generators?select=id,slug,title,keywords,meta_description&is_active=eq.true&limit=100"
 );
 
 if (!generators.length) {
@@ -103,7 +103,7 @@ for (const gen of generators) {
     const title = `${gen.title} ${persona.label.charAt(0).toUpperCase() + persona.label.slice(1)}`;
     seedRows.push({
       slug,
-      generator_slug: gen.slug,
+      generator_id: gen.id,
       title,
       persona: persona.display,
       meta_title: `${title} — Free | AI Tools Station`,
@@ -126,18 +126,18 @@ if (SEED_ONLY) {
 
 // Step 2: Generate content for pages without content
 const pending = await sbGet(
-  "/use_case_pages?select=id,slug,title,persona,generator_slug&content=is.null&is_active=eq.true&limit=200"
+  "/use_case_pages?select=id,slug,title,persona,generator_id&content=is.null&is_active=eq.true&limit=200"
 );
 
 console.log(`Generating content for ${pending.length} pages...\n`);
 
 // Fetch generator data for context
-const genMap = Object.fromEntries(generators.map((g) => [g.slug, g]));
+const genMap = Object.fromEntries(generators.map((g) => [g.id, g]));
 
 const results = { ok: 0, fail: 0 };
 
 async function generateContent(page) {
-  const gen = genMap[page.generator_slug] ?? {};
+  const gen = genMap[page.generator_id] ?? {};
   const prompt = `Write SEO content for an AI tool use case page. Return ONLY valid JSON.
 
 Tool: "${gen.title ?? page.generator_slug}"
