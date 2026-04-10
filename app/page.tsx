@@ -33,9 +33,9 @@ export default async function HomePage({
       )}
       <Hero />
       <SocialProof />
-      <ValuePillars />
       <PopularTools />
       <ToolkitsByGroup />
+      <ValuePillars />
       <ExampleResults />
       <FinalCTA />
 

@@ -43,7 +43,7 @@ export default async function ToolkitsByGroup() {
   );
 
   return (
-    <section className="py-14 px-4 bg-white">
+    <section className="pt-14 pb-4 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">Explore Toolkits by Workflow</h2>
