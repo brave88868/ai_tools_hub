@@ -53,6 +53,7 @@ export default function Header() {
 
         <nav className="hidden md:flex items-center gap-8">
           <Link href="/toolkits" className={`relative text-[15px] font-medium transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-200 ${pathname.startsWith("/toolkits") ? "text-indigo-600 after:w-full" : "text-gray-700 hover:text-indigo-600 after:w-0 hover:after:w-full"}`}>Toolkits</Link>
+          <Link href="/ai-generators" className={`relative text-[15px] font-medium transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-200 ${pathname.startsWith("/ai-generators") ? "text-indigo-600 after:w-full" : "text-gray-700 hover:text-indigo-600 after:w-0 hover:after:w-full"}`}>Generators</Link>
           <Link href="/blog" className={`relative text-[15px] font-medium transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-200 ${pathname.startsWith("/blog") ? "text-indigo-600 after:w-full" : "text-gray-700 hover:text-indigo-600 after:w-0 hover:after:w-full"}`}>Blog</Link>
           <Link href="/features" className={`relative text-[15px] font-medium transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-200 ${pathname.startsWith("/features") ? "text-indigo-600 after:w-full" : "text-gray-700 hover:text-indigo-600 after:w-0 hover:after:w-full"}`}>Features</Link>
           <Link href="/submit" className={`relative text-[15px] font-medium transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-200 ${pathname.startsWith("/submit") ? "text-indigo-600 after:w-full" : "text-gray-700 hover:text-indigo-600 after:w-0 hover:after:w-full"}`}>Submit Tool</Link>
@@ -93,6 +94,7 @@ export default function Header() {
       {menuOpen && (
         <div className="md:hidden border-t border-gray-100 bg-white px-4 py-4 flex flex-col gap-4 text-sm">
           <Link href="/toolkits" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Toolkits</Link>
+          <Link href="/ai-generators" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Generators</Link>
           <Link href="/blog" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Blog</Link>
           <Link href="/features" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Features</Link>
           <Link href="/submit" className="text-gray-600 hover:text-gray-900" onClick={() => setMenuOpen(false)}>Submit Tool</Link>

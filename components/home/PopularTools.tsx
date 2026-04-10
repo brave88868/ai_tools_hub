@@ -71,9 +71,14 @@ export default async function PopularTools() {
           <h2 className="text-3xl font-bold text-gray-900 mb-1 border-l-4 border-indigo-500 pl-4">Popular AI Tools</h2>
           <p className="text-gray-700 text-sm">Most used across our community</p>
         </div>
-        <Link href="/toolkits" className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
-          View all 600+ tools →
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link href="/ai-generators" className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
+            AI Generators →
+          </Link>
+          <Link href="/toolkits" className="text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors">
+            View all 600+ tools →
+          </Link>
+        </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {tools.map((tool) => (
