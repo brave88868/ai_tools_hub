@@ -18,7 +18,7 @@ const pillars = [
 
 export default function ValuePillars() {
   return (
-    <section className="bg-gray-50 pt-6 pb-10 px-4">
+    <section className="bg-gray-50 pt-6 pb-4 px-4">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">Why Use AI Tools Station?</h2>
