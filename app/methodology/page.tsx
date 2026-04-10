@@ -9,95 +9,92 @@ export const metadata: Metadata = {
 
 export default function MethodologyPage() {
   return (
-    <main className="max-w-4xl mx-auto px-4 py-16">
+    <main className="max-w-5xl mx-auto px-4 py-12">
 
       {/* Hero */}
-      <section className="text-center mb-16">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+      <section className="text-center mb-10">
+        <h1 className="text-4xl font-bold text-gray-900 mb-3">
           How Our AI Tools Generate High-Quality Results
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          AI Tools Station uses structured prompt engineering and workflow design
-          to guide AI models toward consistent and practical outputs.
+          Structured prompt engineering and workflow design guide AI models
+          toward consistent, practical outputs for real work.
         </p>
       </section>
 
-      {/* How It Works */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">How Our AI Tools Work</h2>
-        <div className="bg-gray-50 rounded-xl p-8 mb-6">
-          <div className="flex flex-col items-center gap-3">
-            {[
-              { icon: "📥", label: "User Input" },
-              { icon: "🔧", label: "Structured Prompt System" },
-              { icon: "🤖", label: "AI Model Processing" },
-              { icon: "⚙️", label: "Workflow Logic" },
-              { icon: "📄", label: "Structured Output" },
-            ].map((step, i) => (
-              <div key={i} className="flex flex-col items-center gap-1">
-                <div className="bg-white border border-gray-200 rounded-lg px-8 py-3 font-medium text-gray-800 text-sm w-64 text-center">
-                  {step.icon} {step.label}
+      {/* Left: flow diagram / Right: prompt + workflow */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+
+        {/* Left: Flow diagram */}
+        <div>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">How It Works</h2>
+          <div className="bg-gray-50 rounded-xl p-6">
+            <div className="flex flex-col items-center gap-2">
+              {[
+                { icon: "📥", label: "User Input" },
+                { icon: "🔧", label: "Structured Prompt System" },
+                { icon: "🤖", label: "AI Model Processing" },
+                { icon: "⚙️", label: "Workflow Logic" },
+                { icon: "📄", label: "Structured Output" },
+              ].map((step, i) => (
+                <div key={i} className="flex flex-col items-center gap-1 w-full">
+                  <div className="bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-800 w-full text-center">
+                    {step.icon} {step.label}
+                  </div>
+                  {i < 4 && <div className="text-gray-400">↓</div>}
                 </div>
-                {i < 4 && <div className="text-gray-400 text-lg">↓</div>}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+          <p className="text-xs text-gray-500 mt-3 leading-relaxed">
+            User input is converted into a structured prompt, processed by the AI model,
+            then shaped by workflow logic into a clear, usable output.
+          </p>
         </div>
-        <p className="text-gray-600 leading-relaxed">
-          When a user enters input, the platform converts that information into a
-          structured prompt designed specifically for the selected workflow. The AI model
-          processes the prompt and workflow logic helps structure the response
-          to improve clarity, relevance and usability.
-        </p>
-      </section>
 
-      {/* Prompt Engineering */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Structured Prompt Engineering</h2>
-        <p className="text-gray-600 leading-relaxed mb-4">
-          Unlike simple AI tools that rely on generic prompts, AI Tools Station uses a
-          structured prompt engineering framework. Each tool is built on prompts designed to:
-        </p>
-        <ul className="space-y-2 text-gray-600 mb-4">
-          <li>✅ Guide the AI model toward the intended task</li>
-          <li>✅ Structure outputs into clear, usable sections</li>
-          <li>✅ Improve consistency across different inputs</li>
-          <li>✅ Produce professional-quality results for specific workflows</li>
-        </ul>
-      </section>
+        {/* Right: Prompt Engineering + Workflow */}
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 mb-3">Structured Prompt Engineering</h2>
+            <p className="text-sm text-gray-600 leading-relaxed mb-3">
+              Each tool uses purpose-built prompts — not generic AI queries.
+              Our prompt framework is designed to:
+            </p>
+            <ul className="space-y-1 text-sm text-gray-600">
+              <li>✅ Guide AI toward the intended task</li>
+              <li>✅ Structure outputs into clear sections</li>
+              <li>✅ Ensure consistency across inputs</li>
+              <li>✅ Produce professional-quality results</li>
+            </ul>
+          </div>
 
-      {/* Workflow Design */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Workflow-Driven AI Tools</h2>
-        <p className="text-gray-600 leading-relaxed mb-4">
-          Each AI tool is designed around a specific workflow rather than a single prompt.
-          For example, a resume generator guides the AI through structured steps:
-        </p>
-        <div className="bg-gray-50 rounded-xl p-6">
-          <div className="flex flex-col gap-3">
-            {["User information", "Role targeting", "Skills and achievements", "Structured resume output"].map((step, i) => (
-              <div key={i}>
-                <div className="flex items-center gap-3">
-                  <span className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 mb-3">Workflow-Driven Design</h2>
+            <p className="text-sm text-gray-600 leading-relaxed mb-3">
+              Each tool follows a defined workflow — not a single prompt.
+              Example: Resume Generator steps:
+            </p>
+            <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+              {["User information", "Role targeting", "Skills & achievements", "Structured resume output"].map((step, i) => (
+                <div key={i} className="flex items-center gap-2 text-sm">
+                  <span className="w-5 h-5 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
                     {i + 1}
                   </span>
-                  <span className="text-gray-700 font-medium text-sm">{step}</span>
+                  <span className="text-gray-700">{step}</span>
                 </div>
-                {i < 3 && <div className="ml-3 text-gray-400 text-sm pl-3">↓</div>}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Quality Optimization */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Quality Optimization</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+      {/* Quality cards + CTA */}
+      <section className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="md:col-span-3 grid grid-cols-3 gap-4">
           {[
-            { icon: "✏️", title: "Prompt Refinement", desc: "Continuously improving prompt clarity and instruction quality" },
-            { icon: "📋", title: "Output Structure", desc: "Refining output formats for maximum usability" },
-            { icon: "🎯", title: "Use Case Targeting", desc: "Adjusting workflows for specific professional contexts" },
+            { icon: "✏️", title: "Prompt Refinement", desc: "Continuously improving clarity and instructions" },
+            { icon: "📋", title: "Output Structure", desc: "Refining formats for maximum usability" },
+            { icon: "🔄", title: "Continuous Updates", desc: "Evolving with AI advances and user feedback" },
           ].map((item) => (
             <div key={item.title} className="border border-gray-200 rounded-xl p-4 text-center">
               <div className="text-2xl mb-2">{item.icon}</div>
@@ -106,32 +103,16 @@ export default function MethodologyPage() {
             </div>
           ))}
         </div>
-      </section>
-
-      {/* Continuous Improvement */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Continuous Improvement</h2>
-        <p className="text-gray-600 leading-relaxed">
-          AI technology evolves rapidly, and our platform evolves with it.
-          AI Tools Station continuously updates its tools, prompts and workflows
-          to take advantage of improvements in AI models and incorporate user feedback.
-          This ongoing optimization allows the platform to deliver increasingly reliable
-          and useful AI-powered tools.
-        </p>
-      </section>
-
-      {/* CTA */}
-      <section className="text-center border border-gray-200 rounded-xl p-8">
-        <h2 className="text-xl font-bold text-gray-900 mb-2">Try Our AI Tools</h2>
-        <p className="text-gray-600 mb-4">
-          See our methodology in action with 600+ professional AI tools.
-        </p>
-        <Link
-          href="/toolkits"
-          className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700 transition-colors"
-        >
-          Explore Toolkits →
-        </Link>
+        <div className="border border-gray-200 rounded-xl p-4 flex flex-col justify-center text-center">
+          <div className="text-sm font-bold text-gray-900 mb-2">Try Our Tools</div>
+          <p className="text-xs text-gray-600 mb-3">See methodology in action</p>
+          <Link
+            href="/toolkits"
+            className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-indigo-700 transition-colors"
+          >
+            Explore →
+          </Link>
+        </div>
       </section>
 
     </main>

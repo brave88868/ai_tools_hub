@@ -41,8 +41,8 @@ export default function Header() {
           <Image
             src="/logo.png"
             alt="AI Tools Station"
-            width={36}
-            height={36}
+            width={32}
+            height={32}
             className="object-contain"
           />
           <div>
