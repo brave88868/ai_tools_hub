@@ -32,9 +32,9 @@ export default async function HomePage({
       )}
       <Hero />
       <SocialProof />
-      <PopularTools />
       <ToolkitsByGroup />
       <ValuePillars />
+      <PopularTools />
       <ExampleResults />
 
       {/* Hidden nav for Google crawl discovery — not visible to users */}
