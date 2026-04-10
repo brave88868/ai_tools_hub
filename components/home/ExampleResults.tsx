@@ -48,13 +48,13 @@ const EXAMPLES = [
 
 export default function ExampleResults() {
   return (
-    <section className="bg-gray-50 py-10 px-4">
+    <section className="bg-gray-50 py-8 px-4">
       <div className="max-w-6xl mx-auto">
-      <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-gray-900 mb-3">See What AI Can Do</h2>
-        <p className="text-gray-700">Real examples — input on the left, AI output on the right</p>
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">See What AI Can Do</h2>
+        <p className="text-base text-gray-700">Real examples — input on the left, AI output on the right</p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {EXAMPLES.map((ex) => (
           <div
             key={ex.tool}

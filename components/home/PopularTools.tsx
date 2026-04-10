@@ -65,10 +65,10 @@ export default async function PopularTools() {
   }
 
   return (
-    <section className="max-w-6xl mx-auto px-4 pt-4 pb-10">
-      <div className="flex items-center justify-between mb-8">
+    <section className="max-w-6xl mx-auto px-4 pt-4 pb-8">
+      <div className="flex items-center justify-between mb-5">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-1 border-l-4 border-indigo-500 pl-4">Popular AI Tools</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1 border-l-4 border-indigo-500 pl-3">Popular AI Tools</h2>
           <p className="text-gray-700 text-sm">Most used across our community</p>
         </div>
         <div className="flex items-center gap-4">

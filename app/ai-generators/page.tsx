@@ -57,19 +57,19 @@ export default async function AIGeneratorsPage() {
   const categories = Object.keys(grouped);
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-12">
+    <main className="max-w-6xl mx-auto px-4 py-6">
       {/* Hero */}
-      <section className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-3">
+      <section className="text-center mb-6">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
           Free AI Generators
         </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="text-base text-gray-600 max-w-2xl mx-auto">
           Professional-quality content in seconds. No signup required for your first 3 uses.
         </p>
       </section>
 
       {/* Stats bar */}
-      <div className="flex flex-wrap justify-center gap-8 mb-12 py-4 border-y border-gray-100 bg-gray-50 rounded-xl">
+      <div className="flex flex-wrap justify-center gap-8 mb-8 py-4 border-y border-gray-100 bg-gray-50 rounded-xl">
         <div className="text-center">
           <div className="text-2xl font-bold text-gray-900">{list.length}+</div>
           <div className="text-sm text-gray-500">AI Generators</div>
@@ -86,7 +86,7 @@ export default async function AIGeneratorsPage() {
 
       {/* Generators by category */}
       {categories.map((cat) => (
-        <section key={cat} className="mb-12">
+        <section key={cat} className="mb-8">
           <div className="flex items-center gap-3 mb-5">
             <span className="text-2xl">{CATEGORY_ICONS[cat] ?? "🤖"}</span>
             <h2 className="text-xl font-bold text-gray-900 border-l-4 border-indigo-500 pl-3">

@@ -11,7 +11,7 @@ const GENERATORS = [
 
 export default function PopularGenerators() {
   return (
-    <section className="bg-gray-50 py-10 px-4">
+    <section className="bg-gray-50 py-8 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
