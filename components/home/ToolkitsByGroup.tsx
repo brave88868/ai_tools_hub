@@ -45,9 +45,9 @@ export default async function ToolkitsByGroup() {
   return (
     <section className="pt-10 pb-2 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">Explore Toolkits by Workflow</h2>
-          <p className="text-lg text-gray-700">Find the right tools for your work</p>
+        <div className="mb-10">
+          <h2 className="text-3xl font-bold text-gray-900 mb-3 border-l-4 border-indigo-500 pl-4">Explore Toolkits by Workflow</h2>
+          <p className="text-lg text-gray-700 pl-5">Find the right tools for your work</p>
         </div>
 
         <ToolkitTabsClient groups={GROUPS} toolkitMap={toolkitMap} />

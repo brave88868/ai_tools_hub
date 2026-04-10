@@ -54,13 +54,13 @@ export default function ToolkitTabsClient({ groups, toolkitMap }: Props) {
               <Link
                 key={slug}
                 href={`/toolkits/${slug}`}
-                className="border border-gray-100 rounded-2xl p-5 bg-white hover:shadow-md hover:border-indigo-200 transition-all group block"
+                className="border border-gray-100 rounded-2xl p-5 bg-white hover:shadow-md hover:border-indigo-200 hover:-translate-y-0.5 transition-all group block"
               >
                 <div className="text-2xl mb-2">{kit.icon ?? "🛠"}</div>
                 <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors">
                   {kit.name}
                 </h3>
-                <p className="text-xs text-gray-700 leading-relaxed mb-3 line-clamp-2">
+                <p className="text-xs text-gray-700 leading-relaxed mb-3 line-clamp-1">
                   {kit.description}
                 </p>
                 <span className="text-xs font-medium text-indigo-500 group-hover:text-indigo-700 transition-colors">

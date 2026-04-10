@@ -48,7 +48,8 @@ const EXAMPLES = [
 
 export default function ExampleResults() {
   return (
-    <section className="max-w-6xl mx-auto px-4 py-10">
+    <section className="bg-gray-50 py-10 px-4">
+      <div className="max-w-6xl mx-auto">
       <div className="text-center mb-10">
         <h2 className="text-3xl font-bold text-gray-900 mb-3">See What AI Can Do</h2>
         <p className="text-gray-700">Real examples — input on the left, AI output on the right</p>
@@ -76,10 +77,11 @@ export default function ExampleResults() {
             {/* After */}
             <div className="bg-white rounded-xl p-3 shadow-sm">
               <div className={`text-xs font-semibold uppercase tracking-wide mb-1.5 ${ex.accent}`}>{ex.after.label}</div>
-              <p className="text-xs text-gray-700 leading-relaxed whitespace-pre-line">{ex.after.text}</p>
+              <p className="text-xs text-gray-700 leading-relaxed whitespace-pre-line line-clamp-3">{ex.after.text}</p>
             </div>
           </div>
         ))}
+      </div>
       </div>
     </section>
   );

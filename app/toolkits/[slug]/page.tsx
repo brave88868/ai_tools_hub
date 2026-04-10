@@ -341,7 +341,7 @@ export default async function ToolkitPage({ params, searchParams }: Props) {
               <Link
                 key={tool.slug}
                 href={`/tools/${tool.slug}`}
-                className="border border-gray-200 rounded-xl p-4 hover:border-gray-400 hover:shadow-sm transition-all group"
+                className="border border-gray-200 rounded-xl p-4 hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5 transition-all group"
               >
                 <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-black">{tool.name}</h3>
                 <p className="text-xs text-gray-500 truncate mb-3">{tool.description}</p>

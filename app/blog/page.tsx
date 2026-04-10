@@ -17,6 +17,8 @@ const CATEGORIES = [
   { label: "For Business", value: "business" },
   { label: "For Job Seekers", value: "job-seekers" },
   { label: "For Legal & Compliance", value: "legal" },
+  { label: "For Professionals", value: "professionals" },
+  { label: "For Developers", value: "developers" },
 ];
 
 function buildUrl(cat: string, pg: number) {

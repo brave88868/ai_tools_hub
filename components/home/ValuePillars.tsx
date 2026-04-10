@@ -28,7 +28,7 @@ export default function ValuePillars() {
           {pillars.map((pillar) => (
             <div
               key={pillar.title}
-              className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm"
+              className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
             >
               <div className="text-4xl mb-4">{pillar.icon}</div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">{pillar.title}</h3>

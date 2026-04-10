@@ -68,7 +68,7 @@ export default async function PopularTools() {
     <section className="max-w-6xl mx-auto px-4 pt-4 pb-10">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-1">Popular AI Tools</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-1 border-l-4 border-indigo-500 pl-4">Popular AI Tools</h2>
           <p className="text-gray-700 text-sm">Most used across our community</p>
         </div>
         <Link href="/toolkits" className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
@@ -79,7 +79,7 @@ export default async function PopularTools() {
         {tools.map((tool) => (
           <div
             key={tool.slug}
-            className="border border-gray-100 rounded-2xl p-5 hover:border-indigo-200 hover:shadow-md hover:shadow-indigo-50 transition-all group"
+            className="border border-gray-100 rounded-2xl p-5 hover:border-indigo-200 hover:shadow-md hover:shadow-indigo-50 hover:-translate-y-0.5 transition-all group"
           >
             <div className="flex items-start justify-between mb-3">
               <div className="w-9 h-9 bg-gradient-to-br from-indigo-100 to-violet-100 rounded-lg flex items-center justify-center text-base">
@@ -90,7 +90,7 @@ export default async function PopularTools() {
             <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors">
               {tool.name}
             </h3>
-            <p className="text-xs text-gray-700 leading-relaxed mb-3 line-clamp-2">{tool.description}</p>
+            <p className="text-xs text-gray-700 leading-relaxed mb-3 line-clamp-1">{tool.description}</p>
             <Link href={`/tools/${tool.slug}`} className="text-xs font-medium text-indigo-500 hover:text-indigo-700 transition-colors">
               Use Tool →
             </Link>
