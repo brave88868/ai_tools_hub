@@ -89,7 +89,7 @@ export default function ToolkitsPage() {
   );
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-10">
+    <main className="max-w-6xl mx-auto px-4 pt-10 pb-8">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Toolkits</h1>
         <p className="text-lg text-gray-700">24 professional toolkits, 600+ AI tools — pick what you need.</p>

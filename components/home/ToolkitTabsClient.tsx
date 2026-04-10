@@ -45,7 +45,7 @@ export default function ToolkitTabsClient({ groups, toolkitMap }: Props) {
       </div>
 
       {/* Desktop Panel */}
-      <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+      <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-4">
         {groups[activeGroup].slugs
           .filter((slug) => toolkitMap[slug])
           .map((slug) => {
@@ -72,7 +72,7 @@ export default function ToolkitTabsClient({ groups, toolkitMap }: Props) {
       </div>
 
       {/* Mobile Accordion */}
-      <div className="md:hidden space-y-2 mb-6">
+      <div className="md:hidden space-y-2">
         {groups.map((group, i) => (
           <div key={group.label} className="border border-gray-100 rounded-2xl overflow-hidden">
             <button
