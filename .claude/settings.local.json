@@ -58,7 +58,10 @@
       "Bash(sed -i 's/\"1,000+\"/\"4,000+\"/g' components/home/SocialProof.tsx)",
       "Bash(grep:*)",
       "Bash(tasklist)",
-      "Bash(echo \"EXIT:$?\")"
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(npx --yes tsc --noEmit)",
+      "Bash(node_modules/.bin/tsc --noEmit)",
+      "Bash(echo \"EXIT: $?\")"
     ]
   }
 }
