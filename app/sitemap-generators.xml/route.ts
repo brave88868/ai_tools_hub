@@ -16,10 +16,16 @@ export async function GET() {
     { data: generators },
     { data: useCasePages },
     { data: promptPages },
+    { data: templatePages },
+    { data: comparisons },
+    { data: alternatives },
   ] = await Promise.all([
     admin.from("generators").select("slug").eq("is_active", true),
     admin.from("use_case_pages").select("slug").eq("is_active", true).limit(2000),
     admin.from("prompt_pages").select("slug").eq("is_active", true).limit(2000),
+    admin.from("template_pages").select("slug").eq("is_active", true).limit(2000),
+    admin.from("seo_comparisons").select("slug").not("content", "is", null).limit(500),
+    admin.from("seo_alternatives").select("slug").not("content", "is", null).limit(500),
   ]);
 
   const entries: string[] = [];
@@ -37,6 +43,21 @@ export async function GET() {
   // /ai-prompts/[slug]
   for (const p of promptPages ?? []) {
     entries.push(url(`${SITE_URL}/ai-prompts/${p.slug}`, "0.6", "monthly"));
+  }
+
+  // /templates/[slug] (generator template pages)
+  for (const t of templatePages ?? []) {
+    entries.push(url(`${SITE_URL}/templates/${t.slug}`, "0.65", "monthly"));
+  }
+
+  // /compare/[slug] (comparison articles with content)
+  for (const c of comparisons ?? []) {
+    entries.push(url(`${SITE_URL}/compare/${c.slug}`, "0.7", "monthly"));
+  }
+
+  // /alternatives/[slug] (alternatives articles with content)
+  for (const a of alternatives ?? []) {
+    entries.push(url(`${SITE_URL}/alternatives/${a.slug}`, "0.7", "monthly"));
   }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

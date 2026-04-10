@@ -263,6 +263,7 @@ export default function ToolPage() {
   const [submittedInputs, setSubmittedInputs] = useState<Record<string, string>>({});
   const [toolUseCases, setToolUseCases] = useState<Array<{ slug: string; title: string | null; meta: Record<string, string> | null }>>([]);
   const [relatedTools, setRelatedTools] = useState<Array<{ slug: string; name: string }>>([]);
+  const [genResources, setGenResources] = useState<{ prompts: Array<{ slug: string; title: string }>; templates: Array<{ slug: string; title: string }> }>({ prompts: [], templates: [] });
 
   useEffect(() => {
     async function loadTool() {
@@ -306,6 +307,15 @@ export default function ToolPage() {
           .eq("type", "use_case")
           .limit(6)
           .then(({ data: ucs }) => { if (ucs) setToolUseCases(ucs as typeof toolUseCases); });
+        // 加载 generator 关联资源（prompt pages + template pages）
+        fetch(`/api/seo/tool-resources?tool_slug=${encodeURIComponent(slug)}`)
+          .then((r) => r.json())
+          .then((d) => {
+            if (d && (d.prompts?.length || d.templates?.length)) {
+              setGenResources({ prompts: d.prompts ?? [], templates: d.templates ?? [] });
+            }
+          })
+          .catch(() => {});
         // 加载同 toolkit 的相关工具（最多 5 个，排除当前工具）
         if (data.toolkit_id) {
           supabase
@@ -699,6 +709,35 @@ export default function ToolPage() {
           </a>
         </div>
 
+        {/* Related Resources (prompts + templates from generator) */}
+        {(genResources.prompts.length > 0 || genResources.templates.length > 0) && (
+          <div className="mt-8 pt-6 border-t border-gray-100">
+            <h2 className="text-sm font-semibold text-gray-900 mb-3">Related Resources</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {genResources.prompts.map((p) => (
+                <a
+                  key={p.slug}
+                  href={`/ai-prompts/${p.slug}`}
+                  className="flex items-center gap-2 border border-gray-100 rounded-lg px-3 py-2 text-xs text-gray-600 hover:border-indigo-200 hover:text-indigo-600 transition-all"
+                >
+                  <span className="text-indigo-400">💬</span>
+                  {p.title}
+                </a>
+              ))}
+              {genResources.templates.map((t) => (
+                <a
+                  key={t.slug}
+                  href={`/templates/${t.slug}`}
+                  className="flex items-center gap-2 border border-gray-100 rounded-lg px-3 py-2 text-xs text-gray-600 hover:border-green-200 hover:text-green-700 transition-all"
+                >
+                  <span className="text-green-500">📄</span>
+                  {t.title}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Embed Section */}
         <details className="mt-8 rounded-xl border border-gray-200 overflow-hidden">
           <summary className="flex items-center justify-between px-5 py-4 cursor-pointer hover:bg-gray-50 transition-colors list-none">
@@ -719,6 +758,37 @@ export default function ToolPage() {
             </div>
           </div>
         </details>
+
+        {/* SEO Navigation Links */}
+        <section className="mt-8 border-t border-gray-100 pt-6">
+          <h2 className="text-sm font-semibold text-gray-700 mb-3">Related Resources</h2>
+          <div className="flex flex-wrap gap-2">
+            <a
+              href="/ai-generators"
+              className="text-xs text-gray-600 border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
+            >
+              AI Generators Directory →
+            </a>
+            <a
+              href="/toolkits"
+              className="text-xs text-gray-600 border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
+            >
+              Browse All Toolkits →
+            </a>
+            <a
+              href="/blog"
+              className="text-xs text-gray-600 border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
+            >
+              AI Tool Guides →
+            </a>
+            <a
+              href="/templates"
+              className="text-xs text-gray-600 border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
+            >
+              Free Templates →
+            </a>
+          </div>
+        </section>
 
         {/* Feedback */}
         <div className="mt-8 pt-6 border-t border-gray-100 text-center">
