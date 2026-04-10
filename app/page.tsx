@@ -3,8 +3,6 @@ import Link from "next/link";
 import Hero from "@/components/home/Hero";
 import SocialProof from "@/components/home/SocialProof";
 import ValuePillars from "@/components/home/ValuePillars";
-import UseCases from "@/components/home/UseCases";
-import PopularGenerators from "@/components/home/PopularGenerators";
 import PopularTools from "@/components/home/PopularTools";
 import ToolkitsByGroup from "@/components/home/ToolkitsByGroup";
 import ExampleResults from "@/components/home/ExampleResults";
@@ -36,8 +34,6 @@ export default async function HomePage({
       <Hero />
       <SocialProof />
       <ValuePillars />
-      <UseCases />
-      <PopularGenerators />
       <PopularTools />
       <ToolkitsByGroup />
       <ExampleResults />
