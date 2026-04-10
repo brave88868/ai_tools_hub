@@ -94,10 +94,14 @@ export default async function AlternativesPage({ params }: Props) {
         </h1>
 
         {/* Article content */}
-        {data.content && (
+        {data.content ? (
           <article className="prose prose-sm max-w-none text-gray-700 prose-headings:text-gray-900 prose-headings:font-semibold prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:underline prose-li:text-gray-700 mb-10">
             <ReactMarkdown>{data.content}</ReactMarkdown>
           </article>
+        ) : (
+          <div className="mb-10 rounded-xl border border-gray-100 bg-gray-50 px-6 py-10 text-center text-gray-400 text-sm">
+            Full alternatives guide coming soon — check back shortly.
+          </div>
         )}
 
         {/* CTA — toolkit cards */}
