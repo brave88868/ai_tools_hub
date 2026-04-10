@@ -1,18 +1,36 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import ToolkitTabsClient from "@/components/home/ToolkitTabsClient";
 
-const TOOLKIT_COLORS: Record<string, string> = {
-  jobseeker: "border-l-blue-400",
-  creator: "border-l-purple-400",
-  marketing: "border-l-orange-400",
-  business: "border-l-green-400",
-  legal: "border-l-red-400",
-  exam: "border-l-yellow-400",
-};
+const GROUPS = [
+  {
+    label: "For Job Seekers & Students",
+    slugs: ["jobseeker", "hr-hiring", "exam"],
+  },
+  {
+    label: "For Professionals",
+    slugs: ["work-life-templates", "productivity", "document", "meeting", "knowledge"],
+  },
+  {
+    label: "For Business",
+    slugs: ["business", "sales", "finance", "email-marketing", "presentation-toolkit", "customer-support"],
+  },
+  {
+    label: "For Creators & Marketers",
+    slugs: ["creator", "social-media", "seo-content", "marketing", "ai-prompts"],
+  },
+  {
+    label: "For Developers & Analysts",
+    slugs: ["data-analytics", "workflow-automation-toolkit", "ai-workflow"],
+  },
+  {
+    label: "For Legal & Compliance",
+    slugs: ["legal", "compliance-toolkit"],
+  },
+];
 
 interface Toolkit {
   slug: string;
@@ -66,12 +84,19 @@ export default function ToolkitsPage() {
   const bundle = toolkits.find((k) => k.slug === "bundle");
   const regular = toolkits.filter((k) => k.slug !== "bundle");
 
+  const toolkitMap = Object.fromEntries(
+    regular.map((kit) => [kit.slug, kit])
+  );
+
   return (
-    <main className="max-w-6xl mx-auto px-4 py-6">
-      <p className="text-sm text-gray-700 mb-4">Each toolkit contains 10 AI tools built for a specific workflow.</p>
+    <main className="max-w-6xl mx-auto px-4 py-10">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Toolkits</h1>
+        <p className="text-lg text-gray-700">24 professional toolkits, 600+ AI tools — pick what you need.</p>
+      </div>
 
       {/* Bundle Banner */}
-      <div className="bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl p-5 mb-6">
+      <div className="bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl p-5 mb-8">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
             <div className="text-2xl mb-1">⚡</div>
@@ -79,7 +104,9 @@ export default function ToolkitsPage() {
             <p className="text-white/70 text-sm">{bundle?.description ?? "Get unlimited access to all toolkits — best value"}</p>
           </div>
           <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
-            <span className="text-white font-bold text-2xl">${bundle?.price_monthly ?? 49}<span className="text-base font-normal text-white/70">/mo</span></span>
+            <span className="text-white font-bold text-2xl">
+              ${bundle?.price_monthly ?? 49}<span className="text-base font-normal text-white/70">/mo</span>
+            </span>
             <button
               onClick={() => handleSubscribe("bundle")}
               disabled={subscribingSlug === "bundle"}
@@ -91,28 +118,10 @@ export default function ToolkitsPage() {
         </div>
       </div>
 
-      {/* Regular toolkits */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {regular.map((kit) => (
-          <Link
-            key={kit.slug}
-            href={`/toolkits/${kit.slug}`}
-            className={`border-l-4 ${TOOLKIT_COLORS[kit.slug] ?? "border-l-gray-300"} border border-gray-100 rounded-2xl p-6 bg-white hover:shadow-sm transition-all group`}
-          >
-            <div className="text-3xl mb-3">{kit.icon}</div>
-            <h2 className="text-base font-semibold text-gray-900 mb-1">{kit.name}</h2>
-            <p className="text-xs text-gray-700 leading-relaxed mb-5">{kit.description}</p>
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold text-gray-900">
-                ${kit.price_monthly}<span className="text-xs font-medium text-gray-700">/month</span>
-              </span>
-              <span className="text-xs text-indigo-500 group-hover:text-indigo-600 transition-colors">
-                Explore →
-              </span>
-            </div>
-          </Link>
-        ))}
-      </div>
+      {/* Grouped Tabs */}
+      {regular.length > 0 && (
+        <ToolkitTabsClient groups={GROUPS} toolkitMap={toolkitMap} />
+      )}
     </main>
   );
 }
