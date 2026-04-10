@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase";
 import { notFound } from "next/navigation";
+import Pagination from "@/components/Pagination";
+
+const PAGE_SIZE = 9;
 
 // ── Work & Life Templates — category grouping (client-side, no DB column needed) ──
 const WLT_SLUG_TO_CATEGORY: Record<string, string> = {
@@ -169,6 +172,7 @@ const WLT_CATEGORY_ICONS: Record<string, string> = {
 
 interface Props {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ page?: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -185,8 +189,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ToolkitPage({ params }: Props) {
+export default async function ToolkitPage({ params, searchParams }: Props) {
   const { slug } = await params;
+  const { page: pageParam } = await searchParams;
   const supabase = createAdminClient();
 
   const { data: kit } = await supabase
@@ -198,13 +203,40 @@ export default async function ToolkitPage({ params }: Props) {
 
   if (!kit) notFound();
 
-  const { data: toolsRaw } = await supabase
-    .from("tools")
-    .select("slug, name, description, tool_type")
-    .eq("toolkit_id", kit.id)
-    .eq("is_active", true)
-    .order("sort_order");
-  const toolList = toolsRaw ?? [];
+  const isWLT = slug === "work-life-templates";
+  const currentPage = Math.max(1, Number(pageParam ?? 1));
+  const offset = (currentPage - 1) * PAGE_SIZE;
+
+  let toolList: { slug: string; name: string; description: string; tool_type: string }[] = [];
+  let totalPages = 1;
+
+  if (isWLT) {
+    // Category view — fetch all, no pagination
+    const { data: toolsRaw } = await supabase
+      .from("tools")
+      .select("slug, name, description, tool_type")
+      .eq("toolkit_id", kit.id)
+      .eq("is_active", true)
+      .order("sort_order");
+    toolList = toolsRaw ?? [];
+  } else {
+    const [{ data: toolsRaw }, { count }] = await Promise.all([
+      supabase
+        .from("tools")
+        .select("slug, name, description, tool_type")
+        .eq("toolkit_id", kit.id)
+        .eq("is_active", true)
+        .order("sort_order")
+        .range(offset, offset + PAGE_SIZE - 1),
+      supabase
+        .from("tools")
+        .select("*", { count: "exact", head: true })
+        .eq("toolkit_id", kit.id)
+        .eq("is_active", true),
+    ]);
+    toolList = toolsRaw ?? [];
+    totalPages = Math.ceil((count ?? 0) / PAGE_SIZE);
+  }
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-12">
@@ -302,20 +334,27 @@ export default async function ToolkitPage({ params }: Props) {
           </div>
         );
       })() : (
-        /* All other toolkits — original flat grid, unchanged */
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {toolList.map((tool) => (
-            <Link
-              key={tool.slug}
-              href={`/tools/${tool.slug}`}
-              className="border border-gray-200 rounded-xl p-5 hover:border-gray-400 hover:shadow-sm transition-all group"
-            >
-              <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-black">{tool.name}</h3>
-              <p className="text-xs text-gray-600 leading-relaxed line-clamp-2 mb-3">{tool.description}</p>
-              <span className="text-xs text-gray-600 group-hover:text-gray-800 transition-colors">Try tool →</span>
-            </Link>
-          ))}
-        </div>
+        /* All other toolkits — paginated grid */
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {toolList.map((tool) => (
+              <Link
+                key={tool.slug}
+                href={`/tools/${tool.slug}`}
+                className="border border-gray-200 rounded-xl p-4 hover:border-gray-400 hover:shadow-sm transition-all group"
+              >
+                <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-black">{tool.name}</h3>
+                <p className="text-xs text-gray-500 truncate mb-3">{tool.description}</p>
+                <span className="text-xs text-gray-600 group-hover:text-gray-800 transition-colors">Try tool →</span>
+              </Link>
+            ))}
+          </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            basePath={`/toolkits/${slug}`}
+          />
+        </>
       )}
     </main>
   );
