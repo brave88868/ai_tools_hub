@@ -30,7 +30,7 @@ export default async function SocialProof() {
   return (
     <section className="border-y border-gray-100 bg-white py-6">
       <div className="max-w-3xl mx-auto px-4">
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4 mb-4">
           {stats.map(({ value, label }) => (
             <div key={label} className="text-center">
               <div className="text-3xl font-extrabold text-gray-900">{value}</div>
@@ -38,6 +38,7 @@ export default async function SocialProof() {
             </div>
           ))}
         </div>
+        <p className="text-center text-base text-gray-700">Trusted by professionals worldwide</p>
       </div>
     </section>
   );

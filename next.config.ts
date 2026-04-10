@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
         destination: "https://www.aitoolsstation.com/:path*",
         permanent: true,
       },
+      {
+        source: "/flashcard-generator-alternatives",
+        destination: "/toolkits/exam",
+        permanent: true,
+      },
     ];
   },
   async headers() {

@@ -68,11 +68,11 @@ export default async function PopularTools() {
     <section className="max-w-6xl mx-auto px-4 py-14">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-1">Most Used Tools</h2>
-          <p className="text-gray-700 text-sm">Popular across our community</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-1">Popular AI Tools</h2>
+          <p className="text-gray-700 text-sm">Most used across our community</p>
         </div>
         <Link href="/toolkits" className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
-          View all 600+ →
+          View all 600+ tools →
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

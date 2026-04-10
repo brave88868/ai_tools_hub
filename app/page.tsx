@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Hero from "@/components/home/Hero";
 import SocialProof from "@/components/home/SocialProof";
-import Toolkits from "@/components/home/Toolkits";
+import ValuePillars from "@/components/home/ValuePillars";
+import UseCases from "@/components/home/UseCases";
+import PopularGenerators from "@/components/home/PopularGenerators";
 import PopularTools from "@/components/home/PopularTools";
-import HowItWorks from "@/components/home/HowItWorks";
+import ToolkitsByGroup from "@/components/home/ToolkitsByGroup";
 import ExampleResults from "@/components/home/ExampleResults";
-import PricingPreview from "@/components/home/PricingPreview";
-import FAQ from "@/components/home/FAQ";
 import FinalCTA from "@/components/home/FinalCTA";
 
 export const metadata: Metadata = {
@@ -35,12 +35,12 @@ export default async function HomePage({
       )}
       <Hero />
       <SocialProof />
-      <Toolkits />
+      <ValuePillars />
+      <UseCases />
+      <PopularGenerators />
       <PopularTools />
-      <HowItWorks />
+      <ToolkitsByGroup />
       <ExampleResults />
-      <PricingPreview />
-      <FAQ />
       <FinalCTA />
 
       {/* Hidden nav for Google crawl discovery — not visible to users */}

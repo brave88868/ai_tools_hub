@@ -20,17 +20,24 @@ export default function Hero() {
         </p>
 
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight mb-5 leading-tight">
-          600+ AI Tools That{" "}
+          AI Tools For{" "}
           <span className="bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent">
-            Actually Save You Hours
+            Real Work
           </span>
         </h1>
 
-        <p className="text-lg md:text-xl text-gray-700 max-w-none mx-auto mb-8 leading-relaxed whitespace-nowrap">
-          Generate resumes, marketing copy, business plans and more. Professional AI tools built for real workflows.
+        <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto mb-6 leading-relaxed">
+          Generate resumes, business plans, marketing campaigns and study
+          materials in seconds. 600+ AI tools across 24 professional workflows.
         </p>
 
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-3">
+          <span className="text-base text-gray-700">⚡ Save hours of manual work</span>
+          <span className="text-base text-gray-700">🎯 Improve output quality</span>
+          <span className="text-base text-gray-700">🔁 Standardize your workflows</span>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-6 mt-4">
           <Link
             href="/toolkits"
             className="inline-flex items-center gap-2 bg-black text-white px-7 py-3.5 rounded-xl text-base font-semibold hover:bg-gray-800 transition-colors shadow-lg shadow-gray-200"
@@ -46,7 +53,7 @@ export default function Hero() {
         </div>
 
         <p className="text-lg text-gray-700">
-          Join 4,000+ professionals · 3 free uses/day · Upgrade anytime
+          Trusted by 4,000+ professionals · No credit card required · Free to start
         </p>
       </div>
     </section>

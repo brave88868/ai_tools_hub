@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-gray-100 bg-white mt-6">
       <div className="max-w-6xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
           <div>
             <h3 className="text-sm font-semibold text-gray-900 mb-3">AI Tools Station</h3>
             <p className="text-xs text-gray-600 leading-relaxed">
@@ -19,7 +19,18 @@ export default function Footer() {
               <li><Link href="/toolkits/marketing" className="hover:text-gray-900">Marketing</Link></li>
               <li><Link href="/toolkits/business" className="hover:text-gray-900">Business</Link></li>
               <li><Link href="/toolkits/legal" className="hover:text-gray-900">Legal</Link></li>
-              <li className="text-gray-600">+ many more</li>
+              <li><Link href="/toolkits" className="text-indigo-600 hover:text-indigo-800 font-medium">+ many more</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">Popular AI Generators</h3>
+            <ul className="space-y-2 text-xs text-gray-600">
+              <li><Link href="/tools/resume-optimizer" className="hover:text-gray-900">AI Resume Generator</Link></li>
+              <li><Link href="/tools/flashcard-generator" className="hover:text-gray-900">AI Flashcard Generator</Link></li>
+              <li><Link href="/tools/business-plan-generator" className="hover:text-gray-900">AI Business Plan Generator</Link></li>
+              <li><Link href="/tools/proposal-generator" className="hover:text-gray-900">AI Proposal Generator</Link></li>
+              <li><Link href="/tools/marketing-copy-generator" className="hover:text-gray-900">AI Marketing Copy Generator</Link></li>
+              <li><Link href="/tools/email-generator" className="hover:text-gray-900">AI Email Generator</Link></li>
             </ul>
           </div>
           <div>
@@ -33,8 +44,10 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">Legal</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">Resources</h3>
             <ul className="space-y-2 text-xs text-gray-600">
+              <li><Link href="/blog" className="hover:text-gray-900">Blog</Link></li>
+              <li><Link href="/submit" className="hover:text-gray-900">Submit Tool</Link></li>
               <li><Link href="/privacy" className="hover:text-gray-900">Privacy Policy</Link></li>
               <li><Link href="/terms" className="hover:text-gray-900">Terms of Service</Link></li>
             </ul>
