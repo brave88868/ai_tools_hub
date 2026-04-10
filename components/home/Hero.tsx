@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="bg-gradient-to-b from-indigo-50 to-white pt-8 pb-12 px-4">
+    <section className="bg-gradient-to-b from-indigo-50 to-white pt-8 pb-4 px-4">
       <div className="max-w-4xl mx-auto text-center">
         {/* Powered by OpenAI */}
         <p className="text-lg font-medium text-indigo-600 text-center mb-1">
