@@ -42,12 +42,12 @@ const DEMOS = [
     category: "Creator",
   },
   {
-    slug: "email",
-    icon: "✉️",
-    title: "AI Email Generator",
-    input: "Follow-up email after job interview at Google",
-    output: "Subject: Thank you – Software Engineer Interview | Dear [Name], Thank you for taking the time...",
-    category: "Business",
+    slug: "twitter-thread",
+    icon: "🐦",
+    title: "AI Twitter Thread Generator",
+    input: "Growth marketing tips for SaaS startups",
+    output: "🧵 Thread: 7 growth hacks that 10x'd our SaaS signups (most founders miss #4)...",
+    category: "Creator",
   },
 ];
 

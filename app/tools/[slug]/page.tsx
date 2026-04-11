@@ -787,6 +787,12 @@ export default function ToolPage() {
             >
               Free Templates →
             </a>
+            <a
+              href="/compare/ai-resume-generator-vs-chatgpt"
+              className="text-xs text-gray-600 border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
+            >
+              Compare AI Tools →
+            </a>
           </div>
         </section>
 

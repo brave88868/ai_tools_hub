@@ -3,31 +3,30 @@
 import { useState } from "react";
 import Link from "next/link";
 
+// Keys match actual DB category values
 const CATEGORY_LABELS: Record<string, string> = {
-  all:          "All",
-  career:       "Career",
-  business:     "Business",
-  marketing:    "Marketing",
-  content:      "Content",
-  hr:           "HR & Hiring",
-  seo:          "SEO",
-  productivity: "Productivity",
-  education:    "Education",
-  sales:        "Sales",
-  legal:        "Legal",
+  all:           "All",
+  marketing:     "Marketing",
+  education:     "Education",
+  business:      "Business",
+  creators:      "Creators",
+  developers:    "Developers",
+  legal:         "Legal",
+  productivity:  "Productivity",
+  "job-seekers": "Job Seekers",
+  other:         "Other",
 };
 
 const CATEGORY_ICONS: Record<string, string> = {
-  career:       "💼",
-  business:     "📊",
-  marketing:    "📣",
-  content:      "✍️",
-  hr:           "👥",
-  seo:          "🔍",
-  productivity: "⚡",
-  education:    "🎓",
-  sales:        "📈",
-  legal:        "⚖️",
+  marketing:     "📣",
+  education:     "🎓",
+  business:      "📊",
+  creators:      "🎬",
+  developers:    "💻",
+  legal:         "⚖️",
+  productivity:  "⚡",
+  "job-seekers": "💼",
+  other:         "🤖",
 };
 
 interface Generator {
@@ -45,11 +44,15 @@ interface Props {
 export default function GeneratorsGrid({ generators }: Props) {
   const [active, setActive] = useState("all");
 
-  const categories = ["all", ...Array.from(new Set(generators.map((g) => g.category ?? "other")))];
+  const categories = [
+    "all",
+    ...Array.from(new Set(generators.map((g) => g.category ?? "other"))),
+  ];
 
-  const filtered = active === "all"
-    ? generators
-    : generators.filter((g) => (g.category ?? "other") === active);
+  const filtered =
+    active === "all"
+      ? generators
+      : generators.filter((g) => (g.category ?? "other") === active);
 
   return (
     <>
