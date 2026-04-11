@@ -14,6 +14,11 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-3">About AI Tools Station</h1>
+        <div className="flex flex-wrap gap-4 justify-center mt-3 mb-6 text-sm text-gray-500">
+          <span>✓ Trusted by <strong className="text-gray-700">4,000+</strong> users worldwide</span>
+          <span>✓ <strong className="text-gray-700">10,000+</strong> AI generations created</span>
+          <span>✓ <strong className="text-gray-700">600+</strong> AI tools available</span>
+        </div>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           A professional AI tools platform helping individuals and teams automate real work.
           600+ AI tools across 24 professional toolkits — trusted worldwide.

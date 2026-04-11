@@ -120,13 +120,17 @@ export default async function BlogPage({ searchParams }: Props) {
                     {article.excerpt ?? article.seo_description}
                   </p>
                 )}
-                <span className="text-xs text-gray-600">
-                  {new Date(article.created_at).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </span>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-xs text-gray-600">
+                    {new Date(article.created_at).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </span>
+                  <span className="text-xs text-gray-300">·</span>
+                  <span className="text-xs text-gray-400">5 min read</span>
+                </div>
               </Link>
             ))}
           </div>

@@ -66,7 +66,7 @@ export default function ToolkitTabsClient({ groups, toolkitMap, limit = 100 }: P
                   {kit.description}
                 </p>
                 <span className="text-xs font-medium text-indigo-500 group-hover:text-indigo-700 transition-colors">
-                  Explore →
+                  Open Toolkit →
                 </span>
               </Link>
             );

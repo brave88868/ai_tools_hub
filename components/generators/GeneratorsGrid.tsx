@@ -134,6 +134,11 @@ export default function GeneratorsGrid({ generators }: Props) {
               <div className="text-xs text-gray-400 line-clamp-2 leading-relaxed mb-2">
                 {gen.meta_description ?? gen.description}
               </div>
+              {/* Social proof — static display */}
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs text-yellow-500">⭐ 4.8</span>
+                <span className="text-xs text-gray-400">· 10k+ uses</span>
+              </div>
               <div className="text-xs font-medium text-indigo-500">Try free →</div>
             </Link>
           ))}

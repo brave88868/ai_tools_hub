@@ -44,9 +44,9 @@ export default async function AIGeneratorsPage() {
       {/* Bottom CTA */}
       <div className="max-w-6xl mx-auto px-4 pb-8">
         <section className="bg-gradient-to-br from-indigo-600 to-violet-600 rounded-2xl p-8 text-center text-white">
-          <h2 className="text-2xl font-bold mb-2">Want 600+ AI Tools?</h2>
+          <h2 className="text-2xl font-bold mb-2">Access 600+ AI Tools</h2>
           <p className="text-indigo-100 mb-6">
-            Explore our full toolkit library — resumes, marketing, legal, business, and more.
+            Resumes · Marketing · Business · Legal · Coding
           </p>
           <Link
             href="/toolkits"

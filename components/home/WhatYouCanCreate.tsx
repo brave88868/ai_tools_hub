@@ -6,7 +6,7 @@ const EXAMPLES = [
   { icon: "📊", label: "Business Plans", href: "/ai-generators/business-plan" },
   { icon: "🃏", label: "Study Materials", href: "/ai-generators/flashcard" },
   { icon: "⚖️", label: "Legal Docs", href: "/toolkits/compliance-toolkit" },
-  { icon: "💻", label: "Code Scripts", href: "/toolkits/developers-toolkit" },
+  { icon: "💻", label: "SQL Queries", href: "/ai-generators/sql-query" },
 ];
 
 export default function WhatYouCanCreate() {
