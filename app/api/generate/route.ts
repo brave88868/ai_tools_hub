@@ -4,33 +4,33 @@ export async function POST(req: NextRequest) {
   try {
     const { prompt, systemPrompt } = await req.json();
 
-    const apiKey = process.env.ANTHROPIC_API_KEY;
+    const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
-      console.error("ANTHROPIC_API_KEY is not set");
       return NextResponse.json(
         { text: "AI service unavailable. Please try the full tool." },
         { status: 200 }
       );
     }
 
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
+        "Authorization": `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "claude-haiku-4-5-20251001",
+        model: "gpt-4o-mini",
         max_tokens: 400,
-        system: systemPrompt ?? "You are a helpful assistant.",
-        messages: [{ role: "user", content: prompt }],
+        messages: [
+          { role: "system", content: systemPrompt ?? "You are a helpful assistant." },
+          { role: "user", content: prompt },
+        ],
       }),
     });
 
     if (!response.ok) {
       const err = await response.text();
-      console.error("Anthropic API error:", err);
+      console.error("OpenAI API error:", err);
       return NextResponse.json(
         { text: "Generation failed. Please try the full tool." },
         { status: 200 }
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await response.json();
-    const text = data.content?.[0]?.text ?? "No output generated.";
+    const text = data.choices?.[0]?.message?.content ?? "No output generated.";
     return NextResponse.json({ text });
   } catch (error) {
     console.error("Route error:", error);
