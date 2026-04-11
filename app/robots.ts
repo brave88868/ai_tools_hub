@@ -9,6 +9,9 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/dashboard", "/admin"],
       },
     ],
-    sitemap: "https://www.aitoolsstation.com/sitemap-index.xml",
+    sitemap: [
+      "https://www.aitoolsstation.com/sitemap-index.xml",
+      "https://www.aitoolsstation.com/sitemap-generators.xml",
+    ],
   };
 }
