@@ -16,17 +16,24 @@ export async function GET() {
     { data: generators },
     { data: useCasePages },
     { data: promptPages },
-    { data: templatePages },
     { data: comparisons },
     { data: alternatives },
   ] = await Promise.all([
     admin.from("generators").select("slug").eq("is_active", true).range(0, 49999),
     admin.from("use_case_pages").select("slug").eq("is_active", true).range(0, 49999),
     admin.from("prompt_pages").select("slug").eq("is_active", true).range(0, 49999),
-    admin.from("template_pages").select("slug").eq("is_active", true).range(0, 49999),
     admin.from("seo_comparisons").select("slug").not("content", "is", null).range(0, 49999),
     admin.from("seo_alternatives").select("slug").not("content", "is", null).range(0, 49999),
   ]);
+
+  // template_pages may not exist — graceful fallback
+  let templatePages: { slug: string }[] = [];
+  try {
+    const { data } = await admin.from("template_pages").select("slug").eq("is_active", true).range(0, 49999);
+    templatePages = data ?? [];
+  } catch {
+    templatePages = [];
+  }
 
   const entries: string[] = [];
 
