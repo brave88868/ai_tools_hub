@@ -122,7 +122,7 @@ export default async function AlternativesPage({ params }: Props) {
             ))}
           </div>
           <div className="mt-4 text-center">
-            <Link href="/pricing" className="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
+            <Link href="/toolkits" className="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
               View pricing →
             </Link>
           </div>

@@ -158,7 +158,7 @@ export default async function SlugPage({ params }: Props) {
             <Link href="/toolkits" className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
               Browse AI Tools →
             </Link>
-            <Link href="/pricing" className="border border-indigo-200 text-indigo-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-50 transition-colors">
+            <Link href="/toolkits" className="border border-indigo-200 text-indigo-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-50 transition-colors">
               View Pricing
             </Link>
           </div>
@@ -254,7 +254,7 @@ export default async function SlugPage({ params }: Props) {
               ))}
             </div>
             <div className="mt-4 text-center">
-              <Link href="/pricing" className="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
+              <Link href="/toolkits" className="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
                 View pricing →
               </Link>
             </div>

@@ -119,7 +119,7 @@ export default async function ComparePage({ params }: Props) {
             <Link href="/toolkits" className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
               Browse AI Tools →
             </Link>
-            <Link href="/pricing" className="border border-indigo-200 text-indigo-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-50 transition-colors">
+            <Link href="/toolkits" className="border border-indigo-200 text-indigo-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-50 transition-colors">
               View Pricing
             </Link>
           </div>

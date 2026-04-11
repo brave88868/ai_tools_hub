@@ -144,7 +144,7 @@ export default async function DashboardPage({
         {[
           { label: "Browse Tools", href: "/toolkits" },
           { label: "Invite Friends", href: "/dashboard/referrals" },
-          { label: "View Pricing", href: "/pricing" },
+          { label: "View Pricing", href: "/toolkits" },
         ].map(({ label, href }) => (
           <Link
             key={label}

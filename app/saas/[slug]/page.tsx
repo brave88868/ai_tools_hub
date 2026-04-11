@@ -206,7 +206,7 @@ export default async function SaasLandingPage({ params }: Props) {
               Try for Free →
             </Link>
             <Link
-              href="/pricing"
+              href="/toolkits"
               className="border-2 border-white text-white font-semibold px-8 py-3 rounded-xl hover:bg-white/10 transition-colors"
             >
               View Pricing
@@ -309,7 +309,7 @@ export default async function SaasLandingPage({ params }: Props) {
                 </ul>
               </div>
               <Link
-                href="/pricing"
+                href="/toolkits"
                 className="block text-center bg-white text-indigo-700 font-semibold py-2.5 rounded-xl hover:bg-indigo-50 transition-colors mt-auto"
               >
                 Upgrade to Pro

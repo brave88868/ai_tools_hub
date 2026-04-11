@@ -41,7 +41,7 @@ export default async function HomePage({
         <Link href="/toolkits">AI Toolkits</Link>
         <Link href="/use-cases">Use Cases</Link>
         <Link href="/blog">Blog</Link>
-        <Link href="/pricing">Pricing</Link>
+        <Link href="/toolkits">Pricing</Link>
         <Link href="/features">Features</Link>
         <Link href="/sitemap-index.xml">Sitemap</Link>
       </nav>

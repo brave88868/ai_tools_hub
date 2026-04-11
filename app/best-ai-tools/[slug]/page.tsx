@@ -95,7 +95,7 @@ export default async function BestAiToolsPage({ params }: Props) {
             Browse AI Tools →
           </Link>
           <Link
-            href="/pricing"
+            href="/toolkits"
             className="border border-indigo-200 text-indigo-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-50 transition-colors"
           >
             View Pricing

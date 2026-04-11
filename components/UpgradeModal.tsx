@@ -48,11 +48,11 @@ export default function UpgradeModal({ onClose, toolkitSlug, isLoggedIn = false,
       if (data.url) {
         window.location.href = data.url;
       } else {
-        router.push(toolkitSlug ? `/pricing?toolkit=${toolkitSlug}` : "/pricing");
+        router.push(toolkitSlug ? `/toolkits?toolkit=${toolkitSlug}` : "/toolkits");
         onClose();
       }
     } catch {
-      router.push(toolkitSlug ? `/pricing?toolkit=${toolkitSlug}` : "/pricing");
+      router.push(toolkitSlug ? `/toolkits?toolkit=${toolkitSlug}` : "/toolkits");
       onClose();
     } finally {
       setLoading(false);

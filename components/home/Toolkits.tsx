@@ -49,7 +49,7 @@ export default async function Toolkits() {
             <div className="flex items-center gap-4">
               <span className="text-white font-bold text-2xl">${bundlePrice}<span className="text-base font-normal text-white/70">/mo</span></span>
               <Link
-                href="/pricing"
+                href="/toolkits"
                 className="bg-white text-indigo-600 font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-indigo-50 transition-colors"
               >
                 Get Bundle →

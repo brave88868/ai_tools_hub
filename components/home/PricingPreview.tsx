@@ -69,7 +69,7 @@ export default async function PricingPreview() {
               ))}
             </ul>
             <Link
-              href="/pricing"
+              href="/toolkits"
               className="block text-center bg-white text-indigo-700 font-semibold py-3 rounded-xl hover:bg-indigo-50 transition-colors"
             >
               View All Plans →

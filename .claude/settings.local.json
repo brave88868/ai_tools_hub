@@ -67,7 +67,13 @@
       "Bash(echo \"Exit: $?\")",
       "Bash(ls:*)",
       "Bash(echo \"TSC exit: $?\")",
-      "Bash(echo \"TSC: $?\")"
+      "Bash(echo \"TSC: $?\")",
+      "Bash(tsc --noEmit)",
+      "Bash(./node_modules/.bin/tsc --noEmit)",
+      "Bash(npx vercel:*)",
+      "Bash(sed -i 's|href: \"/pricing\"|href: \"/toolkits\"|g' app/dashboard/page.tsx)",
+      "Bash(sed -i 's|`/pricing?toolkit=${toolkitSlug}`|`/toolkits?toolkit=${toolkitSlug}`|g' components/UpgradeModal.tsx)",
+      "Bash(sed -i 's|\"/pricing\"|\"/toolkits\"|g' components/UpgradeModal.tsx)"
     ]
   }
 }

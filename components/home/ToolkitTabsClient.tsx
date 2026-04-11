@@ -20,9 +20,11 @@ interface Props {
   groups: Group[];
   toolkitMap: Record<string, ToolkitItem>;
   limit?: number;
+  onSubscribe?: (slug: string) => void;
+  subscribingSlug?: string | null;
 }
 
-export default function ToolkitTabsClient({ groups, toolkitMap, limit = 100 }: Props) {
+export default function ToolkitTabsClient({ groups, toolkitMap, limit = 100, onSubscribe, subscribingSlug }: Props) {
   const [activeGroup, setActiveGroup] = useState(0);
   const [openAccordion, setOpenAccordion] = useState<number | null>(0);
 
@@ -65,9 +67,25 @@ export default function ToolkitTabsClient({ groups, toolkitMap, limit = 100 }: P
                 <p className="text-xs text-gray-700 leading-relaxed mb-3 line-clamp-1">
                   {kit.description}
                 </p>
-                <span className="text-xs font-medium text-indigo-500 group-hover:text-indigo-700 transition-colors">
-                  Open Toolkit →
-                </span>
+                <div className="flex items-center justify-between mt-auto pt-2 border-t border-gray-100">
+                  <span className="text-xs font-medium text-indigo-500 group-hover:text-indigo-700 transition-colors">
+                    Open Toolkit →
+                  </span>
+                  {onSubscribe && (
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-gray-800">
+                        ${kit.price_monthly ?? 9}<span className="text-xs font-normal text-gray-400">/mo</span>
+                      </span>
+                      <button
+                        onClick={(e) => { e.preventDefault(); onSubscribe(slug); }}
+                        disabled={subscribingSlug === slug}
+                        className="bg-indigo-600 text-white text-xs font-semibold px-2.5 py-1 rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-60"
+                      >
+                        {subscribingSlug === slug ? "…" : "Subscribe"}
+                      </button>
+                    </div>
+                  )}
+                </div>
               </Link>
             );
           })}

@@ -75,7 +75,7 @@ export default function SubscriptionList({ subscriptions }: { subscriptions: Sub
       <div className="border border-dashed border-gray-200 rounded-xl p-8 text-center">
         <p className="text-gray-600 text-sm mb-4">No active subscriptions yet.</p>
         <Link
-          href="/pricing"
+          href="/toolkits"
           className="inline-block bg-black text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-800 transition-colors"
         >
           View Plans →

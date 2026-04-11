@@ -118,9 +118,21 @@ export default function ToolkitsPage() {
         </div>
       </div>
 
+      {/* Pricing info */}
+      <p className="text-center text-sm text-gray-500 mb-4">
+        Individual toolkits from <strong className="text-gray-700">$9/mo</strong> ·{" "}
+        All toolkits bundle <strong className="text-gray-700">$49/mo</strong> ·{" "}
+        Cancel anytime
+      </p>
+
       {/* Grouped Tabs */}
       {regular.length > 0 && (
-        <ToolkitTabsClient groups={GROUPS} toolkitMap={toolkitMap} />
+        <ToolkitTabsClient
+          groups={GROUPS}
+          toolkitMap={toolkitMap}
+          onSubscribe={handleSubscribe}
+          subscribingSlug={subscribingSlug}
+        />
       )}
     </main>
   );
