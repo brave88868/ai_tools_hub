@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Hero from "@/components/home/Hero";
 import WhatYouCanCreate from "@/components/home/WhatYouCanCreate";
-import PopularGenerators from "@/components/home/PopularGenerators";
 import ToolkitsByGroup from "@/components/home/ToolkitsByGroup";
 import TrustSection from "@/components/home/TrustSection";
 import FinalCTA from "@/components/home/FinalCTA";
@@ -32,7 +31,6 @@ export default async function HomePage({
       )}
       <Hero />
       <WhatYouCanCreate />
-      <PopularGenerators />
       <ToolkitsByGroup />
       <TrustSection />
       <FinalCTA />
