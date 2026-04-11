@@ -1,7 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
+
+const SORT_OPTIONS = [
+  { label: "⭐ Most Popular", value: "popular" },
+  { label: "🆕 New", value: "new" },
+] as const;
+
+type SortOption = typeof SORT_OPTIONS[number]["value"];
 
 // Fixed display order for filter tabs (DB values as keys)
 const FILTER_ORDER = [
@@ -54,16 +61,21 @@ interface Props {
 
 export default function GeneratorsGrid({ generators }: Props) {
   const [active, setActive] = useState("all");
+  const [sort, setSort] = useState<SortOption>("popular");
 
   // Fixed order; only show categories that actually exist in data
   const categories = FILTER_ORDER.filter(
     (c) => c === "all" || generators.some((g) => (g.category ?? "other") === c)
   );
 
-  const filtered =
-    active === "all"
-      ? generators
-      : generators.filter((g) => (g.category ?? "other") === active);
+  const filtered = useMemo(() => {
+    const base =
+      active === "all"
+        ? generators
+        : generators.filter((g) => (g.category ?? "other") === active);
+    if (sort === "new") return [...base].reverse();
+    return base;
+  }, [generators, active, sort]);
 
   return (
     <>
@@ -86,8 +98,26 @@ export default function GeneratorsGrid({ generators }: Props) {
         </div>
       </div>
 
+      {/* Sort Pills */}
+      <div className="max-w-6xl mx-auto px-4 pt-4 pb-1 flex items-center gap-2">
+        <span className="text-xs text-gray-400 font-medium">Sort:</span>
+        {SORT_OPTIONS.map((opt) => (
+          <button
+            key={opt.value}
+            onClick={() => setSort(opt.value)}
+            className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+              sort === opt.value
+                ? "bg-indigo-100 text-indigo-700 border border-indigo-200"
+                : "bg-white border border-gray-200 text-gray-600 hover:border-gray-300"
+            }`}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
+
       {/* Generator Grid */}
-      <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {filtered.map((gen) => (
             <Link

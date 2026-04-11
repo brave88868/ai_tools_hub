@@ -63,19 +63,26 @@ export default async function BlogPage({ searchParams }: Props) {
         <p className="text-gray-700 text-sm">AI tool guides, tips, and tutorials.</p>
       </div>
 
-      {/* Compare & Alternatives entry cards */}
-      <div className="flex flex-wrap gap-3 mb-6">
+      {/* SEO Topic Pills */}
+      <div className="flex flex-wrap items-center gap-2 mb-5">
+        <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Topics:</span>
         <Link
           href="/compare/ai-resume-generator-vs-chatgpt"
-          className="inline-flex items-center gap-2 border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-sm transition-all bg-white"
+          className="px-3 py-1 bg-gray-100 hover:bg-indigo-50 border border-gray-200 hover:border-indigo-300 rounded-full text-xs font-medium text-gray-700 hover:text-indigo-700 transition-colors"
         >
-          ⚖️ AI Tool Comparisons →
+          ⚖️ AI Tool Comparisons
         </Link>
         <Link
           href="/alternatives/jasper-ai-alternatives"
-          className="inline-flex items-center gap-2 border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-sm transition-all bg-white"
+          className="px-3 py-1 bg-gray-100 hover:bg-indigo-50 border border-gray-200 hover:border-indigo-300 rounded-full text-xs font-medium text-gray-700 hover:text-indigo-700 transition-colors"
         >
-          🔄 AI Alternatives →
+          🔄 AI Alternatives
+        </Link>
+        <Link
+          href="/use-cases"
+          className="px-3 py-1 bg-gray-100 hover:bg-indigo-50 border border-gray-200 hover:border-indigo-300 rounded-full text-xs font-medium text-gray-700 hover:text-indigo-700 transition-colors"
+        >
+          🎯 Use Cases
         </Link>
       </div>
 

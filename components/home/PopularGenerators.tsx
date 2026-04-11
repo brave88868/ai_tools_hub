@@ -30,33 +30,6 @@ const DEMOS = [
     defaultInput: "AI-powered online tutoring platform for K-12 students with personalized learning paths",
     systemPrompt: "You are a business consultant. Write a concise executive summary (3-4 sentences) for the business idea. Include the problem, solution, target market, and key differentiator. Be professional and investor-ready.",
   },
-  {
-    slug: "flashcard",
-    icon: "🃏",
-    title: "Flashcard",
-    category: "Education",
-    placeholder: "Enter a topic or paste your notes...\ne.g. Photosynthesis - biology chapter",
-    defaultInput: "Photosynthesis process in plants - biology",
-    systemPrompt: "You are a study assistant. Generate 3 flashcard Q&A pairs for the topic provided. Format as:\nQ: [question]\nA: [answer]\n\nKeep answers concise (1-2 sentences). Cover the most important concepts.",
-  },
-  {
-    slug: "youtube-title",
-    icon: "🎬",
-    title: "YouTube Title",
-    category: "Creator",
-    placeholder: "Describe your video topic...\ne.g. How to learn React in 30 days",
-    defaultInput: "Tutorial on how to learn React in 30 days as a beginner",
-    systemPrompt: "You are a YouTube SEO expert. Generate 3 high-CTR YouTube title options for the video described. Make them curiosity-driven, specific, and searchable. Number them 1, 2, 3. No extra explanation.",
-  },
-  {
-    slug: "twitter-thread",
-    icon: "🐦",
-    title: "Twitter Thread",
-    category: "Creator",
-    placeholder: "Describe your thread topic...\ne.g. Growth marketing tips for SaaS startups",
-    defaultInput: "Growth marketing tips for SaaS startups",
-    systemPrompt: "You are a Twitter/X content expert. Write a 3-tweet thread starter on the topic provided. Format as:\n1/ [hook tweet]\n2/ [key insight]\n3/ [actionable takeaway]\n\nKeep each tweet under 280 characters. Be punchy and valuable.",
-  },
 ];
 
 export default function PopularGenerators() {
@@ -236,6 +209,16 @@ export default function PopularGenerators() {
               Use full {demo.title} generator →
             </Link>
           </div>
+        </div>
+
+        {/* More generators link */}
+        <div className="mt-3 text-center">
+          <Link
+            href="/ai-generators"
+            className="text-sm text-gray-500 hover:text-indigo-600 transition-colors"
+          >
+            + 20 more AI generators available free →
+          </Link>
         </div>
       </div>
     </section>
