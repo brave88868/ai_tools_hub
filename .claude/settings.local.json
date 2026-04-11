@@ -66,7 +66,8 @@
       "Bash(npx --yes tsc --noEmit --skipLibCheck)",
       "Bash(echo \"Exit: $?\")",
       "Bash(ls:*)",
-      "Bash(echo \"TSC exit: $?\")"
+      "Bash(echo \"TSC exit: $?\")",
+      "Bash(echo \"TSC: $?\")"
     ]
   }
 }

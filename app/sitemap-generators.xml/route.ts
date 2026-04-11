@@ -20,12 +20,12 @@ export async function GET() {
     { data: comparisons },
     { data: alternatives },
   ] = await Promise.all([
-    admin.from("generators").select("slug").eq("is_active", true),
-    admin.from("use_case_pages").select("slug").eq("is_active", true).limit(2000),
-    admin.from("prompt_pages").select("slug").eq("is_active", true).limit(2000),
-    admin.from("template_pages").select("slug").eq("is_active", true).limit(2000),
-    admin.from("seo_comparisons").select("slug").not("content", "is", null).limit(5000),
-    admin.from("seo_alternatives").select("slug").not("content", "is", null).limit(5000),
+    admin.from("generators").select("slug").eq("is_active", true).range(0, 49999),
+    admin.from("use_case_pages").select("slug").eq("is_active", true).range(0, 49999),
+    admin.from("prompt_pages").select("slug").eq("is_active", true).range(0, 49999),
+    admin.from("template_pages").select("slug").eq("is_active", true).range(0, 49999),
+    admin.from("seo_comparisons").select("slug").not("content", "is", null).range(0, 49999),
+    admin.from("seo_alternatives").select("slug").not("content", "is", null).range(0, 49999),
   ]);
 
   const entries: string[] = [];

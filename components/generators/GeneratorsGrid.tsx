@@ -3,29 +3,40 @@
 import { useState } from "react";
 import Link from "next/link";
 
-// Keys match actual DB category values
+// Fixed display order for filter tabs (DB values as keys)
+const FILTER_ORDER = [
+  "all",
+  "job-seekers",
+  "marketing",
+  "business",
+  "creators",
+  "developers",
+  "education",
+  "legal",
+  "productivity",
+] as const;
+
 const CATEGORY_LABELS: Record<string, string> = {
   all:           "All",
+  "job-seekers": "Career",
   marketing:     "Marketing",
-  education:     "Education",
   business:      "Business",
-  creators:      "Creators",
-  developers:    "Developers",
+  creators:      "Creator",
+  developers:    "Developer",
+  education:     "Education",
   legal:         "Legal",
   productivity:  "Productivity",
-  "job-seekers": "Job Seekers",
-  other:         "Other",
 };
 
 const CATEGORY_ICONS: Record<string, string> = {
+  "job-seekers": "💼",
   marketing:     "📣",
-  education:     "🎓",
   business:      "📊",
   creators:      "🎬",
   developers:    "💻",
+  education:     "🎓",
   legal:         "⚖️",
   productivity:  "⚡",
-  "job-seekers": "💼",
   other:         "🤖",
 };
 
@@ -44,10 +55,10 @@ interface Props {
 export default function GeneratorsGrid({ generators }: Props) {
   const [active, setActive] = useState("all");
 
-  const categories = [
-    "all",
-    ...Array.from(new Set(generators.map((g) => g.category ?? "other"))),
-  ];
+  // Fixed order; only show categories that actually exist in data
+  const categories = FILTER_ORDER.filter(
+    (c) => c === "all" || generators.some((g) => (g.category ?? "other") === c)
+  );
 
   const filtered =
     active === "all"
