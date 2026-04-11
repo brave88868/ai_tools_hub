@@ -1,4 +1,5 @@
 import Link from "next/link";
+import HeroDemoEmbed from "@/components/home/HeroDemoEmbed";
 
 export default function Hero() {
   return (
@@ -39,30 +40,8 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right: Demo Preview */}
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-5">
-            <div className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Live Demo</div>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-gray-50 rounded-xl p-3">
-                <div className="text-xs text-gray-400 mb-2">📝 Your Input</div>
-                <div className="text-sm text-gray-600 leading-relaxed">
-                  &quot;Software engineer with 5 years experience in React and Node.js&quot;
-                </div>
-              </div>
-              <div className="bg-indigo-50 rounded-xl p-3">
-                <div className="text-xs text-indigo-400 mb-2">✨ AI Output</div>
-                <div className="text-sm text-gray-700 leading-relaxed">
-                  Results-driven software engineer with 5+ years building scalable web applications...
-                </div>
-              </div>
-            </div>
-            <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
-              <span className="text-xs text-gray-400">AI Resume Generator</span>
-              <Link href="/ai-generators/resume" className="text-xs font-medium text-indigo-600 hover:text-indigo-800">
-                Try free →
-              </Link>
-            </div>
-          </div>
+          {/* Right: Interactive Demo */}
+          <HeroDemoEmbed />
 
         </div>
       </div>

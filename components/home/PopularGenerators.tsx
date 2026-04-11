@@ -55,11 +55,11 @@ export default function PopularGenerators() {
     setOutput("");
 
     try {
-      const res = await fetch("/api/demo/generate", {
+      const res = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         signal: abortRef.current.signal,
-        body: JSON.stringify({ input, systemPrompt: demo.systemPrompt }),
+        body: JSON.stringify({ prompt: input, systemPrompt: demo.systemPrompt }),
       });
       const data = await res.json();
       const text: string = data.text ?? "Something went wrong. Please try the full tool below.";
