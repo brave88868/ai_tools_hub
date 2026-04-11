@@ -57,7 +57,7 @@ export default async function ToolkitsByGroup() {
             All toolkits →
           </Link>
         </div>
-        <ToolkitTabsClient groups={GROUPS} toolkitMap={toolkitMap} />
+        <ToolkitTabsClient groups={GROUPS} toolkitMap={toolkitMap} limit={3} />
       </div>
     </section>
   );

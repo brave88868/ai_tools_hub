@@ -19,9 +19,10 @@ interface Group {
 interface Props {
   groups: Group[];
   toolkitMap: Record<string, ToolkitItem>;
+  limit?: number;
 }
 
-export default function ToolkitTabsClient({ groups, toolkitMap }: Props) {
+export default function ToolkitTabsClient({ groups, toolkitMap, limit = 100 }: Props) {
   const [activeGroup, setActiveGroup] = useState(0);
   const [openAccordion, setOpenAccordion] = useState<number | null>(0);
 
@@ -47,7 +48,7 @@ export default function ToolkitTabsClient({ groups, toolkitMap }: Props) {
       {/* Desktop Panel */}
       <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-4">
         {groups[activeGroup].slugs
-          .slice(0, 3)
+          .slice(0, limit)
           .filter((slug) => toolkitMap[slug])
           .map((slug) => {
             const kit = toolkitMap[slug];
