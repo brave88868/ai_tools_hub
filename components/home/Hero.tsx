@@ -59,8 +59,8 @@ export default function Hero() {
                     desc: "Type your background, product, or topic." },
                   { step: "2", icon: "⚡", title: "AI generates instantly",
                     desc: "Professional content ready in under 30 seconds." },
-                  { step: "3", icon: "✅", title: "Copy and use",
-                    desc: "Edit and apply directly to your work." },
+                  { step: "3", icon: "✅", title: "Copy or download to use",
+                    desc: "Edit, copy, or download and apply directly to your work." },
                 ].map((item) => (
                   <div key={item.step} className="flex items-start gap-3">
                     <div className="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs
