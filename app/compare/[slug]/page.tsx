@@ -99,8 +99,10 @@ export default async function ComparePage({ params }: Props) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
         <main className="max-w-3xl mx-auto px-4 py-10">
-          <nav className="text-xs text-gray-400 mb-6 flex items-center gap-1.5">
+          <nav className="text-xs text-gray-400 mb-6 flex items-center gap-1.5 flex-wrap">
             <Link href="/" className="hover:text-gray-600">Home</Link>
+            <span>/</span>
+            <Link href="/ai-generators" className="hover:text-gray-600">AI Generators</Link>
             <span>/</span>
             <Link href="/compare" className="hover:text-gray-600">Compare</Link>
             <span>/</span>

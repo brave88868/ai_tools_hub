@@ -81,10 +81,12 @@ export default async function AlternativesPage({ params }: Props) {
 
       <main className="max-w-3xl mx-auto px-4 py-10">
         {/* Breadcrumb */}
-        <nav className="text-xs text-gray-400 mb-6 flex items-center gap-1.5">
+        <nav className="text-xs text-gray-400 mb-6 flex items-center gap-1.5 flex-wrap">
           <Link href="/" className="hover:text-gray-600">Home</Link>
           <span>/</span>
-          <Link href="/toolkits" className="hover:text-gray-600">Tools</Link>
+          <Link href="/ai-generators" className="hover:text-gray-600">AI Generators</Link>
+          <span>/</span>
+          <Link href="/alternatives/jasper-ai-alternatives" className="hover:text-gray-600">Alternatives</Link>
           <span>/</span>
           <span className="text-gray-600 truncate">{data.tool_name} Alternatives</span>
         </nav>

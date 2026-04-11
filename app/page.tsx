@@ -3,10 +3,10 @@ import Link from "next/link";
 import Hero from "@/components/home/Hero";
 import SocialProof from "@/components/home/SocialProof";
 import ValuePillars from "@/components/home/ValuePillars";
-import PopularTools from "@/components/home/PopularTools";
-import PopularGenerators from "@/components/home/PopularGenerators";
 import ToolkitsByGroup from "@/components/home/ToolkitsByGroup";
-import ExampleResults from "@/components/home/ExampleResults";
+import PopularGenerators from "@/components/home/PopularGenerators";
+import PopularTools from "@/components/home/PopularTools";
+import FinalCTA from "@/components/home/FinalCTA";
 
 export const metadata: Metadata = {
   title: "AI Tools Station — 600+ Free AI Tools for Real Workflows",
@@ -33,11 +33,11 @@ export default async function HomePage({
       )}
       <Hero />
       <SocialProof />
-      <ToolkitsByGroup />
       <ValuePillars />
-      <ExampleResults />
+      <ToolkitsByGroup />
       <PopularGenerators />
       <PopularTools />
+      <FinalCTA />
 
       {/* Hidden nav for Google crawl discovery — not visible to users */}
       <nav aria-label="Site sections" className="sr-only">

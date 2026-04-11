@@ -98,7 +98,7 @@ export default async function BlogPage({ searchParams }: Props) {
 
       {hasArticles ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
             {articles.map((article) => (
               <Link
                 key={article.slug}

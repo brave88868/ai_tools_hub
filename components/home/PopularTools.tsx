@@ -65,8 +65,8 @@ export default async function PopularTools() {
   }
 
   return (
-    <section className="max-w-6xl mx-auto px-4 pt-4 pb-8">
-      <div className="flex items-center justify-between mb-5">
+    <section className="max-w-6xl mx-auto px-4 py-6">
+      <div className="flex items-center justify-between mb-4">
         <div>
           <h2 className="text-2xl font-bold text-gray-900 mb-1 border-l-4 border-indigo-500 pl-3">Popular AI Tools</h2>
           <p className="text-gray-700 text-sm">Most used across our community</p>
@@ -80,14 +80,14 @@ export default async function PopularTools() {
           </Link>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {tools.map((tool) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        {tools.slice(0, 6).map((tool) => (
           <div
             key={tool.slug}
-            className="border border-gray-100 rounded-2xl p-5 hover:border-indigo-200 hover:shadow-md hover:shadow-indigo-50 hover:-translate-y-0.5 transition-all group"
+            className="border border-gray-100 rounded-xl p-3 hover:border-indigo-200 hover:shadow-md hover:shadow-indigo-50 hover:-translate-y-0.5 transition-all group"
           >
-            <div className="flex items-start justify-between mb-3">
-              <div className="w-9 h-9 bg-gradient-to-br from-indigo-100 to-violet-100 rounded-lg flex items-center justify-center text-base">
+            <div className="flex items-start justify-between mb-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-indigo-100 to-violet-100 rounded-lg flex items-center justify-center text-sm">
                 {TOOLKIT_ICON[tool.toolkitSlug] ?? "🤖"}
               </div>
               <span className="text-xs text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full">Free</span>
@@ -95,7 +95,7 @@ export default async function PopularTools() {
             <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors">
               {tool.name}
             </h3>
-            <p className="text-xs text-gray-700 leading-relaxed mb-3 line-clamp-1">{tool.description}</p>
+            <p className="text-xs text-gray-700 leading-relaxed mb-2 line-clamp-1">{tool.description}</p>
             <Link href={`/tools/${tool.slug}`} className="text-xs font-medium text-indigo-500 hover:text-indigo-700 transition-colors">
               Use Tool →
             </Link>

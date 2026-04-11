@@ -61,7 +61,11 @@
       "Bash(echo \"EXIT:$?\")",
       "Bash(npx --yes tsc --noEmit)",
       "Bash(node_modules/.bin/tsc --noEmit)",
-      "Bash(echo \"EXIT: $?\")"
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(echo \"TSC:$?\")",
+      "Bash(npx --yes tsc --noEmit --skipLibCheck)",
+      "Bash(echo \"Exit: $?\")",
+      "Bash(ls:*)"
     ]
   }
 }

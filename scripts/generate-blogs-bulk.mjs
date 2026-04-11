@@ -122,22 +122,22 @@ async function openaiChat(prompt) {
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 const startTime = Date.now();
-console.log(`\n📝 Blog bulk generator — target: ${TARGET} posts, concurrency: ${CONCURRENCY}\n`);
+console.log(`\n📝 Blog bulk generator �?target: ${TARGET} posts, concurrency: ${CONCURRENCY}\n`);
 
 // Load current blog slugs (dedup)
 const existingBlogs = await sbGet("/blog_posts?select=slug&limit=500");
-const existingSlugs = new Set((existingBlogs ?? []).map((b) => b.slug));
-console.log(`✓ Existing blogs: ${existingSlugs.size}`);
+const existingSlugs = new Set((Array.isArray(existingBlogs) ? existingBlogs : []).map((b) => b.slug));
+console.log(`�?Existing blogs: ${existingSlugs.size}`);
 
 // Load pending seo_keywords
 const pendingKw = await sbGet(
   `/seo_keywords?select=id,keyword,toolkit_slug&status=eq.pending&limit=200`
 );
-console.log(`✓ Pending seo_keywords: ${pendingKw.length}`);
+const safeKw = Array.isArray(pendingKw) ? pendingKw : []; console.log(`? Pending seo_keywords: ${safeKw.length}`);
 
 // Build topic list: keywords first, then fallbacks
 const topics = [];
-for (const kw of pendingKw) {
+for (const kw of safeKw) {
   topics.push({ keyword: kw.keyword, kwId: kw.id });
 }
 for (const t of FALLBACK_TOPICS) {
@@ -147,7 +147,7 @@ for (const t of FALLBACK_TOPICS) {
   }
 }
 const workList = topics.slice(0, TARGET);
-console.log(`✓ Work list: ${workList.length} topics\n`);
+console.log(`�?Work list: ${workList.length} topics\n`);
 
 const results = { generated: 0, skipped: 0 };
 
@@ -183,11 +183,11 @@ Return ONLY valid JSON:
 
     results.generated++;
     console.log(
-      `  ✓ [${results.generated}/${workList.length}] "${(article.title ?? keyword).slice(0, 60)}"`
+      `  �?[${results.generated}/${workList.length}] "${(article.title ?? keyword).slice(0, 60)}"`
     );
   } catch (err) {
     results.skipped++;
-    console.error(`  ✗ skip "${keyword.slice(0, 50)}": ${err.message?.slice(0, 80)}`);
+    console.error(`  �?skip "${keyword.slice(0, 50)}": ${err.message?.slice(0, 80)}`);
   }
 }
 
@@ -199,6 +199,13 @@ for (let i = 0; i < workList.length; i += CONCURRENCY) {
 
 const totalSec = ((Date.now() - startTime) / 1000).toFixed(1);
 console.log(
-  `\n✅ Done in ${totalSec}s — generated: ${results.generated}, skipped: ${results.skipped}`
+  `\n�?Done in ${totalSec}s �?generated: ${results.generated}, skipped: ${results.skipped}`
 );
 console.log(`   Total blogs now: ~${existingSlugs.size}`);
+
+
+
+
+
+
+

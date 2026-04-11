@@ -25,12 +25,12 @@ export default function Footer() {
           <div>
             <h3 className="text-sm font-semibold text-gray-900 mb-3">Popular AI Generators</h3>
             <ul className="space-y-2 text-xs text-gray-600">
-              <li><Link href="/tools/resume-optimizer" className="hover:text-gray-900">AI Resume Generator</Link></li>
-              <li><Link href="/tools/flashcard-generator" className="hover:text-gray-900">AI Flashcard Generator</Link></li>
-              <li><Link href="/tools/business-plan-generator" className="hover:text-gray-900">AI Business Plan Generator</Link></li>
-              <li><Link href="/tools/proposal-generator" className="hover:text-gray-900">AI Proposal Generator</Link></li>
-              <li><Link href="/tools/marketing-copy-generator" className="hover:text-gray-900">AI Marketing Copy Generator</Link></li>
-              <li><Link href="/tools/email-generator" className="hover:text-gray-900">AI Email Generator</Link></li>
+              <li><Link href="/ai-generators/resume" className="hover:text-gray-900">AI Resume Generator</Link></li>
+              <li><Link href="/ai-generators/marketing-copy" className="hover:text-gray-900">AI Marketing Copy Generator</Link></li>
+              <li><Link href="/ai-generators/business-plan" className="hover:text-gray-900">AI Business Plan Generator</Link></li>
+              <li><Link href="/ai-generators/flashcard" className="hover:text-gray-900">AI Flashcard Generator</Link></li>
+              <li><Link href="/ai-generators/email" className="hover:text-gray-900">AI Email Generator</Link></li>
+              <li><Link href="/ai-generators/youtube-title" className="hover:text-gray-900">AI YouTube Title Generator</Link></li>
             </ul>
           </div>
           <div>

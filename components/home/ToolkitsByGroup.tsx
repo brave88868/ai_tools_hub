@@ -43,23 +43,21 @@ export default async function ToolkitsByGroup() {
   );
 
   return (
-    <section className="pt-6 pb-2 px-4 bg-white">
+    <section className="py-8 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
-        <div className="flex items-baseline gap-3 mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 border-l-4 border-indigo-500 pl-3">Explore Toolkits by Workflow</h2>
-          <span className="text-sm text-gray-500 hidden sm:inline">Find the right tools for your work</span>
-        </div>
-
-        <ToolkitTabsClient groups={GROUPS} toolkitMap={toolkitMap} />
-
-        <div className="text-center">
+        <div className="flex items-baseline gap-3 mb-5">
+          <h2 className="text-2xl font-bold text-gray-900 border-l-4 border-indigo-500 pl-3">
+            Explore by Workflow
+          </h2>
+          <span className="text-sm text-gray-400 hidden sm:inline">Find tools for your job</span>
           <Link
             href="/toolkits"
-            className="inline-flex items-center gap-2 text-base font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
+            className="ml-auto text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
           >
-            Explore all 24 toolkits →
+            All toolkits →
           </Link>
         </div>
+        <ToolkitTabsClient groups={GROUPS} toolkitMap={toolkitMap} />
       </div>
     </section>
   );
