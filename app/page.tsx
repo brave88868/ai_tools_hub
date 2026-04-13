@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "AI Tools Station — 600+ Free AI Tools for Real Workflows",
   description:
     "Generate resumes, marketing copy, YouTube scripts, business plans and more with 600+ free AI tools. Start free, no credit card required.",
+  alternates: {
+    canonical: "https://www.aitoolsstation.com",
+  },
 };
 
 export default async function HomePage({

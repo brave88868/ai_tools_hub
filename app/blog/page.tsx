@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Blog | AI Tools Station",
   description:
     "AI tool guides, tips, and tutorials. Learn how to use AI tools for resume optimization, content creation, marketing, and more.",
+  alternates: {
+    canonical: "https://www.aitoolsstation.com/blog",
+  },
 };
 
 const PAGE_SIZE = 9;
