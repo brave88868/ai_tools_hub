@@ -26,10 +26,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title,
     description,
+    alternates: {
+      canonical: `https://www.aitoolsstation.com/tools/${slug}`,
+    },
     openGraph: {
       title,
       description,
-      url: `https://aitoolsstation.com/tools/${slug}`,
+      url: `https://www.aitoolsstation.com/tools/${slug}`,
       siteName: "AI Tools Station",
       type: "website",
     },

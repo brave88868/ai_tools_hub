@@ -21,10 +21,25 @@ const nextConfig: NextConfig = {
         destination: "/alternatives/jasper-ai-alternatives",
         permanent: true,
       },
+      {
+        source: "/saas/:slug",
+        destination: "/ai-generators/:slug",
+        permanent: true,
+      },
     ];
   },
   async headers() {
     return [
+      {
+        // 首页显式 canonical header — 防止 ?ref=producthunt 等参数被 Google 当重复页
+        source: "/",
+        headers: [
+          {
+            key: "Link",
+            value: '<https://www.aitoolsstation.com>; rel="canonical"',
+          },
+        ],
+      },
       {
         // Embed 页面允许任何域名通过 iframe 嵌入
         source: "/embed/:path*",
