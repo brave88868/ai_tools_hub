@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: meta.title,
     description: meta.description,
-    alternates: { canonical: `https://aitoolsstation.com/prompts/${category}` },
+    alternates: { canonical: `https://www.aitoolsstation.com/prompts/${category}` },
   };
 }
 

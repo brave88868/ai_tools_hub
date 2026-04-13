@@ -16,6 +16,11 @@ const nextConfig: NextConfig = {
         destination: "/toolkits/exam",
         permanent: true,
       },
+      {
+        source: "/email-marketing-generator-alternatives",
+        destination: "/alternatives/jasper-ai-alternatives",
+        permanent: true,
+      },
     ];
   },
   async headers() {
