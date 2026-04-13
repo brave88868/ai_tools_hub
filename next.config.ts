@@ -22,8 +22,23 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/saas/:slug",
-        destination: "/ai-generators/:slug",
+        source: "/saas/bizplan-builder-business-plan-generator-ai",
+        destination: "/ai-generators/business-plan",
+        permanent: true,
+      },
+      {
+        source: "/saas/jobseeker-resume-builder-how-to-jobseeker",
+        destination: "/ai-generators/resume",
+        permanent: true,
+      },
+      {
+        source: "/saas/career-objective-builder-career-objective-builder-tips",
+        destination: "/ai-generators/resume",
+        permanent: true,
+      },
+      {
+        source: "/saas/privacy-policy-pro-best-privacy-policy-generator",
+        destination: "/toolkits",
         permanent: true,
       },
     ];
