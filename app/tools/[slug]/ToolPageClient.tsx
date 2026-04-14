@@ -1,0 +1,754 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { supabase } from "@/lib/supabase";
+import InputForm from "@/components/InputForm";
+import ResultPanel from "@/components/ResultPanel";
+import UpgradeModal from "@/components/UpgradeModal";
+import ReactMarkdown from "react-markdown";
+import { Document, Paragraph, TextRun, Packer, HeadingLevel } from "docx";
+import type { Tool, InputField } from "@/types";
+import FeedbackModal from "@/components/FeedbackModal";
+import UpgradeCTA from "@/components/revenue/UpgradeCTA";
+import EmailCapture from "@/components/revenue/EmailCapture";
+import { CopyButton } from "@/components/ui/CopyButton";
+
+// ── Doc tool config — only slugs that actually exist in the DB ────────────
+const DOC_TOOL_CONFIG: Record<string, {
+  splitMarker: string;   // legacy fallback marker
+  endMarker?: string;    // legacy fallback marker
+  label1: string;
+  label2: string;
+  downloadName: string;
+  primaryField: string;  // input field name containing the original document
+}> = {
+  "resume-optimizer": {
+    splitMarker: "## OPTIMIZED RESUME",
+    endMarker: "## KEYWORD ANALYSIS",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Resume Preview",
+    downloadName: "optimized-resume",
+    primaryField: "resume",
+  },
+  "linkedin-profile-optimizer": {
+    splitMarker: "## OPTIMIZED PROFILE",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized LinkedIn Profile",
+    downloadName: "optimized-linkedin-profile",
+    primaryField: "current_summary",
+  },
+  "essay-writing-feedback-generator": {
+    splitMarker: "## FEEDBACK",
+    label1: "✏️ Changes & Feedback",
+    label2: "📄 Improved Essay",
+    downloadName: "improved-essay",
+    primaryField: "essay",
+  },
+  "meta-title-description-optimizer": {
+    splitMarker: "## OPTIMIZED META",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Meta Tags",
+    downloadName: "optimized-meta",
+    primaryField: "current_meta",
+  },
+  "blog-post-seo-optimizer": {
+    splitMarker: "## OPTIMIZED BLOG POST",
+    label1: "✏️ SEO Changes Made",
+    label2: "📄 Optimized Blog Post",
+    downloadName: "optimized-blog-post",
+    primaryField: "blog_content",
+  },
+  "meeting-notes-optimizer": {
+    splitMarker: "## OPTIMIZED NOTES",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Meeting Notes",
+    downloadName: "optimized-meeting-notes",
+    primaryField: "meeting_notes",
+  },
+  "reading-notes-to-action-items-converter": {
+    splitMarker: "## ACTION ITEMS",
+    label1: "✏️ Conversion Summary",
+    label2: "📄 Action Items",
+    downloadName: "action-items",
+    primaryField: "reading_notes",
+  },
+  "board-meeting-minutes-generator": {
+    splitMarker: "## FORMATTED MINUTES",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Board Meeting Minutes",
+    downloadName: "board-meeting-minutes",
+    primaryField: "raw_minutes",
+  },
+  "meeting-notes-to-project-plan-converter": {
+    splitMarker: "## PROJECT PLAN",
+    label1: "✏️ Conversion Summary",
+    label2: "📄 Project Plan",
+    downloadName: "project-plan",
+    primaryField: "meeting_notes",
+  },
+  "email-copywriting-optimizer": {
+    splitMarker: "## OPTIMIZED EMAIL",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Email",
+    downloadName: "optimized-email",
+    primaryField: "email_content",
+  },
+  "job-posting-optimizer": {
+    splitMarker: "## OPTIMIZED JOB POSTING",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Job Posting",
+    downloadName: "optimized-job-posting",
+    primaryField: "job_posting",
+  },
+  "customer-feedback-response-optimizer": {
+    splitMarker: "## OPTIMIZED RESPONSE",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Response",
+    downloadName: "optimized-customer-response",
+    primaryField: "customer_feedback",
+  },
+  // ── Finance toolkit A-class ────────────────────────────────────────────────
+  "financial-report-optimizer": {
+    splitMarker: "## OPTIMIZED FINANCIAL REPORT",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Financial Report",
+    downloadName: "optimized-financial-report",
+    primaryField: "financial_report",
+  },
+  "investment-proposal-optimizer": {
+    splitMarker: "## OPTIMIZED INVESTMENT PROPOSAL",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Investment Proposal",
+    downloadName: "optimized-investment-proposal",
+    primaryField: "proposal_content",
+  },
+  "financial-summary-rewriter": {
+    splitMarker: "## OPTIMIZED FINANCIAL SUMMARY",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Financial Summary",
+    downloadName: "optimized-financial-summary",
+    primaryField: "original_summary",
+  },
+  // ── AI Workflow toolkit A-class ────────────────────────────────────────────
+  "ai-prompt-optimizer-pro": {
+    splitMarker: "## OPTIMIZED PROMPT",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Prompt",
+    downloadName: "optimized-prompt",
+    primaryField: "original_prompt",
+  },
+  "ai-workflow-doc-optimizer": {
+    splitMarker: "## OPTIMIZED WORKFLOW DOCUMENT",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Workflow Document",
+    downloadName: "optimized-workflow-document",
+    primaryField: "workflow_document",
+  },
+  "ai-use-case-doc-optimizer": {
+    splitMarker: "## OPTIMIZED USE CASE DOCUMENT",
+    label1: "✏️ What Changed & Why",
+    label2: "📄 Optimized Use Case Document",
+    downloadName: "optimized-use-case-document",
+    primaryField: "use_case_document",
+  },
+};
+
+// ── New structured output markers (produced by template-engine for Mode A tools) ──
+const OPTIMIZED_MARKER = "=== OPTIMIZED CONTENT ===";
+const CHANGES_MARKER = "=== CHANGES MADE ===";
+
+function parseNewFormat(output: string): { optimized: string; changes: string } | null {
+  const optimizedIdx = output.indexOf(OPTIMIZED_MARKER);
+  if (optimizedIdx === -1) return null;
+  const contentStart = optimizedIdx + OPTIMIZED_MARKER.length;
+  const changesIdx = output.indexOf(CHANGES_MARKER);
+  const optimized = changesIdx > optimizedIdx
+    ? output.slice(contentStart, changesIdx).trim()
+    : output.slice(contentStart).trim();
+  const changes = changesIdx !== -1 ? output.slice(changesIdx + CHANGES_MARKER.length).trim() : "";
+  return { optimized, changes };
+}
+
+function getSessionId(): string {
+  if (typeof window === "undefined") return "";
+  let sid = localStorage.getItem("session_id");
+  if (!sid) {
+    sid = crypto.randomUUID();
+    localStorage.setItem("session_id", sid);
+  }
+  return sid;
+}
+
+function parseDocToolOutput(output: string, splitMarker: string, endMarker?: string) {
+  const startIdx = output.indexOf(splitMarker);
+  if (startIdx === -1) return { summary: output, document: "" };
+
+  const docStart = startIdx + splitMarker.length;
+
+  if (endMarker) {
+    const endIdx = output.indexOf(endMarker, docStart);
+    if (endIdx !== -1) {
+      const beforeDoc = output.slice(0, startIdx).trim();
+      const afterDoc = output.slice(endIdx).trim();
+      const summary = [beforeDoc, afterDoc].filter(Boolean).join("\n\n");
+      const document = output.slice(docStart, endIdx).trim();
+      return { summary, document };
+    }
+  }
+
+  return {
+    summary: output.slice(0, startIdx).trim(),
+    document: output.slice(docStart).trim(),
+  };
+}
+
+async function downloadDocx(content: string, filename: string) {
+  const lines = content.split("\n");
+  const paragraphs = lines.map((line) => {
+    if (!line.trim()) return new Paragraph({ text: "" });
+    if (line.startsWith("## ")) {
+      return new Paragraph({ text: line.replace(/^##\s*/, ""), heading: HeadingLevel.HEADING_2 });
+    }
+    if (line.startsWith("# ")) {
+      return new Paragraph({ text: line.replace(/^#\s*/, ""), heading: HeadingLevel.HEADING_1 });
+    }
+    if (line.trim() === line.trim().toUpperCase() && line.trim().length > 2 && line.trim().length < 60) {
+      return new Paragraph({ text: line.trim(), heading: HeadingLevel.HEADING_2 });
+    }
+    if (line.trimStart().startsWith("- ") || line.trimStart().startsWith("• ")) {
+      return new Paragraph({
+        children: [new TextRun({ text: line.replace(/^[\s\-•]+/, ""), size: 24 })],
+        bullet: { level: 0 },
+      });
+    }
+    const boldMatch = line.match(/^\*\*(.+)\*\*$/);
+    if (boldMatch) {
+      return new Paragraph({ children: [new TextRun({ text: boldMatch[1], bold: true, size: 24 })] });
+    }
+    return new Paragraph({ children: [new TextRun({ text: line, size: 24 })] });
+  });
+
+  const doc = new Document({ sections: [{ properties: {}, children: paragraphs }] });
+  const blob = await Packer.toBlob(doc);
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${filename}.docx`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+interface Props {
+  tool: Tool;
+  slug: string;
+  initialUseCases: Array<{ slug: string; title: string | null; meta: Record<string, string> | null }>;
+  initialRelatedTools: Array<{ slug: string; name: string }>;
+}
+
+export default function ToolPageClient({ tool, slug, initialUseCases, initialRelatedTools }: Props) {
+  const searchParams = useSearchParams();
+  const isPreview = searchParams.get("preview") === "true";
+
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState("");
+  const [outputFormat, setOutputFormat] = useState<"text" | "markdown" | "json">("markdown");
+  const [error, setError] = useState("");
+  const [showUpgrade, setShowUpgrade] = useState(false);
+  const [upgradeToolkit, setUpgradeToolkit] = useState<string | undefined>();
+  const [upgradeErrorType, setUpgradeErrorType] = useState<string | undefined>();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [docExpanded, setDocExpanded] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [userRole, setUserRole] = useState<string>("");
+  const [submittedInputs, setSubmittedInputs] = useState<Record<string, string>>({});
+  const [toolUseCases] = useState(initialUseCases);
+  const [relatedTools] = useState(initialRelatedTools);
+  const [genResources, setGenResources] = useState<{ prompts: Array<{ slug: string; title: string }>; templates: Array<{ slug: string; title: string }> }>({ prompts: [], templates: [] });
+
+  // suppress unused warning for isPreview (used as a hint for admin UX)
+  void isPreview;
+
+  useEffect(() => {
+    async function loadAuth() {
+      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      setIsLoggedIn(!!currentUser);
+
+      if (currentUser) {
+        const { data: ur } = await supabase.from("users").select("role").eq("id", currentUser.id).single();
+        setUserRole(ur?.role ?? "");
+      }
+
+      // page_view 埋点（非关键，失败不影响用户体验）
+      fetch("/api/analytics/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event_type: "page_view", tool_slug: slug, metadata: { page: `/tools/${slug}` } }),
+      }).catch(() => {});
+
+      // 加载 generator 关联资源（prompt pages + template pages）
+      fetch(`/api/seo/tool-resources?tool_slug=${encodeURIComponent(slug)}`)
+        .then((r) => r.json())
+        .then((d) => {
+          if (d && (d.prompts?.length || d.templates?.length)) {
+            setGenResources({ prompts: d.prompts ?? [], templates: d.templates ?? [] });
+          }
+        })
+        .catch(() => {});
+    }
+    loadAuth();
+  }, [slug]);
+
+  async function handleSubmit(inputs: Record<string, string>) {
+    setLoading(true);
+    setResult("");
+    setError("");
+    setDocExpanded(false);
+    setSubmittedInputs(inputs);
+
+    try {
+      const sessionId = getSessionId();
+      // getUser() 向服务器验证 token，比 getSession() 更可靠（不返回过期/缓存态）
+      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      setIsLoggedIn(!!currentUser);
+      // getSession() 获取 access_token（只在确认有效 user 后使用）
+      const { data: { session } } = await supabase.auth.getSession();
+      const accessToken = currentUser ? (session?.access_token ?? "") : "";
+
+      const res = await fetch("/api/tools/run", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+        },
+        body: JSON.stringify({ tool_slug: slug, inputs, session_id: sessionId }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        if (data.error === "free_limit_reached" || data.error === "lifetime_limit_reached") {
+          setUpgradeToolkit(data.toolkit_slug);
+          setUpgradeErrorType(data.error);
+          setShowUpgrade(true);
+          return;
+        }
+        setError(data.error || "Something went wrong. Please try again.");
+        return;
+      }
+
+      setResult(data.output);
+      setOutputFormat(data.output_format ?? "markdown");
+
+      // 异步创建 UGC example 页（不阻塞用户体验）
+      const inputContext = Object.values(inputs)
+        .filter(Boolean)
+        .slice(0, 2)
+        .join(" ")
+        .substring(0, 120);
+      fetch("/api/examples/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tool_slug: slug,
+          raw_output: data.output,
+          input_context: inputContext,
+        }),
+      }).catch(() => {});
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const inputFields: InputField[] = Array.isArray(tool.inputs_schema) ? tool.inputs_schema : [];
+
+  const docConfig = DOC_TOOL_CONFIG[slug];
+  const isDocTool = !!docConfig && !!result;
+  // Try new structured format first; fallback to legacy markers if not present
+  const newFormatParts = isDocTool ? parseNewFormat(result) : null;
+  const docParts = isDocTool && !newFormatParts
+    ? parseDocToolOutput(result, docConfig.splitMarker, docConfig.endMarker)
+    : null;
+  const originalContent = isDocTool ? (submittedInputs[docConfig.primaryField] ?? "") : "";
+
+  return (
+    <div className="bg-white">
+      {showUpgrade && (
+        <UpgradeModal
+          onClose={() => setShowUpgrade(false)}
+          toolkitSlug={upgradeToolkit}
+          isLoggedIn={isLoggedIn}
+          errorType={upgradeErrorType}
+        />
+      )}
+
+      <div className="max-w-3xl mx-auto px-4 py-6 md:py-12">
+        {/* Tool Header */}
+        <div className="border-b border-gray-100 pb-6 mb-6">
+          <div className="flex items-center gap-2 text-xs text-gray-600 mb-3">
+            <a href="/toolkits" className="hover:text-gray-900">Toolkits</a>
+            <span>›</span>
+            <a href={`/toolkits/${tool.toolkits?.slug}`} className="hover:text-gray-900 capitalize">
+              {tool.toolkits?.name}
+            </a>
+            <span>›</span>
+            <span className="text-gray-800">{tool.name}</span>
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">{tool.name}</h1>
+          {tool.description && (
+            <p className="text-gray-700 text-sm">{tool.description}</p>
+          )}
+        </div>
+
+        {/* Compliance disclaimer — above form */}
+        {tool.toolkits?.slug === "compliance-toolkit" && (
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4 text-xs text-amber-700">
+            ⚠️ These tools provide general informational analysis only. They do not constitute legal, compliance, or regulatory advice. Please consult a qualified compliance professional or attorney.
+          </div>
+        )}
+
+        {/* Input Form */}
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+          {inputFields.length > 0 ? (
+            <InputForm
+              fields={inputFields}
+              onSubmit={handleSubmit}
+              loading={loading}
+              supportsFileUpload={tool.supports_file_upload ?? false}
+            />
+          ) : (
+            <p className="text-gray-600 text-sm">This tool has no input fields configured.</p>
+          )}
+        </div>
+
+        {/* Loading state */}
+        {loading && (
+          <div className="mt-6 text-center text-sm text-gray-600 animate-pulse">
+            Generating AI output...
+          </div>
+        )}
+
+        {/* Error */}
+        {error && (
+          <div className="mt-6 bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-600">
+            {error}
+          </div>
+        )}
+
+        {/* Doc tools — NEW format: side-by-side dual panel */}
+        {isDocTool && newFormatParts && docConfig && (
+          <div className="mt-6 space-y-4">
+            {/* Dual panel */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Left: original */}
+              <div className="border border-gray-200 rounded-xl p-4">
+                <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wide mb-2">Original Content</h3>
+                <div className="text-sm text-gray-800 whitespace-pre-wrap leading-relaxed max-h-96 overflow-y-auto">
+                  {originalContent || <span className="italic text-gray-600">Original not available</span>}
+                </div>
+              </div>
+              {/* Right: optimized */}
+              <div className="border border-indigo-100 rounded-xl p-4 bg-indigo-50/30">
+                <h3 className="text-xs font-semibold text-indigo-600 uppercase tracking-wide mb-2">{docConfig.label2}</h3>
+                <div className="text-sm text-gray-800 whitespace-pre-wrap leading-relaxed max-h-96 overflow-y-auto">
+                  {newFormatParts.optimized}
+                </div>
+              </div>
+            </div>
+
+            {/* Changes made */}
+            {newFormatParts.changes && (
+              <div className="border border-gray-100 rounded-xl p-4 bg-gray-50">
+                <h4 className="text-xs font-semibold text-gray-800 uppercase tracking-wide mb-2">📋 {docConfig.label1}</h4>
+                <div className="text-sm text-gray-800 whitespace-pre-wrap leading-relaxed">
+                  {newFormatParts.changes}
+                </div>
+              </div>
+            )}
+
+            {/* Footer */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(newFormatParts.optimized);
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 2000);
+                }}
+                className="flex-1 text-xs text-gray-600 border border-gray-200 rounded-lg py-2 hover:border-gray-400 transition-colors"
+              >
+                {copied ? "✓ Copied" : "Copy Optimized Text"}
+              </button>
+              <button
+                onClick={() => downloadDocx(newFormatParts.optimized, docConfig.downloadName)}
+                className="flex items-center justify-center gap-1.5 flex-1 text-xs text-indigo-600 border border-indigo-200 rounded-lg py-2 hover:bg-indigo-50 transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download Optimized (.docx)
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Doc tools — LEGACY format fallback (old splitMarker output) */}
+        {isDocTool && docParts && docConfig && (
+          <div className="mt-6 border border-gray-100 rounded-2xl overflow-hidden">
+            {/* Section 1: Analysis / summary */}
+            <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
+              <span className="text-xs font-semibold text-gray-800 uppercase tracking-wide">
+                {docConfig.label1}
+              </span>
+            </div>
+            <div className="p-4 prose prose-sm max-w-none text-gray-700">
+              <ReactMarkdown>{docParts.summary || "*No summary available.*"}</ReactMarkdown>
+            </div>
+
+            {/* Section 2: Document preview (collapsible) */}
+            <div className="border-t border-gray-100">
+              <button
+                onClick={() => setDocExpanded((v) => !v)}
+                className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors text-xs font-semibold text-gray-800 uppercase tracking-wide"
+              >
+                <span>{docConfig.label2}</span>
+                <span>{docExpanded ? "▲ Collapse" : "▼ Expand"}</span>
+              </button>
+              {docExpanded && (
+                <div className="p-4 prose prose-sm max-w-none text-gray-700 border-t border-gray-100">
+                  <ReactMarkdown>{docParts.document || "*No document content.*"}</ReactMarkdown>
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-t border-gray-100">
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(docParts.document || result);
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 2000);
+                }}
+                className="flex-1 text-xs text-gray-600 border border-gray-200 rounded-lg py-2 hover:border-gray-400 transition-colors"
+              >
+                {copied ? "✓ Copied" : "Copy Document Text"}
+              </button>
+              <button
+                onClick={() => downloadDocx(docParts.document || result, docConfig.downloadName)}
+                className="flex items-center justify-center gap-1.5 flex-1 text-xs text-indigo-600 border border-indigo-200 rounded-lg py-2 hover:bg-indigo-50 transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download .docx
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* All other tools — standard ResultPanel */}
+        {!isDocTool && result && (
+          <ResultPanel
+            result={result}
+            format={outputFormat}
+            toolSlug={slug}
+            toolName={tool.name}
+          />
+        )}
+
+        {/* Post-result CTAs */}
+        {result && !isLoggedIn && (
+          <EmailCapture toolSlug={slug} />
+        )}
+        {result && isLoggedIn && userRole === "user" && (
+          <UpgradeCTA trigger="result_page" toolName={tool.name} className="mt-4" />
+        )}
+        {/* Viral referral prompt — shown after any result for logged-in free users */}
+        {result && isLoggedIn && userRole === "user" && (
+          <div className="mt-3 flex items-center gap-3 bg-indigo-50 border border-indigo-100 rounded-xl px-4 py-3">
+            <span className="text-base">💡</span>
+            <p className="text-xs text-gray-800 flex-1">
+              Loving the results?{" "}
+              <a href="/dashboard/referrals" className="font-semibold text-indigo-600 hover:text-indigo-800 underline">
+                Share with friends and earn +20 free uses
+              </a>{" "}
+              per invite.
+            </p>
+          </div>
+        )}
+
+        {/* Legal disclaimer */}
+        {tool.toolkits?.slug === "legal" && (
+          <p className="mt-6 text-xs text-gray-600 text-center">
+            ⚠️ This tool provides general informational analysis only. It does not constitute legal advice.
+          </p>
+        )}
+
+        {/* Compliance disclaimer — below result */}
+        {tool.toolkits?.slug === "compliance-toolkit" && result && (
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mt-4 text-xs text-amber-700">
+            ⚠️ These tools provide general informational analysis only. They do not constitute legal, compliance, or regulatory advice. Please consult a qualified compliance professional or attorney.
+          </div>
+        )}
+
+        {/* Use Cases for This Tool — internal linking for SEO */}
+        {toolUseCases.length > 0 && (
+          <div className="mt-8 pt-6 border-t border-gray-100">
+            <h2 className="text-sm font-semibold text-gray-900 mb-3">
+              Use Cases for {tool.name}
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {toolUseCases.map((uc) => {
+                const profession = (uc.meta?.profession ?? "").replace(/-/g, " ");
+                return (
+                  <a
+                    key={uc.slug}
+                    href={`/use-cases/${uc.slug}`}
+                    className="border border-gray-100 rounded-lg px-3 py-2 text-xs text-gray-600 hover:border-indigo-200 hover:text-indigo-600 transition-all line-clamp-2 capitalize"
+                  >
+                    {uc.title ?? profession}
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Related tools in same category */}
+        {relatedTools.length > 0 && tool.toolkits && (
+          <div className="mt-8 pt-6 border-t border-gray-100">
+            <h2 className="text-sm font-semibold text-gray-900 mb-3">
+              More {tool.toolkits.name} Tools
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {relatedTools.map((rt) => (
+                <a
+                  key={rt.slug}
+                  href={`/tools/${rt.slug}`}
+                  className="border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-600 hover:border-indigo-300 hover:text-indigo-600 transition-all"
+                >
+                  {rt.name}
+                </a>
+              ))}
+              <a
+                href={`/toolkits/${tool.toolkits.slug}`}
+                className="border border-indigo-100 bg-indigo-50 rounded-lg px-3 py-1.5 text-xs text-indigo-600 hover:bg-indigo-100 transition-all"
+              >
+                View all →
+              </a>
+            </div>
+          </div>
+        )}
+
+        {/* Alternatives */}
+        <div className="mt-6 flex items-center justify-between px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl">
+          <div>
+            <p className="text-xs font-medium text-gray-700">Looking for alternatives?</p>
+            <p className="text-xs text-gray-600 mt-0.5">Compare {tool.name} with similar AI tools</p>
+          </div>
+          <a
+            href={`/${slug}-alternatives`}
+            className="shrink-0 text-xs text-indigo-600 border border-indigo-200 rounded-lg px-3 py-1.5 hover:bg-indigo-50 transition-all"
+          >
+            See alternatives →
+          </a>
+        </div>
+
+        {/* Related Resources (prompts + templates from generator) */}
+        {(genResources.prompts.length > 0 || genResources.templates.length > 0) && (
+          <div className="mt-8 pt-6 border-t border-gray-100">
+            <h2 className="text-sm font-semibold text-gray-900 mb-3">Related Resources</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {genResources.prompts.map((p) => (
+                <a
+                  key={p.slug}
+                  href={`/ai-prompts/${p.slug}`}
+                  className="flex items-center gap-2 border border-gray-100 rounded-lg px-3 py-2 text-xs text-gray-600 hover:border-indigo-200 hover:text-indigo-600 transition-all"
+                >
+                  <span className="text-indigo-400">💬</span>
+                  {p.title}
+                </a>
+              ))}
+              {genResources.templates.map((t) => (
+                <a
+                  key={t.slug}
+                  href={`/templates/${t.slug}`}
+                  className="flex items-center gap-2 border border-gray-100 rounded-lg px-3 py-2 text-xs text-gray-600 hover:border-green-200 hover:text-green-700 transition-all"
+                >
+                  <span className="text-green-500">📄</span>
+                  {t.title}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Embed Section */}
+        <details className="mt-8 rounded-xl border border-gray-200 overflow-hidden">
+          <summary className="flex items-center justify-between px-5 py-4 cursor-pointer hover:bg-gray-50 transition-colors list-none">
+            <span className="text-sm font-medium text-gray-700">Embed this tool on your website</span>
+            <span className="text-xs text-gray-600">Show embed code ▼</span>
+          </summary>
+          <div className="px-5 pb-5 border-t border-gray-100 bg-gray-50">
+            <p className="text-xs text-gray-700 my-3">
+              Add this AI tool to your website for free. Your visitors get the tool, you get the traffic.
+            </p>
+            <div className="bg-gray-900 rounded-lg p-3 font-mono text-xs text-gray-300 select-all break-all">
+              {`<iframe src="https://aitoolsstation.com/embed/${slug}" width="100%" height="600" frameborder="0"></iframe>`}
+            </div>
+            <div className="mt-2">
+              <CopyButton
+                text={`<iframe src="https://aitoolsstation.com/embed/${slug}" width="100%" height="600" frameborder="0"></iframe>`}
+              />
+            </div>
+          </div>
+        </details>
+
+        {/* SEO Navigation Links */}
+        <section className="mt-8 border-t border-gray-100 pt-6">
+          <h2 className="text-sm font-semibold text-gray-700 mb-3">Related Resources</h2>
+          <div className="flex flex-wrap gap-2">
+            <a
+              href="/ai-generators"
+              className="text-xs text-gray-600 border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
+            >
+              AI Generators Directory →
+            </a>
+            <a
+              href="/toolkits"
+              className="text-xs text-gray-600 border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
+            >
+              Browse All Toolkits →
+            </a>
+            <a
+              href="/blog"
+              className="text-xs text-gray-600 border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
+            >
+              AI Tool Guides →
+            </a>
+            <a
+              href="/templates"
+              className="text-xs text-gray-600 border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
+            >
+              Free Templates →
+            </a>
+            <a
+              href="/compare/ai-resume-generator-vs-chatgpt"
+              className="text-xs text-gray-600 border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
+            >
+              Compare AI Tools →
+            </a>
+          </div>
+        </section>
+
+        {/* Feedback */}
+        <div className="mt-8 pt-6 border-t border-gray-100 text-center">
+          <FeedbackModal toolSlug={slug} />
+        </div>
+      </div>
+    </div>
+  );
+}
