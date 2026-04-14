@@ -186,6 +186,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: kit ? `${kit.name} — AI Tools Station` : "Toolkit",
     description: kit?.description ?? "",
+    alternates: { canonical: `https://www.aitoolsstation.com/toolkits/${slug}` },
   };
 }
 

@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Methodology | How AI Tools Station Generates High-Quality Results",
   description:
     "Learn how AI Tools Station uses structured prompt engineering and workflow design to generate consistent, high-quality AI outputs.",
+  alternates: { canonical: "https://www.aitoolsstation.com/methodology" },
 };
 
 export default function MethodologyPage() {

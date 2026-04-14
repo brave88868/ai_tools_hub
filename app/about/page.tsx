@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "About AI Tools Station | AI Productivity Platform",
   description:
     "AI Tools Station offers 600+ AI tools designed to automate professional workflows including resumes, marketing content, study tools and more.",
+  alternates: { canonical: "https://www.aitoolsstation.com/about" },
 };
 
 export default function AboutPage() {

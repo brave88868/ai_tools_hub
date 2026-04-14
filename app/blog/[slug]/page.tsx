@@ -27,10 +27,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
+    alternates: { canonical: `https://www.aitoolsstation.com/blog/${slug}` },
     openGraph: {
       title,
       description,
-      url: `https://aitoolsstation.com/blog/${slug}`,
+      url: `https://www.aitoolsstation.com/blog/${slug}`,
       siteName: "AI Tools Station",
       type: "article",
     },

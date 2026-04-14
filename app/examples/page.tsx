@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "AI Generated Examples | AI Tools Station",
   description:
     "Browse real AI-generated examples. See what our AI tools can create — resumes, cover letters, business plans, and more.",
+  alternates: { canonical: "https://www.aitoolsstation.com/examples" },
 };
 
 interface Props {
