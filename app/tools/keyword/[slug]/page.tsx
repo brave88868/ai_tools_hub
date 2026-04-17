@@ -79,7 +79,7 @@ export default async function KeywordPage({ params }: Props) {
           <span className="text-gray-600 truncate">{data.keyword}</span>
         </nav>
 
-        <h1 className="text-2xl font-bold text-gray-900 mb-6 leading-snug">{data.keyword}</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-6 leading-snug">{data.seo_title ?? data.keyword}</h1>
 
         {/* CTA */}
         {data.tool_slug && (
