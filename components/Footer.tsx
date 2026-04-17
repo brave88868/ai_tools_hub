@@ -8,7 +8,7 @@ export default function Footer() {
           <div>
             <h3 className="text-sm font-semibold text-gray-900 mb-3">AI Tools Station</h3>
             <p className="text-xs text-gray-600 leading-relaxed">
-              600+ AI tools for job seekers, creators, marketers, and businesses.
+              600+ AI tools for resumes, marketing, business, coding, and study.
             </p>
           </div>
           <div>
