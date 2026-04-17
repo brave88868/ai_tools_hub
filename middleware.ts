@@ -118,7 +118,9 @@ export async function middleware(request: NextRequest) {
   // ─────────────────────────────────────────────────────────────────────────
 
   // ── noindex on non-production domains (vercel.app previews, etc.) ─────────
-  if (hostname !== PRODUCTION_HOST) {
+  // Use the raw Host header — request.nextUrl.hostname may be normalised by Vercel
+  const host = request.headers.get("host") || hostname;
+  if (host !== PRODUCTION_HOST) {
     supabaseResponse.headers.set("X-Robots-Tag", "noindex, nofollow");
   }
 
