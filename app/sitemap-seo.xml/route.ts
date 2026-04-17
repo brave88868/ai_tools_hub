@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 
 const SITE_URL = "https://www.aitoolsstation.com";
-const MAX_PER_SITEMAP = 5000;
 
 export const dynamic = "force-dynamic";
 
@@ -10,31 +9,28 @@ function urlEntry(loc: string, lastmod: string, priority = "0.7", changefreq = "
   return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
 }
 
-function typeToUrl(type: string, slug: string): string {
-  switch (type) {
-    case "use_case":     return `${SITE_URL}/use-cases/${slug}`;
-    case "comparison":   return `${SITE_URL}/${slug}`;
-    case "alternative":  return `${SITE_URL}/${slug}`;
-    case "problem":      return `${SITE_URL}/${slug}`;
-    case "template":     return `${SITE_URL}/templates/${slug}`;
-    case "saas_page":    return `${SITE_URL}/use-cases/${slug}`;
-    case "ai-for":       return `${SITE_URL}/ai-for/${slug}`;
-    default:             return `${SITE_URL}/${slug}`;
-  }
-}
-
 export async function GET() {
   const admin = createAdminClient();
   const now = new Date().toISOString();
 
-  // Fetch all seo_pages and seo_use_cases (flat routes)
-  const [{ data: seoPages }, { data: flatUseCases }] = await Promise.all([
+  // Only fetch types with confirmed working routes.
+  // Excluded: saas_page (no route → 404), comparison/alternative/problem/template
+  // (covered by sitemap-generators.xml or no dedicated route).
+  const [{ data: useCases }, { data: aiFor }, { data: flatUseCases }] = await Promise.all([
     admin
       .from("seo_pages")
-      .select("slug, type, created_at")
-      .not("type", "eq", "legacy")
-      .order("created_at", { ascending: false })
-      .limit(MAX_PER_SITEMAP),
+      .select("slug, created_at")
+      .eq("type", "use_case")
+      .not("slug", "is", null)
+      .not("content", "is", null)
+      .limit(50000),
+    admin
+      .from("seo_pages")
+      .select("slug, created_at")
+      .eq("type", "ai-for")
+      .not("slug", "is", null)
+      .not("content", "is", null)
+      .limit(1000),
     admin
       .from("seo_use_cases")
       .select("slug, created_at")
@@ -43,9 +39,12 @@ export async function GET() {
 
   const entries: string[] = [];
 
-  for (const page of seoPages ?? []) {
-    const loc = typeToUrl(page.type, page.slug);
-    entries.push(urlEntry(loc, page.created_at ?? now, "0.7", "monthly"));
+  for (const page of useCases ?? []) {
+    entries.push(urlEntry(`${SITE_URL}/use-cases/${page.slug}`, page.created_at ?? now));
+  }
+
+  for (const page of aiFor ?? []) {
+    entries.push(urlEntry(`${SITE_URL}/ai-for/${page.slug}`, page.created_at ?? now));
   }
 
   for (const uc of flatUseCases ?? []) {
