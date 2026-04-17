@@ -78,7 +78,7 @@ Return ONLY valid JSON (no markdown code fences, no preamble):
     if (!error) {
       await admin.from("seo_keywords").update({ status: "used" }).eq("id", kw.id);
       console.log(`[cron/generate-blog] generated: ${finalSlug}`);
-      return Response.json({ success: true, articles_generated: 1, slug: finalSlug });
+      return Response.json({ success: true, articles_generated: 1, slug: finalSlug, v: 2, word_count: wordCount });
     }
 
     await admin.from("seo_keywords").update({ status: "failed" }).eq("id", kw.id);
