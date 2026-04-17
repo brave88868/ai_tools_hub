@@ -41,6 +41,12 @@ const nextConfig: NextConfig = {
         destination: "/toolkits",
         permanent: true,
       },
+      // Catch-all: any remaining /saas/* URLs → /ai-generators
+      {
+        source: "/saas/:slug*",
+        destination: "/ai-generators",
+        permanent: true,
+      },
     ];
   },
   async headers() {
