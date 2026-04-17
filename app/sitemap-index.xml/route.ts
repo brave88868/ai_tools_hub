@@ -12,6 +12,7 @@ export async function GET() {
 
   const sitemaps = [
     `${SITE_URL}/sitemap-main.xml`,
+    `${SITE_URL}/sitemap-generators.xml`,
     `${SITE_URL}/sitemap-tools.xml`,
     `${SITE_URL}/sitemap-seo.xml`,
     `${SITE_URL}/sitemap-blog.xml`,
