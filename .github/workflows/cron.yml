@@ -1,0 +1,76 @@
+name: AI Tools Station Cron
+
+on:
+  schedule:
+    # Hourly — drain pending keywords slowly
+    - cron: '0 * * * *'
+    # Daily 02:00 UTC — discover new keywords
+    - cron: '0 2 * * *'
+    # Daily 03:00 UTC — generate tools
+    - cron: '0 3 * * *'
+    # Weekly Monday 06:00 UTC — insights
+    - cron: '0 6 * * 1'
+    # Weekly Monday 09:00 UTC — startup
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  hourly-generate-blog:
+    if: github.event.schedule == '0 * * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger generate-blog
+        run: |
+          curl -X GET "https://www.aitoolsstation.com/api/cron/generate-blog" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            --max-time 30 \
+            -w "\nHTTP: %{http_code}  Time: %{time_total}s\n" \
+            --fail-with-body || echo "Failed or timeout"
+
+  daily-discover-keywords:
+    if: github.event.schedule == '0 2 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger discover-keywords
+        run: |
+          curl -X GET "https://www.aitoolsstation.com/api/cron/discover-keywords" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            --max-time 30 \
+            -w "\nHTTP: %{http_code}  Time: %{time_total}s\n" \
+            --fail-with-body || echo "Failed or timeout"
+
+  daily-generate-tools:
+    if: github.event.schedule == '0 3 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger generate-tools
+        run: |
+          curl -X GET "https://www.aitoolsstation.com/api/cron/generate-tools" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            --max-time 30 \
+            -w "\nHTTP: %{http_code}  Time: %{time_total}s\n" \
+            --fail-with-body || echo "Failed or timeout"
+
+  weekly-insights:
+    if: github.event.schedule == '0 6 * * 1'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger weekly-insights
+        run: |
+          curl -X GET "https://www.aitoolsstation.com/api/cron/weekly-insights" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            --max-time 30 \
+            -w "\nHTTP: %{http_code}  Time: %{time_total}s\n" \
+            --fail-with-body || echo "Failed or timeout"
+
+  weekly-startup:
+    if: github.event.schedule == '0 9 * * 1'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger weekly-startup
+        run: |
+          curl -X GET "https://www.aitoolsstation.com/api/cron/weekly-startup" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            --max-time 30 \
+            -w "\nHTTP: %{http_code}  Time: %{time_total}s\n" \
+            --fail-with-body || echo "Failed or timeout"

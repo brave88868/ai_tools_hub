@@ -1,6 +1,9 @@
 import { NextRequest } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 
+export const maxDuration = 60;
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   if (req.headers.get("authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
     return new Response("Unauthorized", { status: 401 });
