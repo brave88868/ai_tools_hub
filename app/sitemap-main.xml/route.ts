@@ -14,7 +14,6 @@ export async function GET() {
   const entries = [
     urlEntry(`${SITE_URL}/`, "1.0", "weekly"),
     urlEntry(`${SITE_URL}/toolkits`, "0.9", "weekly"),
-    urlEntry(`${SITE_URL}/tools`, "0.9", "weekly"),
     urlEntry(`${SITE_URL}/pricing`, "0.8", "monthly"),
     urlEntry(`${SITE_URL}/blog`, "0.8", "daily"),
     urlEntry(`${SITE_URL}/features`, "0.6", "weekly"),

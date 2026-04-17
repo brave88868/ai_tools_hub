@@ -57,14 +57,14 @@ export async function GET() {
     entries.push(url(`${SITE_URL}/templates/${t.slug}`, "0.65", "monthly"));
   }
 
-  // /compare/[slug] (comparison articles with content)
+  // compare articles — served at bare /:slug (Vercel redirects /compare/:slug → /:slug)
   for (const c of comparisons ?? []) {
-    entries.push(url(`${SITE_URL}/compare/${c.slug}`, "0.7", "monthly"));
+    entries.push(url(`${SITE_URL}/${c.slug}`, "0.7", "monthly"));
   }
 
-  // /alternatives/[slug] (alternatives articles with content)
+  // alternatives articles — served at bare /:slug (Vercel redirects /alternatives/:slug → /:slug)
   for (const a of alternatives ?? []) {
-    entries.push(url(`${SITE_URL}/alternatives/${a.slug}`, "0.7", "monthly"));
+    entries.push(url(`${SITE_URL}/${a.slug}`, "0.7", "monthly"));
   }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

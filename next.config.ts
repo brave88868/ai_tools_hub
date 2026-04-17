@@ -47,6 +47,17 @@ const nextConfig: NextConfig = {
         destination: "/ai-generators",
         permanent: true,
       },
+      // Formalize Vercel-edge redirects in code — compare/alternatives served at bare /:slug
+      {
+        source: "/compare/:slug*",
+        destination: "/:slug*",
+        permanent: true,
+      },
+      {
+        source: "/alternatives/:slug*",
+        destination: "/:slug*",
+        permanent: true,
+      },
     ];
   },
   async headers() {
