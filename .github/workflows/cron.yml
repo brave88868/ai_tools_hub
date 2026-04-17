@@ -23,7 +23,7 @@ jobs:
         run: |
           curl -X GET "https://www.aitoolsstation.com/api/cron/generate-blog" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
-            --max-time 30 \
+            --max-time 60 \
             -w "\nHTTP: %{http_code}  Time: %{time_total}s\n" \
             --fail-with-body || echo "Failed or timeout"
 
