@@ -13,28 +13,24 @@ export async function GET() {
   const admin = createAdminClient();
   const now = new Date().toISOString();
 
+  // prompt_pages table: individual prompts at /ai-prompts/{slug}
+  // (ai_prompts table is empty; prompt_pages has 60 rows with is_active field)
   const { data: prompts } = await admin
-    .from("ai_prompts")
-    .select("slug, category, created_at")
+    .from("prompt_pages")
+    .select("slug, created_at")
     .eq("is_active", true)
     .order("created_at", { ascending: false })
-    .limit(5000);
+    .range(0, 999);
 
   const entries: string[] = [];
 
   // Prompts index page
   entries.push(urlEntry(`${SITE_URL}/prompts`, now, "0.85", "daily"));
 
-  // Category pages (unique)
-  const categories = [...new Set((prompts ?? []).map((p) => p.category))];
-  for (const cat of categories) {
-    entries.push(urlEntry(`${SITE_URL}/prompts/${cat}`, now, "0.8", "weekly"));
-  }
-
-  // Individual prompt detail pages
+  // Individual prompt pages at /ai-prompts/{slug}
   for (const p of prompts ?? []) {
     const lastmod = p.created_at ? new Date(p.created_at).toISOString() : now;
-    entries.push(urlEntry(`${SITE_URL}/prompts/${p.category}/${p.slug}`, lastmod, "0.65", "monthly"));
+    entries.push(urlEntry(`${SITE_URL}/ai-prompts/${p.slug}`, lastmod, "0.65", "monthly"));
   }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

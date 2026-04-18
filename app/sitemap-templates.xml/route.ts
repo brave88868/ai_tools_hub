@@ -13,12 +13,12 @@ export async function GET() {
   const admin = createAdminClient();
   const now = new Date().toISOString();
 
+  // seo_templates table: 4 rows, no is_active / download_count fields
+  // (tool_templates table is empty; seo_templates has the actual data)
   const { data: templates } = await admin
-    .from("tool_templates")
+    .from("seo_templates")
     .select("slug, created_at")
-    .eq("is_active", true)
-    .order("download_count", { ascending: false })
-    .limit(5000);
+    .range(0, 999);
 
   const entries: string[] = [
     // Templates list page
