@@ -20,9 +20,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq("is_active", true)
     .single();
 
-  if (!data) return { title: "AI Prompt | AI Tools Station" };
+  if (!data) return { title: "AI Prompt" };
 
-  const title = data.meta_title ?? `${data.title} — Free | AI Tools Station`;
+  const rawTitle = data.meta_title ?? `${data.title} — Free`;
+  const title = rawTitle.replace(/ \| AI Tools Station$/, "");
   const description = data.meta_description ?? `Copy and use this AI prompt for ${data.title.toLowerCase()}.`;
 
   return {

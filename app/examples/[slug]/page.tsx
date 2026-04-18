@@ -51,7 +51,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data) return { title: "Not Found" };
 
-  const title = data.seo_title ?? `${data.example_type} Examples | AI Tools Station`;
+  const rawTitle = data.seo_title ?? `${data.example_type} Examples`;
+  const title = rawTitle.replace(/ \| AI Tools Station$/, "");
   const description = data.seo_description ?? `Real AI-generated examples: ${data.example_type}.`;
   return {
     title, description,

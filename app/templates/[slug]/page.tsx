@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const catMeta = TEMPLATE_CATEGORIES[slug];
   if (catMeta) {
     return {
-      title: `${catMeta.h1} | AI Tools Station`,
+      title: catMeta.h1,
       description: catMeta.description,
       alternates: { canonical: `${SITE_URL}/templates/${slug}` },
     };
@@ -75,7 +75,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data) return { title: "Not Found" };
 
-  const title = data.seo_title ?? `${data.template_name} Template | AI Tools Station`;
+  const rawTitle = data.seo_title ?? `${data.template_name} Template`;
+  const title = rawTitle.replace(/ \| AI Tools Station$/, "");
   const description = data.seo_description ?? `Download and use the ${data.template_name} template.`;
   return {
     title, description,

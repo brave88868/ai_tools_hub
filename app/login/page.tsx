@@ -5,7 +5,7 @@ import LoginForm from "./LoginForm";
 import ResendConfirmationBanner from "./ResendConfirmationBanner";
 
 export const metadata: Metadata = {
-  title: "Sign In | AI Tools Station",
+  title: "Sign In",
   description: "Sign in to AI Tools Station. Subscribe to any AI toolkit and unlock unlimited generations.",
 };
 

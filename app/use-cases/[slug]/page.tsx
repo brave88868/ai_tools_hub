@@ -36,12 +36,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .maybeSingle();
 
   if (!data) {
-    return { title: "AI Tool Use Case | AI Tools Station" };
+    return { title: "AI Tool Use Case" };
   }
 
-  const title = data.seo_title ?? `${data.title} | AI Tools Station`;
+  const rawTitle = data.seo_title ?? data.title ?? "AI Tool Use Case";
+  const title = rawTitle.replace(/ \| AI Tools Station$/, "");
   const description = data.seo_description ?? "Discover how AI tools help professionals work smarter.";
 
+  const ogImage = `${SITE_URL}/og-image.png`;
   return {
     title,
     description,
@@ -52,8 +54,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `${SITE_URL}/use-cases/${slug}`,
       siteName: "AI Tools Station",
       type: "website",
+      images: [{ url: ogImage, width: 1200, height: 630, alt: title }],
     },
-    twitter: { card: "summary_large_image", title, description },
+    twitter: { card: "summary_large_image", title, description, images: [ogImage] },
   };
 }
 

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Email Confirmed | AI Tools Station",
+  title: "Email Confirmed",
 };
 
 export default function EmailConfirmedPage() {

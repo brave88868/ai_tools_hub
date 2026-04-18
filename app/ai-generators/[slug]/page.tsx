@@ -20,9 +20,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq("is_active", true)
     .single();
 
-  if (!data) return { title: "AI Generator | AI Tools Station" };
+  if (!data) return { title: "AI Generator" };
 
-  const title = data.meta_title ?? `${data.title} — Free Online | AI Tools Station`;
+  const rawTitle = data.meta_title ?? `${data.title} — Free Online`;
+  const title = rawTitle.replace(/ \| AI Tools Station$/, "");
   const description = data.meta_description ?? data.description ?? "";
 
   return {

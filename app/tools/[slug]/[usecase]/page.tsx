@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title =
     uc?.title ??
-    `${tool?.name ?? slug} for ${profession} | AI Tools Station`;
+    `${tool?.name ?? slug} for ${profession}`;
   const description =
     uc?.meta_description ??
     `AI-powered ${tool?.name ?? slug} optimised for ${profession}s. Get professional results in seconds — free to try.`;

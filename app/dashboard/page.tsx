@@ -11,7 +11,7 @@ import SignOutButton from "@/components/SignOutButton";
 import DeleteAccountButton from "@/components/DeleteAccountButton";
 
 export const metadata: Metadata = {
-  title: "Dashboard | AI Tools Station",
+  title: "Dashboard",
 };
 
 export default async function DashboardPage({

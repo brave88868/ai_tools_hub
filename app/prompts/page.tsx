@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Free AI Prompts Library — 1000+ Ready-to-Use Prompts | AI Tools Station",
+  title: "Free AI Prompts Library — 1000+ Ready-to-Use Prompts",
   description:
     "Browse 1000+ free AI prompts for resumes, emails, marketing, business plans and more. Copy and paste into ChatGPT or Claude.",
 };

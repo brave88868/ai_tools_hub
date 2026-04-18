@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Trust & Security | AI Tools Station",
+  title: "Trust & Security",
   description:
     "How AI Tools Station protects user data, ensures responsible AI use, and maintains security and privacy standards.",
   alternates: { canonical: "https://www.aitoolsstation.com/trust" },

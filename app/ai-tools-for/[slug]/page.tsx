@@ -30,7 +30,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .single();
 
   if (industryRow) {
-    const title = industryRow.seo_title ?? `Best AI Tools for ${industryRow.industry} | AI Tools Station`;
+    const rawTitle = industryRow.seo_title ?? `Best AI Tools for ${industryRow.industry}`;
+    const title = rawTitle.replace(/ \| AI Tools Station$/, "");
     const description = industryRow.seo_description ?? `Discover top AI tools for ${industryRow.industry}`;
     const siteUrl = "https://www.aitoolsstation.com";
     return {
@@ -46,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const siteUrl = "https://www.aitoolsstation.com";
   return {
-    title: `${p.title} | AI Tools Station`,
+    title: p.title,
     description: p.metaDescription,
     alternates: { canonical: `${siteUrl}/ai-tools-for/${slug}` },
     openGraph: {

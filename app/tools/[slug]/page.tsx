@@ -37,12 +37,36 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
     relatedTools = rt ?? [];
   }
 
+  const toolkit = tool.toolkits as { slug: string; name: string } | null;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: tool.name,
+    description: tool.seo_description ?? tool.description ?? `AI-powered ${tool.name} tool.`,
+    url: `https://www.aitoolsstation.com/tools/${slug}`,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    provider: {
+      "@type": "Organization",
+      name: "AI Tools Station",
+      url: "https://www.aitoolsstation.com",
+    },
+    ...(toolkit && { isPartOf: { "@type": "SoftwareApplication", name: toolkit.name } }),
+  };
+
   return (
-    <ToolPageClient
-      tool={tool}
-      slug={slug}
-      initialUseCases={toolUseCases ?? []}
-      initialRelatedTools={relatedTools}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ToolPageClient
+        tool={tool}
+        slug={slug}
+        initialUseCases={toolUseCases ?? []}
+        initialRelatedTools={relatedTools}
+      />
+    </>
   );
 }

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Free AI Templates — Resumes, Emails & More | AI Tools Station",
+  title: "Free AI Templates — Resumes, Emails & More",
   description:
     "Download free professional templates for resumes, emails, business plans, and more. Customise instantly with AI.",
   alternates: { canonical: "https://www.aitoolsstation.com/templates" },

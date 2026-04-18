@@ -31,7 +31,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .single();
 
   if (dbRow) {
-    const title = dbRow.seo_title ?? `${dbRow.tool_a} vs ${dbRow.tool_b} | AI Tools Station`;
+    const rawTitle = dbRow.seo_title ?? `${dbRow.tool_a} vs ${dbRow.tool_b}`;
+    const title = rawTitle.replace(/ \| AI Tools Station$/, "");
     const description = dbRow.seo_description ?? `Compare ${dbRow.tool_a} and ${dbRow.tool_b}`;
     return {
       title, description,
@@ -44,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const c = getCompare(slug);
   if (!c) return { title: "Not Found" };
   return {
-    title: `${c.title} | AI Tools Station`,
+    title: c.title,
     description: c.metaDescription,
     alternates: { canonical: `${SITE_URL}/compare/${slug}` },
     openGraph: { title: c.title, description: c.metaDescription, type: "article", url: `${SITE_URL}/compare/${slug}` },

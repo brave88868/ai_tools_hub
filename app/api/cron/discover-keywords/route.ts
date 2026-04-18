@@ -21,6 +21,7 @@ export async function GET(req: NextRequest) {
     return new Response("Unauthorized", { status: 401 });
   }
 
+  try {
   const admin = createAdminClient();
   const toolkits = Object.keys(TOOLKIT_CONTEXT);
   const selected = toolkits[new Date().getDay() % toolkits.length];
@@ -100,4 +101,9 @@ Return ONLY valid JSON: {"keywords":[{"keyword":"...","search_intent":"informati
     blog_keywords_added: blogAdded,
     growth_keywords_added: growthAdded,
   });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("[cron/discover-keywords] fatal error", err);
+    return Response.json({ success: false, error: message }, { status: 500 });
+  }
 }

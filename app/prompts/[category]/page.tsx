@@ -8,42 +8,42 @@ interface Props {
 
 const CATEGORY_META: Record<string, { title: string; description: string; h1: string }> = {
   resume: {
-    title: "Best AI Resume Prompts (Copy & Use) | AI Tools Station",
+    title: "Best AI Resume Prompts (Copy & Use)",
     description: "50+ proven AI prompts for writing resumes. Copy and paste into ChatGPT or Claude. Free.",
     h1: "AI Resume Prompts",
   },
   email: {
-    title: "Best AI Email Prompts (Copy & Use) | AI Tools Station",
+    title: "Best AI Email Prompts (Copy & Use)",
     description: "50+ AI prompts for writing professional emails. Cold outreach, follow-ups, sales and more.",
     h1: "AI Email Writing Prompts",
   },
   marketing: {
-    title: "Best AI Marketing Prompts (Copy & Use) | AI Tools Station",
+    title: "Best AI Marketing Prompts (Copy & Use)",
     description: "50+ AI prompts for marketers. Ads, copy, captions, landing pages and more.",
     h1: "AI Marketing Prompts",
   },
   "business-plan": {
-    title: "Best AI Business Plan Prompts | AI Tools Station",
+    title: "Best AI Business Plan Prompts",
     description: "AI prompts for writing business plans, pitch decks, and startup ideas.",
     h1: "AI Business Plan Prompts",
   },
   "cover-letter": {
-    title: "Best AI Cover Letter Prompts | AI Tools Station",
+    title: "Best AI Cover Letter Prompts",
     description: "AI prompts for writing cover letters that get interviews.",
     h1: "AI Cover Letter Prompts",
   },
   legal: {
-    title: "Best AI Legal Document Prompts | AI Tools Station",
+    title: "Best AI Legal Document Prompts",
     description: "AI prompts for privacy policies, contracts, NDAs and more.",
     h1: "AI Legal Document Prompts",
   },
   youtube: {
-    title: "Best AI YouTube Script Prompts | AI Tools Station",
+    title: "Best AI YouTube Script Prompts",
     description: "AI prompts for writing YouTube scripts, titles, and descriptions.",
     h1: "AI YouTube Prompts",
   },
   "meeting-notes": {
-    title: "Best AI Meeting Notes Prompts | AI Tools Station",
+    title: "Best AI Meeting Notes Prompts",
     description: "AI prompts for writing meeting summaries, action items, and agendas.",
     h1: "AI Meeting Notes Prompts",
   },

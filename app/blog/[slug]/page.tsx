@@ -19,11 +19,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq("published", true)
     .single();
 
-  if (!data) return { title: "Blog | AI Tools Station" };
+  if (!data) return { title: "Blog" };
 
-  const title = data.seo_title ?? data.title;
+  const rawTitle = data.seo_title ?? data.title;
+  const title = rawTitle?.replace(/ \| AI Tools Station$/, "") ?? rawTitle;
   const description = data.seo_description ?? data.excerpt ?? undefined;
 
+  const ogImage = "https://www.aitoolsstation.com/og-image.png";
   return {
     title,
     description,
@@ -34,8 +36,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `https://www.aitoolsstation.com/blog/${slug}`,
       siteName: "AI Tools Station",
       type: "article",
+      images: [{ url: ogImage, width: 1200, height: 630, alt: title ?? "AI Tools Station Blog" }],
     },
-    twitter: { card: "summary_large_image", title, description },
+    twitter: { card: "summary_large_image", title, description, images: [ogImage] },
   };
 }
 

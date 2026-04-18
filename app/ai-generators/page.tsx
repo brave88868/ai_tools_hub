@@ -4,7 +4,7 @@ import { createAdminClient } from "@/lib/supabase";
 import GeneratorsGrid from "@/components/generators/GeneratorsGrid";
 
 export const metadata: Metadata = {
-  title: "Free AI Generators — 20+ Tools | AI Tools Station",
+  title: "Free AI Generators — 20+ Tools",
   description:
     "20+ free AI generators for resumes, cover letters, blog posts, emails, business plans and more. Professional quality in seconds.",
   alternates: { canonical: "https://www.aitoolsstation.com/ai-generators" },

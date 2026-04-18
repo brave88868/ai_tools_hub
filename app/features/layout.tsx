@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Feature Requests & Roadmap | AI Tools Station",
+  title: "Feature Requests & Roadmap",
   description:
     "Vote on upcoming features, suggest new AI tools, and track the AI Tools Station product roadmap. Your feedback shapes what we build next.",
   alternates: { canonical: "https://www.aitoolsstation.com/features" },

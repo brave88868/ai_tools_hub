@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Methodology | How AI Tools Station Generates High-Quality Results",
+  title: { absolute: "Methodology | How AI Tools Station Generates High-Quality Results" },
   description:
     "Learn how AI Tools Station uses structured prompt engineering and workflow design to generate consistent, high-quality AI outputs.",
   alternates: { canonical: "https://www.aitoolsstation.com/methodology" },

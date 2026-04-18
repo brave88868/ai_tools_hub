@@ -36,7 +36,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       .eq("flat_slug", slug)
       .maybeSingle();
     if (!data) return { title: "Not Found" };
-    const title = data.seo_title ?? `${data.tool_a} vs ${data.tool_b} | AI Tools Station`;
+    const rawTitle = data.seo_title ?? `${data.tool_a} vs ${data.tool_b}`;
+    const title = rawTitle.replace(/ \| AI Tools Station$/, "");
     const description = data.seo_description ?? `Compare ${data.tool_a} and ${data.tool_b}`;
     return {
       title, description,
@@ -53,7 +54,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       .eq("flat_slug", slug)
       .maybeSingle();
     if (!data) return { title: "Not Found" };
-    const title = data.seo_title ?? `Best ${data.tool_name} Alternatives | AI Tools Station`;
+    const rawTitle = data.seo_title ?? `Best ${data.tool_name} Alternatives`;
+    const title = rawTitle.replace(/ \| AI Tools Station$/, "");
     const description = data.seo_description ?? `Find the best ${data.tool_name} alternatives.`;
     return {
       title, description,
@@ -70,7 +72,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       .eq("flat_slug", slug)
       .maybeSingle();
     if (!data) return { title: "Not Found" };
-    const title = data.seo_title ?? `${data.problem} | AI Tools Station`;
+    const rawTitle = data.seo_title ?? data.problem;
+    const title = rawTitle.replace(/ \| AI Tools Station$/, "");
     const description = data.seo_description ?? `A step-by-step AI guide: ${data.problem}`;
     return {
       title, description,
@@ -87,7 +90,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq("slug", slug)
     .maybeSingle();
   if (!data) return { title: "Not Found" };
-  const title = data.seo_title ?? `${data.title} | AI Tools Station`;
+  const rawTitle = data.seo_title ?? data.title ?? "AI Use Case";
+  const title = rawTitle.replace(/ \| AI Tools Station$/, "");
   const description = data.seo_description ?? data.title ?? "";
   return {
     title, description,

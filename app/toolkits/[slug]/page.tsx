@@ -184,7 +184,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq("slug", slug)
     .single();
   return {
-    title: kit ? `${kit.name} — AI Tools Station` : "Toolkit",
+    title: kit ? kit.name : "Toolkit",
     description: kit?.description ?? "",
     alternates: { canonical: `https://www.aitoolsstation.com/toolkits/${slug}` },
   };
