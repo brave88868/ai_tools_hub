@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
 
   // ── 1. Blog SEO keywords (5 per run) ─────────────────────
   const blogPrompt = `Generate 5 SEO blog keywords for an AI tools site focused on "${selected}". 3-8 words each.
-Return ONLY: {"keywords":["keyword 1",...]}`;
+Return ONLY valid JSON: {"keywords":["keyword 1",...]}`;
 
   const kwRes = await openai.chat.completions.create({
     model: "gpt-4o-mini",
