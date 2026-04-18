@@ -23,18 +23,18 @@ export async function GET() {
       .eq("type", "use_case")
       .not("slug", "is", null)
       .not("content", "is", null)
-      .limit(50000),
+      .range(0, 49999),
     admin
       .from("seo_pages")
       .select("slug, created_at")
       .eq("type", "ai-for")
       .not("slug", "is", null)
       .not("content", "is", null)
-      .limit(1000),
+      .range(0, 999),
     admin
       .from("seo_use_cases")
       .select("slug, created_at")
-      .limit(2000),
+      .range(0, 1999),
   ]);
 
   const entries: string[] = [];
