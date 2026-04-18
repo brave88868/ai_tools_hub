@@ -16,14 +16,11 @@ export async function GET() {
   // Only fetch types with confirmed working routes.
   // Excluded: saas_page (no route → 404), comparison/alternative/problem/template
   // (covered by sitemap-generators.xml or no dedicated route).
-  const [{ data: useCases }, { data: aiFor }, { data: flatUseCases }] = await Promise.all([
-    admin
-      .from("seo_pages")
-      .select("slug, created_at")
-      .eq("type", "use_case")
-      .not("slug", "is", null)
-      .not("content", "is", null)
-      .range(0, 49999),
+  //
+  // Supabase max_rows=1000 per request — paginate use_case in parallel pages.
+  const PAGE_SIZE = 1000;
+  const USE_CASE_PAGES = 8; // covers up to 8000 rows (5939 currently)
+  const [aiForRes, flatUseCasesRes, ...useCasePages] = await Promise.all([
     admin
       .from("seo_pages")
       .select("slug, created_at")
@@ -35,7 +32,20 @@ export async function GET() {
       .from("seo_use_cases")
       .select("slug, created_at")
       .range(0, 1999),
+    ...Array.from({ length: USE_CASE_PAGES }, (_, i) =>
+      admin
+        .from("seo_pages")
+        .select("slug, created_at")
+        .eq("type", "use_case")
+        .not("slug", "is", null)
+        .not("content", "is", null)
+        .range(i * PAGE_SIZE, (i + 1) * PAGE_SIZE - 1)
+    ),
   ]);
+
+  const useCases = useCasePages.flatMap((p) => p.data ?? []);
+  const aiFor = aiForRes.data;
+  const flatUseCases = flatUseCasesRes.data;
 
   const entries: string[] = [];
 
