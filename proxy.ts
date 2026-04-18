@@ -3,6 +3,9 @@ import type { CookieOptions } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+// Only the canonical production domain — everything else (vercel.app, apex) gets noindex
+const PRODUCTION_HOST = "www.aitoolsstation.com";
+
 export async function proxy(request: NextRequest) {
   const { pathname, hostname } = request.nextUrl;
 
@@ -71,7 +74,6 @@ export async function proxy(request: NextRequest) {
         },
         setAll(cookiesToSet: Array<{ name: string; value: string; options: CookieOptions }>) {
           // 1. Mutate the request cookies so Server Components see the refreshed token.
-          // request.cookies.set only accepts (name, value) — options are not supported here.
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           );
@@ -124,8 +126,6 @@ export async function proxy(request: NextRequest) {
     if (getUserError) {
       // Transient Supabase error — let the page handle auth
     } else {
-      // Check if any session token cookie exists (non-code-verifier, non-empty).
-      // Supabase stores tokens as sb-<ref>-auth-token or sb-<ref>-auth-token.N
       const hasSessionCookie = request.cookies.getAll().some(
         (c) =>
           /^sb-[^-]+-auth-token(\.0)?$/.test(c.name) &&
@@ -136,14 +136,21 @@ export async function proxy(request: NextRequest) {
         loginUrl.searchParams.set("next", pathname);
         return NextResponse.redirect(loginUrl);
       }
-      // Session cookie exists but getUser() returned null — could be a transient
-      // chunked-cookie issue (common with Google OAuth). Let the page validate.
     }
+  }
+
+  // ── noindex on non-production domains (vercel.app previews, etc.) ─────────
+  // Use the raw Host header — request.nextUrl.hostname may be normalised by Vercel
+  const host = request.headers.get("host") || hostname;
+  if (host !== PRODUCTION_HOST) {
+    supabaseResponse.headers.set("X-Robots-Tag", "noindex, nofollow");
   }
 
   return supabaseResponse;
 }
 
 export const config = {
-  matcher: ["/((?!api/|_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.*\\.xml).*)",
+  ],
 };
