@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
 
   const ideaPrompt = `Generate 1 new AI tool idea for "${selected}" toolkit.
 Avoid: ${[...usedSlugs].slice(0, 10).join(", ")}
-Return ONLY: {"tools":[{"tool_name":"...","tool_slug":"...","description":"...","prompt_template":"...","seo_title":"...","seo_description":"..."}]}`;
+Return ONLY valid JSON: {"tools":[{"tool_name":"...","tool_slug":"...","description":"...","prompt_template":"...","seo_title":"...","seo_description":"..."}]}`;
 
   const ideaRes = await openai.chat.completions.create({
     model: "gpt-4o-mini",
