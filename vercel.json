@@ -1,9 +1,1 @@
-{
-  "crons": [
-    { "path": "/api/cron/generate-blog",      "schedule": "0 * * * *"  },
-    { "path": "/api/cron/discover-keywords",  "schedule": "0 2 * * *"  },
-    { "path": "/api/cron/generate-tools",     "schedule": "0 3 * * *"  },
-    { "path": "/api/cron/weekly-insights",    "schedule": "0 6 * * 1"  },
-    { "path": "/api/cron/weekly-startup",     "schedule": "0 9 * * 1"  }
-  ]
-}
+{}
