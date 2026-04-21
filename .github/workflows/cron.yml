@@ -16,7 +16,9 @@ on:
 
 jobs:
   hourly-generate-blog:
-    if: github.event.schedule == '0 * * * *' || github.event_name == 'workflow_dispatch'
+    # No if-filter: run on every schedule trigger + manual dispatch.
+    # Acceptable to run once extra on daily/weekly triggers (consumes 1 keyword, harmless).
+    # Previous if: github.event.schedule == '0 * * * *' was silently skipping this job.
     runs-on: ubuntu-latest
     steps:
       - name: Trigger generate-blog
@@ -24,11 +26,10 @@ jobs:
           curl -X GET "https://www.aitoolsstation.com/api/cron/generate-blog" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             --max-time 60 \
-            -w "\nHTTP: %{http_code}  Time: %{time_total}s\n" \
-            --fail-with-body || echo "Failed or timeout"
+            -w "\nHTTP: %{http_code}  Time: %{time_total}s\n"
 
   daily-discover-keywords:
-    if: github.event.schedule == '0 2 * * *'
+    if: ${{ github.event.schedule == '0 2 * * *' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - name: Trigger discover-keywords
@@ -36,11 +37,10 @@ jobs:
           curl -X GET "https://www.aitoolsstation.com/api/cron/discover-keywords" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             --max-time 30 \
-            -w "\nHTTP: %{http_code}  Time: %{time_total}s\n" \
-            --fail-with-body || echo "Failed or timeout"
+            -w "\nHTTP: %{http_code}  Time: %{time_total}s\n"
 
   daily-generate-tools:
-    if: github.event.schedule == '0 3 * * *'
+    if: ${{ github.event.schedule == '0 3 * * *' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - name: Trigger generate-tools
@@ -48,11 +48,10 @@ jobs:
           curl -X GET "https://www.aitoolsstation.com/api/cron/generate-tools" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             --max-time 30 \
-            -w "\nHTTP: %{http_code}  Time: %{time_total}s\n" \
-            --fail-with-body || echo "Failed or timeout"
+            -w "\nHTTP: %{http_code}  Time: %{time_total}s\n"
 
   weekly-insights:
-    if: github.event.schedule == '0 6 * * 1'
+    if: ${{ github.event.schedule == '0 6 * * 1' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - name: Trigger weekly-insights
@@ -60,11 +59,10 @@ jobs:
           curl -X GET "https://www.aitoolsstation.com/api/cron/weekly-insights" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             --max-time 30 \
-            -w "\nHTTP: %{http_code}  Time: %{time_total}s\n" \
-            --fail-with-body || echo "Failed or timeout"
+            -w "\nHTTP: %{http_code}  Time: %{time_total}s\n"
 
   weekly-startup:
-    if: github.event.schedule == '0 9 * * 1'
+    if: ${{ github.event.schedule == '0 9 * * 1' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - name: Trigger weekly-startup
@@ -72,5 +70,4 @@ jobs:
           curl -X GET "https://www.aitoolsstation.com/api/cron/weekly-startup" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             --max-time 30 \
-            -w "\nHTTP: %{http_code}  Time: %{time_total}s\n" \
-            --fail-with-body || echo "Failed or timeout"
+            -w "\nHTTP: %{http_code}  Time: %{time_total}s\n"
