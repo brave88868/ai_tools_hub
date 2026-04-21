@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: Trigger generate-blog
         run: |
-          curl -X GET "https://www.aitoolsstation.com/api/cron/generate-blog" \
+          curl -X GET "https://ai-tools-p21xbns6y-brave88868s-projects.vercel.app/api/cron/generate-blog" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             --max-time 60 \
             -w "\nHTTP: %{http_code}  Time: %{time_total}s\n"
@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: Trigger discover-keywords
         run: |
-          curl -X GET "https://www.aitoolsstation.com/api/cron/discover-keywords" \
+          curl -X GET "https://ai-tools-p21xbns6y-brave88868s-projects.vercel.app/api/cron/discover-keywords" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             --max-time 30 \
             -w "\nHTTP: %{http_code}  Time: %{time_total}s\n"
@@ -45,7 +45,7 @@ jobs:
     steps:
       - name: Trigger generate-tools
         run: |
-          curl -X GET "https://www.aitoolsstation.com/api/cron/generate-tools" \
+          curl -X GET "https://ai-tools-p21xbns6y-brave88868s-projects.vercel.app/api/cron/generate-tools" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             --max-time 30 \
             -w "\nHTTP: %{http_code}  Time: %{time_total}s\n"
@@ -56,7 +56,7 @@ jobs:
     steps:
       - name: Trigger weekly-insights
         run: |
-          curl -X GET "https://www.aitoolsstation.com/api/cron/weekly-insights" \
+          curl -X GET "https://ai-tools-p21xbns6y-brave88868s-projects.vercel.app/api/cron/weekly-insights" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             --max-time 30 \
             -w "\nHTTP: %{http_code}  Time: %{time_total}s\n"
@@ -67,7 +67,7 @@ jobs:
     steps:
       - name: Trigger weekly-startup
         run: |
-          curl -X GET "https://www.aitoolsstation.com/api/cron/weekly-startup" \
+          curl -X GET "https://ai-tools-p21xbns6y-brave88868s-projects.vercel.app/api/cron/weekly-startup" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             --max-time 30 \
             -w "\nHTTP: %{http_code}  Time: %{time_total}s\n"
