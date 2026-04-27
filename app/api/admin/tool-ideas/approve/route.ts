@@ -11,6 +11,28 @@ function toSlug(name: string): string {
     .replace(/\s+/g, "-");
 }
 
+function normalizeInputsSchema(schema: unknown): object[] {
+  if (!Array.isArray(schema)) return [];
+  return schema.map((field) => {
+    if (!field || typeof field !== "object") return field as object;
+    const f = field as Record<string, unknown>;
+    if (f.type !== "select" || !Array.isArray(f.options)) return f as object;
+    const normalizedOptions = (f.options as unknown[])
+      .map((opt) => {
+        if (typeof opt === "string") return opt;
+        if (opt && typeof opt === "object") {
+          const o = opt as Record<string, unknown>;
+          const label = typeof o.label === "string" ? o.label : "";
+          const value = typeof o.value === "string" ? o.value : "";
+          return label || value || "";
+        }
+        return "";
+      })
+      .filter((s) => s.length > 0);
+    return { ...f, options: normalizedOptions };
+  });
+}
+
 async function generateToolAssets(
   toolName: string,
   description: string
@@ -26,7 +48,12 @@ async function generateToolAssets(
 Description: ${description}
 
 Generate:
-1. inputs_schema: 2-4 user input fields, each with: name, label, type (textarea|text|select), placeholder, required (bool)
+1. inputs_schema: 2-4 user input fields. Each field has: name, label, type, placeholder, required (bool).
+   - type must be one of: "textarea", "text", "select"
+   - If type is "select", you MUST also include "options": an ARRAY OF STRINGS (NOT objects).
+     CORRECT format: "options": ["Beginner", "Intermediate", "Advanced"]
+     WRONG format: "options": [{"label":"Beginner","value":"beginner"}]
+   - If type is "textarea" or "text", do NOT include options.
 2. prompt_template: A detailed, high-quality AI prompt (600+ words) using {variable} placeholders matching the input field names. Include:
    - Clear role/persona for the AI
    - Step-by-step analysis instructions (STEP 1: internal analysis)
@@ -36,7 +63,10 @@ Generate:
 
 Return JSON:
 {
-  "inputs_schema": [{"name":"field_name","label":"Field Label","type":"textarea","placeholder":"...","required":true}],
+  "inputs_schema": [
+    {"name":"text_input","label":"Text Input","type":"textarea","placeholder":"...","required":true},
+    {"name":"choice","label":"Choice","type":"select","options":["Option A","Option B","Option C"],"required":true}
+  ],
   "prompt_template": "full detailed prompt with {variable} placeholders"
 }`,
       },
@@ -49,10 +79,11 @@ Return JSON:
     prompt_template?: string;
   };
 
+  const rawSchema = parsed.inputs_schema ?? [
+    { name: "input", label: "Your Input", type: "textarea", placeholder: "Enter details...", required: true },
+  ];
   return {
-    inputs_schema: parsed.inputs_schema ?? [
-      { name: "input", label: "Your Input", type: "textarea", placeholder: "Enter details...", required: true },
-    ],
+    inputs_schema: normalizeInputsSchema(rawSchema),
     prompt_template: parsed.prompt_template ?? `You are an expert AI assistant for ${toolName}. Help the user with: {input}`,
   };
 }
