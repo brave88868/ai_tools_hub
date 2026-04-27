@@ -143,9 +143,12 @@ export default function InputForm({ fields, onSubmit, loading = false, supportsF
               onChange={(e) => handleChange(field.name, e.target.value)}
             >
               <option value="">Select an option</option>
-              {field.options.map((opt) => (
-                <option key={opt} value={opt}>{opt}</option>
-              ))}
+              {field.options.map((opt, idx) => {
+                const optAny = opt as unknown as { label?: string; value?: string };
+                const value = typeof opt === 'string' ? opt : (optAny?.value ?? optAny?.label ?? '');
+                const label = typeof opt === 'string' ? opt : (optAny?.label ?? optAny?.value ?? '');
+                return <option key={`${value}-${idx}`} value={value}>{label}</option>;
+              })}
             </select>
           ) : field.type === "file" ? (
             <FileUploadInput
